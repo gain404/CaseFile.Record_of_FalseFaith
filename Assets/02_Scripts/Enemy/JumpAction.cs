@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Unity.Behavior;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
@@ -17,6 +18,7 @@ public partial class JumpAction : Action
     private float _horizontalForce;//수치 조정 필요
     private float _jumpTime = 3.0f;
     private Rigidbody2D _rigidbody2D;
+    private bool _hasLanded;
 
     protected override Status OnStart()
     {
@@ -36,11 +38,16 @@ public partial class JumpAction : Action
     {
         var direction = 1;//여기 개선
         _rigidbody2D.AddForce(new Vector2(_horizontalForce*direction, _jumpForce),ForceMode2D.Impulse);
+
+        DOVirtual.DelayedCall(_jumpTime, () =>
+        {
+            _hasLanded = true;
+        });
     }
 
     protected override Status OnUpdate()
     {
-        return Status.Success;
+        return _hasLanded ? Status.Success : Status.Running;
     }
 
     protected override void OnEnd()
