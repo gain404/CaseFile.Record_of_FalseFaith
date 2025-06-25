@@ -22,7 +22,7 @@ public class DialogueManager : MonoBehaviour
     [Header("Cinemachine")]
     public CinemachineCamera dialogueCamera;
     public Camera mainCamera;
-
+    public CameraSwitcher cameraSwitcher;
     [Header("Effect")]
     public CanvasGroup dialogueBoxGroup;
     public CanvasGroup playerImageGroup;
@@ -67,10 +67,9 @@ public class DialogueManager : MonoBehaviour
         {
             talkedToNPC[asset.npcID] = true;
         }
-
+        cameraSwitcher.SwitchToDialogueCamera();
         backgroundDim.SetActive(true);
-        dialogueCamera.Priority = 20;
-
+        
         ShowLine();
     }
 
@@ -158,7 +157,7 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        if (dialoguePanel.activeSelf && Input.GetKeyDown(KeyCode.Space))
+        /*if (dialoguePanel.activeSelf && Input.GetKeyDown(KeyCode.Space))
         {
             OnScreenClick();
         }
@@ -166,7 +165,7 @@ public class DialogueManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             OnScreenClick();
-        }
+        }*/
     }
 
     void OnScreenClick()
@@ -202,7 +201,7 @@ public class DialogueManager : MonoBehaviour
         dialoguePanel.SetActive(false);
         choicePanel.SetActive(false);
         backgroundDim.SetActive(false);
-        dialogueCamera.Priority = 0;
+        cameraSwitcher.SwitchToPlayerCamera();
     }
 
     public bool HasTalkedTo(string npcID)
