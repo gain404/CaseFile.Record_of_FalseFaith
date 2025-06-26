@@ -15,6 +15,7 @@ public class Interaction : MonoBehaviour
         if (collision.TryGetComponent(out IInteractable interactable))
         {
             currentInteractable = interactable;
+            TestCharacterManager.Instance.Player.talkBalloon.SetActive(true);
         }
     }
 
@@ -26,6 +27,7 @@ public class Interaction : MonoBehaviour
             if(currentInteractable == interactable)
             {
                 currentInteractable = null;
+                TestCharacterManager.Instance.Player.talkBalloon.SetActive(false);
             }
         }
     }
