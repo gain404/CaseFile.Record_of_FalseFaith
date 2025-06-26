@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerIdleState : PlayerMoveState
 {
@@ -25,8 +26,14 @@ public class PlayerIdleState : PlayerMoveState
 
         if (stateMachine.MovementInput != Vector2.zero)
         {
-            stateMachine.ChangeState(stateMachine.WalkState);
-            return;
+            if (stateMachine.Player.PlayerController.playerActions.Run.ReadValue<float>() > 0.5f)
+            {
+                stateMachine.ChangeState(stateMachine.RunState);
+            }
+            else
+            {
+                stateMachine.ChangeState(stateMachine.WalkState);
+            }
         }
     }
 }

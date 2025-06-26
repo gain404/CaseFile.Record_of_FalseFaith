@@ -1,4 +1,5 @@
 using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class PlayerStateMachine : StateMachine
@@ -9,7 +10,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerIdleState IdleState { get; }
     public PlayerWalkState WalkState { get; }
     public PlayerRunState RunState { get; }
-    
+    public PlayerJumpState JumpState { get; }
     
     //움직임 보정값
     public Vector2 MovementInput { get; set; }
@@ -23,10 +24,13 @@ public class PlayerStateMachine : StateMachine
     public PlayerStateMachine(Player player)
     {
         this.Player = player;
-
+        
+        //각 상태 초기화
         IdleState = new PlayerIdleState(this);
         WalkState = new PlayerWalkState(this);
         RunState = new PlayerRunState(this);
+        JumpState = new PlayerJumpState(this);
+        
         
         MainCameraTransform = Camera.main.transform;
         
