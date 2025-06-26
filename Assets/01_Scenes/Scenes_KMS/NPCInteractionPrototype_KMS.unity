@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 17991661}
   - component: {fileID: 17991660}
   m_Layer: 5
-  m_Name: NPCChatCanvas
+  m_Name: ChatCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -217,7 +217,6 @@ RectTransform:
   - {fileID: 256753265}
   - {fileID: 116914611}
   - {fileID: 298318792}
-  - {fileID: 953150609}
   m_Father: {fileID: 976329443}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -242,7 +241,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &42321990
 RectTransform:
   m_ObjectHideFlags: 0
@@ -438,7 +437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9433962, g: 0.8592813, b: 0.4494482, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -646,7 +645,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1102.6794, y: -244.58673}
+  m_AnchoredPosition: {x: -768.5896, y: -232.96997}
   m_SizeDelta: {x: 264.5797, y: 570}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &256753266
@@ -662,7 +661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.3537736, b: 0.3537736, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -760,7 +759,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -838,7 +837,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &298318792
 RectTransform:
   m_ObjectHideFlags: 0
@@ -854,11 +853,12 @@ RectTransform:
   - {fileID: 680797433}
   - {fileID: 1343813611}
   - {fileID: 42321990}
+  - {fileID: 953150609}
   m_Father: {fileID: 17991663}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -150.87944, y: 22.03003}
+  m_AnchoredPosition: {x: 0, y: 20}
   m_SizeDelta: {x: 1500, y: 300}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &298318793
@@ -936,8 +936,8 @@ Transform:
   m_GameObject: {fileID: 312686122}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.03785, y: 2.25905, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -3.03785, y: 18.87, z: 0}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 885306444}
@@ -989,11 +989,16 @@ MonoBehaviour:
   - {fileID: 258498422}
   dialogueCamera: {fileID: 934251061}
   mainCamera: {fileID: 519420031}
-  cameraSwitcher: {fileID: 0}
+  cameraSwitcher: {fileID: 511165922}
   dialogueBoxGroup: {fileID: 298318795}
   playerImageGroup: {fileID: 256753268}
   npcImageGroup: {fileID: 116914614}
   backgroundDim: {fileID: 2052325045}
+  dialogueBoxRect: {fileID: 298318792}
+  playerBoxPos: {x: 150, y: 20}
+  npcBoxPos: {x: -150, y: 20}
+  fadeDuration: 0.2
+  moveDuration: 0.2
 --- !u!4 &511165921
 Transform:
   m_ObjectHideFlags: 0
@@ -1373,7 +1378,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &680797433
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1553,7 +1558,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -1674,7 +1679,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -2026,7 +2031,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &953150609
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2042,12 +2047,12 @@ RectTransform:
   - {fileID: 724960194}
   - {fileID: 845587427}
   - {fileID: 258498421}
-  m_Father: {fileID: 17991663}
+  m_Father: {fileID: 298318792}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -150.8794, y: -367.96997}
-  m_SizeDelta: {x: -420, y: -780}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &953150610
 MonoBehaviour:
@@ -2085,12 +2090,12 @@ GameObject:
   m_Component:
   - component: {fileID: 976329443}
   m_Layer: 0
-  m_Name: NPCChatUI
+  m_Name: ChatUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &976329443
 Transform:
   m_ObjectHideFlags: 0
@@ -2488,7 +2493,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Priority:
     Enabled: 1
-    m_Value: 10
+    m_Value: 20
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -2685,7 +2690,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1343813611
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3151,7 +3156,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2052325046
 RectTransform:
   m_ObjectHideFlags: 0
