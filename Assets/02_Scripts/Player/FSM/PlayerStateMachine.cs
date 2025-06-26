@@ -14,9 +14,9 @@ public class PlayerStateMachine : StateMachine
     public Vector2 MovementInput { get; set; }
     public float MovementSpeed { get; set; }
     public float MovementSpeedModifier { get; set; } = 1f;
-    
-    
-    public float JumpForce { get; set; }
+
+
+    public float JumpForce { get; set; } = 3f;
     public Transform MainCameraTransform { get; set; }
 
     public PlayerStateMachine(Player player)

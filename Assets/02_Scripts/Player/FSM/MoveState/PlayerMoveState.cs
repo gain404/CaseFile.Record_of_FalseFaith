@@ -10,7 +10,6 @@ public class PlayerMoveState : PlayerBaseState
     public override void Enter() //진입할 때
     {
         base.Enter();
-        stateMachine.MovementSpeedModifier = 1f;
         StartAnimation(stateMachine.Player.PlayerAnimationData.MoveParameterHash);
     }
 

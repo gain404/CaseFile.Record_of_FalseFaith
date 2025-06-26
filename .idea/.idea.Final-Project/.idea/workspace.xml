@@ -6,13 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="9acdbb23-60df-420e-a64e-0e115faf6999" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Final-Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Final-Project/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/MoveState/PlayerIdleState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/MoveState/PlayerIdleState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/MoveState/PlayerMoveState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/MoveState/PlayerMoveState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/MoveState/PlayerRunState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/MoveState/PlayerRunState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/MoveState/PlayerWalkState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/MoveState/PlayerWalkState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/PlayerBaseState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/PlayerBaseState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/PlayerStateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/PlayerStateMachine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/StateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/StateMachine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/04_Animations/Player/Player.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/04_Animations/Player/Player.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/08_ScriptableObjects/Player/Player.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/08_ScriptableObjects/Player/Player.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/08_ScriptableObjects/Player/PlayerSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/08_ScriptableObjects/Player/PlayerSO.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +171,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750910492533</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="refactor : 상태 전환 로직 리팩토링">
+      <option name="closed" value="true" />
+      <created>1750928263594</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1750928263594</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,7 +208,8 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="feat : WalkState 추가" />
     <MESSAGE value="feat : StateTransition 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat : StateTransition 추가" />
+    <MESSAGE value="refactor : 상태 전환 로직 리팩토링" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor : 상태 전환 로직 리팩토링" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
