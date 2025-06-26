@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
         PlayerCondition = GetComponent<PlayerCondition>();
         PlayerSpriteRenderer = GetComponent<SpriteRenderer>();
         _stateMachine = new PlayerStateMachine(this);
+        
+        _stateMachine.ChangeState(_stateMachine.IdleState);
     }
 
     private void Update()
