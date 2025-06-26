@@ -14,7 +14,7 @@ public class PlayerStateMachine : StateMachine
     //움직임 보정값
     public Vector2 MovementInput { get; set; }
     public float MovementSpeed { get; set; }
-    public float MovementSpeedModifier { get; set; }
+    public float MovementSpeedModifier { get; set; } = 1f;
     
     
     public float JumpForce { get; set; }
@@ -29,6 +29,9 @@ public class PlayerStateMachine : StateMachine
         RunState = new PlayerRunState(this);
         
         MainCameraTransform = Camera.main.transform;
+        
+        MovementInput = player.PlayerController.playerActions.Move.ReadValue<Vector2>();
+        MovementSpeed = player.Data.MoveData.Speed;
     }
     
 }

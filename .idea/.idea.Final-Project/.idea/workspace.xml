@@ -6,20 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="9acdbb23-60df-420e-a64e-0e115faf6999" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Final-Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Final-Project/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/01_Scenes/GainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/01_Scenes/GainScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/MoveState/PlayerIdleState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/MoveState/PlayerIdleState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/MoveState/PlayerMoveState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/MoveState/PlayerMoveState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/PlayerBaseState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/PlayerBaseState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/PlayerStateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/PlayerStateMachine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/StateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/StateMachine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/04_Animations/Player/Player.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/04_Animations/Player/Player.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/DOTweenSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/DOTweenSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DpaMonitoringSettings">
+    <option name="firstShow" value="false" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -39,6 +34,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/MoveState/PlayerRunState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/MoveState/PlayerWalkState.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/gain/github/Final-Project/Assets/Resources/DOTweenSettings.asset" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.behavior@3afc53ed890a/Runtime/Execution/Nodes/Composites/SwitchComposite.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.behavior@3afc53ed890a/Runtime/Execution/Nodes/Decorators/Aborts/AbortModifier.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.behavior@3afc53ed890a/Runtime/Execution/Nodes/Decorators/RepeatUntilModifierModifier.cs" root0="SKIP_HIGHLIGHTING" />
@@ -58,6 +54,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "Unity 에디터에 연결.Unity 에디터에 연결.executor": "Debug",
     "git-widget-placeholder": "dev/gain",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -90,13 +87,15 @@
       <option name="PTY_MODE" value="Auto" />
       <method v="2" />
     </configuration>
-    <configuration name="Unity 에디터에 연결" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Unity 에디터에 연결" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="14836">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="14836" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
-        <list />
+        <list>
+          <MonoRuntime />
+        </list>
       </option>
       <option name="selectedOptions">
         <list />
@@ -144,8 +143,17 @@
       <workItem from="1750877126634" duration="31000" />
       <workItem from="1750877328788" duration="105000" />
       <workItem from="1750878001972" duration="559000" />
-      <workItem from="1750898773828" duration="6863000" />
+      <workItem from="1750898773828" duration="9028000" />
     </task>
+    <task id="LOCAL-00001" summary="feat : WalkState 추가">
+      <option name="closed" value="true" />
+      <created>1750910492533</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1750910492533</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,6 +180,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="feat : WalkState 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat : WalkState 추가" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
