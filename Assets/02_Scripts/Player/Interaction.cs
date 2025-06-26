@@ -9,13 +9,15 @@ public class Interaction : MonoBehaviour
 {
     private IInteractable currentInteractable;
     public GameObject curInteractGameObject;
+    public Player player;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out IInteractable interactable))
         {
             currentInteractable = interactable;
-            TestCharacterManager.Instance.Player.talkBalloon.SetActive(true);
+            //TestCharacterManager.Instance.Player.talkBalloon.SetActive(true);
+            player.talkBalloon.SetActive(true);
         }
     }
 
@@ -27,7 +29,8 @@ public class Interaction : MonoBehaviour
             if(currentInteractable == interactable)
             {
                 currentInteractable = null;
-                TestCharacterManager.Instance.Player.talkBalloon.SetActive(false);
+                //TestCharacterManager.Instance.Player.talkBalloon.SetActive(false);
+                player.talkBalloon.SetActive(false);
             }
         }
     }
