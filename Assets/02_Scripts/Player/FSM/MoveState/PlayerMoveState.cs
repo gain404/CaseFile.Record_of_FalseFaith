@@ -26,27 +26,14 @@ public class PlayerMoveState : PlayerBaseState
         EndAnimation(stateMachine.Player.PlayerAnimationData.MoveParameterHash);
     }
 
-    protected virtual void AddInputActionsCallback()
+    protected override void OnMoveCanceled(InputAction.CallbackContext context)
     {
-        PlayerController input = stateMachine.Player.PlayerController;
-        input.playerActions.Move.canceled += OnMoveCanceled;
-        input.playerActions.Run.started += OnRunStarted;
+        if (stateMachine.MovementInput == Vector2.zero)
+            return;
+        
+        stateMachine.ChangeState(stateMachine.IdleState);
+
+        base.OnMoveCanceled(context);
     }
     
-    protected virtual void RemoveInputActionsCallback()
-    {
-        PlayerController input = stateMachine.Player.PlayerController;
-        input.playerActions.Move.canceled -= OnMoveCanceled;
-        input.playerActions.Run.started -= OnRunStarted;
-    }
-
-    private void OnRunStarted(InputAction.CallbackContext context)
-    {
-        
-    }
-
-    private void OnMoveCanceled(InputAction.CallbackContext context)
-    {
-        
-    }
 }

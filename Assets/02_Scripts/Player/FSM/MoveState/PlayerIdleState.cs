@@ -8,6 +8,7 @@ public class PlayerIdleState : PlayerMoveState
 
     public override void Enter()
     {
+        stateMachine.MovementSpeedModifier = 0f;
         base.Enter();
         StartAnimation(stateMachine.Player.PlayerAnimationData.IdleParameterHash);
     }
@@ -21,5 +22,11 @@ public class PlayerIdleState : PlayerMoveState
     public override void Update()
     {
         base.Update();
+
+        if (stateMachine.MovementInput != Vector2.zero)
+        {
+            stateMachine.ChangeState(stateMachine.WalkState);
+            return;
+        }
     }
 }

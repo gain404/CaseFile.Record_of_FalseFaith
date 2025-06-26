@@ -1,25 +1,29 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerBaseState : IState
 {
     //플레이어가 공통으로 쓰는 사항들 (키 입력 받아들이기, 애니메이션 등)
     protected PlayerStateMachine stateMachine;
     protected readonly PlayerMoveData moveData;
+    private Rigidbody2D _rb;
 
     public PlayerBaseState(PlayerStateMachine playerStateMachine)
     {
         stateMachine = playerStateMachine;
         moveData = stateMachine.Player.Data.MoveData;
+        
+        _rb = stateMachine.Player.GetComponent<Rigidbody2D>();
     }
     
     public virtual void Enter()
     {
-        
+        AddInputActionsCallback();
     }
 
     public virtual void Exit()
     {
-        
+        RemoveInputActionsCallback();
     }
 
     public virtual void HandleInput()
@@ -29,12 +33,12 @@ public class PlayerBaseState : IState
     
     public virtual void Update()
     {
-        Move();
+        HandleInput();
     }
 
     public virtual void PhysicsUpdate()
     {
-        
+        Move();
     }
 
     //애니메이션 켜고 끄기
@@ -56,14 +60,10 @@ public class PlayerBaseState : IState
 
     private void Move()
     {
-        //방향 계산
         float horizontal = stateMachine.MovementInput.x;
-        float vertical = stateMachine.MovementInput.y;
-        Vector3 direction = new Vector2(horizontal, vertical).normalized;
-
-        //실제 움직임
         float speed = stateMachine.MovementSpeed * stateMachine.MovementSpeedModifier;
-        stateMachine.Player.CharacterController.Move(direction * speed * Time.deltaTime);
+
+        _rb.linearVelocity = new Vector2(horizontal * speed, _rb.linearVelocity.y);
 
         //방향 전환
         if (Mathf.Abs(horizontal) > 0.01f)
@@ -75,6 +75,30 @@ public class PlayerBaseState : IState
     private void Rotate(bool isFlip)
     {
         stateMachine.Player.PlayerSpriteRenderer.flipX = isFlip;
+    }
+    
+    protected virtual void AddInputActionsCallback()
+    {
+        PlayerController input = stateMachine.Player.PlayerController;
+        input.playerActions.Move.canceled += OnMoveCanceled;
+        input.playerActions.Run.started += OnRunStarted;
+    }
+    
+    protected virtual void RemoveInputActionsCallback()
+    {
+        PlayerController input = stateMachine.Player.PlayerController;
+        input.playerActions.Move.canceled -= OnMoveCanceled;
+        input.playerActions.Run.started -= OnRunStarted;
+    }
+
+    protected virtual void OnRunStarted(InputAction.CallbackContext context)
+    {
+        
+    }
+
+    protected virtual void OnMoveCanceled(InputAction.CallbackContext context)
+    {
+        
     }
     
 }
