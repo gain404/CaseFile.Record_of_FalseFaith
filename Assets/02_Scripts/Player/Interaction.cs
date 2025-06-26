@@ -1,6 +1,4 @@
 ﻿using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,63 +7,35 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class Interaction : MonoBehaviour
 {
-    public LayerMask layerMask;
-    public Collider2D collider2d;
+    private IInteractable currentInteractable;
+    public GameObject curInteractGameObject;
 
-    public GameObject curInteractGameObject;  // 현재 상호작용 게임오브젝트
-    private IInteractable curInteractable;    // 현재 상호작용 인터페이스
-
-    public TextMeshProUGUI promptText;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-
-        
-    }
-
-    private void SetPromptText()
-    {
-        promptText.gameObject.SetActive(true);
-        promptText.text = curInteractable.GetInteractPrompt();
-    }
-
-    public void OnInteractInput(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Started && curInteractable != null)
+        if (collision.TryGetComponent(out IInteractable interactable))
         {
-            curInteractable.OnInteract();
-            curInteractGameObject = null;
-            curInteractable = null;
-            promptText.gameObject.SetActive(false);
+            currentInteractable = interactable;
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)//플레이어의 콜라이더와 부딪힌 콜라이더 체크
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Item"))//아이템과 닿았다면 내용 출력
+        curInteractGameObject = collision.gameObject;
+        if (collision.TryGetComponent(out IInteractable interactable))
         {
-            curInteractGameObject = collision.gameObject;//지금 닿아있는 오브젝트를 보여줌
-            curInteractable = collision.gameObject.GetComponent<IInteractable>();//그 오브젝트에 IInteractable를 가져옴
-            SetPromptText();
-        }
-        else
-        {
-            curInteractGameObject = null ;
-            curInteractable = null;
+            if(currentInteractable == interactable)
+            {
+                currentInteractable = null;
+            }
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+
+    public void OnInteract(InputAction.CallbackContext context)
     {
-        curInteractGameObject = null;
-        curInteractable = null;
+        if (context.started && currentInteractable != null)
+        {
+            currentInteractable.OnInteract();
+        }
     }
 }

@@ -17,6 +17,8 @@ public class UIInventory : MonoBehaviour
     public TextMeshProUGUI selectedItemName;
     public TextMeshProUGUI selectedItemDescription;
 
+    private TestPlayerController controller;
+
     private int curEquipIndex;
 
     //나중에 플레이어 관련 정보도 추가되면 여기에 추가하기
@@ -24,8 +26,11 @@ public class UIInventory : MonoBehaviour
     private void Start()
     {
         //플레이어 컨트롤러 등 여기에 초기화
+        controller = TestCharacterManager.Instance.Player.controller;
 
-
+        // 플레이어 컨트롤러 등에서 Action 호출 시 필요한 함수 등록
+        controller.inventory += Toggle;// inventory 키 입력 시
+        TestCharacterManager.Instance.Player.addItem += AddItem;  // 아이템 획득 시
 
         // Inventory UI 초기화 로직들
         inventoryWindow.SetActive(false);
@@ -73,10 +78,35 @@ public class UIInventory : MonoBehaviour
     public void AddItem()
     {
         //여기에 플레이어에게 추가되는 아이템 정보를 가져오게 하면 됩니다.
+        ItemData data = TestCharacterManager.Instance.Player.itemData;
 
         //여러 개 소유 가능한 아이템일 경우
+        if (data.canStack)
+        {
+            ItemSlot slot = GetItemStack(data);
 
-        //빈 슬롯을 찾기
+            if(slot != null)
+            {
+                Debug.Log($"획득하려는 아이템 : {data.name}");
+                slot.quantity++;
+                UpdateUI();
+                TestCharacterManager.Instance.Player.itemData = null;
+                return;
+            }
+        }
+        //위의 조건문을 돌지 않았다면 슬롯에 없다는 거니까 빈 슬롯을 찾기
+        ItemSlot emptySlot = GetEmptySlot();
+        if (emptySlot != null)
+        {
+            Debug.Log($"획득하려는 아이템 : {data.name}");
+            emptySlot.item = data;
+            emptySlot.quantity = 1;
+            UpdateUI();
+            TestCharacterManager.Instance.Player.itemData = null;
+            return;
+        }
+        Debug.Log("인벤토리 부족");
+        TestCharacterManager.Instance.Player.itemData = null;
     }
 
     // UI 정보 새로고침
@@ -87,6 +117,7 @@ public class UIInventory : MonoBehaviour
             // 슬롯에 아이템 정보가 있다면
             if (slots[i].item != null)
             {
+                Debug.Log($"{slots[i].item}의 정보를 세팅하겠습니다.");
                 slots[i].Set();
             }
             else

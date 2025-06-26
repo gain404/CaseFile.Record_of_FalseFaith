@@ -10,7 +10,7 @@ public interface IInteractable
 /// <summary>
 /// 어떤 아이템 하나에 대한 정보가 담겨있는 스크립트입니다.
 /// </summary>
-public class ItemObject : MonoBehaviour
+public class ItemObject : MonoBehaviour,IInteractable
 {
     public ItemData data;
 
@@ -22,7 +22,8 @@ public class ItemObject : MonoBehaviour
 
     public void OnInteract()//플레이어가 아이템을 주웠을 때 어떻게 될 지
     {
-
+        TestCharacterManager.Instance.Player.itemData = data;
+        TestCharacterManager.Instance.Player.addItem?.Invoke();
 
         Destroy(gameObject);
     }

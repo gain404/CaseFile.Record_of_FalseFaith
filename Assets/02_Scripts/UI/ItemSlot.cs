@@ -34,6 +34,11 @@ public class ItemSlot : MonoBehaviour
     // UI(슬롯 한 칸)에 정보가 없을 때 UI를 비워주는 함수
     public void Clear()
     {
+        if (icon == null)
+        {
+            Debug.Log("아이콘이 없습니다.");
+            return;
+        }
         item = null;
         icon.gameObject.SetActive(false);
         quatityText.text = string.Empty;
