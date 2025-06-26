@@ -38,12 +38,12 @@ public class PlayerBaseState : IState
     }
 
     //애니메이션 켜고 끄기
-    protected void StartAnimaition(int animationHash)
+    protected void StartAnimation(int animationHash)
     {
         stateMachine.Player.Animator.SetBool(animationHash,true);
     }
 
-    protected void EndAnimaition(int animationHash)
+    protected void EndAnimation(int animationHash)
     {
         stateMachine.Player.Animator.SetBool(animationHash,false);
     }

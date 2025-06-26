@@ -8,6 +8,7 @@ public class PlayerAnimationData
     
     //Move State
     [SerializeField] private string moveParameterName = "@Move";
+    [SerializeField] private string idleParameterName = "Idle";
     [SerializeField] private string dashParameterName = "Dash";
     [SerializeField] private string runParameterName = "Run";
     [SerializeField] private string walkParameterName = "Walk";
@@ -26,6 +27,7 @@ public class PlayerAnimationData
     
     //Move State
     public int MoveParameterHash { get; private set; }
+    public int IdleParameterHash { get; private set; }
     public int DashParameterHash { get; private set; }
     public int RunParameterHash { get; private set; }
     public int WalkParameterHash { get; private set; }
@@ -45,6 +47,7 @@ public class PlayerAnimationData
     {
         //Move State
         MoveParameterHash = Animator.StringToHash(moveParameterName);
+        IdleParameterHash = Animator.StringToHash(idleParameterName);
         DashParameterHash = Animator.StringToHash(dashParameterName);
         RunParameterHash = Animator.StringToHash(runParameterName);
         WalkParameterHash = Animator.StringToHash(walkParameterName);
