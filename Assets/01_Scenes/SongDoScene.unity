@@ -2176,6 +2176,7 @@ GameObject:
   - component: {fileID: 1326418637}
   - component: {fileID: 1326418636}
   - component: {fileID: 1326418639}
+  - component: {fileID: 1326418640}
   m_Layer: 0
   m_Name: UIInventory
   m_TagString: Untagged
@@ -2283,6 +2284,21 @@ MonoBehaviour:
   slotPanel: {fileID: 584677954}
   selectedItemName: {fileID: 1703694497}
   selectedItemDescription: {fileID: 1460119195}
+  inventoryAnimator: {fileID: 1326418640}
+--- !u!114 &1326418640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326418634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e030a0196bb9a84e8cb8c3b3f075e9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 1216357357}
+  animationTime: 0.2
 --- !u!1 &1460119193
 GameObject:
   m_ObjectHideFlags: 0
