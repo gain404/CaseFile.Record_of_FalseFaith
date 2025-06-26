@@ -21,6 +21,8 @@ public class UIInventory : MonoBehaviour
 
     private int curEquipIndex;
 
+    public UIAnimator inventoryAnimator;
+
     //나중에 플레이어 관련 정보도 추가되면 여기에 추가하기
 
     private void Start()
@@ -62,11 +64,13 @@ public class UIInventory : MonoBehaviour
     {
         if (IsOpen())
         {
-            inventoryWindow.SetActive(false);
+            //inventoryWindow.SetActive(false);
+            inventoryAnimator.ClosePanel();
         }
         else
         {
-            inventoryWindow.SetActive(true);
+            //inventoryWindow.SetActive(true);
+            inventoryAnimator.OpenPanel();
         }
     }
     public bool IsOpen()
