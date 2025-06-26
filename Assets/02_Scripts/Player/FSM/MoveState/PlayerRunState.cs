@@ -1,4 +1,4 @@
-using UnityEngine;
+
 
 public class PlayerRunState : PlayerMoveState
 {
@@ -8,13 +8,16 @@ public class PlayerRunState : PlayerMoveState
 
     public override void Enter()
     {
+        stateMachine.MovementSpeedModifier = 3f;
         base.Enter();
         StartAnimation(stateMachine.Player.PlayerAnimationData.RunParameterHash);
     }
 
     public override void Exit()
     {
+        stateMachine.MovementSpeedModifier = 1f;
         base.Exit();
         EndAnimation(stateMachine.Player.PlayerAnimationData.RunParameterHash);
     }
+    
 }

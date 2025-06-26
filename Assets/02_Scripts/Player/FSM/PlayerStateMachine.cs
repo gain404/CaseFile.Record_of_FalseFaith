@@ -1,5 +1,3 @@
-using Unity.VisualScripting;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class PlayerStateMachine : StateMachine
@@ -25,17 +23,55 @@ public class PlayerStateMachine : StateMachine
     {
         this.Player = player;
         
-        //각 상태 초기화
+        MainCameraTransform = Camera.main.transform;
+        
+        MovementInput = player.PlayerController.playerActions.Move.ReadValue<Vector2>();
+        MovementSpeed = player.Data.MoveData.Speed;
+        
+        //-------------각 상태 초기화------------//
         IdleState = new PlayerIdleState(this);
         WalkState = new PlayerWalkState(this);
         RunState = new PlayerRunState(this);
         JumpState = new PlayerJumpState(this);
         
+        //---------------상태 Change------------//
+   
+        AddTransition(new StateTransition(
+            IdleState, RunState,
+            ()=> MovementInput != Vector2.zero 
+                 && Player.PlayerController.playerActions.Run.ReadValue<float>() > 0.5f));
         
-        MainCameraTransform = Camera.main.transform;
+        AddTransition(new StateTransition(
+            IdleState, WalkState,
+            () => MovementInput != Vector2.zero));
         
-        MovementInput = player.PlayerController.playerActions.Move.ReadValue<Vector2>();
-        MovementSpeed = player.Data.MoveData.Speed;
+        AddTransition(new StateTransition(
+            RunState, IdleState,
+            ()=> MovementInput == Vector2.zero));
+        
+        AddTransition(new StateTransition(
+            WalkState, IdleState,
+            ()=> MovementInput == Vector2.zero));
+        
+        AddTransition(new StateTransition(
+            WalkState, RunState,
+            ()=> MovementInput != Vector2.zero 
+                 &&Player.PlayerController.playerActions.Run.ReadValue<float>() > 0.5f));
+        
+    }
+
+    public override void Update()
+    {
+        foreach (StateTransition transition in transitions)
+        {
+            if (currentState == transition.From && transition.Condition())
+            {
+                ChangeState (transition.To);
+                break;
+            }
+        }
+
+        base.Update();
     }
     
 }

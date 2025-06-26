@@ -18,12 +18,12 @@ public class PlayerBaseState : IState
     
     public virtual void Enter()
     {
-        AddInputActionsCallback();
+        //AddInputActionsCallback();
     }
 
     public virtual void Exit()
     {
-        RemoveInputActionsCallback();
+        //RemoveInputActionsCallback();
     }
 
     public virtual void HandleInput()
@@ -77,28 +77,28 @@ public class PlayerBaseState : IState
         stateMachine.Player.PlayerSpriteRenderer.flipX = isFlip;
     }
     
-    protected virtual void AddInputActionsCallback()
-    {
-        PlayerController input = stateMachine.Player.PlayerController;
-        input.playerActions.Move.canceled += OnMoveCanceled;
-        input.playerActions.Run.started += OnRunStarted;
-    }
-    
-    protected virtual void RemoveInputActionsCallback()
-    {
-        PlayerController input = stateMachine.Player.PlayerController;
-        input.playerActions.Move.canceled -= OnMoveCanceled;
-        input.playerActions.Run.started -= OnRunStarted;
-    }
-
-    protected virtual void OnRunStarted(InputAction.CallbackContext context)
-    {
-        
-    }
-
-    protected virtual void OnMoveCanceled(InputAction.CallbackContext context)
-    {
-        
-    }
+    // protected virtual void AddInputActionsCallback()
+    // {
+    //     PlayerController input = stateMachine.Player.PlayerController;
+    //     input.playerActions.Move.canceled += OnMoveCanceled;
+    //     input.playerActions.Run.started += OnRunStarted;
+    // }
+    //
+    // protected virtual void RemoveInputActionsCallback()
+    // {
+    //     PlayerController input = stateMachine.Player.PlayerController;
+    //     input.playerActions.Move.canceled -= OnMoveCanceled;
+    //     input.playerActions.Run.started -= OnRunStarted;
+    // }
+    //
+    // protected virtual void OnRunStarted(InputAction.CallbackContext context)
+    // {
+    //     
+    // }
+    //
+    // protected virtual void OnMoveCanceled(InputAction.CallbackContext context)
+    // {
+    //     
+    // }
     
 }

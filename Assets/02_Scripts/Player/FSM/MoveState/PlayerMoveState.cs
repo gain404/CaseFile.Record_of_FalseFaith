@@ -25,15 +25,5 @@ public class PlayerMoveState : PlayerBaseState
         stateMachine.MovementSpeedModifier = 0f;
         EndAnimation(stateMachine.Player.PlayerAnimationData.MoveParameterHash);
     }
-
-    protected override void OnMoveCanceled(InputAction.CallbackContext context)
-    {
-        if (stateMachine.MovementInput == Vector2.zero)
-            return;
-        
-        stateMachine.ChangeState(stateMachine.IdleState);
-
-        base.OnMoveCanceled(context);
-    }
     
 }
