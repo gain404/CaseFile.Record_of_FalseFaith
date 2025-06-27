@@ -1,5 +1,3 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerWalkState : PlayerMoveState
 {
@@ -18,11 +16,5 @@ public class PlayerWalkState : PlayerMoveState
     {
         base.Exit();
         EndAnimation(stateMachine.Player.PlayerAnimationData.WalkParameterHash);
-    }
-
-    protected override void OnRunStarted(InputAction.CallbackContext context)
-    {
-        base.OnRunStarted(context);
-        stateMachine.ChangeState(stateMachine.RunState);
     }
 }
