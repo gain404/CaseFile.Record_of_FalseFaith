@@ -1,3 +1,4 @@
+﻿using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -13,6 +14,11 @@ public class Player : MonoBehaviour
     public SpriteRenderer PlayerSpriteRenderer { get; private set; }
     private PlayerStateMachine _stateMachine;
 
+    public ItemData itemData;//추가한 스크립트(송도현)
+    public Action addItem;//추가한 스크립트(송도현)
+
+    public GameObject talkBalloon;//추가한 스크립트(송도현)
+
     private void Awake()
     {
         //애니메이션 string -> int로 초기화
@@ -26,6 +32,11 @@ public class Player : MonoBehaviour
         _stateMachine = new PlayerStateMachine(this);
         
         _stateMachine.ChangeState(_stateMachine.IdleState);
+
+        if(talkBalloon != null)
+        {
+            talkBalloon.SetActive(false);//추가한 스크립트(송도현)
+        }
     }
 
     private void Update()
