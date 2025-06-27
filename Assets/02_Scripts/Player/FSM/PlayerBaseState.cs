@@ -82,6 +82,7 @@ public class PlayerBaseState : IState
         PlayerController input = stateMachine.Player.PlayerController;
         input.playerActions.Move.canceled += OnMoveCanceled;
         input.playerActions.Run.started += OnRunStarted;
+        input.playerActions.Interact.started += OnItemInteractStarted;
     }
     
     protected virtual void RemoveInputActionsCallback()
@@ -89,6 +90,7 @@ public class PlayerBaseState : IState
         PlayerController input = stateMachine.Player.PlayerController;
         input.playerActions.Move.canceled -= OnMoveCanceled;
         input.playerActions.Run.started -= OnRunStarted;
+        input.playerActions.Interact.started -= OnItemInteractStarted;
     }
 
     protected virtual void OnRunStarted(InputAction.CallbackContext context)
@@ -100,5 +102,14 @@ public class PlayerBaseState : IState
     {
         
     }
+    protected virtual void OnItemInteractStarted(InputAction.CallbackContext context)
+    {
+        var npc = stateMachine.Player.CurrentInteractableNPC;
+        if (npc != null)
+        {
+            npc.OnInteract();  //대화 시작
+        }
+    }
+
     
 }
