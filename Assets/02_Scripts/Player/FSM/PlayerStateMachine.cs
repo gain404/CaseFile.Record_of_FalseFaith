@@ -37,13 +37,30 @@ public class PlayerStateMachine : StateMachine
         //---------------상태 Change------------//
    
         AddTransition(new StateTransition(
+            IdleState, JumpState,
+            () => Player.PlayerController.playerActions.Jump.ReadValue<float>() > 0.5f));
+        
+        AddTransition(new StateTransition(
+            WalkState, JumpState,
+            () => Player.PlayerController.playerActions.Jump.ReadValue<float>() > 0.5f));
+        
+        AddTransition(new StateTransition(
+            RunState, JumpState,
+            () => Player.PlayerController.playerActions.Jump.ReadValue<float>() > 0.5f));
+        
+        AddTransition(new StateTransition(
+            JumpState, IdleState,
+            () => Player.PlayerController.playerActions.Jump.ReadValue<float>() <= 0f));
+        
+        AddTransition(new StateTransition(
             IdleState, RunState,
-            ()=> MovementInput != Vector2.zero 
+            ()=> Mathf.Abs(MovementInput.x) > 0.01f
                  && Player.PlayerController.playerActions.Run.ReadValue<float>() > 0.5f));
         
         AddTransition(new StateTransition(
             IdleState, WalkState,
-            () => MovementInput != Vector2.zero));
+            () => Mathf.Abs(MovementInput.x) > 0.01f
+                  && Player.PlayerController.playerActions.Jump.ReadValue<float>() <= 0f));
         
         AddTransition(new StateTransition(
             RunState, IdleState,
@@ -55,7 +72,7 @@ public class PlayerStateMachine : StateMachine
         
         AddTransition(new StateTransition(
             WalkState, RunState,
-            ()=> MovementInput != Vector2.zero 
+            ()=> Mathf.Abs(MovementInput.x) > 0.01f 
                  &&Player.PlayerController.playerActions.Run.ReadValue<float>() > 0.5f));
         
     }

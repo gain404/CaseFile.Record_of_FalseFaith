@@ -11,18 +11,18 @@ public class PlayerJumpState : PlayerGroundState
         stateMachine.MovementSpeedModifier = moveData.WalkSpeedModifier;
         base.Enter();
         OnJumped();
-        StartAnimation(stateMachine.Player.PlayerAnimationData.WalkParameterHash);
+        StartAnimation(stateMachine.Player.PlayerAnimationData.JumpParameterHash);
     }
 
     public override void Exit()
     {
         base.Exit();
-        EndAnimation(stateMachine.Player.PlayerAnimationData.WalkParameterHash);
+        EndAnimation(stateMachine.Player.PlayerAnimationData.JumpParameterHash);
     }
 
     private void OnJumped()
     {
-        _rb.AddForce(Vector2.up * stateMachine.Player.Data.GroundData.JumpForce);
+        _rb.AddForce(Vector2.up * stateMachine.Player.Data.GroundData.JumpForce, ForceMode2D.Impulse);
     }
     
 }
