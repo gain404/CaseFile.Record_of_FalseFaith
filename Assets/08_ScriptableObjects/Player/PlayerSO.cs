@@ -10,13 +10,13 @@ public class PlayerMoveData
     [field : Header("IdleData")]
     
     [field : Header("WalkData")]
-    [field : SerializeField][field : Range(0f, 2f)] public float WalkSpeedModifier { get; set; }
+    [field : SerializeField][field : Range(0f, 5f)] public float WalkSpeedModifier { get; set; }
     
     [field : Header("RunData")]
-    [field : SerializeField][field : Range(0f, 2f)] public float RunSpeedModifier { get; set; }
+    [field : SerializeField][field : Range(0f, 5f)] public float RunSpeedModifier { get; set; }
     
     [field : Header("DashData")]
-    [field : SerializeField][field : Range(0f, 2f)] public float DashSpeedModifier { get; set; }
+    [field : SerializeField][field : Range(0f, 10f)] public float DashSpeedModifier { get; set; }
 }
 
 [Serializable]
