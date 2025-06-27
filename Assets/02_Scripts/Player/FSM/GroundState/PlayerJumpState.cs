@@ -8,7 +8,7 @@ public class PlayerJumpState : PlayerGroundState
 
     public override void Enter()
     {
-        stateMachine.MovementSpeedModifier = moveData.WalkSpeedModifier;
+        stateMachine.JumpForce = groundData.JumpForce;
         base.Enter();
         OnJumped();
         StartAnimation(stateMachine.Player.PlayerAnimationData.JumpParameterHash);
@@ -22,7 +22,7 @@ public class PlayerJumpState : PlayerGroundState
 
     private void OnJumped()
     {
-        _rb.AddForce(Vector2.up * stateMachine.Player.Data.GroundData.JumpForce, ForceMode2D.Impulse);
+        _rb.AddForce(Vector2.up * stateMachine.JumpForce, ForceMode2D.Impulse);
     }
     
 }

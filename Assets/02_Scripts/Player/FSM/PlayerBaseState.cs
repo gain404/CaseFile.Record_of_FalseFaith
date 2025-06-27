@@ -6,12 +6,14 @@ public class PlayerBaseState : IState
     //플레이어가 공통으로 쓰는 사항들 (키 입력 받아들이기, 애니메이션 등)
     protected PlayerStateMachine stateMachine;
     protected readonly PlayerMoveData moveData;
+    protected readonly PlayerGroundData groundData;
     protected Rigidbody2D _rb;
 
     public PlayerBaseState(PlayerStateMachine playerStateMachine)
     {
         stateMachine = playerStateMachine;
         moveData = stateMachine.Player.Data.MoveData;
+        groundData = stateMachine.Player.Data.GroundData;
         
         _rb = stateMachine.Player.GetComponent<Rigidbody2D>();
     }

@@ -9,6 +9,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerWalkState WalkState { get; }
     public PlayerRunState RunState { get; }
     public PlayerJumpState JumpState { get; }
+    public PlayerDashState DashState { get; }
     
     //움직임 보정값
     public Vector2 MovementInput { get; set; }
@@ -17,6 +18,7 @@ public class PlayerStateMachine : StateMachine
 
 
     public float JumpForce { get; set; } = 3f;
+    public float DashForce { get; set; } = 5f;
     public Transform MainCameraTransform { get; set; }
 
     public PlayerStateMachine(Player player)
@@ -33,9 +35,11 @@ public class PlayerStateMachine : StateMachine
         WalkState = new PlayerWalkState(this);
         RunState = new PlayerRunState(this);
         JumpState = new PlayerJumpState(this);
+        DashState = new PlayerDashState(this);
         
         //---------------상태 Change------------//
-   
+        
+        //Jump
         AddTransition(new StateTransition(
             IdleState, JumpState,
             () => Player.PlayerController.playerActions.Jump.ReadValue<float>() > 0.5f));
@@ -48,19 +52,48 @@ public class PlayerStateMachine : StateMachine
             RunState, JumpState,
             () => Player.PlayerController.playerActions.Jump.ReadValue<float>() > 0.5f));
         
+        //Dash
         AddTransition(new StateTransition(
-            JumpState, IdleState,
-            () => Player.PlayerController.playerActions.Jump.ReadValue<float>() <= 0f));
+            IdleState, DashState,
+            ()=> Mathf.Abs(MovementInput.x) > 0.01f 
+                 &&Player.PlayerController.playerActions.Dash.ReadValue<float>() > 0.5f));
         
+        AddTransition(new StateTransition(
+            WalkState, DashState,
+            ()=> Mathf.Abs(MovementInput.x) > 0.01f 
+                 &&Player.PlayerController.playerActions.Dash.ReadValue<float>() > 0.5f));
+        
+        AddTransition(new StateTransition(
+            RunState, DashState,
+            ()=> Mathf.Abs(MovementInput.x) > 0.01f 
+                 &&Player.PlayerController.playerActions.Dash.ReadValue<float>() > 0.5f));
+        
+        AddTransition(new StateTransition(
+            JumpState, DashState,
+            ()=> Mathf.Abs(MovementInput.x) > 0.01f 
+                 &&Player.PlayerController.playerActions.Dash.ReadValue<float>() > 0.5f));
+        
+        //Walk
+        AddTransition(new StateTransition(
+            IdleState, WalkState,
+            () => Mathf.Abs(MovementInput.x) > 0.01f
+                  && Player.PlayerController.playerActions.Jump.ReadValue<float>() <= 0f));
+        
+        //Run
         AddTransition(new StateTransition(
             IdleState, RunState,
             ()=> Mathf.Abs(MovementInput.x) > 0.01f
                  && Player.PlayerController.playerActions.Run.ReadValue<float>() > 0.5f));
         
         AddTransition(new StateTransition(
-            IdleState, WalkState,
-            () => Mathf.Abs(MovementInput.x) > 0.01f
-                  && Player.PlayerController.playerActions.Jump.ReadValue<float>() <= 0f));
+            WalkState, RunState,
+            ()=> Mathf.Abs(MovementInput.x) > 0.01f 
+                 &&Player.PlayerController.playerActions.Run.ReadValue<float>() > 0.5f));
+        
+        //Idle
+        AddTransition(new StateTransition(
+            JumpState, IdleState,
+            () => Player.PlayerController.playerActions.Jump.ReadValue<float>() <= 0f));
         
         AddTransition(new StateTransition(
             RunState, IdleState,
@@ -71,9 +104,8 @@ public class PlayerStateMachine : StateMachine
             ()=> MovementInput == Vector2.zero));
         
         AddTransition(new StateTransition(
-            WalkState, RunState,
-            ()=> Mathf.Abs(MovementInput.x) > 0.01f 
-                 &&Player.PlayerController.playerActions.Run.ReadValue<float>() > 0.5f));
+            DashState, IdleState,
+            ()=> Player.PlayerController.playerActions.Dash.ReadValue<float>() <= 0f));
         
     }
 
