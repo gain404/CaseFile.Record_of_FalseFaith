@@ -33,7 +33,10 @@ public class Player : MonoBehaviour
         
         _stateMachine.ChangeState(_stateMachine.IdleState);
 
-        talkBalloon.SetActive(false);//추가한 스크립트(송도현)
+        if(talkBalloon != null)
+        {
+            talkBalloon.SetActive(false);//추가한 스크립트(송도현)
+        }
     }
 
     private void Update()
