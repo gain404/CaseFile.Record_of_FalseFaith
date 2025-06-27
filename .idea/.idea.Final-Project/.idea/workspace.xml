@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a95a2b4-7ddc-47ac-858e-08a0b4528218" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Final-Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Final-Project/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/AttackState.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/02_Scripts/Player/PlayerAnimationData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02_Scripts/Player/PlayerAnimationData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/PlayerStateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/PlayerStateMachine.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +36,8 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/ActionState/PlayerActionState.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/ActionState/PlayerChatState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/GroundState/PlayerFallState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02_Scripts/Player/FSM/MoveState/PlayerDashState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.dt.app-ui@166eda91cea7/Runtime/Core/AppUIManagerBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
@@ -167,7 +166,8 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="feat : PlayerJumpState 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat : PlayerJumpState 추가" />
+    <MESSAGE value="feat: PlayerChatState 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: PlayerChatState 추가" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -10,6 +10,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerRunState RunState { get; }
     public PlayerJumpState JumpState { get; }
     public PlayerDashState DashState { get; }
+    public PlayerChatState ChatState { get; }
     
     //움직임 보정값
     public Vector2 MovementInput { get; set; }
@@ -36,6 +37,7 @@ public class PlayerStateMachine : StateMachine
         RunState = new PlayerRunState(this);
         JumpState = new PlayerJumpState(this);
         DashState = new PlayerDashState(this);
+        ChatState = new PlayerChatState(this);
         
         //---------------상태 Change------------//
         
