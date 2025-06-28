@@ -11,17 +11,54 @@ public class PlayerDialogueState : PlayerActionState
     public override void Enter()
     {
         base.Enter();
-        stateMachine.MovementSpeedModifier = 0f; //조사 중 움직임X
-        //DialogueManager.Instance.StartChat <<이런 식으로 Chat 시작
         StartAnimation(stateMachine.Player.PlayerAnimationData.IdleParameterHash);
+
+        stateMachine.MovementSpeedModifier = 0f;
+        
+        var npc = stateMachine.Player.CurrentInteractableNPC;
+        var item = stateMachine.Player.CurrentInteractableItem;
+
+        if (npc != null)
+        {
+            DialogueManager.Instance.StartDialogue(npc.npcData.dialogueAsset);
+        }
+        else if (item != null)
+        {
+            DialogueManager.Instance.StartItemDialogue(item.dialogueData.dialogueLines);
+        }
+        else
+        {
+            Debug.LogWarning("대화 대상이 없습니다.");
+        }
     }
 
     //상태 빠져나올 때
     public override void Exit()
     {
         base.Exit();
-        stateMachine.MovementSpeedModifier = moveData.WalkSpeedModifier;
-        //DialogueManager.Instance.EndChat <<상황 종료 됐을 때
         EndAnimation(stateMachine.Player.PlayerAnimationData.IdleParameterHash);
+        stateMachine.MovementSpeedModifier = 1f;
     }
+    public override void HandleInput()
+    {
+        var playerActions = stateMachine.Player.PlayerController.playerActions;
+        bool confirm = playerActions.Confirm.WasPressedThisFrame();
+        bool click = playerActions.Click.WasPressedThisFrame();
+
+        if (confirm || click)
+        {
+            DialogueManager.Instance.HandleClick();
+        }
+    }
+    public override void Update()
+    {
+        // HandleInput만 처리함 (움직임/점프 등은 무시)
+        HandleInput();
+    }
+
+    public override void PhysicsUpdate()
+    {
+        // 움직임 없음
+    }
+
 }

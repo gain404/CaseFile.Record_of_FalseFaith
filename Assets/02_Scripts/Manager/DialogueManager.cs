@@ -47,6 +47,7 @@ public class DialogueManager : MonoBehaviour
     private string[] currentItemLines;
     private int currentItemIndex = 0;
     private bool isItemDialogue = false;
+    public bool IsDialogueFinished { get; private set; }
 
     private Dictionary<string, bool> talkedToNPC = new();
     private DialogueType? lastDialogueType = null; // 직전 대사의 화자 타입
@@ -65,19 +66,12 @@ public class DialogueManager : MonoBehaviour
         npcImage.gameObject.SetActive(false);
     }
 
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            HandleClick();
-        }
-    }
-
     public void StartDialogue(DialogueAsset asset)
     {
         currentDialogue = asset;
         currentIndex = 0;
         isItemDialogue = false;
+        IsDialogueFinished = false;
 
         if (!talkedToNPC.ContainsKey(asset.npcID))
             talkedToNPC[asset.npcID] = true;
@@ -87,11 +81,12 @@ public class DialogueManager : MonoBehaviour
         ShowLine();
     }
 
-    public void ShowItemDialogue(string[] lines)
+    public void StartItemDialogue(string[] lines)
     {
         isItemDialogue = true;
         currentItemLines = lines;
         currentItemIndex = 0;
+        IsDialogueFinished = false;
         backgroundDim.SetActive(true);
         cameraSwitcher.SwitchToDialogueCamera();
         dialoguePanel.SetActive(true);
@@ -193,7 +188,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private void HandleClick()
+    public void HandleClick()
     {
         if (choicePanel.activeSelf) 
             return;
@@ -246,7 +241,7 @@ public class DialogueManager : MonoBehaviour
         isItemDialogue = false;
         currentItemLines = null;
         lastDialogueType = null; // 다음 대화에서 처음부터 처리되도록 초기화
-
+        IsDialogueFinished = true; 
         npcImageGroup.alpha = 0f;
         playerImageGroup.alpha = 0f;
         npcImage.gameObject.SetActive(false);

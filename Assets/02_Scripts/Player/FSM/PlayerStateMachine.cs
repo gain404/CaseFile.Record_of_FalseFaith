@@ -108,6 +108,23 @@ public class PlayerStateMachine : StateMachine
         AddTransition(new StateTransition(
             DashState, IdleState,
             ()=> Player.PlayerController.playerActions.Dash.ReadValue<float>() <= 0f));
+        AddTransition(new StateTransition(
+            DialogueState, IdleState,
+            ()=> DialogueManager.Instance.IsDialogueFinished));
+        
+        //Dialogue
+        AddTransition(new StateTransition(
+            IdleState, DialogueState,
+            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f));
+
+        AddTransition(new StateTransition(
+            WalkState, DialogueState,
+            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f));
+
+        AddTransition(new StateTransition(
+            RunState, DialogueState,
+            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f));
+
         
     }
 
