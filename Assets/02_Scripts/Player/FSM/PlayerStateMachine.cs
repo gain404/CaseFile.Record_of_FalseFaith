@@ -115,15 +115,18 @@ public class PlayerStateMachine : StateMachine
         //Dialogue
         AddTransition(new StateTransition(
             IdleState, DialogueState,
-            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f));
+            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
+                && Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null));
 
         AddTransition(new StateTransition(
             WalkState, DialogueState,
-            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f));
+            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
+                && Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null));
 
         AddTransition(new StateTransition(
             RunState, DialogueState,
-            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f));
+            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
+                && Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null));
 
         
     }
