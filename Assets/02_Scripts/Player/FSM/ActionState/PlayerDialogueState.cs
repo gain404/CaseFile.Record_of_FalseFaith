@@ -11,6 +11,11 @@ public class PlayerDialogueState : PlayerActionState
     public override void Enter()
     {
         base.Enter();
+        _rb.linearVelocity = Vector2.zero;
+        stateMachine.Player.Animator.SetBool(stateMachine.Player.PlayerAnimationData.MoveParameterHash, false);
+        stateMachine.Player.Animator.SetBool(stateMachine.Player.PlayerAnimationData.RunParameterHash, false);
+        stateMachine.Player.Animator.SetBool(stateMachine.Player.PlayerAnimationData.WalkParameterHash, false);
+        
         StartAnimation(stateMachine.Player.PlayerAnimationData.IdleParameterHash);
 
         stateMachine.MovementSpeedModifier = 0f;

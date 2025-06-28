@@ -9,6 +9,7 @@ public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
 
+    // --- UI 요소 ---
     [Header("UI")]
     public GameObject dialoguePanel;
     public GameObject choicePanel;
@@ -19,244 +20,323 @@ public class DialogueManager : MonoBehaviour
     public GameObject continueArrow;
     public Button[] choiceButtons;
 
-    [Header("Cinemachine")]
+    // --- 카메라 및 효과 ---
+    [Header("Cinemachine & Effect")]
     public CinemachineCamera dialogueCamera;
-    public Camera mainCamera;
     public CameraSwitcher cameraSwitcher;
-
-    [Header("Effect")]
     public CanvasGroup dialogueBoxGroup;
     public CanvasGroup playerImageGroup;
     public CanvasGroup npcImageGroup;
     public GameObject backgroundDim;
 
-    [Header("Dialogue Box Positions")]
+    // --- 위치 및 애니메이션 설정 ---
+    [Header("Settings")]
     public RectTransform dialogueBoxRect;
     public Vector2 playerBoxPos;
     public Vector2 npcBoxPos;
-
-    [Header("Fade & Move Settings")]
     public float fadeDuration = 0.3f;
     public float moveDuration = 0.4f;
+    public float typingSpeed = 0.02f;
+
+    // --- 대화 상태 관리 ---
+    // 여러 bool 대신 하나의 enum으로 상태를 명확하게 관리
+    private enum DialogueState { Inactive, Transitioning, Typing, WaitingForInput, ShowingChoices }
+    private DialogueState currentState = DialogueState.Inactive;
 
     private DialogueAsset currentDialogue;
     private int currentIndex = 0;
-    private bool isTyping = false;
-    private Coroutine typingCoroutine;
+    
+    // 코루틴 참조를 저장하여 더 안전하게 제어
+    private Coroutine displayCoroutine;
 
+    // 기타 상태 변수
     private string[] currentItemLines;
     private int currentItemIndex = 0;
     private bool isItemDialogue = false;
     public bool IsDialogueFinished { get; private set; }
-
     private Dictionary<string, bool> talkedToNPC = new();
-    private DialogueType? lastDialogueType = null; // 직전 대사의 화자 타입
 
 
-    void Awake()
+    private void Awake()
     {
         if (Instance != null && Instance != this) Destroy(this);
         else Instance = this;
-
-        dialoguePanel.SetActive(false);
-        choicePanel.SetActive(false);
-        continueArrow.SetActive(false);
-        backgroundDim.SetActive(false);
-        playerImage.gameObject.SetActive(false);
-        npcImage.gameObject.SetActive(false);
     }
 
     public void StartDialogue(DialogueAsset asset)
     {
+        if (currentState != DialogueState.Inactive) return;
+
         currentDialogue = asset;
         currentIndex = 0;
         isItemDialogue = false;
         IsDialogueFinished = false;
 
         if (!talkedToNPC.ContainsKey(asset.npcID))
+        {
             talkedToNPC[asset.npcID] = true;
+        }
 
         cameraSwitcher.SwitchToDialogueCamera();
         backgroundDim.SetActive(true);
+
         ShowLine();
     }
-
+    
     public void StartItemDialogue(string[] lines)
     {
+        // 이미 다른 대화가 진행 중이면 실행하지 않음
+        if (currentState != DialogueState.Inactive) return;
+
+        // 아이템 대화 모드로 전환
         isItemDialogue = true;
         currentItemLines = lines;
         currentItemIndex = 0;
         IsDialogueFinished = false;
+
+        // UI 초기화 (아이템 대화는 화자 정보가 없음)
         backgroundDim.SetActive(true);
         cameraSwitcher.SwitchToDialogueCamera();
         dialoguePanel.SetActive(true);
         choicePanel.SetActive(false);
         npcNameText.text = "";
-        npcImage.sprite = null;
-        playerImage.sprite = null;
+        playerImage.gameObject.SetActive(false);
+        npcImage.gameObject.SetActive(false);
 
-        if (typingCoroutine != null) StopCoroutine(typingCoroutine);
-        typingCoroutine = StartCoroutine(TypeText(lines[0]));
-    }
-
-    private void ShowLine()
-    {
-        if (isItemDialogue) return;
-
-        DialogueLine line = currentDialogue.lines[currentIndex];
-        StopAllCoroutines();
-        StartCoroutine(TransitionDialogueUI(line));
-    }
-
-    private IEnumerator TransitionDialogueUI(DialogueLine line)
-    {
-        bool isSameSpeaker = lastDialogueType.HasValue && lastDialogueType.Value == line.type;
-        lastDialogueType = line.type;
-
-        if (!isSameSpeaker)
-        {
-            yield return StartCoroutine(FadeOutImages());
-
-            Vector2 targetPos = (line.type == DialogueType.PlayerLine || line.type == DialogueType.PlayerChoice)
-                ? playerBoxPos : npcBoxPos;
-            yield return StartCoroutine(MoveDialogueBox(targetPos));
-
-            SetupPortrait(line);
-            npcNameText.text = line.characterName;
-
-            yield return StartCoroutine(FadeInImages(line.type));
-        }
-        else
-        {
-            // 같은 화자의 경우 포트레잇만 교체
-            SetupPortrait(line);
-            npcNameText.text = line.characterName;
-        }
-
-        if (line.type == DialogueType.PlayerChoice)
-        {
-            dialoguePanel.SetActive(true);
-            choicePanel.SetActive(true);
-            continueArrow.SetActive(false);
-            SetChoices(line);
-        }
-        else
-        {
-            dialoguePanel.SetActive(true);
-            choicePanel.SetActive(false);
-            continueArrow.SetActive(false);
-
-            if (typingCoroutine != null) StopCoroutine(typingCoroutine);
-            typingCoroutine = StartCoroutine(TypeText(line.text));
-        }
-    }
-
-    private IEnumerator TypeText(string text)
-    {
-        isTyping = true;
-        dialogueText.text = "";
-        foreach (char c in text)
-        {
-            dialogueText.text += c;
-            yield return new WaitForSeconds(0.02f);
-        }
-        isTyping = false;
-        continueArrow.SetActive(true);
-    }
-
-    private void SetChoices(DialogueLine line)
-    {
-        for (int i = 0; i < choiceButtons.Length; i++)
-        {
-            if (i < line.choices.Length)
-            {
-                choiceButtons[i].gameObject.SetActive(true);
-                choiceButtons[i].GetComponentInChildren<TMP_Text>().text = line.choices[i];
-
-                int nextIndex = line.nextLineIndices[i];
-                choiceButtons[i].onClick.RemoveAllListeners();
-                choiceButtons[i].onClick.AddListener(() =>
-                {
-                    currentIndex = nextIndex;
-                    ShowLine();
-                });
-            }
-            else
-            {
-                choiceButtons[i].gameObject.SetActive(false);
-            }
-        }
+        // 메인 흐름인 ShowLine()을 호출하여 대사 표시 시작
+        ShowLine();
     }
 
     public void HandleClick()
     {
-        if (choicePanel.activeSelf) 
-            return;
-
-        if (isTyping)
+        // switch 문을 사용하여 현재 상태에 따른 동작을 명확하게 처리
+        switch (currentState)
         {
-            StopCoroutine(typingCoroutine);
-            dialogueText.text = isItemDialogue
-                ? currentItemLines[currentItemIndex]
-                : currentDialogue.lines[currentIndex].text;
-            isTyping = false;
-            continueArrow.SetActive(true);
-            return;
+            case DialogueState.Typing:
+                // 타이핑 중일 때 클릭하면 전체 텍스트 표시
+                FinishTyping();
+                break;
+
+            case DialogueState.WaitingForInput:
+                // 입력 대기 중일 때 클릭하면 다음 줄로 진행
+                AdvanceDialogue();
+                break;
         }
+    }
 
-        if (!continueArrow.activeSelf) return;
-
+    private void AdvanceDialogue()
+    {
+        // 아이템 대화 진행 로직
         if (isItemDialogue)
         {
             currentItemIndex++;
             if (currentItemIndex >= currentItemLines.Length)
+            {
                 EndDialogue();
+            }
             else
             {
-                if (typingCoroutine != null) StopCoroutine(typingCoroutine);
-                typingCoroutine = StartCoroutine(TypeText(currentItemLines[currentItemIndex]));
+                ShowLine();
             }
+            return;
+        }
+        
+        DialogueLine currentLine = currentDialogue.lines[currentIndex];
+    
+        if (currentLine.nextLineIndices != null && currentLine.nextLineIndices.Length > 0)
+        {
+            currentIndex = currentLine.nextLineIndices[0];
         }
         else
         {
-            DialogueLine line = currentDialogue.lines[currentIndex];
-            currentIndex = (line.nextLineIndices != null && line.nextLineIndices.Length > 0)
-                ? line.nextLineIndices[0]
-                : currentIndex + 1;
+            currentIndex++;
+        }
 
-            if (currentIndex >= currentDialogue.lines.Length)
-                EndDialogue();
-            else
-                ShowLine();
+        if (currentIndex >= currentDialogue.lines.Length)
+        {
+            EndDialogue();
+        }
+        else
+        {
+            ShowLine();
         }
     }
 
+    private void ShowLine()
+    {
+        // 이전에 실행 중이던 대사 표시 코루틴을 안전하게 중지
+        if (displayCoroutine != null)
+        {
+            StopCoroutine(displayCoroutine);
+        }
+        displayCoroutine = StartCoroutine(DisplayLineCoroutine());
+    }
+    
+    private IEnumerator DisplayLineCoroutine()
+    {
+        currentState = DialogueState.Transitioning;
+
+        // UI 초기화
+        continueArrow.SetActive(false);
+        dialoguePanel.SetActive(true);
+
+        // 아이템 대화일 경우, 텍스트만 가져오고 복잡한 전환은 생략
+        if (isItemDialogue)
+        {
+            choicePanel.SetActive(false);
+            string itemText = currentItemLines[currentItemIndex];
+            yield return StartCoroutine(TypeTextCoroutine(itemText));
+        }
+        // 일반 대화일 경우, 기존 로직 수행
+        else
+        {
+            choicePanel.SetActive(false);
+            DialogueLine line = currentDialogue.lines[currentIndex];
+
+            yield return StartCoroutine(TransitionSpeaker(line));
+
+            if (line.type == DialogueType.PlayerChoice)
+            {
+                dialogueText.text = line.text;
+                SetupChoices(line);
+                currentState = DialogueState.ShowingChoices;
+            }
+            else
+            {
+                yield return StartCoroutine(TypeTextCoroutine(line.text));
+            }
+        }
+    }
+    
+    // 화자 전환 시 애니메이션 처리 로직을 별도 함수로 분리
+    private IEnumerator TransitionSpeaker(DialogueLine line)
+    {
+        // 화자 변경 감지 (이전 로직은 복잡하여 단순화)
+        bool isPlayer = (line.type == DialogueType.PlayerLine || line.type == DialogueType.PlayerChoice);
+        Vector2 targetPos = isPlayer ? playerBoxPos : npcBoxPos;
+
+        // 대화창 위치가 다를 때만 이동
+        if (dialogueBoxRect.anchoredPosition != targetPos)
+        {
+            yield return StartCoroutine(FadeOutImages());
+            yield return StartCoroutine(MoveDialogueBox(targetPos));
+        }
+
+        SetupPortraitsAndName(line, isPlayer);
+
+        // 이미지가 비활성화 되어있다면 Fade In
+        if ((isPlayer && playerImageGroup.alpha == 0) || (!isPlayer && npcImageGroup.alpha == 0))
+        {
+            yield return StartCoroutine(FadeInImages(line.type));
+        }
+    }
+
+    private void SetupPortraitsAndName(DialogueLine line, bool isPlayer)
+    {
+        npcNameText.text = line.characterName;
+        
+        // 비활성화된 이미지 먼저 끄고 필요한 이미지만 설정
+        playerImage.gameObject.SetActive(isPlayer);
+        npcImage.gameObject.SetActive(!isPlayer);
+
+        if (isPlayer) playerImage.sprite = line.portrait;
+        else npcImage.sprite = line.portrait;
+    }
+
+    private IEnumerator TypeTextCoroutine(string text)
+    {
+        currentState = DialogueState.Typing;
+        dialogueText.text = "";
+
+        foreach (char c in text)
+        {
+            dialogueText.text += c;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+        
+        FinishTyping();
+    }
+    
+    private void FinishTyping()
+    {
+        if (currentState == DialogueState.Typing && displayCoroutine != null)
+        {
+            StopCoroutine(displayCoroutine);
+        
+            // 아이템/일반 대화에 맞는 전체 텍스트를 즉시 표시
+            if (isItemDialogue)
+            {
+                dialogueText.text = currentItemLines[currentItemIndex];
+            }
+            else
+            {
+                dialogueText.text = currentDialogue.lines[currentIndex].text;
+            }
+        }
+    
+        currentState = DialogueState.WaitingForInput;
+        continueArrow.SetActive(true);
+    }
+
+    private void SetupChoices(DialogueLine line)
+    {
+        choicePanel.SetActive(true);
+        for (int i = 0; i < choiceButtons.Length; i++)
+        {
+            bool isActive = i < line.choices.Length;
+            choiceButtons[i].gameObject.SetActive(isActive);
+
+            if (isActive)
+            {
+                choiceButtons[i].GetComponentInChildren<TMP_Text>().text = line.choices[i];
+                
+                int choiceIndex = i; // 클로저 문제 방지
+                choiceButtons[i].onClick.RemoveAllListeners();
+                choiceButtons[i].onClick.AddListener(() => OnChoiceSelected(choiceIndex));
+            }
+        }
+    }
+
+    private void OnChoiceSelected(int choiceIndex)
+    {
+        // 선택 후에는 UI 상태를 비활성으로 변경
+        currentState = DialogueState.Inactive;
+        
+        DialogueLine line = currentDialogue.lines[currentIndex];
+        currentIndex = line.nextLineIndices[choiceIndex];
+
+        if (currentIndex >= currentDialogue.lines.Length)
+        {
+            EndDialogue();
+        }
+        else
+        {
+            ShowLine();
+        }
+    }
+    
     private void EndDialogue()
     {
+        currentState = DialogueState.Inactive;
+        IsDialogueFinished = true; 
+        
         dialoguePanel.SetActive(false);
         choicePanel.SetActive(false);
         backgroundDim.SetActive(false);
         cameraSwitcher.SwitchToPlayerCamera();
 
+        // 리소스 정리
+        currentDialogue = null;
         isItemDialogue = false;
         currentItemLines = null;
-        lastDialogueType = null; // 다음 대화에서 처음부터 처리되도록 초기화
-        IsDialogueFinished = true; 
-        npcImageGroup.alpha = 0f;
-        playerImageGroup.alpha = 0f;
-        npcImage.gameObject.SetActive(false);
-        playerImage.gameObject.SetActive(false);
-        npcNameText.text = "";
     }
 
-
+    #region Coroutines for Animation (기존과 거의 동일)
     IEnumerator FadeCanvasGroup(CanvasGroup group, float targetAlpha)
     {
         float startAlpha = group.alpha;
-        float t = 0f;
-        while (t < fadeDuration)
+        for (float t = 0; t < fadeDuration; t += Time.deltaTime)
         {
-            t += Time.deltaTime;
             group.alpha = Mathf.Lerp(startAlpha, targetAlpha, t / fadeDuration);
             yield return null;
         }
@@ -267,20 +347,16 @@ public class DialogueManager : MonoBehaviour
     {
         yield return StartCoroutine(FadeCanvasGroup(playerImageGroup, 0f));
         yield return StartCoroutine(FadeCanvasGroup(npcImageGroup, 0f));
-        playerImage.gameObject.SetActive(false);
-        npcImage.gameObject.SetActive(false);
     }
 
     IEnumerator FadeInImages(DialogueType type)
     {
         if (type == DialogueType.PlayerLine || type == DialogueType.PlayerChoice)
         {
-            playerImage.gameObject.SetActive(true);
             yield return StartCoroutine(FadeCanvasGroup(playerImageGroup, 1f));
         }
         else if (type == DialogueType.NPCLine)
         {
-            npcImage.gameObject.SetActive(true);
             yield return StartCoroutine(FadeCanvasGroup(npcImageGroup, 1f));
         }
     }
@@ -288,23 +364,14 @@ public class DialogueManager : MonoBehaviour
     IEnumerator MoveDialogueBox(Vector2 targetPos)
     {
         Vector2 startPos = dialogueBoxRect.anchoredPosition;
-        float t = 0f;
-        while (t < moveDuration)
+        for (float t = 0; t < moveDuration; t += Time.deltaTime)
         {
-            t += Time.deltaTime;
             dialogueBoxRect.anchoredPosition = Vector2.Lerp(startPos, targetPos, t / moveDuration);
             yield return null;
         }
         dialogueBoxRect.anchoredPosition = targetPos;
     }
-
-    void SetupPortrait(DialogueLine line)
-    {
-        if (line.type == DialogueType.PlayerLine || line.type == DialogueType.PlayerChoice)
-            playerImage.sprite = line.portrait;
-        else if (line.type == DialogueType.NPCLine)
-            npcImage.sprite = line.portrait;
-    }
+    #endregion
 
     public bool HasTalkedTo(string npcID) => talkedToNPC.ContainsKey(npcID);
 }
