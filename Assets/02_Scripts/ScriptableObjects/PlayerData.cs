@@ -6,9 +6,6 @@ public class PlayerMoveData
 {
     [field : SerializeField][field : Range(0f, 25f)] public float Speed { get; set; }
     
-    
-    [field : Header("IdleData")]
-    
     [field : Header("WalkData")]
     [field : SerializeField][field : Range(0f, 5f)] public float WalkSpeedModifier { get; set; }
     
@@ -26,9 +23,18 @@ public class PlayerGroundData
     [field : SerializeField][field : Range(0f, 25f)] public float JumpForce { get; set; }
 }
 
+[Serializable]
+public class PlayerCondition
+{
+    [field : Header("Condition")]
+    [field : SerializeField] public float MaxHeart { get; set; }
+    [field : SerializeField] public float MaxEnergy { get; set; }
+}
+
 [CreateAssetMenu(fileName = "Player", menuName = "ScriptableObjects/Player")]
-public class PlayerSO : ScriptableObject
+public class PlayerData : ScriptableObject
 {
     [field : SerializeField] public PlayerMoveData MoveData { get; private set; }
     [field : SerializeField] public PlayerGroundData GroundData { get; private set; }
+    [field : SerializeField] public PlayerCondition ConditionData { get; private set; }
 }
