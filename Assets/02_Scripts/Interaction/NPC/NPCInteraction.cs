@@ -32,7 +32,7 @@ public class NPCInteraction : MonoBehaviour, IInteractable
 
     public string GetInteractPrompt()
     {
-        return "F - 대화하기";  // 필요시 사용
+        return "E - 대화하기";  // 필요시 사용. E라는 이미지가 뜨면서 대화할 수 있다는 존재라는 걸 알릴 수 있음
     }
 
     public void OnInteract()

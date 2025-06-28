@@ -10,7 +10,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerRunState RunState { get; }
     public PlayerJumpState JumpState { get; }
     public PlayerDashState DashState { get; }
-    public PlayerChatState ChatState { get; }
+    public PlayerDialogueState DialogueState { get; }
     
     //움직임 보정값
     public Vector2 MovementInput { get; set; }
@@ -37,7 +37,7 @@ public class PlayerStateMachine : StateMachine
         RunState = new PlayerRunState(this);
         JumpState = new PlayerJumpState(this);
         DashState = new PlayerDashState(this);
-        ChatState = new PlayerChatState(this);
+        DialogueState = new PlayerDialogueState(this);
         
         //---------------상태 Change------------//
         
@@ -108,6 +108,23 @@ public class PlayerStateMachine : StateMachine
         AddTransition(new StateTransition(
             DashState, IdleState,
             ()=> Player.PlayerController.playerActions.Dash.ReadValue<float>() <= 0f));
+        AddTransition(new StateTransition(
+            DialogueState, IdleState,
+            ()=> DialogueManager.Instance.IsDialogueFinished));
+        
+        //Dialogue
+        AddTransition(new StateTransition(
+            IdleState, DialogueState,
+            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f));
+
+        AddTransition(new StateTransition(
+            WalkState, DialogueState,
+            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f));
+
+        AddTransition(new StateTransition(
+            RunState, DialogueState,
+            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f));
+
         
     }
 
