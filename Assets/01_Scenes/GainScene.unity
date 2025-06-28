@@ -1000,6 +1000,8 @@ MonoBehaviour:
     comboAttackParameterName: ComboAttack
     skillParameterName: Skill
   <Data>k__BackingField: {fileID: 11400000, guid: a85b7116bbf0fee46b7e5af9955bc785, type: 2}
+  itemData: {fileID: 0}
+  talkBalloon: {fileID: 0}
 --- !u!95 &1781167057
 Animator:
   serializedVersion: 7
@@ -1094,7 +1096,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

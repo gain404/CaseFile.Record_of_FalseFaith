@@ -1,7 +1,15 @@
+using System.Collections.Generic;
+
 public class StateMachine
 {
     protected IState currentState;
+    protected readonly List<StateTransition> transitions = new List<StateTransition>();
 
+    public void AddTransition(StateTransition transition)
+    {
+        transitions.Add(transition);
+    }
+    
     public void ChangeState(IState state)
     {
         currentState?.Exit();
@@ -14,7 +22,7 @@ public class StateMachine
         currentState?.HandleInput();
     }
 
-    public void Update()
+    public virtual void Update()
     {
         currentState?.Update();
     }

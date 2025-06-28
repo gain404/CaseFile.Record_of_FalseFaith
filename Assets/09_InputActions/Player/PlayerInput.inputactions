@@ -29,7 +29,7 @@
                     "id": "8965e255-027e-4549-aa0f-e3b06961c408",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -45,6 +45,24 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "b422bf50-7137-4516-a403-9afe41f7b78d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Confirm",
+                    "type": "Button",
+                    "id": "14e6c1d9-def1-4b70-9df0-035ffc12a4d2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "385ded2f-e655-41cc-a760-ee47ae9f638a",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -126,6 +144,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8d43b98f-0b33-4e8c-bf97-606b6de764e7",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0218fcaa-e46c-4514-82b0-256040ae7983",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

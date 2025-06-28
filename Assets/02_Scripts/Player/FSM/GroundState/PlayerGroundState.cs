@@ -23,6 +23,4 @@ public class PlayerGroundState : PlayerBaseState
         EndAnimation(stateMachine.Player.PlayerAnimationData.GroundParameterHash);
     }
     
-    
-    
 }
