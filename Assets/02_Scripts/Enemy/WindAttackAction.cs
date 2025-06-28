@@ -14,36 +14,35 @@ public partial class WindAttackAction : Action
 
     
     public float timeBetweenShots = 0.5f;
-
-    private bool _isAttacking = false;
+    
     private int _shotsFired = 0;
     private int _shotsToFire = 2;
     private float _nextFireTime = 0f;
     private Transform _firePoint;
+    private GameObject _bossGameObject;
 
     protected override Status OnStart()
     {
-        GameObject bossGameObject = Self.Value;
-        if (bossGameObject == null || WindProjectile == null || _firePoint == null)
+        if (_bossGameObject == null)
         {
-            Debug.LogWarning("[WindAttackAction] Missing references.");
-            return Status.Failure;
+            _bossGameObject = Self.Value;
         }
 
-        _isAttacking = true;
+        if (_firePoint == null)
+        {
+            
+        }
+        
         _shotsFired = 0;
         _nextFireTime = Time.time + 0.1f;
 
-        _shotsToFire = IsPhase2 != null && IsPhase2.Value ? 3 : 2;
+        _shotsToFire = IsPhase2.Value ? 3 : 2;
 
         return Status.Running;
     }
 
     protected override Status OnUpdate()
     {
-        if (!_isAttacking)
-            return Status.Failure;
-
         if (_shotsFired < _shotsToFire && Time.time >= _nextFireTime)
         {
             FireProjectile();
@@ -53,7 +52,6 @@ public partial class WindAttackAction : Action
 
         if (_shotsFired >= _shotsToFire)
         {
-            _isAttacking = false;
             return Status.Success;
         }
 
@@ -62,8 +60,7 @@ public partial class WindAttackAction : Action
 
     private void FireProjectile()
     {
-        GameObject bossGameObject = Self.Value;
-        Transform bossTransform = bossGameObject.transform;
+        Transform bossTransform = _bossGameObject.transform;
 
         // GameObject projectile = GameObject.Instantiate(
         //     windProjectilePrefab,
