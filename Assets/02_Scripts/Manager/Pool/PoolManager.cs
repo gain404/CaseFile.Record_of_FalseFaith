@@ -8,6 +8,7 @@ public class PoolManager : MonoBehaviour
     [System.Serializable]
     public class Pool
     {
+        //key는 같이 있는 PoolKey에 등록해서 사용
         public PoolKey key;
         public GameObject prefab;
         public int size;
@@ -41,36 +42,28 @@ public class PoolManager : MonoBehaviour
             }
 
             Queue<GameObject> objectPool = new Queue<GameObject>();
+            
+            //PoolManager자식에 각각 projectile을 담을 컨테이너를 만들고 거기에 projectile을 구분해서 저장
+            Transform container = new GameObject($"{pool.key}_Container").transform;
+            container.SetParent(this.transform);
 
             for (int i = 0; i < pool.size; i++)
             {
-                GameObject obj = Instantiate(pool.prefab);
+                GameObject obj = Instantiate(pool.prefab, container);
                 obj.SetActive(false);
                 objectPool.Enqueue(obj);
             }
 
-            if (!_poolDictionary.ContainsKey(pool.key))
-            {
-                _poolDictionary.Add(pool.key, objectPool);
-            }
-            else
-            {
-                Debug.LogWarning($"[PoolManager] Duplicate pool key detected: {pool.key}. Skipping this pool.");
-            }
+            _poolDictionary.TryAdd(pool.key, objectPool);//중복 방지
         }
-
-        Debug.Log("[PoolManager] Initialization complete.");
     }
-
-    /// <summary>
-    /// 풀에서 오브젝트를 가져온 후 위치/회전을 설정하여 반환
-    /// </summary>
-    public GameObject Get(PoolKey key, Vector3 position, Quaternion rotation)
+    
+    //Projectile 발사
+    public void Get(PoolKey key, Vector3 position, Quaternion rotation)
     {
         if (!_poolDictionary.ContainsKey(key))
         {
-            Debug.LogWarning($"[PoolManager] Pool with key '{key}' does not exist.");
-            return null;
+            return;
         }
 
         Queue<GameObject> objectPool = _poolDictionary[key];
@@ -84,24 +77,17 @@ public class PoolManager : MonoBehaviour
         {
             // 풀 부족 시 자동 확장
             obj = Instantiate(pools.Find(p => p.key == key).prefab);
-            Debug.LogWarning($"[PoolManager] Pool '{key}' exhausted. Instantiating additional object.");
         }
-
         obj.transform.position = position;
         obj.transform.rotation = rotation;
         obj.SetActive(true);
-
-        return obj;
     }
-
-    /// <summary>
-    /// 사용한 오브젝트를 풀로 되돌린다
-    /// </summary>
+    
+    //Projectile 소멸
     public void Return(PoolKey key, GameObject obj)
     {
         if (!_poolDictionary.ContainsKey(key))
         {
-            Debug.LogWarning($"[PoolManager] Pool with key '{key}' does not exist.");
             Destroy(obj);
             return;
         }

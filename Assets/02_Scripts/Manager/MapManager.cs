@@ -10,7 +10,7 @@ public class MapManager : MonoBehaviour
     public GameObject mapCanvasRoot;           // 전체 맵 UI (비활성화용)
     public CanvasGroup mapCanvasGroup;         // 페이드용
     public GameObject backgroundDim;           // 어두운 배경
-    public GameObject mapPanel;                // 지도와 버튼들
+    public GameObject mapPanel;                // 지도
     public GameObject confirmPopup;            // 팝업창
 
     [Header("Popup Components")]
@@ -152,7 +152,7 @@ public class MapManager : MonoBehaviour
     IEnumerator FadeAndLoadScene(string sceneName)
     {
         yield return StartCoroutine(FadeOut());
-        SceneManager.LoadScene(sceneName);
+        LoadingBar.LoadScene(sceneName);
     }
 
     IEnumerator FadeOut()

@@ -12,15 +12,21 @@ public partial class WindAttackAction : Action
     [SerializeReference] public BlackboardVariable<GameObject> WindProjectile;
     [SerializeReference] public BlackboardVariable<Transform> WindFirePoint;
     [SerializeReference] public BlackboardVariable<bool> IsPhase2;
-    public float timeBetweenShots = 0.5f;
-    
+   
+    private float _timeBetweenShots = 0.5f;
     private int _shotsFired = 0;
     private int _shotsToFire = 2;
     private float _nextFireTime = 0f;
     private GameObject _bossGameObject;
+    private PoolManager _poolManager;
 
     protected override Status OnStart()
     {
+        if (_poolManager == null)
+        {
+            _poolManager = PoolManager.Instance;
+        }
+        
         if (_bossGameObject == null)
         {
             _bossGameObject = Self.Value;
@@ -40,7 +46,7 @@ public partial class WindAttackAction : Action
         {
             FireProjectile();
             _shotsFired++;
-            _nextFireTime = Time.time + timeBetweenShots;
+            _nextFireTime = Time.time + _timeBetweenShots;
         }
 
         if (_shotsFired >= _shotsToFire)
@@ -53,22 +59,7 @@ public partial class WindAttackAction : Action
 
     private void FireProjectile()
     {
-        Transform bossTransform = _bossGameObject.transform;
-
-        // GameObject projectile = GameObject.Instantiate(
-        //     windProjectilePrefab,
-        //     _firePoint.position,
-        //     bossTransform.rotation
-        //);
-
-        // 필요 시 발사 방향 및 속도 설정
-        //Rigidbody2D projectileRb = projectile.GetComponent<Rigidbody2D>();
-        // if (projectileRb != null)
-        // {
-        //     float speed = 10f;
-        //     Vector2 direction = bossTransform.right;
-        //     projectileRb.velocity = direction * speed;
-        }
-
+        _poolManager.Get(PoolKey.WindProjectile, WindFirePoint.Value.localPosition, WindFirePoint.Value.localRotation);
+    }
 }
 

@@ -25,15 +25,11 @@ public class PlayerDialogueState : PlayerActionState
 
         if (npc != null)
         {
-            DialogueManager.Instance.StartDialogue(npc.npcData.dialogueAsset);
+            npc.OnInteract();
         }
-        else if (item != null)
+        if (item != null)
         {
-            DialogueManager.Instance.StartItemDialogue(item.dialogueData.dialogueLines);
-        }
-        else
-        {
-            Debug.LogWarning("대화 대상이 없습니다.");
+            item.OnInteract();
         }
     }
 
