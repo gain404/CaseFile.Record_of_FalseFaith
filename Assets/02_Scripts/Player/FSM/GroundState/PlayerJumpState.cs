@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class PlayerJumpState : PlayerGroundState
@@ -21,8 +22,17 @@ public class PlayerJumpState : PlayerGroundState
     }
 
     private void OnJumped()
-    {
+    { 
         _rb.AddForce(Vector2.up * stateMachine.JumpForce, ForceMode2D.Impulse);
+    }
+    
+    public override void PhysicsUpdate()
+    {
+        base.PhysicsUpdate();
+        
+        Vector2 velocity = _rb.linearVelocity;
+        velocity.x = stateMachine.MovementInput.x * stateMachine.MovementSpeed;
+        _rb.linearVelocity = velocity;
     }
     
 }

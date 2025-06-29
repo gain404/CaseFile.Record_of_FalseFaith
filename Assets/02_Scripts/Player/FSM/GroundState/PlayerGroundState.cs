@@ -11,12 +11,7 @@ public class PlayerGroundState : PlayerBaseState
         base.Enter();
         StartAnimation(stateMachine.Player.PlayerAnimationData.GroundParameterHash);
     }
-
-    public override void Update()
-    {
-        
-    }
-
+    
     public override void Exit()
     {
         base.Exit();

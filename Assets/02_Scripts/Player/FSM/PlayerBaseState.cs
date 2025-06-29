@@ -41,6 +41,7 @@ public class PlayerBaseState : IState
     public virtual void PhysicsUpdate()
     {
         Move();
+        stateMachine.Player.PlayerController.CheckGround();
     }
 
     //애니메이션 켜고 끄기

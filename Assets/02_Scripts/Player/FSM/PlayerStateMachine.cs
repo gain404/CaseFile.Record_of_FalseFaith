@@ -44,15 +44,18 @@ public class PlayerStateMachine : StateMachine
         //Jump
         AddTransition(new StateTransition(
             IdleState, JumpState,
-            () => Player.PlayerController.playerActions.Jump.ReadValue<float>() > 0.5f));
+            () => Player.PlayerController.playerActions.Jump.ReadValue<float>() > 0.5f
+                  && Player.PlayerController.isGrounded));
         
         AddTransition(new StateTransition(
             WalkState, JumpState,
-            () => Player.PlayerController.playerActions.Jump.ReadValue<float>() > 0.5f));
+            () => Player.PlayerController.playerActions.Jump.ReadValue<float>() > 0.5f
+                  && Player.PlayerController.isGrounded));
         
         AddTransition(new StateTransition(
             RunState, JumpState,
-            () => Player.PlayerController.playerActions.Jump.ReadValue<float>() > 0.5f));
+            () => Player.PlayerController.playerActions.Jump.ReadValue<float>() > 0.5f
+                  && Player.PlayerController.isGrounded));
         
         //Dash
         AddTransition(new StateTransition(
@@ -108,6 +111,7 @@ public class PlayerStateMachine : StateMachine
         AddTransition(new StateTransition(
             DashState, IdleState,
             ()=> Player.PlayerController.playerActions.Dash.ReadValue<float>() <= 0f));
+        
         AddTransition(new StateTransition(
             DialogueState, IdleState,
             ()=> DialogueManager.Instance.IsDialogueFinished));
