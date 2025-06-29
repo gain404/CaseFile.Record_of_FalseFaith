@@ -26,7 +26,7 @@ public class PlayerGroundData
     [field : SerializeField][field : Range(0f, 25f)] public float JumpForce { get; set; }
 }
 
-[CreateAssetMenu(fileName = "Player", menuName = "ScriptableObjects/Player")]
+[CreateAssetMenu(fileName = "Player", menuName = "Scriptable Objects/Player")]
 public class PlayerSO : ScriptableObject
 {
     [field : SerializeField] public PlayerMoveData MoveData { get; private set; }

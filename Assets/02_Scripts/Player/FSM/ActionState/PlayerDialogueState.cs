@@ -25,11 +25,11 @@ public class PlayerDialogueState : PlayerActionState
 
         if (npc != null)
         {
-            DialogueManager.Instance.StartDialogue(npc.npcData.dialogueAsset);
+            npc.OnInteract();
         }
         if (item != null)
         {
-            DialogueManager.Instance.StartItemDialogue(item.dialogueData.dialogueLines);
+            item.OnInteract();
         }
     }
 
