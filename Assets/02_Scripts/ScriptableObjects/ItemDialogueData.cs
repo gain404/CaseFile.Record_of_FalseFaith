@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewItemDialogue", menuName = "Scriptable Objects/Item Dialogue")]
+[CreateAssetMenu(fileName = "NewItemDialogue", menuName = "Dialogue/Item Dialogue")]
 public class ItemDialogueData : ScriptableObject
 {
     [TextArea(2, 5)]

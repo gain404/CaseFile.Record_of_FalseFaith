@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Dialogue/Dialogue Asset")]
+[CreateAssetMenu(menuName = "Dialogue/NPC Dialogue")]
 public class DialogueAsset : ScriptableObject
 {
     public string npcID; // NPC 고유 ID 추가

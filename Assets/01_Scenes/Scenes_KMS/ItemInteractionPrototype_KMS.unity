@@ -988,7 +988,6 @@ MonoBehaviour:
   - {fileID: 845587428}
   - {fileID: 258498422}
   dialogueCamera: {fileID: 934251061}
-  mainCamera: {fileID: 519420031}
   cameraSwitcher: {fileID: 511165922}
   dialogueBoxGroup: {fileID: 298318795}
   playerImageGroup: {fileID: 256753268}
@@ -999,6 +998,7 @@ MonoBehaviour:
   npcBoxPos: {x: -150, y: 20}
   fadeDuration: 0.2
   moveDuration: 0.2
+  typingSpeed: 0.02
 --- !u!4 &511165921
 Transform:
   m_ObjectHideFlags: 0
@@ -1239,7 +1239,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.95, y: -2.06, z: -2}
+  m_LocalPosition: {x: -12.68, y: -2.06, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2296,8 +2296,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1227456376}
   - component: {fileID: 1227456375}
-  - component: {fileID: 1227456377}
   - component: {fileID: 1227456378}
+  - component: {fileID: 1227456379}
   m_Layer: 0
   m_Name: DroneItem
   m_TagString: Untagged
@@ -2376,19 +2376,6 @@ Transform:
   - {fileID: 1659955687}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1227456377
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1227456373}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a816c05efd04db244a49bb8bbe7a9cb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  npcData: {fileID: 11400000, guid: 1dbea9ff779299043887d7bfa3e5bb5e, type: 2}
 --- !u!61 &1227456378
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2435,6 +2422,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1227456379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227456373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afbe03feb53e83f4a8287bf44e49cb4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueData: {fileID: 11400000, guid: 8d458fd9144d22844ae8e2b69104fabc, type: 2}
 --- !u!1 &1304817053
 GameObject:
   m_ObjectHideFlags: 0
@@ -2531,7 +2531,7 @@ Transform:
   m_GameObject: {fileID: 1304817053}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.95, y: -2.06, z: -2}
+  m_LocalPosition: {x: -12.68, y: -2.06, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2988,6 +2988,9 @@ GameObject:
   - component: {fileID: 1781167051}
   - component: {fileID: 1781167053}
   - component: {fileID: 1781167054}
+  - component: {fileID: 1781167057}
+  - component: {fileID: 1781167056}
+  - component: {fileID: 1781167055}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3059,7 +3062,7 @@ Transform:
   m_GameObject: {fileID: 1781167050}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.45, y: -2.06, z: 0}
+  m_LocalPosition: {x: -13.18, y: -2.06, z: 0}
   m_LocalScale: {x: 6.9249, y: 6.9249, z: 6.9249}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3138,6 +3141,68 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &1781167055
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781167050}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d80cb2ba62d99b246bf0c0e1a467f4bb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1781167056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781167050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bcdfb1f59d82e949a952d3e8e68d76a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1781167057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781167050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18363a4f644b2e145994041cd5cbaae0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <PlayerAnimationData>k__BackingField:
+    moveParameterName: '@Move'
+    idleParameterName: Idle
+    dashParameterName: Dash
+    runParameterName: Run
+    walkParameterName: Walk
+    groundParameterName: '@Ground'
+    jumpParameterName: Jump
+    fallParameterName: Fall
+    actionParameterName: '@Action'
+    attackParameterName: Attack
+    comboAttackParameterName: ComboAttack
+    skillParameterName: Skill
+  <Data>k__BackingField: {fileID: 11400000, guid: a85b7116bbf0fee46b7e5af9955bc785, type: 2}
+  itemData: {fileID: 0}
+  talkBalloon: {fileID: 0}
 --- !u!1 &2052325045
 GameObject:
   m_ObjectHideFlags: 0
