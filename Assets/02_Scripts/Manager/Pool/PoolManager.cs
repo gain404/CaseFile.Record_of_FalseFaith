@@ -8,6 +8,7 @@ public class PoolManager : MonoBehaviour
     [System.Serializable]
     public class Pool
     {
+        //key는 같이 있는 PoolKey에 등록해서 사용
         public PoolKey key;
         public GameObject prefab;
         public int size;
