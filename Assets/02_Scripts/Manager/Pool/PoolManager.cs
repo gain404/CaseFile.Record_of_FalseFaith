@@ -59,11 +59,11 @@ public class PoolManager : MonoBehaviour
     }
     
     //Projectile 발사
-    public GameObject Get(PoolKey key, Vector3 position, Quaternion rotation)
+    public void Get(PoolKey key, Vector3 position, Quaternion rotation)
     {
         if (!_poolDictionary.ContainsKey(key))
         {
-            return null;
+            return;
         }
 
         Queue<GameObject> objectPool = _poolDictionary[key];
@@ -81,8 +81,6 @@ public class PoolManager : MonoBehaviour
         obj.transform.position = position;
         obj.transform.rotation = rotation;
         obj.SetActive(true);
-
-        return obj;
     }
     
     //Projectile 소멸
