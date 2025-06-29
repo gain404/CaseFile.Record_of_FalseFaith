@@ -10,63 +10,54 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe736c3f9a3450e4190fdce084c5ae71, type: 3}
-  m_Name: DroneDialogue
+  m_Name: DroneTextDialogue
   m_EditorClassIdentifier: 
-  npcID: Drone
+  npcID: DroneTest
   lines:
   - type: 0
-    text: Hello, where are you going?
+    text: Hi there.
     characterName: Drone
     portrait: {fileID: 21300000, guid: a1fc1786c427341769dba6c83feadde4, type: 3}
     choices: []
-    nextLineIndices: 
-  - type: 0
-    text: Im NPC
-    characterName: Drone
-    portrait: {fileID: 21300000, guid: a1fc1786c427341769dba6c83feadde4, type: 3}
-    choices: []
-    nextLineIndices: 
+    nextLineIndices: 01000000
   - type: 1
-    text: I'm Player
+    text: Hello
     characterName: 
     portrait: {fileID: 21300000, guid: 041f56d6a022446e8b09e8a5be7f79ab, type: 3}
     choices: []
-    nextLineIndices: 
-  - type: 1
-    text: Nice to meet you
-    characterName: 
-    portrait: {fileID: 21300000, guid: 041f56d6a022446e8b09e8a5be7f79ab, type: 3}
-    choices: []
-    nextLineIndices: 
+    nextLineIndices: 02000000
   - type: 2
-    text: Hmm
+    text: Choose an option
     characterName: 
     portrait: {fileID: 21300000, guid: 041f56d6a022446e8b09e8a5be7f79ab, type: 3}
     choices:
-    - Work
-    - Walk
-    - What
-    nextLineIndices: 050000000600000007000000
+    - 1
+    - 2
+    - 3
+    nextLineIndices: 030000000400000005000000
   - type: 0
-    text: oh wow you are working
+    text: You chose 1
+    characterName: Drone
+    portrait: {fileID: 21300000, guid: a1fc1786c427341769dba6c83feadde4, type: 3}
+    choices:
+    - 1
+    - 2
+    - 3
+    nextLineIndices: 030000000400000005000000
+  - type: 0
+    text: You chose 2
     characterName: Drone
     portrait: {fileID: 21300000, guid: a1fc1786c427341769dba6c83feadde4, type: 3}
     choices: []
-    nextLineIndices: 08000000
+    nextLineIndices: 
   - type: 0
-    text: oh wow you are walking
+    text: You chose 3
     characterName: Drone
     portrait: {fileID: 21300000, guid: a1fc1786c427341769dba6c83feadde4, type: 3}
     choices: []
-    nextLineIndices: 08000000
+    nextLineIndices: 
   - type: 0
-    text: What?
-    characterName: Drone
-    portrait: {fileID: 21300000, guid: a1fc1786c427341769dba6c83feadde4, type: 3}
-    choices: []
-    nextLineIndices: 08000000
-  - type: 0
-    text: Ok..so..Bye :)
+    text: Finish
     characterName: Drone
     portrait: {fileID: 21300000, guid: a1fc1786c427341769dba6c83feadde4, type: 3}
     choices: []
