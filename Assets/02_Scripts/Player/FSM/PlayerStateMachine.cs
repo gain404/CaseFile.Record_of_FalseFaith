@@ -130,6 +130,11 @@ public class PlayerStateMachine : StateMachine
             RunState, DialogueState,
             () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
                 && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null)));
+        
+        AddTransition(new StateTransition(
+            JumpState, DialogueState,
+            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
+                  && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null)));
 
         
     }
