@@ -32,4 +32,9 @@ public class PlayerDashState : PlayerMoveState
         base.Exit();
         EndAnimation(stateMachine.Player.PlayerAnimationData.DashParameterHash);
     }
+
+    public override void PhysicsUpdate()
+    {
+        _rb.linearVelocity = _dashDirection * stateMachine.Player.Data.MoveData.DashSpeedModifier;
+    }
 }

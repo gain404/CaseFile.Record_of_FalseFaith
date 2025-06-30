@@ -60,8 +60,7 @@ public class PlayerStateMachine : StateMachine
         //Dash
         AddTransition(new StateTransition(
             IdleState, DashState,
-            ()=> Mathf.Abs(MovementInput.x) > 0.01f 
-                 &&Player.PlayerController.playerActions.Dash.ReadValue<float>() > 0.5f));
+            ()=> Player.PlayerController.playerActions.Dash.ReadValue<float>() > 0.5f));
         
         AddTransition(new StateTransition(
             WalkState, DashState,
