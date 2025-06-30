@@ -20,7 +20,7 @@ public class WindProjectile : MonoBehaviour
     {
         if (transform.rotation.y > 90)
         {
-            _rigidbody2D.linearVelocityX = 1.0f;
+            _rigidbody2D.linearVelocityX = 1.0f;//나중에 수정
         }
         else
         {

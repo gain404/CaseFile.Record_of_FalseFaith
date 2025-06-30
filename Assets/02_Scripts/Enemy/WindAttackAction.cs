@@ -5,14 +5,12 @@ using Action = Unity.Behavior.Action;
 using Unity.Properties;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "WindAttack", story: "[Self] attack with [WindProjectile] at [WindFirePoint] based on [IsPhase2]", category: "Action", id: "1ed707ff4893137d794a3f6a4e9e7ea2")]
+[NodeDescription(name: "WindAttack", story: "attack with [WindProjectile] at [WindFirePoint] based on [IsPhase2]", category: "Action", id: "1ed707ff4893137d794a3f6a4e9e7ea2")]
 public partial class WindAttackAction : Action
 {
-    [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<GameObject> WindProjectile;
-    [SerializeReference] public BlackboardVariable<Transform> WindFirePoint;
+    [SerializeReference] public BlackboardVariable<bool> WindFirePoint;
     [SerializeReference] public BlackboardVariable<bool> IsPhase2;
-   
     private float _timeBetweenShots = 0.5f;
     private int _shotsFired = 0;
     private int _shotsToFire = 2;
@@ -25,11 +23,6 @@ public partial class WindAttackAction : Action
         if (_poolManager == null)
         {
             _poolManager = PoolManager.Instance;
-        }
-        
-        if (_bossGameObject == null)
-        {
-            _bossGameObject = Self.Value;
         }
         
         _shotsFired = 0;
@@ -46,11 +39,16 @@ public partial class WindAttackAction : Action
         {
             FireProjectile();
             _shotsFired++;
+            if (_shotsFired == 2)
+            {
+                _timeBetweenShots += 0.1f;
+            }
             _nextFireTime = Time.time + _timeBetweenShots;
         }
 
         if (_shotsFired >= _shotsToFire)
         {
+            _timeBetweenShots = 0.5f;
             return Status.Success;
         }
 
