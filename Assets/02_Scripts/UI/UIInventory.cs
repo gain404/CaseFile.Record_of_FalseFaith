@@ -6,7 +6,8 @@ using UnityEngine;
 /// </summary>
 public class UIInventory : MonoBehaviour
 {
-
+    public GameObject playerGameObject;
+    private Player player;
     public ItemSlot[] slots; //인벤토리에 들어갈 아이템 슬롯들
 
     public GameObject inventoryWindow;
@@ -18,7 +19,7 @@ public class UIInventory : MonoBehaviour
     public TextMeshProUGUI selectedItemName;
     public TextMeshProUGUI selectedItemDescription;
 
-    private TestPlayerController controller;
+    private PlayerController controller;
 
     private int curEquipIndex;
 
@@ -29,11 +30,15 @@ public class UIInventory : MonoBehaviour
     private void Start()
     {
         //플레이어 컨트롤러 등 여기에 초기화
-        controller = TestCharacterManager.Instance.Player.controller;
+        //controller = TestCharacterManager.Instance.Player.controller;
+        controller = playerGameObject.GetComponent<PlayerController>();
+        player = playerGameObject.GetComponent<Player>();
 
         // 플레이어 컨트롤러 등에서 Action 호출 시 필요한 함수 등록
         controller.inventory += Toggle;// inventory 키 입력 시
-        TestCharacterManager.Instance.Player.addItem += AddItem;  // 아이템 획득 시
+
+        //TestCharacterManager.Instance.Player.addItem += AddItem;  // 아이템 획득 시
+        player.addItem += AddItem;
 
         // Inventory UI 초기화 로직들
         inventoryWindow.SetActive(false);
@@ -95,7 +100,7 @@ public class UIInventory : MonoBehaviour
                 Debug.Log($"획득하려는 아이템 : {data.name}");
                 slot.quantity++;
                 UpdateUI();
-                TestCharacterManager.Instance.Player.itemData = null;
+                player.itemData = null;
                 return;
             }
         }
@@ -107,11 +112,11 @@ public class UIInventory : MonoBehaviour
             emptySlot.item = data;
             emptySlot.quantity = 1;
             UpdateUI();
-            TestCharacterManager.Instance.Player.itemData = null;
+            player.itemData = null;
             return;
         }
         Debug.Log("인벤토리 부족");
-        TestCharacterManager.Instance.Player.itemData = null;
+        player.itemData = null;
     }
 
     // UI 정보 새로고침

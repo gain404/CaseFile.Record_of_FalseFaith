@@ -20,13 +20,14 @@ public class PlayerInventoryState : PlayerActionState
 
         stateMachine.MovementSpeedModifier = 0f;
 
-        
+        TestUIManager.Instance.uiInventory.Toggle();
     }
 
     //상태 빠져나올 때
     public override void Exit()
     {
         Debug.Log("인벤토리 스테이트 나옴");
+        TestUIManager.Instance.uiInventory.Toggle();
         base.Exit();
         EndAnimation(stateMachine.Player.PlayerAnimationData.IdleParameterHash);
         stateMachine.MovementSpeedModifier = 1f;
