@@ -13,7 +13,7 @@ public class PlayerMoveData
     [field : SerializeField][field : Range(0f, 5f)] public float RunSpeedModifier { get; set; }
     
     [field : Header("DashData")]
-    [field : SerializeField][field : Range(0f, 10f)] public float DashSpeedModifier { get; set; }
+    [field : SerializeField][field : Range(0f, 20f)] public float DashSpeedModifier { get; set; }
 }
 
 [Serializable]

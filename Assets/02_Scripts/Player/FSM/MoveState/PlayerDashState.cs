@@ -14,16 +14,17 @@ public class PlayerDashState : PlayerMoveState
         base.Enter();
         stateMachine.DashForce = stateMachine.Player.Data.MoveData.DashSpeedModifier;
 
-        _dashDirection = stateMachine.MovementInput;
-        if (_dashDirection == Vector2.zero)
+        Vector2 rawInput = stateMachine.MovementInput;
+        if (rawInput != Vector2.zero)
         {
-            _dashDirection = Vector2.right;
+            _dashDirection = rawInput.normalized;
         }
         else
         {
-            _dashDirection = _dashDirection.normalized;
+            _dashDirection = stateMachine.Player.PlayerSpriteRenderer.flipX ? Vector2.left: Vector2.right;
         }
         
+        _rb.linearVelocity = Vector2.zero;
         _rb.AddForce(_dashDirection * stateMachine.DashForce, ForceMode2D.Impulse);
     }
 
@@ -35,6 +36,6 @@ public class PlayerDashState : PlayerMoveState
 
     public override void PhysicsUpdate()
     {
-        _rb.linearVelocity = _dashDirection * stateMachine.Player.Data.MoveData.DashSpeedModifier;
+        
     }
 }
