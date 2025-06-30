@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerStateMachine : StateMachine
 {
@@ -11,6 +11,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerJumpState JumpState { get; }
     public PlayerDashState DashState { get; }
     public PlayerDialogueState DialogueState { get; }
+    public PlayerInventoryState InventoryState { get; }
     
     //움직임 보정값
     public Vector2 MovementInput { get; set; }
@@ -38,6 +39,7 @@ public class PlayerStateMachine : StateMachine
         JumpState = new PlayerJumpState(this);
         DashState = new PlayerDashState(this);
         DialogueState = new PlayerDialogueState(this);
+        InventoryState = new PlayerInventoryState(this);
         
         //---------------상태 Change------------//
         
@@ -114,7 +116,14 @@ public class PlayerStateMachine : StateMachine
         AddTransition(new StateTransition(
             DialogueState, IdleState,
             ()=> DialogueManager.Instance.IsDialogueFinished));
-        
+
+        AddTransition(new StateTransition(
+            InventoryState, IdleState,
+            () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
+                    && TestUIManager.Instance.uiInventory.IsOpen() == true));
+
+
+
         //Dialogue
         AddTransition(new StateTransition(
             IdleState, DialogueState,
@@ -130,8 +139,32 @@ public class PlayerStateMachine : StateMachine
             RunState, DialogueState,
             () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
                 && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null)));
-
         
+        AddTransition(new StateTransition(
+            JumpState, DialogueState,
+            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
+                  && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null)));
+
+        //Inventory
+        AddTransition(new StateTransition(
+            IdleState, InventoryState,
+            () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
+                && TestUIManager.Instance.uiInventory.IsOpen() == false));
+
+        AddTransition(new StateTransition(
+            WalkState, InventoryState,
+            () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
+                && TestUIManager.Instance.uiInventory.IsOpen() == false));
+
+        AddTransition(new StateTransition(
+            RunState, InventoryState,
+            () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
+                && TestUIManager.Instance.uiInventory.IsOpen() == false));
+
+        AddTransition(new StateTransition(
+            JumpState, InventoryState,
+            () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
+                && TestUIManager.Instance.uiInventory.IsOpen() == false));
     }
 
     public override void Update()
