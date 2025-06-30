@@ -6,6 +6,7 @@ using UnityEngine;
 /// </summary>
 public class UIInventory : MonoBehaviour
 {
+
     public ItemSlot[] slots; //인벤토리에 들어갈 아이템 슬롯들
 
     public GameObject inventoryWindow;
