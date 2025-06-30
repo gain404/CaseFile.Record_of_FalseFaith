@@ -7,7 +7,7 @@ public class PlayerBaseState : IState
     protected PlayerStateMachine stateMachine;
     protected readonly PlayerMoveData moveData;
     protected readonly PlayerGroundData groundData;
-    protected Rigidbody2D _rb;
+    public Rigidbody2D _rb;
 
     public PlayerBaseState(PlayerStateMachine playerStateMachine)
     {

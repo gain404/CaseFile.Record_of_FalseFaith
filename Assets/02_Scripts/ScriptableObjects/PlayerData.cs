@@ -20,7 +20,7 @@ public class PlayerMoveData
 public class PlayerGroundData
 {
     [field : Header("JumpData")]
-    [field : SerializeField][field : Range(0f, 25f)] public float JumpForce { get; set; }
+    [field : SerializeField][field : Range(0f, 20f)] public float JumpForce { get; set; }
 }
 
 [Serializable]

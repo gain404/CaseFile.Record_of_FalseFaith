@@ -5,6 +5,7 @@ public class PlayerStateMachine : StateMachine
     public Player Player { get; }
     
     //State
+    public PlayerBaseState BaseState { get; }
     public PlayerIdleState IdleState { get; }
     public PlayerWalkState WalkState { get; }
     public PlayerRunState RunState { get; }
@@ -33,6 +34,7 @@ public class PlayerStateMachine : StateMachine
         MovementSpeed = player.Data.MoveData.Speed;
         
         //-------------각 상태 초기화------------//
+        BaseState = new PlayerBaseState(this);
         IdleState = new PlayerIdleState(this);
         WalkState = new PlayerWalkState(this);
         RunState = new PlayerRunState(this);
@@ -99,7 +101,7 @@ public class PlayerStateMachine : StateMachine
         //Idle
         AddTransition(new StateTransition(
             JumpState, IdleState,
-            () => Player.PlayerController.playerActions.Jump.ReadValue<float>() <= 0f));
+            () => Player.PlayerController.isGrounded && BaseState._rb.linearVelocity.y <= 0f));
         
         AddTransition(new StateTransition(
             RunState, IdleState,
@@ -121,8 +123,7 @@ public class PlayerStateMachine : StateMachine
             InventoryState, IdleState,
             () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
                     && TestUIManager.Instance.uiInventory.IsOpen() == true));
-
-
+        
 
         //Dialogue
         AddTransition(new StateTransition(
