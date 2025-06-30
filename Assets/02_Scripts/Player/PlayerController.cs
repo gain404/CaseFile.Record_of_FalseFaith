@@ -1,3 +1,4 @@
+﻿using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -8,6 +9,8 @@ public class PlayerController : MonoBehaviour
 
     public bool isGrounded;
     public bool hasAirDashed { get; set; }
+    public Action inventory; //추가(송도현)
+    
     [SerializeField] private Transform playerTransform;
     [SerializeField] private float checkRadius;
     [SerializeField] private LayerMask groundLayer;
