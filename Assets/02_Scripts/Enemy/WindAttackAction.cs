@@ -9,7 +9,7 @@ using Unity.Properties;
 public partial class WindAttackAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> WindProjectile;
-    [SerializeReference] public BlackboardVariable<bool> WindFirePoint;
+    [SerializeReference] public BlackboardVariable<Transform> WindFirePoint;
     [SerializeReference] public BlackboardVariable<bool> IsPhase2;
     private float _timeBetweenShots = 0.5f;
     private int _shotsFired = 0;
