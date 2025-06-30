@@ -59,7 +59,7 @@ public partial class WindAttackAction : Action
 
     private void FireProjectile()
     {
-        _poolManager.Get(PoolKey.WindProjectile, WindFirePoint.Value.localPosition, WindFirePoint.Value.localRotation);
+        _poolManager.Get(PoolKey.WindProjectile, WindFirePoint.Value.position, WindFirePoint.Value.rotation);
     }
 }
 
