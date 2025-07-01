@@ -130,7 +130,7 @@ public class PlayerStateMachine : StateMachine
         
         AddTransition(new StateTransition(
             DialogueState, IdleState,
-            ()=> DialogueManager.Instance.IsDialogueFinished));
+            ()=> DialogueManager.Instance.IsDialogueFinished || Player.itemData == null));
 
         AddTransition(new StateTransition(
             InventoryState, IdleState,
@@ -142,22 +142,22 @@ public class PlayerStateMachine : StateMachine
         AddTransition(new StateTransition(
             IdleState, DialogueState,
             () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
-                && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null)));
+                && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
 
         AddTransition(new StateTransition(
             WalkState, DialogueState,
             () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
-                && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null)));
+                && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
 
         AddTransition(new StateTransition(
             RunState, DialogueState,
             () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
-                && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null)));
+                && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
         
         AddTransition(new StateTransition(
             JumpState, DialogueState,
             () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
-                  && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null)));
+                  && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
 
         //Inventory
         AddTransition(new StateTransition(

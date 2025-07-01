@@ -19,12 +19,12 @@ public class TestCharacterManager : MonoBehaviour
     }
 
     // 나중에 수정될 경우를 고려하여 원본(_player)과 접근(Player)을 구별
-    public TestPlayer Player
+    public Player Player
     {
         get { return _player; }
         set { _player = value; }
     }
-    private TestPlayer _player;
+    private Player _player;
 
     private void Awake()
     {
