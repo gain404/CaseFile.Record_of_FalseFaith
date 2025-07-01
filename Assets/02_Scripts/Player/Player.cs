@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
 {
     [field: Header("Animation")] [field: SerializeField]
     public PlayerAnimationData PlayerAnimationData { get; private set; }
-    [field : SerializeField] public PlayerData Data { get; private set; }
+    [field : SerializeField] public CharacterData Data { get; private set; }
     
     public Animator Animator { get; private set; }
     public PlayerController PlayerController { get; private set; }

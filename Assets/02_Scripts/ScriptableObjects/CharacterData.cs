@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class PlayerMoveData
@@ -23,18 +24,23 @@ public class PlayerGroundData
     [field : SerializeField][field : Range(0f, 20f)] public float JumpForce { get; set; }
 }
 
-[Serializable]
-public class PlayerCondition
+[System.Serializable]
+public class BaseStat
 {
-    [field : Header("Condition")]
-    [field : SerializeField] public float MaxHeart { get; set; }
-    [field : SerializeField] public float MaxEnergy { get; set; }
+    public StatType Type;
+    public float Value;
 }
 
-[CreateAssetMenu(fileName = "Player", menuName = "ScriptableObjects/Player")]
-public class PlayerData : ScriptableObject
+
+// 클래스 이름을 PlayerData에서 CharacterData로 변경합니다.
+[CreateAssetMenu(fileName = "CharacterData", menuName = "ScriptableObjects/CharacterData")]
+public class CharacterData : ScriptableObject
 {
-    [field : SerializeField] public PlayerMoveData MoveData { get; private set; }
-    [field : SerializeField] public PlayerGroundData GroundData { get; private set; }
-    [field : SerializeField] public PlayerCondition ConditionData { get; private set; }
+    [Header("State Machine Data")]
+    [field: SerializeField] public PlayerMoveData MoveData { get; private set; }
+    [field: SerializeField] public PlayerGroundData GroundData { get; private set; }
+
+    [Header("Flexible Stat System")]
+    // CharacterStatSO의 역할을 이 리스트가 대신합니다.
+    public List<BaseStat> Stats = new List<BaseStat>();
 }

@@ -134,7 +134,7 @@ public class PlayerStateMachine : StateMachine
 
         AddTransition(new StateTransition(
             InventoryState, IdleState,
-            () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
+            () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame()
                     && TestUIManager.Instance.uiInventory.IsOpen() == true));
         
 
@@ -162,7 +162,7 @@ public class PlayerStateMachine : StateMachine
         //Inventory
         AddTransition(new StateTransition(
             IdleState, InventoryState,
-            () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
+            () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame()
                 && TestUIManager.Instance.uiInventory.IsOpen() == false));
 
         AddTransition(new StateTransition(
