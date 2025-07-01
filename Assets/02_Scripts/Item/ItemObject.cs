@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 // 인터랙션 가능한 객체에 상속할 인터페이스
 public interface IInteractable

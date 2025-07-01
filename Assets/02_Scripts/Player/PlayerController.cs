@@ -1,3 +1,4 @@
+﻿using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -7,6 +8,9 @@ public class PlayerController : MonoBehaviour
     public PlayerInput.PlayerActions playerActions { get; private set; }
 
     public bool isGrounded;
+    public bool hasAirDashed { get; set; }
+    public Action inventory; //추가(송도현)
+    
     [SerializeField] private Transform playerTransform;
     [SerializeField] private float checkRadius;
     [SerializeField] private LayerMask groundLayer;
@@ -27,9 +31,19 @@ public class PlayerController : MonoBehaviour
         playerInput.Disable();
     }
 
+    // PlayerController.cs
+
     public void CheckGround()
     {
         isGrounded = Physics2D.OverlapCircle(playerTransform.position, checkRadius, groundLayer) != null;
+
+        if (isGrounded)
+        {
+            if (isGrounded)
+            {
+                hasAirDashed = false;
+            }
+        }
     }
     
 #if UNITY_EDITOR

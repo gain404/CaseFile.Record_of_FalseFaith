@@ -16,10 +16,13 @@ MonoBehaviour:
     <Speed>k__BackingField: 4
     <WalkSpeedModifier>k__BackingField: 1
     <RunSpeedModifier>k__BackingField: 2
-    <DashSpeedModifier>k__BackingField: 6
-    <DashDistance>k__BackingField: 1.46
+    <DashSpeedModifier>k__BackingField: 20
   <GroundData>k__BackingField:
-    <JumpForce>k__BackingField: 8.9
-  <ConditionData>k__BackingField:
-    <MaxHeart>k__BackingField: 0
-    <MaxEnergy>k__BackingField: 0
+    <JumpForce>k__BackingField: 20
+  Stats:
+  - Type: 0
+    Value: 100
+  - Type: 1
+    Value: 100
+  - Type: 2
+    Value: 50

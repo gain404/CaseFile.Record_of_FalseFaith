@@ -7,19 +7,6 @@ public enum ItemType
     Special//버릴 수 없는 중요 아이템 같은 거
 }
 
-public enum ConsumableType
-{
-    Health,
-    Stamina,
-}
-
-[System.Serializable]
-public class ItemDataConsumable
-{
-    public ConsumableType type;
-    public float value;
-}
-
 /// <summary>
 /// 아이템의 정보를 담고 있는 스크립트입니다.
 /// </summary>
@@ -37,6 +24,6 @@ public class ItemData : ScriptableObject
     public bool canStack;
     public int maxStackAmount;
 
-    [Header("Consumable")]
-    public ItemDataConsumable[] consumables;
+    [Header("Effect")]
+    public ItemEffectSO Effect;
 }

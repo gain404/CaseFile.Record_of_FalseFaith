@@ -1,16 +1,18 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerStateMachine : StateMachine
 {
     public Player Player { get; }
     
     //State
+    public PlayerBaseState BaseState { get; }
     public PlayerIdleState IdleState { get; }
     public PlayerWalkState WalkState { get; }
     public PlayerRunState RunState { get; }
     public PlayerJumpState JumpState { get; }
     public PlayerDashState DashState { get; }
-    public PlayerDialogueState DialogueState { get; }
+    public PlayerInteractState InteractState { get; }
+    public PlayerInventoryState InventoryState { get; }
     
     //움직임 보정값
     public Vector2 MovementInput { get; set; }
@@ -20,6 +22,7 @@ public class PlayerStateMachine : StateMachine
 
     public float JumpForce { get; set; } = 3f;
     public float DashForce { get; set; } = 5f;
+    public bool IsDashFinished { get; set; }
     public Transform MainCameraTransform { get; set; }
 
     public PlayerStateMachine(Player player)
@@ -32,12 +35,14 @@ public class PlayerStateMachine : StateMachine
         MovementSpeed = player.Data.MoveData.Speed;
         
         //-------------각 상태 초기화------------//
+        BaseState = new PlayerBaseState(this);
         IdleState = new PlayerIdleState(this);
         WalkState = new PlayerWalkState(this);
         RunState = new PlayerRunState(this);
         JumpState = new PlayerJumpState(this);
         DashState = new PlayerDashState(this);
-        DialogueState = new PlayerDialogueState(this);
+        InteractState = new PlayerInteractState(this);
+        InventoryState = new PlayerInventoryState(this);
         
         //---------------상태 Change------------//
         
@@ -60,29 +65,34 @@ public class PlayerStateMachine : StateMachine
         //Dash
         AddTransition(new StateTransition(
             IdleState, DashState,
-            ()=> Mathf.Abs(MovementInput.x) > 0.01f 
-                 &&Player.PlayerController.playerActions.Dash.ReadValue<float>() > 0.5f));
-        
+            ()=> Player.PlayerController.playerActions.Dash.WasPressedThisFrame() 
+                 && !Player.PlayerController.hasAirDashed)); // 조건 추가
+
         AddTransition(new StateTransition(
             WalkState, DashState,
-            ()=> Mathf.Abs(MovementInput.x) > 0.01f 
-                 &&Player.PlayerController.playerActions.Dash.ReadValue<float>() > 0.5f));
-        
+            ()=> Player.PlayerController.playerActions.Dash.WasPressedThisFrame() 
+                 && !Player.PlayerController.hasAirDashed)); // 조건 추가
+
         AddTransition(new StateTransition(
             RunState, DashState,
-            ()=> Mathf.Abs(MovementInput.x) > 0.01f 
-                 &&Player.PlayerController.playerActions.Dash.ReadValue<float>() > 0.5f));
+            ()=> Player.PlayerController.playerActions.Dash.WasPressedThisFrame() 
+                 && !Player.PlayerController.hasAirDashed)); // 조건 추가
         
         AddTransition(new StateTransition(
             JumpState, DashState,
-            ()=> Mathf.Abs(MovementInput.x) > 0.01f 
-                 &&Player.PlayerController.playerActions.Dash.ReadValue<float>() > 0.5f));
+            ()=> Player.PlayerController.playerActions.Dash.WasPressedThisFrame() 
+                 && !Player.PlayerController.hasAirDashed)); // 조건 추가
         
         //Walk
         AddTransition(new StateTransition(
             IdleState, WalkState,
             () => Mathf.Abs(MovementInput.x) > 0.01f
                   && Player.PlayerController.playerActions.Jump.ReadValue<float>() <= 0f));
+        
+        AddTransition(new StateTransition(
+            DashState, WalkState,
+            () => IsDashFinished
+                  && Mathf.Abs(MovementInput.x) > 0.01f));
         
         //Run
         AddTransition(new StateTransition(
@@ -95,10 +105,16 @@ public class PlayerStateMachine : StateMachine
             ()=> Mathf.Abs(MovementInput.x) > 0.01f 
                  &&Player.PlayerController.playerActions.Run.ReadValue<float>() > 0.5f));
         
+        AddTransition(new StateTransition(
+            DashState, RunState,
+            () => IsDashFinished
+                  && Mathf.Abs(MovementInput.x) > 0.01f
+                  && Player.PlayerController.playerActions.Run.ReadValue<float>() > 0.5f));
+        
         //Idle
         AddTransition(new StateTransition(
             JumpState, IdleState,
-            () => Player.PlayerController.playerActions.Jump.ReadValue<float>() <= 0f));
+            () => Player.PlayerController.isGrounded && BaseState._rb.linearVelocity.y <= 0f));
         
         AddTransition(new StateTransition(
             RunState, IdleState,
@@ -110,29 +126,59 @@ public class PlayerStateMachine : StateMachine
         
         AddTransition(new StateTransition(
             DashState, IdleState,
-            ()=> Player.PlayerController.playerActions.Dash.ReadValue<float>() <= 0f));
+            () => IsDashFinished));
         
         AddTransition(new StateTransition(
-            DialogueState, IdleState,
-            ()=> DialogueManager.Instance.IsDialogueFinished));
+            InteractState, IdleState,
+            ()=> DialogueManager.Instance.IsDialogueFinished || Player.itemData == null));
+
+        AddTransition(new StateTransition(
+            InventoryState, IdleState,
+            () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame()
+                    && TestUIManager.Instance.uiInventory.IsOpen() == true));
         
+
         //Dialogue
         AddTransition(new StateTransition(
-            IdleState, DialogueState,
+            IdleState, InteractState,
             () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
-                && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null)));
+                && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
 
         AddTransition(new StateTransition(
-            WalkState, DialogueState,
+            WalkState, InteractState,
             () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
-                && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null)));
+                && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
 
         AddTransition(new StateTransition(
-            RunState, DialogueState,
+            RunState, InteractState,
             () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
-                && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null)));
-
+                && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
         
+        AddTransition(new StateTransition(
+            JumpState, InteractState,
+            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
+                  && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
+
+        //Inventory
+        AddTransition(new StateTransition(
+            IdleState, InventoryState,
+            () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame()
+                && TestUIManager.Instance.uiInventory.IsOpen() == false));
+
+        AddTransition(new StateTransition(
+            WalkState, InventoryState,
+            () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
+                && TestUIManager.Instance.uiInventory.IsOpen() == false));
+
+        AddTransition(new StateTransition(
+            RunState, InventoryState,
+            () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
+                && TestUIManager.Instance.uiInventory.IsOpen() == false));
+
+        AddTransition(new StateTransition(
+            JumpState, InventoryState,
+            () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
+                && TestUIManager.Instance.uiInventory.IsOpen() == false));
     }
 
     public override void Update()

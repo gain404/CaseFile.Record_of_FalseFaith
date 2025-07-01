@@ -6,6 +6,8 @@ using UnityEngine;
 /// </summary>
 public class UIInventory : MonoBehaviour
 {
+    public GameObject playerGameObject;
+    private Player player;
     public ItemSlot[] slots; //인벤토리에 들어갈 아이템 슬롯들
 
     public GameObject inventoryWindow;
@@ -17,8 +19,8 @@ public class UIInventory : MonoBehaviour
     public TextMeshProUGUI selectedItemName;
     public TextMeshProUGUI selectedItemDescription;
 
-    private TestPlayerController controller;
-
+    private PlayerController controller;
+    private ItemManager itemUser;
     private int curEquipIndex;
 
     public UIAnimator inventoryAnimator;
@@ -28,11 +30,15 @@ public class UIInventory : MonoBehaviour
     private void Start()
     {
         //플레이어 컨트롤러 등 여기에 초기화
-        controller = TestCharacterManager.Instance.Player.controller;
+        //controller = TestCharacterManager.Instance.Player.controller;
+        controller = playerGameObject.GetComponent<PlayerController>();
+        player = playerGameObject.GetComponent<Player>();
 
         // 플레이어 컨트롤러 등에서 Action 호출 시 필요한 함수 등록
         controller.inventory += Toggle;// inventory 키 입력 시
-        TestCharacterManager.Instance.Player.addItem += AddItem;  // 아이템 획득 시
+        itemUser = playerGameObject.GetComponent<ItemManager>();
+        //TestCharacterManager.Instance.Player.addItem += AddItem;  // 아이템 획득 시
+        player.addItem += AddItem;
 
         // Inventory UI 초기화 로직들
         inventoryWindow.SetActive(false);
@@ -94,7 +100,7 @@ public class UIInventory : MonoBehaviour
                 Debug.Log($"획득하려는 아이템 : {data.name}");
                 slot.quantity++;
                 UpdateUI();
-                TestCharacterManager.Instance.Player.itemData = null;
+                player.itemData = null;
                 return;
             }
         }
@@ -106,11 +112,11 @@ public class UIInventory : MonoBehaviour
             emptySlot.item = data;
             emptySlot.quantity = 1;
             UpdateUI();
-            TestCharacterManager.Instance.Player.itemData = null;
+            player.itemData = null;
             return;
         }
         Debug.Log("인벤토리 부족");
-        TestCharacterManager.Instance.Player.itemData = null;
+        player.itemData = null;
     }
 
     // UI 정보 새로고침
@@ -170,6 +176,26 @@ public class UIInventory : MonoBehaviour
 
     public void UseItem()
     {
+        // 1. 선택된 아이템이 있는지, 사용 가능한 타입인지 확인
+        if (selectedItem != null && selectedItem.item.type == ItemType.Consumable)
+        {
+            // 2. ItemUser에게 아이템 사용 요청
+            itemUser.UseItem(selectedItem.item);
 
+            // 3. 인벤토리에서 아이템 개수 줄이기
+            selectedItem.quantity--;
+
+            // 4. 아이템을 모두 사용했다면 슬롯 비우기
+            if (selectedItem.quantity <= 0)
+            {
+                // 선택된 아이템 정보창도 초기화
+                ClearSelectedItemWindow();
+                // 슬롯 자체를 초기화
+                slots[selectedItemIndex].Clear();
+            }
+            
+            // 5. 변경된 수량을 UI에 반영
+            UpdateUI();
+        }
     }
 }

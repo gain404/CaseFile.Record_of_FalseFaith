@@ -7,7 +7,7 @@ public class PlayerBaseState : IState
     protected PlayerStateMachine stateMachine;
     protected readonly PlayerMoveData moveData;
     protected readonly PlayerGroundData groundData;
-    protected Rigidbody2D _rb;
+    public Rigidbody2D _rb;
 
     public PlayerBaseState(PlayerStateMachine playerStateMachine)
     {
@@ -67,7 +67,7 @@ public class PlayerBaseState : IState
         float speed = stateMachine.MovementSpeed * stateMachine.MovementSpeedModifier;
 
         _rb.linearVelocity = new Vector2(horizontal * speed, _rb.linearVelocity.y);
-
+        
         //방향 전환
         if (Mathf.Abs(horizontal) > 0.01f)
         {
