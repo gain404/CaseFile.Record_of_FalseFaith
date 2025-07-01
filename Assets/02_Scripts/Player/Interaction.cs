@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class Interaction : MonoBehaviour
 {
-    private IInteractable currentInteractable;
+    public IInteractable currentInteractable;
     public GameObject curInteractGameObject;
     public Player player;
 
@@ -16,6 +16,11 @@ public class Interaction : MonoBehaviour
         if (collision.TryGetComponent(out IInteractable interactable))
         {
             currentInteractable = interactable;
+            ItemObject currentItem = collision.gameObject.GetComponent<ItemObject>();
+            if (currentItem != null)
+            {
+                player.itemData = currentItem.data;
+            }
             //TestCharacterManager.Instance.Player.talkBalloon.SetActive(true);
             player.talkBalloon.SetActive(true);
         }
@@ -29,6 +34,7 @@ public class Interaction : MonoBehaviour
             if(currentInteractable == interactable)
             {
                 currentInteractable = null;
+                player.itemData = null;
                 //TestCharacterManager.Instance.Player.talkBalloon.SetActive(false);
                 player.talkBalloon.SetActive(false);
             }

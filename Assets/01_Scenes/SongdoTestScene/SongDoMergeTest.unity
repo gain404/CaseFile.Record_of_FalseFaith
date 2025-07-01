@@ -1255,6 +1255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c37f7b40575914bacc428f326a1eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerGameObject: {fileID: 0}
   slots: []
   inventoryWindow: {fileID: 2010129030}
   slotPanel: {fileID: 1251042399}
@@ -3322,7 +3323,6 @@ MonoBehaviour:
     walkParameterName: Walk
     groundParameterName: '@Ground'
     jumpParameterName: Jump
-    fallParameterName: Fall
     actionParameterName: '@Action'
     attackParameterName: '@Attack'
     comboAttackParameterName: ComboAttack
