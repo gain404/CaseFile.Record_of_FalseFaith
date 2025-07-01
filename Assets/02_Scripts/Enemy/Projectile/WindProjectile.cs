@@ -30,9 +30,12 @@ public class WindProjectile : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == hitLayerMask)
+        if (((1 << collision.gameObject.layer) & hitLayerMask) != 0)
         {
-            //플레이어에 데미지
+            if (collision.gameObject.TryGetComponent<IDamagable>(out var damagable))
+            {
+                damagable.TakeDamage(damage);
+            }
             _poolManager.Return(PoolKey.WindProjectile, this.gameObject);
         }
     }

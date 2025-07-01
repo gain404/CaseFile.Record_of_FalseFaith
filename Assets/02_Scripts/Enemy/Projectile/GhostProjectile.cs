@@ -42,7 +42,10 @@ public class GhostProjectile : MonoBehaviour
     {
         if (((1 << collision.gameObject.layer) & hitLayerMask) != 0)
         {
-            // 데미지 처리
+            if (collision.gameObject.TryGetComponent<IDamagable>(out var damagable))
+            {
+                damagable.TakeDamage(damage);
+            }
             ReturnProjectile();
         }
     }
