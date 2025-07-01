@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-public class PlayerDialogueState : PlayerActionState
+public class PlayerInteractState : PlayerActionState
 {
     
-    public PlayerDialogueState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
+    public PlayerInteractState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
 

@@ -20,7 +20,7 @@ public class StatManager : MonoBehaviour
     {
         var data = GetComponent<Player>().Data;
         CurrentStats = new Dictionary<StatType, float>();
-        foreach (var stat in baseStatsTemplate.Stats)
+        foreach (var stat in data.Stats)
         {
             CurrentStats.Add(stat.Type, stat.Value);
         }
@@ -34,6 +34,10 @@ public class StatManager : MonoBehaviour
     {
         CurrentHp = Mathf.Max(CurrentHp - damage, 0);
         OnHpChanged?.Invoke(CurrentHp, MaxHp);
+    
+        
+        Debug.Log($"{gameObject.name}이(가) {damage}의 데미지를 받음. 현재 체력: {CurrentHp} / {MaxHp}");
+
         if (CurrentHp <= 0) Die();
     }
 
@@ -41,6 +45,9 @@ public class StatManager : MonoBehaviour
     {
         CurrentHp = Mathf.Min(CurrentHp + amount, MaxHp);
         OnHpChanged?.Invoke(CurrentHp, MaxHp);
+
+        
+        Debug.Log($"{gameObject.name}이(가) {amount}만큼 회복. 현재 체력: {CurrentHp} / {MaxHp}");
     }
     
     public bool ConsumeStamina(float amount)

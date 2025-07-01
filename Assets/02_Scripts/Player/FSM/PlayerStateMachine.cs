@@ -11,7 +11,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerRunState RunState { get; }
     public PlayerJumpState JumpState { get; }
     public PlayerDashState DashState { get; }
-    public PlayerDialogueState DialogueState { get; }
+    public PlayerInteractState InteractState { get; }
     public PlayerInventoryState InventoryState { get; }
     
     //움직임 보정값
@@ -41,7 +41,7 @@ public class PlayerStateMachine : StateMachine
         RunState = new PlayerRunState(this);
         JumpState = new PlayerJumpState(this);
         DashState = new PlayerDashState(this);
-        DialogueState = new PlayerDialogueState(this);
+        InteractState = new PlayerInteractState(this);
         InventoryState = new PlayerInventoryState(this);
         
         //---------------상태 Change------------//
@@ -129,7 +129,7 @@ public class PlayerStateMachine : StateMachine
             () => IsDashFinished));
         
         AddTransition(new StateTransition(
-            DialogueState, IdleState,
+            InteractState, IdleState,
             ()=> DialogueManager.Instance.IsDialogueFinished || Player.itemData == null));
 
         AddTransition(new StateTransition(
@@ -140,22 +140,22 @@ public class PlayerStateMachine : StateMachine
 
         //Dialogue
         AddTransition(new StateTransition(
-            IdleState, DialogueState,
+            IdleState, InteractState,
             () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
                 && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
 
         AddTransition(new StateTransition(
-            WalkState, DialogueState,
+            WalkState, InteractState,
             () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
                 && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
 
         AddTransition(new StateTransition(
-            RunState, DialogueState,
+            RunState, InteractState,
             () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
                 && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
         
         AddTransition(new StateTransition(
-            JumpState, DialogueState,
+            JumpState, InteractState,
             () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
                   && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
 
