@@ -7,8 +7,9 @@ public class PlayerController : MonoBehaviour
     public PlayerInput playerInput { get; private set; }
     public PlayerInput.PlayerActions playerActions { get; private set; }
 
-    public bool isGrounded;
+    public bool isGrounded { get; set; }
     public bool hasAirDashed { get; set; }
+    public Vector2 lookDirection { get; set; }
     public Action inventory; //추가(송도현)
     
     [SerializeField] private Transform playerTransform;
@@ -54,5 +55,5 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(playerTransform.position, checkRadius);
     }
 #endif
-
+    
 }

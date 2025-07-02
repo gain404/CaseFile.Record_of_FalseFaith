@@ -30,12 +30,13 @@ public class PlayerBaseState : IState
 
     public virtual void HandleInput()
     {
-        ReadMovementInput();
+        
     }
     
     public virtual void Update()
     {
-        HandleInput();
+        ReadMovementInput();
+        CheckDirection();
     }
 
     public virtual void PhysicsUpdate()
@@ -79,4 +80,11 @@ public class PlayerBaseState : IState
     {
         stateMachine.Player.PlayerSpriteRenderer.flipX = isFlip;
     }
+
+    private void CheckDirection()
+    {
+        stateMachine.Player.PlayerController.lookDirection =
+            stateMachine.Player.PlayerSpriteRenderer.flipX ? Vector2.left : Vector2.right;
+    }
+    
 }
