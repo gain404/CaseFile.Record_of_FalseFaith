@@ -198,4 +198,12 @@ public class UIInventory : MonoBehaviour
             UpdateUI();
         }
     }
+
+    public void RefreshUI()
+    {
+        foreach (Transform child in slotPanel)
+        {
+            Destroy(child.gameObject);
+        }
+    }
 }
