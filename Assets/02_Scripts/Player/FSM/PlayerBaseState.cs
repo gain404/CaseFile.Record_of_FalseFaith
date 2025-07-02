@@ -30,12 +30,12 @@ public class PlayerBaseState : IState
 
     public virtual void HandleInput()
     {
-        
+        ReadMovementInput();
     }
     
     public virtual void Update()
     {
-        ReadMovementInput();
+        HandleInput();
         CheckDirection();
     }
 
