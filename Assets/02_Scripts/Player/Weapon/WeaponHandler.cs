@@ -14,8 +14,6 @@ public class WeaponHandler : MonoBehaviour
     {
         _player = GetComponent<Player>();
         _talismanProjectile = GetComponentInChildren<TalismanProjectile>();
-
-        _talismanProjectile.damage = weaponData[1].damage;
     }
     
     public void SwordAttack()
@@ -41,6 +39,7 @@ public class WeaponHandler : MonoBehaviour
     
     public void TalismanAttack()
     {
+        _talismanProjectile.damage = weaponData[1].damage;
         //위치 및 각도 조정하기
         PoolManager.Instance.Get(PoolKey.PlayerAmuletProjectile, transform.position, Quaternion.identity);
     }
