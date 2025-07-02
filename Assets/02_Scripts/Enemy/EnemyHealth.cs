@@ -15,7 +15,7 @@ public class EnemyHealth : MonoBehaviour,IDamagable
         agent.BlackboardReference.GetVariableValue<float>("CurrentHealth", out _enemyCurrentHealth);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         _enemyCurrentHealth -= damage;
         agent.BlackboardReference.SetVariableValue("CurrentHealth", _enemyCurrentHealth);
