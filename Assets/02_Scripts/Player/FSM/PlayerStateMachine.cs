@@ -130,7 +130,7 @@ public class PlayerStateMachine : StateMachine
         
         AddTransition(new StateTransition(
             InteractState, IdleState,
-            ()=> DialogueManager.Instance.IsDialogueFinished || Player.itemData == null));
+            ()=> DialogueManager.Instance.IsDialogueFinished || Player.itemData == null && Player.CurrentInteractableNPC == null));
 
         AddTransition(new StateTransition(
             InventoryState, IdleState,
