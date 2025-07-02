@@ -88,8 +88,7 @@ public class UIInventory : MonoBehaviour
     public void AddItem()
     {
         //여기에 플레이어에게 추가되는 아이템 정보를 가져오게 하면 됩니다.
-        //이거수정하셔야합니다 ㅈㅅ
-        ItemData data = new ItemData();
+        ItemData data = TestCharacterManager.Instance.Player.itemData;
 
         //여러 개 소유 가능한 아이템일 경우
         if (data.canStack)
