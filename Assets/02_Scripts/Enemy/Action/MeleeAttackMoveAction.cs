@@ -14,26 +14,33 @@ public partial class MeleeAttackMoveAction : Action
     [SerializeReference] public BlackboardVariable<float> MeleeAttackMoveSpeed;
     [SerializeReference] public BlackboardVariable<float> MeleeAttackDistance;
 
-    private bool _isMoveComplete;
+    private Rigidbody2D _rigidbody2D;
+    private float _endPos;
     protected override Status OnStart()
     {
-        _isMoveComplete = false;
-        float endPos = Target.Value.transform.position.x > Self.Value.transform.position.x
+        if (_rigidbody2D == null)
+        {
+            _rigidbody2D = Self.Value.GetComponent<Rigidbody2D>();
+        }
+        
+        _endPos = Target.Value.transform.position.x > Self.Value.transform.position.x
             ? Target.Value.transform.position.x - MeleeAttackDistance
             : Target.Value.transform.position.x + MeleeAttackDistance;
-        float distance = Math.Abs(endPos - Self.Value.transform.position.x);
-        Self.Value.transform.DOMoveX(endPos, distance / MeleeAttackMoveSpeed)
-            .SetEase(Ease.OutQuad)
-            .OnComplete(() =>
-            {
-                _isMoveComplete = true;
-            });
+        float direction = Mathf.Sign(_endPos - Self.Value.transform.position.x);
+        _rigidbody2D.linearVelocityX = direction * MeleeAttackMoveSpeed;
         return Status.Running;
     }
-
+    
     protected override Status OnUpdate()
     {
-        return _isMoveComplete ? Status.Success : Status.Running;
+        float currentX = Self.Value.transform.position.x;
+        if (Mathf.Abs(currentX - _endPos) <= 0.2f) // 오차 범위
+        {
+            _rigidbody2D.linearVelocity = Vector2.zero;
+            return Status.Success;
+        }
+        return Status.Running;
     }
+    
 }
 
