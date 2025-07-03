@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5670544591038259925}
   - component: {fileID: 1163181667804357134}
   - component: {fileID: 5015409112808090200}
+  - component: {fileID: -2251892936613223448}
   m_Layer: 11
   m_Name: HairProjectile
   m_TagString: Untagged
@@ -156,3 +157,25 @@ MonoBehaviour:
   hitLayerMask:
     serializedVersion: 2
     m_Bits: 4096
+--- !u!95 &-2251892936613223448
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5941203080784259169}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8bfe76b5445e4794f96efde30ae98157, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
