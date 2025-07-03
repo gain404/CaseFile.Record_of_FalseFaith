@@ -11,8 +11,6 @@ public partial class FacePlayerAction : Action
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<GameObject> Target;
 
-    private SpriteRenderer _bossSrpite;
-
     protected override Status OnStart()
     {
         GameObject bossGameObject = Self.Value;
@@ -20,12 +18,7 @@ public partial class FacePlayerAction : Action
         
         Transform bossTransform = bossGameObject.transform;
         Transform playerTransform = playerGameObject.transform;
-
-        if (_bossSrpite == null)
-        {
-            _bossSrpite = bossGameObject.GetComponent<SpriteRenderer>();
-        }
-
+        
         float playerX = playerTransform.position.x;
         float bossX = bossTransform.position.x;
 
