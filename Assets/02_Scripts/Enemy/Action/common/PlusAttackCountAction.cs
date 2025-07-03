@@ -19,8 +19,11 @@ public partial class PlusAttackCountAction : Action
             AttackIndex.Value = 10;
             return Status.Success;
         }
-        AttackCount.Value++;
-        return Status.Success;
+        else
+        {
+            AttackCount.Value++;
+            return Status.Success;
+        }
     }
 }
 

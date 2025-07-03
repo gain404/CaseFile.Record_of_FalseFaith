@@ -245,7 +245,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -1942,6 +1942,86 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &1089363695
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1089363697}
+  - component: {fileID: 1089363696}
+  m_Layer: 0
+  m_Name: PoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1089363696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089363695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abcbe269bb0c0ce49868d08ef3f35396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - key: 4
+    prefab: {fileID: 5941203080784259169, guid: ebb62b317b414c347b5c1ef5eacc29fe, type: 3}
+    size: 9
+--- !u!4 &1089363697
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089363695}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1214890835
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1214890836}
+  m_Layer: 0
+  m_Name: HairAttackZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1214890836
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214890835}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -27.75, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4120370144337659321}
+  m_Father: {fileID: 1755734029}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1282256383
 GameObject:
   m_ObjectHideFlags: 0
@@ -2163,7 +2243,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -2831,6 +2911,7 @@ Transform:
   - {fileID: 513625905}
   - {fileID: 1848238334}
   - {fileID: 1292990369}
+  - {fileID: 1214890836}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1848238333
@@ -3123,7 +3204,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -3366,7 +3447,7 @@ Transform:
   m_GameObject: {fileID: 2015916791033505726}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.36, y: 3.93, z: -2}
+  m_LocalPosition: {x: 6.55, y: 3.93, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3381,7 +3462,7 @@ Transform:
   m_GameObject: {fileID: 573813578083497442}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.86, y: 3.93, z: 0}
+  m_LocalPosition: {x: 6.05, y: 3.93, z: 0}
   m_LocalScale: {x: 11.0805, y: 11.0805, z: 15.346271}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3576,6 +3657,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStatsTemplate: {fileID: 11400000, guid: a85b7116bbf0fee46b7e5af9955bc785, type: 2}
+--- !u!1 &3326003482689471866
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4120370144337659321}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!114 &3436469805770456052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3622,6 +3719,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1039923118237583677}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4120370144337659321
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3326003482689471866}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 13, y: 5.7, z: 0}
+  m_LocalScale: {x: 18, y: 60, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1214890836}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4628708542770103524
 GameObject:
   m_ObjectHideFlags: 0
@@ -3651,7 +3763,7 @@ Transform:
   m_GameObject: {fileID: 477184195989305675}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.32, y: 2.74, z: 0}
+  m_LocalPosition: {x: 47.75, y: 2.74, z: 0}
   m_LocalScale: {x: 7, y: 6.103723, z: 0.77191967}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -3666,7 +3778,7 @@ Transform:
   m_GameObject: {fileID: 4628708542770103524}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.36, y: 3.93, z: -2}
+  m_LocalPosition: {x: 6.55, y: 3.93, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3831,6 +3943,7 @@ MonoBehaviour:
   m_BlackboardVariableOverridesList:
   - rid: 5285736690839454048
   - rid: 5524834895492284630
+  - rid: 5524834901609677179
   m_IsInitialised: 0
   m_IsStarted: 0
   references:
@@ -3852,6 +3965,14 @@ MonoBehaviour:
           m_Value1: 14065756150464141361
         Name: Target
         m_Value: {fileID: 573813578083497442}
+    - rid: 5524834901609677179
+      type: {class: 'BlackboardVariable`1[[UnityEngine.Transform, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 17678535518543112636
+          m_Value1: 6850356753096240394
+        Name: HairAttackZone
+        m_Value: {fileID: 4120370144337659321}
 --- !u!95 &8012956875175157267
 Animator:
   serializedVersion: 7
@@ -4247,3 +4368,4 @@ SceneRoots:
   - {fileID: 842903416915413754}
   - {fileID: 1755734029}
   - {fileID: 4708288198521527469}
+  - {fileID: 1089363697}
