@@ -11,7 +11,10 @@ public class Player : MonoBehaviour
     public PlayerController PlayerController { get; private set; }
     public CharacterController CharacterController { get; private set; }
     public SpriteRenderer PlayerSpriteRenderer { get; private set; }
+    public WeaponHandler WeaponHandler { get; private set; }
+    
     private PlayerStateMachine _stateMachine;
+    
 
     public ItemData itemData;//추가한 스크립트(송도현)
     public Action addItem;//추가한 스크립트(송도현)
@@ -31,6 +34,7 @@ public class Player : MonoBehaviour
         PlayerController = GetComponent<PlayerController>();
         CharacterController = GetComponent<CharacterController>();
         PlayerSpriteRenderer = GetComponent<SpriteRenderer>();
+        WeaponHandler = GetComponent<WeaponHandler>();
         _stateMachine = new PlayerStateMachine(this);
         
         _stateMachine.ChangeState(_stateMachine.IdleState);

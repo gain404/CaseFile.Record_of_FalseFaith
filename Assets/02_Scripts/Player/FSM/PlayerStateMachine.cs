@@ -86,8 +86,7 @@ public class PlayerStateMachine : StateMachine
         //Walk
         AddTransition(new StateTransition(
             IdleState, WalkState,
-            () => Mathf.Abs(MovementInput.x) > 0.01f
-                  && Player.PlayerController.playerActions.Jump.ReadValue<float>() <= 0f));
+            () => Mathf.Abs(MovementInput.x) > 0.01f));
         
         AddTransition(new StateTransition(
             DashState, WalkState,
@@ -119,10 +118,10 @@ public class PlayerStateMachine : StateMachine
         AddTransition(new StateTransition(
             RunState, IdleState,
             ()=> MovementInput == Vector2.zero));
-        
+
         AddTransition(new StateTransition(
             WalkState, IdleState,
-            ()=> MovementInput == Vector2.zero));
+            () => Mathf.Abs(MovementInput.x) < 0.01f));
         
         AddTransition(new StateTransition(
             DashState, IdleState,
@@ -130,7 +129,7 @@ public class PlayerStateMachine : StateMachine
         
         AddTransition(new StateTransition(
             InteractState, IdleState,
-            ()=> DialogueManager.Instance.IsDialogueFinished || Player.itemData == null));
+            ()=> DialogueManager.Instance.IsDialogueFinished || Player.itemData == null && Player.CurrentInteractableNPC == null));
 
         AddTransition(new StateTransition(
             InventoryState, IdleState,
