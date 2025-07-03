@@ -89,6 +89,10 @@ public class PlayerStateMachine : StateMachine
             () => Mathf.Abs(MovementInput.x) > 0.01f));
         
         AddTransition(new StateTransition(
+            RunState, WalkState,
+            ()=> Player.PlayerController.playerActions.Run.ReadValue<float>() < 0.01f));
+        
+        AddTransition(new StateTransition(
             DashState, WalkState,
             () => IsDashFinished
                   && Mathf.Abs(MovementInput.x) > 0.01f));
