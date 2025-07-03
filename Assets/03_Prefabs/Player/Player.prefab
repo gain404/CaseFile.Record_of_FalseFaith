@@ -48,6 +48,8 @@ GameObject:
   - component: {fileID: 4834283905356578022}
   - component: {fileID: 4310498460333517492}
   - component: {fileID: 660329947749238334}
+  - component: {fileID: 2320507269592193011}
+  - component: {fileID: 4138338219325109273}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -300,6 +302,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curInteractGameObject: {fileID: 0}
   player: {fileID: 8033370538003828291}
+--- !u!114 &2320507269592193011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411778421242455202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f0b75d65f842546a868d3fb04a2fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4138338219325109273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411778421242455202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0189b527027d2364284e7419f55cf956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseStatsTemplate: {fileID: 11400000, guid: a85b7116bbf0fee46b7e5af9955bc785, type: 2}
 --- !u!1 &3893243606486359640
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,7 +354,7 @@ Transform:
   m_GameObject: {fileID: 3893243606486359640}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.46343288, y: -0.17489187, z: -0.051804118}
+  m_LocalPosition: {x: 0.275, y: 0.163, z: -0.051804118}
   m_LocalScale: {x: 0.18748884, y: 0.18748884, z: 0.13537297}
   m_ConstrainProportionsScale: 1
   m_Children: []
