@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5004991094567348386}
   - component: {fileID: 5670544591038259925}
   - component: {fileID: 1163181667804357134}
-  - component: {fileID: -5294153476654788954}
-  m_Layer: 0
+  - component: {fileID: 5015409112808090200}
+  m_Layer: 11
   m_Name: HairProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ PolygonCollider2D:
       - {x: 0.065, y: -0.235}
       - {x: 0.065, y: 0.235}
   m_UseDelaunayMesh: 0
---- !u!114 &-5294153476654788954
+--- !u!114 &5015409112808090200
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -152,3 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e244857c1f959d94a983d115ecdd7c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 1
+  hitLayerMask:
+    serializedVersion: 2
+    m_Bits: 4096
