@@ -31,6 +31,15 @@ public class ItemSlot : MonoBehaviour
         quatityText.text = quantity > 1 ? quantity.ToString() : string.Empty;
     }
 
+    //인벤토리 매니저에서 호출하기 위한 추가 Set함수
+    public void SetItem(ItemData item)
+    {
+        icon.gameObject.SetActive(true);
+        icon.sprite = item.icon;
+        quatityText.text = quantity > 1 ? quantity.ToString() : string.Empty;
+    }
+
+
     // UI(슬롯 한 칸)에 정보가 없을 때 UI를 비워주는 함수
     public void Clear()
     {
