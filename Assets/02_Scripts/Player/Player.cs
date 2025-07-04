@@ -35,14 +35,18 @@ public class Player : MonoBehaviour
         CharacterController = GetComponent<CharacterController>();
         PlayerSpriteRenderer = GetComponent<SpriteRenderer>();
         WeaponHandler = GetComponent<WeaponHandler>();
-        _stateMachine = new PlayerStateMachine(this);
         
-        _stateMachine.ChangeState(_stateMachine.IdleState);
 
         if(talkBalloon != null)
         {
             talkBalloon.SetActive(false);//추가한 스크립트(송도현)
         }
+    }
+
+    private void Start()
+    {
+        _stateMachine = new PlayerStateMachine(this);
+        _stateMachine.ChangeState(_stateMachine.IdleState);
     }
 
     private void Update()

@@ -10,11 +10,6 @@ public class PlayerSwordAttackState : PlayerActionState
     {
         base.Enter();
         StartAnimation(stateMachine.Player.PlayerAnimationData.SwordAttackParameterHash);
-    }
-
-    public override void Update()
-    {
-        base.Update();
         stateMachine.Player.WeaponHandler.SwordAttack();
     }
     

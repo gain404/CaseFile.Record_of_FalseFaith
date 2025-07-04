@@ -182,6 +182,11 @@ public class PlayerStateMachine : StateMachine
             JumpState, InventoryState,
             () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
                 && TestUIManager.Instance.uiInventory.IsOpen() == false));
+        
+        //SwordAttack
+        
+        //GunAttack
+        
     }
 
     public override void Update()

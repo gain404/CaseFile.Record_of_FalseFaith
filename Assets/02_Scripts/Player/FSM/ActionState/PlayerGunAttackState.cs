@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class PlayerTalismanAttackState : PlayerActionState
+public class PlayerGunAttackState : PlayerActionState
 {
-    public PlayerTalismanAttackState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
+    public PlayerGunAttackState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
 
@@ -15,13 +15,13 @@ public class PlayerTalismanAttackState : PlayerActionState
     public override void Update()
     {
         base.Update();
-        stateMachine.Player.WeaponHandler.TalismanAttack();
+        stateMachine.Player.WeaponHandler.GunAttack();
     }
     
     public override void Exit()
     {
         base.Exit();
         EndAnimation(stateMachine.Player.PlayerAnimationData.TalismanAttackParameterHash);
-        PoolManager.Instance.Return(PoolKey.PlayerAmuletProjectile, GameObject.FindGameObjectWithTag("Player"));
+        stateMachine.Player.WeaponHandler.StopGunAttack();
     }
 }
