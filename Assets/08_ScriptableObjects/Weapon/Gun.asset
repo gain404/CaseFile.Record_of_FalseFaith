@@ -10,8 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab556bb166a21584089310871c44a490, type: 3}
-  m_Name: Tallisman
+  m_Name: Gun
   m_EditorClassIdentifier: 
-  damage: 0
-  damageRate: 0
-  continueDamage: 0
+  weaponType: 1
+  damage: 10
+  damageRate: 10
+  bulletSpeed: 10
+  damageDistance: 10
+  projectilePrefab: {fileID: 7457436387765222236, guid: dbe010ecff734264d8d29977c0094d6d, type: 3}

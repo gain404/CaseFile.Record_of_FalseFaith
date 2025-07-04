@@ -66,19 +66,18 @@ public class PlayerBaseState : IState
     {
         float horizontal = stateMachine.MovementInput.x;
         float speed = stateMachine.MovementSpeed * stateMachine.MovementSpeedModifier;
-
+        
         _rb.linearVelocity = new Vector2(horizontal * speed, _rb.linearVelocity.y);
         
         //방향 전환
         if (Mathf.Abs(horizontal) > 0.01f)
         {
-            Rotate(horizontal < 0f);
+            Vector3 scale = stateMachine.Player.transform.localScale;
+            scale.x = horizontal > 0f ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.x);
+            stateMachine.Player.transform.localScale = scale;
         }
-    }
-
-    private void Rotate(bool isFlip)
-    {
-        stateMachine.Player.PlayerSpriteRenderer.flipX = isFlip;
+        
+        
     }
 
     private void CheckDirection()

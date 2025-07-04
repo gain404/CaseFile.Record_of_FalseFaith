@@ -3,7 +3,7 @@ using UnityEngine;
 public enum WeaponType
 {
     Sword,
-    Talisman,
+    Gun,
 }
 
 [CreateAssetMenu(fileName = "WeaponData", menuName = "ScriptableObjects/WeaponData")]
@@ -12,5 +12,7 @@ public class WeaponData : ScriptableObject
     public WeaponType weaponType;
     public int damage;
     public float damageRate;
-    public float continueDamage;
+    public float bulletSpeed;
+    public float damageDistance;
+    public GameObject projectilePrefab;
 }
