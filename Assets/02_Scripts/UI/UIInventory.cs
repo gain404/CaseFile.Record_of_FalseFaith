@@ -105,12 +105,12 @@ public class UIInventory : MonoBehaviour
             }
         }
         //위의 조건문을 돌지 않았다면 슬롯에 없다는 거니까 빈 슬롯을 찾기
-        Debug.Log("빈 슬롯 찾아보겠습니다.");
-        Debug.Log($"지금 슬롯 수:{slots.Length}");
+        //Debug.Log("빈 슬롯 찾아보겠습니다.");
+        //Debug.Log($"지금 슬롯 수:{slots.Length}");
         ItemSlot emptySlot = GetEmptySlot();
         if (emptySlot != null)
         {
-            Debug.Log($"획득하려는 아이템 : {data.name}");
+            //Debug.Log($"획득하려는 아이템 : {data.name}");
             emptySlot.item = data;
             emptySlot.quantity = 1;
             UpdateUI();
@@ -129,7 +129,7 @@ public class UIInventory : MonoBehaviour
             // 슬롯에 아이템 정보가 있다면
             if (slots[i].item != null)
             {
-                Debug.Log($"{slots[i].item}의 정보를 세팅하겠습니다.");
+                //Debug.Log($"{slots[i].item}의 정보를 세팅하겠습니다.");
                 slots[i].Set();
             }
             else
@@ -154,18 +154,18 @@ public class UIInventory : MonoBehaviour
     // 슬롯의 item 정보가 비어있는 정보 return
     ItemSlot GetEmptySlot()
     {
-        Debug.Log("빈 슬롯을 찾아보죠");
+        //Debug.Log("빈 슬롯을 찾아보죠");
         for (int i = 0; i < slots.Length; i++)
         {
-            Debug.Log($"{i}번째 슬롯입니다");
+            //Debug.Log($"{i}번째 슬롯입니다");
             if (slots[i].item == null)
             {
-                Debug.Log($"오 찾음 : {i}번째 슬롯 비었음");
+                //Debug.Log($"오 찾음 : {i}번째 슬롯 비었음");
                 return slots[i];
             }
             else
             {
-                Debug.Log($"{i}번째 슬롯은 자리가 있습니다. 내용물 : {slots[i].item.name}");
+                //Debug.Log($"{i}번째 슬롯은 자리가 있습니다. 내용물 : {slots[i].item.name}");
             }
         }
         return null;
