@@ -40,7 +40,6 @@ public class CharacterData : ScriptableObject
     [field: SerializeField] public PlayerMoveData MoveData { get; private set; }
     [field: SerializeField] public PlayerGroundData GroundData { get; private set; }
 
-    [Header("Flexible Stat System")]
-    // CharacterStatSO의 역할을 이 리스트가 대신합니다.
+    [Header("Stat System")]
     public List<BaseStat> Stats = new List<BaseStat>();
 }

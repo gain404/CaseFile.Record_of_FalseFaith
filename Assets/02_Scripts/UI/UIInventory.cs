@@ -183,27 +183,27 @@ public class UIInventory : MonoBehaviour
         selectedItemDescription.text = selectedItem.item.description;
     }
 
+    // UIInventory.cs
+
     public void UseItem()
     {
-        // 1. 선택된 아이템이 있는지, 사용 가능한 타입인지 확인
-        if (selectedItem != null && selectedItem.item.type == ItemType.Consumable)
+        if (selectedItem == null || selectedItem.item.type != ItemType.Consumable)
         {
-            // 2. ItemUser에게 아이템 사용 요청
-            itemUser.UseItem(selectedItem.item);
-
-            // 3. 인벤토리에서 아이템 개수 줄이기
+            return;
+        }
+        
+        bool success = itemUser.UseItem(selectedItem.item);
+        
+        if (success)
+        {
             selectedItem.quantity--;
 
-            // 4. 아이템을 모두 사용했다면 슬롯 비우기
             if (selectedItem.quantity <= 0)
             {
-                // 선택된 아이템 정보창도 초기화
                 ClearSelectedItemWindow();
-                // 슬롯 자체를 초기화
                 slots[selectedItemIndex].Clear();
             }
-            
-            // 5. 변경된 수량을 UI에 반영
+
             UpdateUI();
         }
     }
