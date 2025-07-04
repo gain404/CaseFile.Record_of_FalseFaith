@@ -9,7 +9,7 @@ public class PlayerGunAttackState : PlayerActionState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(stateMachine.Player.PlayerAnimationData.TalismanAttackParameterHash);
+        StartAnimation(stateMachine.Player.PlayerAnimationData.GunAttackParameterHash);
     }
 
     public override void Update()
@@ -21,7 +21,6 @@ public class PlayerGunAttackState : PlayerActionState
     public override void Exit()
     {
         base.Exit();
-        EndAnimation(stateMachine.Player.PlayerAnimationData.TalismanAttackParameterHash);
-        stateMachine.Player.WeaponHandler.StopGunAttack();
+        EndAnimation(stateMachine.Player.PlayerAnimationData.GunAttackParameterHash);
     }
 }

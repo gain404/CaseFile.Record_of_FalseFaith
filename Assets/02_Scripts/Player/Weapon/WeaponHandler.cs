@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,39 +6,57 @@ public class WeaponHandler : MonoBehaviour
 {
     public WeaponType CurrentWeapon { get; private set; }
     public Vector2 boxCastSize = new Vector2(0.5f, 0.5f);
+    public int weaponCount;
     [SerializeField] private LayerMask layerMask;
+    [SerializeField] private WeaponData[] weaponDataArray;
+    [SerializeField] private Transform projectileTransform;
     
-    private Dictionary<WeaponType, WeaponData> weaponData;
+    private Dictionary<WeaponType, WeaponData> _weaponData;
     private RaycastHit2D _hit;
     private EnemyHealth _enemyHealth;
     private Player _player;
     private BulletProjectile _bulletProjectile;
-    private int _weaponCount;
+    private Vector3 _spawnPosition;
     
     private void Awake()
     {
         _player = GetComponent<Player>();
-        _bulletProjectile = GetComponentInChildren<BulletProjectile>();
+        //_bulletProjectile = GetComponentInChildren<BulletProjectile>();
+
+        _spawnPosition = projectileTransform.localPosition;
+        
+        _weaponData = new Dictionary<WeaponType, WeaponData>(weaponDataArray.Length);
+        foreach (var wd in weaponDataArray)
+        {
+            _weaponData.Add(wd.weaponType, wd);
+        }
     }
 
     private void Update()
     {
         EquipWeapon();
     }
+
+    private void LateUpdate()
+    {
+        float sign = _player.PlayerSpriteRenderer.flipX ? -1 : 1;
+        projectileTransform.localPosition = new Vector3(Mathf.Abs(_spawnPosition.x) * sign,
+            _spawnPosition.y, _spawnPosition.z);
+    }
     
     private void EquipWeapon()
     {
         if (_player.PlayerController.playerActions.Weaponchange.ReadValue<float>() >= 0.5f)
         {
-            if (_weaponCount == 0)
+            if (weaponCount == 0)
             {
                 CurrentWeapon = WeaponType.Sword;
-                _weaponCount++;
+                weaponCount++;
             }
-            else if (_weaponCount > 0)
+            else if (weaponCount > 0)
             {
                 CurrentWeapon = WeaponType.Gun;
-                _weaponCount = 0;
+                weaponCount = 0;
             }
         }
     }
@@ -50,7 +69,7 @@ public class WeaponHandler : MonoBehaviour
         
         if (_hit.collider != null)
         {
-            _enemyHealth.TakeDamage(weaponData[WeaponType.Sword].damage);
+            _enemyHealth.TakeDamage(_weaponData[WeaponType.Sword].damage);
         }
         
     }
@@ -69,29 +88,18 @@ public class WeaponHandler : MonoBehaviour
     
     public void GunAttack()
     {
-        _bulletProjectile.damage = weaponData[WeaponType.Gun].damage;
-        _bulletProjectile.damageDistance = weaponData[WeaponType.Gun].damageDistance;
+        GameObject bullet = PoolManager.Instance.Spawn(PoolKey.PlayerAmuletProjectile,
+            projectileTransform.position, projectileTransform.rotation);
         
-        //위치 및 각도 조정하기
-        Vector2 talismanPosition = transform.position;
-        Quaternion talismanRotation = transform.rotation;
+        _bulletProjectile = bullet.GetComponent<BulletProjectile>();
         
-        PoolManager.Instance.Get(PoolKey.PlayerAmuletProjectile, talismanPosition, talismanRotation);
-        Shoot();
-    }
-
-    public void StopGunAttack()
-    {
-        PoolManager.Instance.Return(PoolKey.PlayerAmuletProjectile, _bulletProjectile.gameObject);
-    }
-
-    private void Shoot()
-    {
+        _bulletProjectile.damage = _weaponData[WeaponType.Gun].damage;
+        _bulletProjectile.damageDistance = _weaponData[WeaponType.Gun].damageDistance;
+        
         float xSign = _player.PlayerSpriteRenderer.flipX ? -1f : 1f;
-        Vector2 direction = new Vector2(xSign, 1).normalized;
-        float damageRate = weaponData[WeaponType.Gun].damageRate;
+        Vector2 direction = new Vector2(xSign, 0).normalized;
+        float damageRate = _weaponData[WeaponType.Gun].bulletSpeed;
         
-        _bulletProjectile.ThrowTalismanProjectile(direction, damageRate);
+        _bulletProjectile.ThrowBullet(direction, damageRate);
     }
-    
 }

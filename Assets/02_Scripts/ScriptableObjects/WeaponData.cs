@@ -12,5 +12,7 @@ public class WeaponData : ScriptableObject
     public WeaponType weaponType;
     public int damage;
     public float damageRate;
+    public float bulletSpeed;
     public float damageDistance;
+    public GameObject projectilePrefab;
 }

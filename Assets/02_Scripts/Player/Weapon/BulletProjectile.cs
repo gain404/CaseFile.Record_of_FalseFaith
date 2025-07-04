@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class BulletProjectile : MonoBehaviour
@@ -14,7 +15,22 @@ public class BulletProjectile : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
     }
+
+    private void OnEnable()
+    {
+        StartCoroutine(StopGunAttack());
+    }
     
+    private IEnumerator StopGunAttack()
+    {
+        yield return new WaitForSeconds(1f);
+        PoolManager.Instance.Return(PoolKey.PlayerAmuletProjectile, this.gameObject);
+    }
+
+    private void OnDisable()
+    {
+        StopCoroutine(StopGunAttack());
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (((1 << collision.gameObject.layer) & layerMask) != 0)
@@ -32,7 +48,7 @@ public class BulletProjectile : MonoBehaviour
         PoolManager.Instance.Return(PoolKey.PlayerAmuletProjectile, gameObject);
     }
 
-    public void ThrowTalismanProjectile(Vector2 projectileTransform, float speed)
+    public void ThrowBullet(Vector2 projectileTransform, float speed)
     {
         _rb.linearVelocity = projectileTransform * speed;
     }

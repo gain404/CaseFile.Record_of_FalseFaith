@@ -13,7 +13,9 @@ public class PlayerStateMachine : StateMachine
     public PlayerDashState DashState { get; }
     public PlayerInteractState InteractState { get; }
     public PlayerInventoryState InventoryState { get; }
-    
+    public PlayerSwordAttackState SwordAttackState { get; }
+    public PlayerGunAttackState GunAttackState { get; }
+
     //움직임 보정값
     public Vector2 MovementInput { get; set; }
     public float MovementSpeed { get; set; }
@@ -43,6 +45,8 @@ public class PlayerStateMachine : StateMachine
         DashState = new PlayerDashState(this);
         InteractState = new PlayerInteractState(this);
         InventoryState = new PlayerInventoryState(this);
+        SwordAttackState = new PlayerSwordAttackState(this);
+        GunAttackState = new PlayerGunAttackState(this);
         
         //---------------상태 Change------------//
         
@@ -140,6 +144,14 @@ public class PlayerStateMachine : StateMachine
             () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame()
                     && TestUIManager.Instance.uiInventory.IsOpen() == true));
         
+        AddTransition(new StateTransition(
+            SwordAttackState, IdleState,
+                ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() < 0.01f));
+        
+        AddTransition(new StateTransition(
+            GunAttackState, IdleState,
+            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() < 0.01f));
+        
 
         //Dialogue
         AddTransition(new StateTransition(
@@ -184,9 +196,46 @@ public class PlayerStateMachine : StateMachine
                 && TestUIManager.Instance.uiInventory.IsOpen() == false));
         
         //SwordAttack
+        AddTransition(new StateTransition(
+            IdleState, SwordAttackState,
+            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() >= 0.5f
+                && Player.WeaponHandler.weaponCount == 0));
+        
+        AddTransition(new StateTransition(
+            WalkState, SwordAttackState,
+            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() >= 0.5f
+                 && Player.WeaponHandler.weaponCount == 0));
+        
+        AddTransition(new StateTransition(
+            RunState, SwordAttackState,
+            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() >= 0.5f
+                 && Player.WeaponHandler.weaponCount == 0));
+        
+        AddTransition(new StateTransition(
+            JumpState, SwordAttackState,
+            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() >= 0.5f
+                 && Player.WeaponHandler.weaponCount == 0));
         
         //GunAttack
+        AddTransition(new StateTransition(
+            IdleState, GunAttackState,
+            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() >= 0.5f
+                 && Player.WeaponHandler.weaponCount > 0));
         
+        AddTransition(new StateTransition(
+            WalkState, GunAttackState,
+            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() >= 0.5f
+                 && Player.WeaponHandler.weaponCount > 0));
+        
+        AddTransition(new StateTransition(
+            RunState, GunAttackState,
+            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() >= 0.5f
+                 && Player.WeaponHandler.weaponCount > 0));
+        
+        AddTransition(new StateTransition(
+            JumpState, GunAttackState,
+            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() >= 0.5f
+                 && Player.WeaponHandler.weaponCount > 0));
     }
 
     public override void Update()
