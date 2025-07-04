@@ -100,6 +100,8 @@ public class DialogueManager : MonoBehaviour
     {
         SetState(DialogueState.Inactive);
         IsDialogueFinished = true; 
+        playerImage.gameObject.SetActive(false);
+        npcImage.gameObject.SetActive(false);
         dialoguePanel.SetActive(false);
         choicePanel.SetActive(false);
         backgroundDim.SetActive(false);
