@@ -13,24 +13,19 @@ public partial class FacePlayerAction : Action
 
     protected override Status OnStart()
     {
-        GameObject bossGameObject = Self.Value;
-        GameObject playerGameObject = Target.Value;
-        
-        Transform bossTransform = bossGameObject.transform;
-        Transform playerTransform = playerGameObject.transform;
-        
-        float playerX = playerTransform.position.x;
-        float bossX = bossTransform.position.x;
+        Transform playerTransform = Target.Value.transform;
+        Transform bossTransform = Self.Value.transform;
 
-        if (playerX < bossX)
+        float bossScale = Math.Abs(bossTransform.localScale.x);
+        
+        if (playerTransform.position.x < bossTransform.position.x)
         {
-            //여기에 flip추가
+            bossTransform.localScale = new Vector3(bossScale, bossTransform.localScale.y, bossTransform.localScale.z);
         }
         else
         {
-            
+            bossTransform.localScale = new Vector3(-bossScale, bossTransform.localScale.y, bossTransform.localScale.z);
         }
-
         return Status.Success;
     }
 }
