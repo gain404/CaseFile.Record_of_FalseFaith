@@ -16,14 +16,11 @@ public class WeaponHandler : MonoBehaviour
     private EnemyHealth _enemyHealth;
     private Player _player;
     private BulletProjectile _bulletProjectile;
-    private Vector3 _spawnPosition;
     
     private void Awake()
     {
         _player = GetComponent<Player>();
         //_bulletProjectile = GetComponentInChildren<BulletProjectile>();
-
-        _spawnPosition = projectileTransform.localPosition;
         
         _weaponData = new Dictionary<WeaponType, WeaponData>(weaponDataArray.Length);
         foreach (var wd in weaponDataArray)
@@ -35,13 +32,6 @@ public class WeaponHandler : MonoBehaviour
     private void Update()
     {
         EquipWeapon();
-    }
-
-    private void LateUpdate()
-    {
-        float sign = _player.PlayerSpriteRenderer.flipX ? -1 : 1;
-        projectileTransform.localPosition = new Vector3(Mathf.Abs(_spawnPosition.x) * sign,
-            _spawnPosition.y, _spawnPosition.z);
     }
     
     private void EquipWeapon()
@@ -96,7 +86,7 @@ public class WeaponHandler : MonoBehaviour
         _bulletProjectile.damage = _weaponData[WeaponType.Gun].damage;
         _bulletProjectile.damageDistance = _weaponData[WeaponType.Gun].damageDistance;
         
-        float xSign = _player.PlayerSpriteRenderer.flipX ? -1f : 1f;
+        float xSign = _player.transform.localScale.x < 0f ? -1f : 1f;
         Vector2 direction = new Vector2(xSign, 0).normalized;
         float damageRate = _weaponData[WeaponType.Gun].bulletSpeed;
         
