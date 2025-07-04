@@ -9,12 +9,8 @@ public class PlayerGunAttackState : PlayerActionState
     public override void Enter()
     {
         base.Enter();
+        Debug.Log("GunAttackState 진입");
         StartAnimation(stateMachine.Player.PlayerAnimationData.GunAttackParameterHash);
-    }
-
-    public override void Update()
-    {
-        base.Update();
         stateMachine.Player.WeaponHandler.GunAttack();
     }
     

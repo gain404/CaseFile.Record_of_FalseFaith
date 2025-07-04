@@ -36,7 +36,7 @@ public class WeaponHandler : MonoBehaviour
     
     private void EquipWeapon()
     {
-        if (_player.PlayerController.playerActions.Weaponchange.ReadValue<float>() >= 0.5f)
+        if (_player.PlayerController.playerActions.Weaponchange.triggered)
         {
             if (weaponCount == 0)
             {

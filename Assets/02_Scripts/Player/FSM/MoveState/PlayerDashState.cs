@@ -34,7 +34,7 @@ public class PlayerDashState : PlayerMoveState
         _originalGravityScale = _rb.gravityScale;
         _rb.gravityScale = 0f;
 
-        float direction = stateMachine.Player.PlayerSpriteRenderer.flipX ? -1f : 1f;
+        float direction = stateMachine.Player.transform.localScale.x < 0f ? -1f : 1f;
         if (stateMachine.MovementInput != Vector2.zero)
         {
             direction = stateMachine.MovementInput.x > 0 ? 1f : -1f;

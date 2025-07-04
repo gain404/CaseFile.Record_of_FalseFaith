@@ -9,6 +9,7 @@ public class PlayerSwordAttackState : PlayerActionState
     public override void Enter()
     {
         base.Enter();
+        Debug.Log("SwordAttackState 진입");
         StartAnimation(stateMachine.Player.PlayerAnimationData.SwordAttackParameterHash);
         stateMachine.Player.WeaponHandler.SwordAttack();
     }

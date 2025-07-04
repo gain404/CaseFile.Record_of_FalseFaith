@@ -198,43 +198,43 @@ public class PlayerStateMachine : StateMachine
         //SwordAttack
         AddTransition(new StateTransition(
             IdleState, SwordAttackState,
-            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() >= 0.5f
+            ()=> Player.PlayerController.playerActions.Attack.triggered
                 && Player.WeaponHandler.weaponCount == 0));
         
         AddTransition(new StateTransition(
             WalkState, SwordAttackState,
-            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() >= 0.5f
+            ()=> Player.PlayerController.playerActions.Attack.triggered
                  && Player.WeaponHandler.weaponCount == 0));
         
         AddTransition(new StateTransition(
             RunState, SwordAttackState,
-            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() >= 0.5f
+            ()=> Player.PlayerController.playerActions.Attack.triggered
                  && Player.WeaponHandler.weaponCount == 0));
         
         AddTransition(new StateTransition(
             JumpState, SwordAttackState,
-            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() >= 0.5f
+            ()=> Player.PlayerController.playerActions.Attack.triggered
                  && Player.WeaponHandler.weaponCount == 0));
         
         //GunAttack
         AddTransition(new StateTransition(
             IdleState, GunAttackState,
-            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() >= 0.5f
+            ()=> Player.PlayerController.playerActions.Attack.triggered
                  && Player.WeaponHandler.weaponCount > 0));
         
         AddTransition(new StateTransition(
             WalkState, GunAttackState,
-            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() >= 0.5f
+            ()=> Player.PlayerController.playerActions.Attack.triggered
                  && Player.WeaponHandler.weaponCount > 0));
         
         AddTransition(new StateTransition(
             RunState, GunAttackState,
-            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() >= 0.5f
+            ()=> Player.PlayerController.playerActions.Attack.triggered
                  && Player.WeaponHandler.weaponCount > 0));
         
         AddTransition(new StateTransition(
             JumpState, GunAttackState,
-            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() >= 0.5f
+            ()=> Player.PlayerController.playerActions.Attack.triggered
                  && Player.WeaponHandler.weaponCount > 0));
     }
 
