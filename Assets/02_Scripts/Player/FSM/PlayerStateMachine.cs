@@ -133,7 +133,7 @@ public class PlayerStateMachine : StateMachine
         
         AddTransition(new StateTransition(
             InteractState, IdleState,
-            ()=> DialogueManager.Instance.IsDialogueFinished || Player.itemData == null && Player.CurrentInteractableNPC == null));
+            ()=> DialogueManager.Instance.IsDialogueFinished || Player.itemData == null && Player.CurrentInteractableNPC == null && player.CurrentInteractableItem == null));
 
         AddTransition(new StateTransition(
             InventoryState, IdleState,
@@ -141,7 +141,7 @@ public class PlayerStateMachine : StateMachine
                     && TestUIManager.Instance.uiInventory.IsOpen() == true));
         
 
-        //Dialogue
+        //Interact
         AddTransition(new StateTransition(
             IdleState, InteractState,
             () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
