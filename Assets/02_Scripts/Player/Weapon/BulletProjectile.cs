@@ -31,6 +31,7 @@ public class BulletProjectile : MonoBehaviour
     {
         StopCoroutine(StopGunAttack());
     }
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (((1 << collision.gameObject.layer) & layerMask) != 0)
