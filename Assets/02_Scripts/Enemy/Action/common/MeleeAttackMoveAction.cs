@@ -3,7 +3,7 @@ using Unity.Behavior;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
 using Unity.Properties;
-using DG.Tweening;
+
 
 [Serializable, GeneratePropertyBag]
 [NodeDescription(name: "MeleeAttackMove", story: "[Self] move to [Target] [MeleeAttackMoveSpeed] between [MeleeAttackDistance]", category: "Action", id: "e3b916fcc03aa7dc2152551d31d04051")]
