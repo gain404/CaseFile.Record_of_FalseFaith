@@ -21,7 +21,7 @@ public class PlayerAnimationData
     //Attack State
     [SerializeField] private string actionParameterName = "@Action";
     [SerializeField] private string swordAttackParameterName = "SwordAttack";
-    [SerializeField] private string talismanAttackParameterName = "TalismanAttack";
+    [SerializeField] private string gunAttackParameterName = "GunAttack";
     [SerializeField] private string comboAttackParameterName = "ComboAttack";
     [SerializeField] private string skillParameterName = "Skill";
     
@@ -42,7 +42,7 @@ public class PlayerAnimationData
     //Attack State
     public int ActionParameterHash { get; private set; }
     public int SwordAttackParameterHash { get; private set; }
-    public int TalismanAttackParameterHash { get; private set; }
+    public int GunAttackParameterHash { get; private set; }
     public int ComboAttackParameterHash { get; private set; }
     public int SkillParameterHash { get; private set; }
     
@@ -64,7 +64,7 @@ public class PlayerAnimationData
         //Attack State
         ActionParameterHash = Animator.StringToHash(actionParameterName);
         SwordAttackParameterHash = Animator.StringToHash(swordAttackParameterName);
-        TalismanAttackParameterHash = Animator.StringToHash(talismanAttackParameterName);
+        GunAttackParameterHash = Animator.StringToHash(gunAttackParameterName);
         ComboAttackParameterHash = Animator.StringToHash(comboAttackParameterName);
         SkillParameterHash = Animator.StringToHash(skillParameterName);
     }

@@ -49,4 +49,12 @@ public class Interaction : MonoBehaviour
             currentInteractable.OnInteract();
         }
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            currentInteractable.OnInteract();
+        }
+    }
 }

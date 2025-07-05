@@ -96,4 +96,29 @@ public class PoolManager : MonoBehaviour
         obj.SetActive(false);
         _poolDictionary[key].Enqueue(obj);
     }
+    
+    public GameObject Spawn(PoolKey key, Vector3 position, Quaternion rotation)
+    {
+        if (!_poolDictionary.ContainsKey(key))
+        {
+            return null;
+        }
+
+        Queue<GameObject> objectPool = _poolDictionary[key];
+        GameObject obj;
+
+        if (objectPool.Count > 0)
+        {
+            obj = objectPool.Dequeue();
+        }
+        else
+        {
+            // 풀 부족 시 자동 확장
+            obj = Instantiate(pools.Find(p => p.key == key).prefab);
+        }
+        obj.transform.position = position;
+        obj.transform.rotation = rotation;
+        obj.SetActive(true);
+        return obj;
+    }
 }

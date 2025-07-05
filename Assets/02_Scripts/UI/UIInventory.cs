@@ -12,6 +12,7 @@ public class UIInventory : MonoBehaviour
 
     public GameObject inventoryWindow;
     public Transform slotPanel;
+    public GameObject slotPrefab;
 
     [Header("Selected Item")]           // 선택한 슬롯의 아이템 정보 표시 위한 UI
     private ItemSlot selectedItem;
@@ -53,6 +54,7 @@ public class UIInventory : MonoBehaviour
         }
 
         ClearSelectedItemWindow();
+        RefreshUI();
     }
 
     // 선택한 아이템 표시할 정보창 Clear 함수
@@ -70,12 +72,10 @@ public class UIInventory : MonoBehaviour
     {
         if (IsOpen())
         {
-            //inventoryWindow.SetActive(false);
             inventoryAnimator.ClosePanel();
         }
         else
         {
-            //inventoryWindow.SetActive(true);
             inventoryAnimator.OpenPanel();
         }
     }
@@ -105,10 +105,12 @@ public class UIInventory : MonoBehaviour
             }
         }
         //위의 조건문을 돌지 않았다면 슬롯에 없다는 거니까 빈 슬롯을 찾기
+        //Debug.Log("빈 슬롯 찾아보겠습니다.");
+        //Debug.Log($"지금 슬롯 수:{slots.Length}");
         ItemSlot emptySlot = GetEmptySlot();
         if (emptySlot != null)
         {
-            Debug.Log($"획득하려는 아이템 : {data.name}");
+            //Debug.Log($"획득하려는 아이템 : {data.name}");
             emptySlot.item = data;
             emptySlot.quantity = 1;
             UpdateUI();
@@ -127,7 +129,7 @@ public class UIInventory : MonoBehaviour
             // 슬롯에 아이템 정보가 있다면
             if (slots[i].item != null)
             {
-                Debug.Log($"{slots[i].item}의 정보를 세팅하겠습니다.");
+                //Debug.Log($"{slots[i].item}의 정보를 세팅하겠습니다.");
                 slots[i].Set();
             }
             else
@@ -152,11 +154,18 @@ public class UIInventory : MonoBehaviour
     // 슬롯의 item 정보가 비어있는 정보 return
     ItemSlot GetEmptySlot()
     {
+        //Debug.Log("빈 슬롯을 찾아보죠");
         for (int i = 0; i < slots.Length; i++)
         {
+            //Debug.Log($"{i}번째 슬롯입니다");
             if (slots[i].item == null)
             {
+                //Debug.Log($"오 찾음 : {i}번째 슬롯 비었음");
                 return slots[i];
+            }
+            else
+            {
+                //Debug.Log($"{i}번째 슬롯은 자리가 있습니다. 내용물 : {slots[i].item.name}");
             }
         }
         return null;
@@ -174,36 +183,51 @@ public class UIInventory : MonoBehaviour
         selectedItemDescription.text = selectedItem.item.description;
     }
 
+    // UIInventory.cs
+
     public void UseItem()
     {
-        // 1. 선택된 아이템이 있는지, 사용 가능한 타입인지 확인
-        if (selectedItem != null && selectedItem.item.type == ItemType.Consumable)
+        if (selectedItem == null || selectedItem.item.type != ItemType.Consumable)
         {
-            // 2. ItemUser에게 아이템 사용 요청
-            itemUser.UseItem(selectedItem.item);
-
-            // 3. 인벤토리에서 아이템 개수 줄이기
+            return;
+        }
+        
+        bool success = itemUser.UseItem(selectedItem.item);
+        
+        if (success)
+        {
             selectedItem.quantity--;
 
-            // 4. 아이템을 모두 사용했다면 슬롯 비우기
             if (selectedItem.quantity <= 0)
             {
-                // 선택된 아이템 정보창도 초기화
                 ClearSelectedItemWindow();
-                // 슬롯 자체를 초기화
                 slots[selectedItemIndex].Clear();
             }
-            
-            // 5. 변경된 수량을 UI에 반영
+
             UpdateUI();
         }
     }
 
     public void RefreshUI()
     {
+        // 기존 슬롯 삭제
         foreach (Transform child in slotPanel)
         {
-            Destroy(child.gameObject);
+            if (child.GetComponent<ItemSlot>().item == null)
+            {
+                //아이템 슬롯 안에 있는 아이템 데이타를 초기화 child = 판넬 안에 있는 slots
+                Destroy(child.GetComponent<ItemSlot>().item);
+            }
+        }
+
+        // 인벤토리 데이터 기반으로 다시 그림
+        foreach (ItemData item in InventoryManager.Instance.items)
+        {
+            player.itemData = item;
+            AddItem();
+            //GameObject slot = Instantiate(slotPrefab, slotPanel);
+            //slot.GetComponent<ItemSlot>().SetItem(item); // 슬롯에 정보 적용
         }
     }
+
 }

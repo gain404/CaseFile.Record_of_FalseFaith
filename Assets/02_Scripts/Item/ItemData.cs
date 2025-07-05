@@ -10,7 +10,7 @@ public enum ItemType
 /// <summary>
 /// 아이템의 정보를 담고 있는 스크립트입니다.
 /// </summary>
-[CreateAssetMenu(fileName = "Item", menuName = "Scriptable Objects/New Item")]
+[CreateAssetMenu(fileName = "Item", menuName = "ScriptableObjects/New Item")]
 public class ItemData : ScriptableObject
 {
     [Header("Info")]
