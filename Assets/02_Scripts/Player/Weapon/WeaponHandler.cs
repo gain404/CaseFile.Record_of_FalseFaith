@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,11 +17,13 @@ public class WeaponHandler : MonoBehaviour
     private EnemyHealth _enemyHealth;
     private Player _player;
     private BulletProjectile _bulletProjectile;
+    private SwordAttack _swordAttackPoint;
     
     private void Awake()
     {
         _player = GetComponent<Player>();
         //_bulletProjectile = GetComponentInChildren<BulletProjectile>();
+        _swordAttackPoint = GetComponentInChildren<SwordAttack>();
         
         _weaponData = new Dictionary<WeaponType, WeaponData>(weaponDataArray.Length);
         foreach (var wd in weaponDataArray)
@@ -53,28 +56,24 @@ public class WeaponHandler : MonoBehaviour
     
     public void SwordAttack()
     {
-        Vector2 halfSize = boxCastSize * 0.5f;
-        _hit = Physics2D.BoxCast(transform.position + (Vector3)_player.PlayerController.lookDirection * halfSize.x
-            ,boxCastSize, 0f, Vector2.zero, 0f, layerMask);
-        
-        if (_hit.collider != null)
-        {
-            _enemyHealth.TakeDamage(_weaponData[WeaponType.Sword].damage);
-        }
-        
+        _swordAttackPoint.gameObject.SetActive(true);
+    }
+
+    public void StopSwordAttack()
+    {
+        _swordAttackPoint.gameObject.SetActive(false);
     }
     
-#if UNITY_EDITOR
-    private void OnDrawGizmosSelected()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Gizmos.color = Color.red;
-        
-        Vector2 halfSize = boxCastSize * 0.5f;
-        Vector3 center = transform.position + (Vector3)_player.PlayerController.lookDirection * halfSize.x;
-        
-        Gizmos.DrawWireCube(center, boxCastSize);
+        if (!collision.collider.TryGetComponent<SwordAttack>(out _))
+            return;
+
+        if (collision.gameObject.TryGetComponent<IDamagable>(out var target))
+        {
+            target.TakeDamage(_weaponData[WeaponType.Sword].damage);
+        }
     }
-#endif
     
     public void GunAttack()
     {
