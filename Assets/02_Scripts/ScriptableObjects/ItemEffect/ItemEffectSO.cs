@@ -2,5 +2,5 @@ using UnityEngine;
 
 public abstract class ItemEffectSO : ScriptableObject
 {
-    public abstract void Apply(GameObject target);
+    public abstract bool Apply(GameObject target);
 }

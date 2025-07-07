@@ -43,6 +43,6 @@ public class NPCInteraction : MonoBehaviour, IInteractable
             return;
         }
 
-        DialogueManager.Instance.StartDialogue(npcData.dialogueAsset);
+        DialogueManager.Instance.StartDialogue(npcData.dialogueAsset, this.transform);
     }
 }

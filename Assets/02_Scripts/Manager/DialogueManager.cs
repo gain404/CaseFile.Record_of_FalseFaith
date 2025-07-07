@@ -60,20 +60,43 @@ public class DialogueManager : MonoBehaviour
     }
 
     // --- 대화 시작/종료 로직 ---
-    public void StartDialogue(DialogueAsset asset)
+    public void StartDialogue(DialogueAsset asset, Transform dialogueTarget)
     {
         if (currentState != DialogueState.Inactive) return;
         currentDialogue = asset;
         isItemDialogue = false;
+        SetCameraTarget(dialogueTarget);
         StartDialogueCommon();
     }
     
-    public void StartItemDialogue(string[] lines)
+    public void StartItemDialogue(string[] lines, Transform itemTarget)
     {
         if (currentState != DialogueState.Inactive) return;
         currentItemLines = lines;
         isItemDialogue = true;
+        
+        SetCameraTarget(itemTarget);
+
         StartDialogueCommon();
+    }
+    
+    private void SetCameraTarget(Transform targetParent)
+    {
+        if (targetParent != null)
+        {
+            // 부모 오브젝트(NPC나 아이템) 밑에서 "CinemachineTarget"을 이름으로 찾음
+            Transform newTarget = targetParent.Find("CinemachineTarget");
+            if (newTarget != null)
+            {
+                dialogueCamera.Follow = newTarget;
+            }
+            else
+            {
+                // CinemachineTarget이 없으면 NPC/아이템 자체를 타겟으로 설정 (예비용)
+                dialogueCamera.Follow = targetParent;
+                Debug.LogWarning($"'{targetParent.name}' 오브젝트 밑에 'CinemachineTarget'을 찾을 수 없습니다. 부모 오브젝트를 타겟으로 설정합니다.");
+            }
+        }
     }
 
     private void StartDialogueCommon()
@@ -106,6 +129,7 @@ public class DialogueManager : MonoBehaviour
         choicePanel.SetActive(false);
         backgroundDim.SetActive(false);
         cameraSwitcher.SwitchToPlayerCamera();
+        dialogueCamera.Follow = null;
         currentDialogue = null;
         currentItemLines = null;
     }

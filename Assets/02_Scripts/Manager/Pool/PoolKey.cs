@@ -3,6 +3,7 @@ public enum PoolKey
     WindProjectile,
     GhostProjectile,
     EnemyAmuletProjectile,
-    PlayerAmuletProjectile
+    PlayerAmuletProjectile,
+    HairProjectile
     //필요시 추가
 }
