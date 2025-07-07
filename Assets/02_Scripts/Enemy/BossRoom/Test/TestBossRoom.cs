@@ -2,6 +2,7 @@ using System;
 using DG.Tweening;
 using Unity.Behavior;
 using Unity.Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TestBossRoom : MonoBehaviour
@@ -11,17 +12,25 @@ public class TestBossRoom : MonoBehaviour
     [SerializeField] private CinemachineCamera cineMachineCamera;
     [SerializeField] private GameObject monster;
 
-    
-    private void OnCollisionEnter2D(Collision2D other)
+    private BoxCollider2D _boxCollider2D;
+
+    private void Awake()
+    {
+        _boxCollider2D = GetComponent<BoxCollider2D>();
+        _boxCollider2D.enabled = true;
+        doorTilemap.SetActive(false);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if ((playerLayerMask.value & (1 << other.gameObject.layer)) != 0)
         {
             doorTilemap.SetActive(true);
-            this.gameObject.SetActive(false);
+            _boxCollider2D.enabled = false;
             DOVirtual.DelayedCall(1.0f, () =>
             {
                 cineMachineCamera.Priority = 25;
-                ActiveBoss();
+                
             });
         }
     }
