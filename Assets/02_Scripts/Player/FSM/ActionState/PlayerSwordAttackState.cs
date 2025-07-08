@@ -18,5 +18,6 @@ public class PlayerSwordAttackState : PlayerActionState
     {
         base.Exit();
         EndAnimation(stateMachine.Player.PlayerAnimationData.SwordAttackParameterHash);
+        stateMachine.Player.WeaponHandler.StopSwordAttack();
     }
 }
