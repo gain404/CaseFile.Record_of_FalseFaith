@@ -53,17 +53,17 @@ public class PlayerStateMachine : StateMachine
         //Jump
         AddTransition(new StateTransition(
             IdleState, JumpState,
-            () => Player.PlayerController.playerActions.Jump.ReadValue<float>() > 0.5f
+            () => Player.PlayerController.playerActions.Jump.triggered
                   && Player.PlayerController.isGrounded));
         
         AddTransition(new StateTransition(
             WalkState, JumpState,
-            () => Player.PlayerController.playerActions.Jump.ReadValue<float>() > 0.5f
+            () => Player.PlayerController.playerActions.Jump.triggered
                   && Player.PlayerController.isGrounded));
         
         AddTransition(new StateTransition(
             RunState, JumpState,
-            () => Player.PlayerController.playerActions.Jump.ReadValue<float>() > 0.5f
+            () => Player.PlayerController.playerActions.Jump.triggered
                   && Player.PlayerController.isGrounded));
         
         //Dash
@@ -90,7 +90,8 @@ public class PlayerStateMachine : StateMachine
         //Walk
         AddTransition(new StateTransition(
             IdleState, WalkState,
-            () => Mathf.Abs(MovementInput.x) > 0.01f));
+            () => Player.PlayerController.playerActions.Move.IsPressed()
+                  && !Player.PlayerController.playerActions.Run.IsPressed()));
         
         AddTransition(new StateTransition(
             RunState, WalkState,
@@ -105,18 +106,18 @@ public class PlayerStateMachine : StateMachine
         AddTransition(new StateTransition(
             IdleState, RunState,
             ()=> Mathf.Abs(MovementInput.x) > 0.01f
-                 && Player.PlayerController.playerActions.Run.ReadValue<float>() > 0.5f));
+                 && Player.PlayerController.playerActions.Run.IsPressed()));
         
         AddTransition(new StateTransition(
             WalkState, RunState,
             ()=> Mathf.Abs(MovementInput.x) > 0.01f 
-                 &&Player.PlayerController.playerActions.Run.ReadValue<float>() > 0.5f));
+                 &&Player.PlayerController.playerActions.Run.IsPressed()));
         
         AddTransition(new StateTransition(
             DashState, RunState,
             () => IsDashFinished
                   && Mathf.Abs(MovementInput.x) > 0.01f
-                  && Player.PlayerController.playerActions.Run.ReadValue<float>() > 0.5f));
+                  && Player.PlayerController.playerActions.Run.IsPressed()));
         
         //Idle
         AddTransition(new StateTransition(
@@ -143,14 +144,18 @@ public class PlayerStateMachine : StateMachine
             InventoryState, IdleState,
             () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame()
                     && TestUIManager.Instance.uiInventory.IsOpen() == true));
-        
+
         AddTransition(new StateTransition(
             SwordAttackState, IdleState,
-                ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() < 0.01f));
-        
+            () =>
+            {
+                var info = Player.Animator.GetCurrentAnimatorStateInfo(0);
+                return info.shortNameHash == Player.PlayerAnimationData.SwordAttackParameterHash && info.normalizedTime >= 1f;
+            }));
+
         AddTransition(new StateTransition(
             GunAttackState, IdleState,
-            ()=> Player.PlayerController.playerActions.Attack.ReadValue<float>() < 0.01f));
+            () => Player.PlayerController.playerActions.Attack.IsPressed()));
         
 
         //Interact
