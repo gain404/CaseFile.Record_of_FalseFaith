@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class PlayerSwordAttackState : PlayerActionState
 {
+    private readonly SwordAttack _hitBox;
     public PlayerSwordAttackState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
+        _hitBox = stateMachine.Player.GetComponentInChildren<SwordAttack>();
     }
 
     public override void Enter()
@@ -11,13 +13,13 @@ public class PlayerSwordAttackState : PlayerActionState
         base.Enter();
         Debug.Log("SwordAttackState 진입");
         StartAnimation(stateMachine.Player.PlayerAnimationData.SwordAttackParameterHash);
-        stateMachine.Player.WeaponHandler.SwordAttack();
+        _hitBox.OnTriggered += stateMachine.Player.WeaponHandler.SwordAttack;
     }
     
     public override void Exit()
     {
         base.Exit();
         EndAnimation(stateMachine.Player.PlayerAnimationData.SwordAttackParameterHash);
-        stateMachine.Player.WeaponHandler.StopSwordAttack();
+        _hitBox.OnTriggered -= stateMachine.Player.WeaponHandler.SwordAttack;
     }
 }
