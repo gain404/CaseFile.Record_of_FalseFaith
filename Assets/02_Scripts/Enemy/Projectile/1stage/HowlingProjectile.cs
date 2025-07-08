@@ -1,4 +1,4 @@
-using System;
+using DG.Tweening;
 using UnityEngine;
 
 public class HowlingProjectile : MonoBehaviour
@@ -9,23 +9,28 @@ public class HowlingProjectile : MonoBehaviour
 
     private Animator _animator;
     private bool _isStartHowling;
-    private readonly int _hairAttack = Animator.StringToHash("HairAttack");
+    private PoolManager _poolManager;
 
     private void Awake()
     {
         _animator = gameObject.GetComponent<Animator>();
+        _poolManager = PoolManager.Instance;
     }
 
     private void OnEnable()
     {
+        transform.localScale = new Vector3(1f, 1f, 0);
         _isStartHowling = true;
+        transform.DOScale(new Vector3(40f, 40f, 0f), 5f)
+            .OnComplete(FinishHowling);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (((1 << collision.gameObject.layer) & hitLayerMask) != 0)
         {
-            //데미지
+            collision.TryGetComponent(out StatManager statManager);
+            statManager.TakeDamage(1);
         }
 
         if (_isStartHowling)
@@ -40,5 +45,10 @@ public class HowlingProjectile : MonoBehaviour
                 _isStartHowling = false;
             }
         }
+    }
+
+    private void FinishHowling()
+    {
+        _poolManager.Return(PoolKey.HowlingProjectile, gameObject);
     }
 }

@@ -16,14 +16,18 @@ public partial class BottomAttackAction : Action
     private PoolManager _poolManager;
     protected override Status OnStart()
     {
+        int count = Count.Value;
         if (_poolManager == null)
         {
             _poolManager = PoolManager.Instance;
         }
         Random random = new Random();
         int randomNum = random.Next(0, 2);
-        
-        for (int i = 0; i < Count; i++)
+        if (randomNum == 1)
+        {
+            count = Count.Value - 1;
+        }
+        for (int i = 0; i < count; i++)
         {
             Vector3 pos = new Vector3(AttackZone.Value.position.x + (randomNum * Distance.Value/2) + (Distance.Value * i),
                 AttackZone.Value.position.y,

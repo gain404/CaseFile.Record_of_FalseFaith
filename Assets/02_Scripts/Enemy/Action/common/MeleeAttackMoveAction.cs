@@ -34,7 +34,7 @@ public partial class MeleeAttackMoveAction : Action
     protected override Status OnUpdate()
     {
         float currentX = Self.Value.transform.position.x;
-        if (Mathf.Abs(currentX - _endPos) <= 0.2f) // 오차 범위
+        if (Mathf.Abs(currentX - _endPos) <= 0.5f) // 오차 범위
         {
             _rigidbody2D.linearVelocity = Vector2.zero;
             return Status.Success;

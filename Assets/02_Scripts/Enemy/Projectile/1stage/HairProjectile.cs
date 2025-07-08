@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using DG.Tweening;
 
 public class HairProjectile : MonoBehaviour
 {
@@ -30,7 +28,8 @@ public class HairProjectile : MonoBehaviour
     {
         if (((1 << collision.gameObject.layer) & hitLayerMask) != 0)
         {
-            //플레이어 데미지
+            collision.TryGetComponent(out StatManager statManager);
+            statManager.TakeDamage(1);
         }
     }
 }

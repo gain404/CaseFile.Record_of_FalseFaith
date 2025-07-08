@@ -30,7 +30,7 @@ public class TestBossRoom : MonoBehaviour
             DOVirtual.DelayedCall(1.0f, () =>
             {
                 cineMachineCamera.Priority = 25;
-                
+                ActiveBoss();
             });
         }
     }

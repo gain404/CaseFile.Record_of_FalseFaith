@@ -6,6 +6,7 @@ public class EnemyHealth : MonoBehaviour,IDamagable
     [SerializeField] private BehaviorGraphAgent agent;
     [SerializeField] private LayerMask mask;
     [SerializeField] private PolygonCollider2D meleeAttackCollider2D;
+    [SerializeField] private PolygonCollider2D biteAttackCollider2D;
 
     private float _enemyMaxHealth;
     private float _enemyCurrentHealth;
@@ -13,6 +14,7 @@ public class EnemyHealth : MonoBehaviour,IDamagable
     private void Start()
     {
         meleeAttackCollider2D.enabled = false;
+        biteAttackCollider2D.enabled = false;
         agent.BlackboardReference.GetVariableValue<float>("MaxHealth", out _enemyMaxHealth);
         agent.BlackboardReference.GetVariableValue<float>("CurrentHealth", out _enemyCurrentHealth);
     }
@@ -40,5 +42,14 @@ public class EnemyHealth : MonoBehaviour,IDamagable
     private void MeleeAttackFinish()
     {
         meleeAttackCollider2D.enabled = false;
+    }
+
+    private void BiteAttack()
+    {
+        biteAttackCollider2D.enabled = true;
+    }
+    private void BiteAttackFinish()
+    {
+        biteAttackCollider2D.enabled = false;
     }
 }
