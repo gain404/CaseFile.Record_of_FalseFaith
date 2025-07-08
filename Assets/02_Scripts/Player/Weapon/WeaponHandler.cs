@@ -61,6 +61,16 @@ public class WeaponHandler : MonoBehaviour
             target.TakeDamage(_weaponData[WeaponType.Sword].damage);
         }
     }
+
+    public void OnSwordAttackPoint()
+    {
+       _swordAttackPoint.gameObject.SetActive(true); 
+    }
+
+    public void OffSwordAttackPoint()
+    {
+        _swordAttackPoint.gameObject.SetActive(false);
+    }
     
     public void GunAttack()
     {

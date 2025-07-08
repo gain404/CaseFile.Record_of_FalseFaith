@@ -11,6 +11,7 @@ public class PlayerSwordAttackState : PlayerActionState
     public override void Enter()
     {
         base.Enter();
+        stateMachine.Player.WeaponHandler.OnSwordAttackPoint();
         Debug.Log("SwordAttackState 진입");
         StartAnimation(stateMachine.Player.PlayerAnimationData.SwordAttackParameterHash);
         _hitBox.OnTriggered += stateMachine.Player.WeaponHandler.SwordAttack;
@@ -19,6 +20,7 @@ public class PlayerSwordAttackState : PlayerActionState
     public override void Exit()
     {
         base.Exit();
+        stateMachine.Player.WeaponHandler.OffSwordAttackPoint();
         EndAnimation(stateMachine.Player.PlayerAnimationData.SwordAttackParameterHash);
         _hitBox.OnTriggered -= stateMachine.Player.WeaponHandler.SwordAttack;
     }
