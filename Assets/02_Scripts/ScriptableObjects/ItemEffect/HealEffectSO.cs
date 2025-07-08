@@ -8,7 +8,7 @@ public class HealEffectSO : ItemEffectSO
     
     public override bool Apply(GameObject target)
     {
-        var stats = target.GetComponent<StatManager>();
+        var stats = target.GetComponent<PlayerStat>();
         if (stats == null) return false; // StatManager가 없으면 실패
 
         // StatManager의 사용 결과를 그대로 반환

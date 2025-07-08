@@ -29,9 +29,9 @@ public class HowlingProjectile : MonoBehaviour
     {
         if (((1 << collision.gameObject.layer) & hitLayerMask) != 0)
         {
-            if (collision.TryGetComponent(out StatManager statManager))
+            if (collision.TryGetComponent(out PlayerStat playerStat))
             {
-                statManager.TakeDamage(1);
+                playerStat.TakeDamage(1);
             }
         }
 

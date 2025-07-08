@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public CharacterController CharacterController { get; private set; }
     public SpriteRenderer PlayerSpriteRenderer { get; private set; }
     public WeaponHandler WeaponHandler { get; private set; }
+    public PlayerStat PlayerStat { get; private set; }
     
     private PlayerStateMachine _stateMachine;
     
@@ -35,7 +36,7 @@ public class Player : MonoBehaviour
         CharacterController = GetComponent<CharacterController>();
         PlayerSpriteRenderer = GetComponent<SpriteRenderer>();
         WeaponHandler = GetComponent<WeaponHandler>();
-        
+        PlayerStat = GetComponent<PlayerStat>();
 
         if(talkBalloon != null)
         {
