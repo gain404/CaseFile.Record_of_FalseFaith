@@ -8,9 +8,9 @@ public class MeleeAttack : MonoBehaviour
     {
         if (((1 << other.gameObject.layer) & mask) != 0)
         {
-            if (other.TryGetComponent(out StatManager statManager))
+            if (other.TryGetComponent(out PlayerStat playerStat))
             {
-                statManager.TakeDamage(1);
+                playerStat.TakeDamage(1);
             }
         }
     }

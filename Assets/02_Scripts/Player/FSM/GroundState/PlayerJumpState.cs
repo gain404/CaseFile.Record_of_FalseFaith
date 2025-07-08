@@ -12,6 +12,7 @@ public class PlayerJumpState : PlayerGroundState
         stateMachine.JumpForce = groundData.JumpForce;
         base.Enter();
         OnJumped();
+        Debug.Log("JumpState 진입");
         StartAnimation(stateMachine.Player.PlayerAnimationData.JumpParameterHash);
     }
 
