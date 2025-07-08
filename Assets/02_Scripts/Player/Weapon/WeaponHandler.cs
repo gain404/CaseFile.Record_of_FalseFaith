@@ -58,6 +58,7 @@ public class WeaponHandler : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<IDamagable>(out var target))
         {
+            Debug.Log(_weaponData[WeaponType.Sword].damage);
             target.TakeDamage(_weaponData[WeaponType.Sword].damage);
         }
     }
