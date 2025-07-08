@@ -120,7 +120,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -179,7 +179,7 @@ MonoBehaviour:
   hitLayerMask:
     serializedVersion: 2
     m_Bits: 4096
-  _hairZone: {fileID: 6350149893252116284}
+  hairZone: {fileID: 6350149893252116284}
 --- !u!1 &2552478059155114135
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,7 +331,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 10, y: 40, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8422550708800641783}
