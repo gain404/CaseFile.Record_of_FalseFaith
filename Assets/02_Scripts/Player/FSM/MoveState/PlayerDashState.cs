@@ -18,9 +18,10 @@ public class PlayerDashState : PlayerMoveState
     {
         base.Enter();
         StartAnimation(stateMachine.Player.PlayerAnimationData.DashParameterHash);
-
+        
         stateMachine.IsDashFinished = false;
-
+        stateMachine.Player.PlayerStat.isInvincible = true;
+        
         // 공중에서 대쉬를 시작했는지 확인
         if (!stateMachine.Player.PlayerController.isGrounded)
         {
@@ -50,6 +51,7 @@ public class PlayerDashState : PlayerMoveState
     {
         base.Exit();
         // 6. 대쉬 상태를 빠져나갈 때, 중력을 원래대로 복구
+        stateMachine.Player.PlayerStat.isInvincible = false;
         _rb.gravityScale = _originalGravityScale;
         EndAnimation(stateMachine.Player.PlayerAnimationData.DashParameterHash);
     }

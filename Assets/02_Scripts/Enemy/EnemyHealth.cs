@@ -21,6 +21,7 @@ public class EnemyHealth : MonoBehaviour,IDamagable
 
     public void TakeDamage(float damage)
     {
+        Debug.Log("보스 데미지 입음 : " + damage);
         _enemyCurrentHealth -= damage;
         agent.BlackboardReference.SetVariableValue("CurrentHealth", _enemyCurrentHealth);
         if (_enemyCurrentHealth <= 0)
@@ -31,6 +32,7 @@ public class EnemyHealth : MonoBehaviour,IDamagable
 
     public void Die()
     {
+        Debug.Log("보스 사망");
         //사망
     }
 

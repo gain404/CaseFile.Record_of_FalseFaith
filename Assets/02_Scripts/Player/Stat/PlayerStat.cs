@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System;
 using UnityEditor.U2D.Animation;
 
-public class StatManager : MonoBehaviour
+public class PlayerStat : MonoBehaviour
 {
     public Dictionary<StatType, float> CurrentStats { get; private set; }
     private Dictionary<StatType, float> _maxStats;
@@ -18,8 +18,10 @@ public class StatManager : MonoBehaviour
     public float CurrentHp => GetStatValue(StatType.Hp);
     public float MaxHp => GetMaxStatValue(StatType.Hp);//최대 체력 계산 방식 변경 by 송도현
 
+    public bool isInvincible;
     private bool isRecoveryOnCooldown = false;
     private const float RECOVERY_COOLDOWN_DURATION = 10.0f;
+    
 
     private void Awake()
     {
@@ -46,6 +48,9 @@ public class StatManager : MonoBehaviour
 
     public bool Consume(StatType type, float amount)
     {
+        if (isInvincible)
+            return false;
+        
         if (amount <= 0)
         {
             Debug.LogWarning("소비량은 양수여야 합니다.");
