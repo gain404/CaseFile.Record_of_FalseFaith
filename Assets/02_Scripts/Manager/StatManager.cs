@@ -1,9 +1,10 @@
-// StatManager.cs
+﻿// StatManager.cs
 
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEditor.U2D.Animation;
 
 public class StatManager : MonoBehaviour
 {
@@ -12,8 +13,10 @@ public class StatManager : MonoBehaviour
 
     public event Action<StatType> OnStatChanged;
 
+    public CharacterData characterData;//최대 체력 얻는 방식 변경 by 송도현
+
     public float CurrentHp => GetStatValue(StatType.Hp);
-    public float MaxHp => GetMaxStatValue(StatType.Hp);
+    public float MaxHp => GetMaxStatValue(StatType.Hp);//최대 체력 계산 방식 변경 by 송도현
 
     private bool isRecoveryOnCooldown = false;
     private const float RECOVERY_COOLDOWN_DURATION = 10.0f;

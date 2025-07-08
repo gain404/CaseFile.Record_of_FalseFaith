@@ -4,7 +4,8 @@ public enum ItemType
 {
     Resource,//보스 같은 거 잡으면 자동으로 얻어지는 아이템 같은 거
     Consumable, //물약, 부적 충전용 아이템 같은 거
-    Special//버릴 수 없는 중요 아이템 같은 거
+    Special, //버릴 수 없는 중요 아이템 같은 거
+    Charm, // 착용 가능한 부적 아이템
 }
 
 /// <summary>
