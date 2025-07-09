@@ -16,6 +16,7 @@ public class CameraController : MonoBehaviour
     private float currentMaxZoom;
 
     private Coroutine zoomCoroutine;
+    public bool isRunning = false;
 
     private void Awake()
     {
@@ -34,17 +35,29 @@ public class CameraController : MonoBehaviour
     {
         currentDefaultZoom = newDefault;
         currentMaxZoom = newMax;
+
+        // 현재 줌 상태에 따라 재적용
+        if (isRunning)
+            ZoomOutForRunning();
+        else
+            ZoomInToDefault();
     }
 
     public void ResetZoomLimits()
     {
         currentDefaultZoom = defaultZoomSize;
         currentMaxZoom = maxZoomOutSize;
+
+        // 현재 줌 상태에 따라 재적용
+        if (isRunning)
+            ZoomOutForRunning();
+        else
+            ZoomInToDefault();
     }
 
     public void ZoomOutForRunning()
     {
-        float target = Mathf.Min(currentMaxZoom, maxZoomOutSize);
+        float target = currentMaxZoom;
         StartZoom(target);
     }
 
