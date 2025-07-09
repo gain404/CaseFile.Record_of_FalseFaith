@@ -16,33 +16,49 @@ public class PlayerInteractState : PlayerActionState
         stateMachine.Player.Animator.SetBool(stateMachine.Player.PlayerAnimationData.MoveParameterHash, false);
         stateMachine.Player.Animator.SetBool(stateMachine.Player.PlayerAnimationData.RunParameterHash, false);
         stateMachine.Player.Animator.SetBool(stateMachine.Player.PlayerAnimationData.WalkParameterHash, false);
-        
+
         StartAnimation(stateMachine.Player.PlayerAnimationData.IdleParameterHash);
 
         stateMachine.MovementSpeedModifier = 0f;
-        
+
         var npc = stateMachine.Player.CurrentInteractableNPC;
         var item = stateMachine.Player.CurrentInteractableItem;
         ItemData itemData = stateMachine.Player.itemData;
 
-        if (npc != null)
+        if (npc == null)
         {
-            npc.OnInteract();
+            stateMachine.ChangeState(stateMachine.IdleState);
+            return;
         }
-        if (item != null)
+        Debug.Log($"[InteractState] 현재 상호작용 NPC: {npc.name}");
+        Debug.Log("[InteractState] 이전 상태를 확인하여 보여줄 대화를 결정합니다...");
+        DialogueAsset dialogueToStart = null;
+        
+        if (stateMachine.PreviousState == stateMachine.ShopState)
         {
-            item.OnInteract();
+            Debug.Log("[InteractState] 조건: 상점에서 복귀함. 두 번째 대화를 시도합니다.");
+            dialogueToStart = npc.GetSecondDialogue();
         }
-        if (itemData != null)
+        
+        if (dialogueToStart == null)
         {
-            Interaction interaction = stateMachine.Player.GetComponent<Interaction>();
-            if (interaction != null)
-            {
-                interaction.currentInteractable.OnInteract();
-            }
+            Debug.Log("[InteractState] 조건: 처음 말을 걸었거나 두 번째 대화가 없음. 첫 번째 대화를 시도합니다.");
+            dialogueToStart = npc.GetFirstDialogue();
+        }
+
+        Debug.Log($"[InteractState] 최종 선택된 대화 에셋: {(dialogueToStart != null ? dialogueToStart.name : "없음 (null)")}");
+        if (dialogueToStart != null)
+        {
+            DialogueManager.Instance.StartDialogue(dialogueToStart, npc.transform);
+        }
+        else
+        {
+            Debug.LogWarning("[InteractState] 보여줄 대화 에셋이 없어 Idle 상태로 돌아갑니다.");
+            stateMachine.ChangeState(stateMachine.IdleState);
         }
 
     }
+
 
     //상태 빠져나올 때
     public override void Exit()
