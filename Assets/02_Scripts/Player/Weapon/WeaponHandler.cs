@@ -54,25 +54,23 @@ public class WeaponHandler : MonoBehaviour
         }
     }
     
-    public void SwordAttack()
+    public void SwordAttack(Collider2D collision)
     {
-        _swordAttackPoint.gameObject.SetActive(true);
-    }
-
-    public void StopSwordAttack()
-    {
-        _swordAttackPoint.gameObject.SetActive(false);
-    }
-    
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (!collision.collider.TryGetComponent<SwordAttack>(out _))
-            return;
-
         if (collision.gameObject.TryGetComponent<IDamagable>(out var target))
         {
+            Debug.Log(_weaponData[WeaponType.Sword].damage);
             target.TakeDamage(_weaponData[WeaponType.Sword].damage);
         }
+    }
+
+    public void OnSwordAttackPoint()
+    {
+       _swordAttackPoint.gameObject.SetActive(true); 
+    }
+
+    public void OffSwordAttackPoint()
+    {
+        _swordAttackPoint.gameObject.SetActive(false);
     }
     
     public void GunAttack()

@@ -4,6 +4,7 @@ public enum PoolKey
     GhostProjectile,
     EnemyAmuletProjectile,
     PlayerAmuletProjectile,
-    HairProjectile
+    HairProjectile,
+    HowlingProjectile
     //필요시 추가
 }

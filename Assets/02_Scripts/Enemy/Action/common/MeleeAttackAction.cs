@@ -6,12 +6,14 @@ using Unity.Properties;
 using DG.Tweening;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "MeleeAttack", story: "[Self] set [attackTrigger] on and Wait for [duration] seconds", category: "Action", id: "630e8b7ae158ae0f4ede33fb387b88ac")]
+[NodeDescription(name: "MeleeAttack", story: "[Self] set [attackTrigger] or [Phase2AttackTrigger] on and Wait for [duration] seconds based on [IsPhase2]", category: "Action", id: "630e8b7ae158ae0f4ede33fb387b88ac")]
 public partial class MeleeAttackAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<string> AttackTrigger;
+    [SerializeReference] public BlackboardVariable<string> Phase2AttackTrigger;
     [SerializeReference] public BlackboardVariable<float> Duration;
+    [SerializeReference] public BlackboardVariable<bool> IsPhase2;
     private bool _isAttack;
     private Animator _animator;
 
@@ -23,7 +25,14 @@ public partial class MeleeAttackAction : Action
         }
 
         _isAttack = false;
-        _animator.SetTrigger(AttackTrigger);
+        if (IsPhase2.Value)
+        {
+            _animator.SetTrigger(Phase2AttackTrigger.Value);
+        }
+        else
+        {
+            _animator.SetTrigger(AttackTrigger.Value); 
+        }
         DOVirtual.DelayedCall(Duration, () =>
         {
             _isAttack = true;

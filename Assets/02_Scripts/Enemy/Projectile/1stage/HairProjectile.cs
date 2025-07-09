@@ -1,12 +1,10 @@
-using System;
 using UnityEngine;
-using DG.Tweening;
 
 public class HairProjectile : MonoBehaviour
 {
     [SerializeField] private int damage = 1;
     [SerializeField] private LayerMask hitLayerMask;
-    [SerializeField] private HairZone _hairZone;
+    [SerializeField] private HairZone hairZone;
 
     private Animator _animator;
     private readonly int _hairAttack = Animator.StringToHash("HairAttack");
@@ -23,14 +21,17 @@ public class HairProjectile : MonoBehaviour
 
     private void FinishAttack()
     {
-        _hairZone.CloseZone();
+        hairZone.CloseZone();
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (((1 << collision.gameObject.layer) & hitLayerMask) != 0)
         {
-            //플레이어 데미지
+            if (collision.TryGetComponent(out PlayerStat playerStat))
+            {
+                playerStat.TakeDamage(1);
+            }
         }
     }
 }

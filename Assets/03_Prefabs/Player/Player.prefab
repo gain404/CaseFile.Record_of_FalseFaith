@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3324522795365243745}
   - component: {fileID: 7736270527331334986}
   - component: {fileID: 7882194394871661780}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SwordAttackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -327,7 +327,8 @@ GameObject:
   - component: {fileID: 8510297726748081112}
   - component: {fileID: 5433872153663300563}
   - component: {fileID: 3634651687110209822}
-  m_Layer: 0
+  - component: {fileID: 3623427690840109487}
+  m_Layer: 12
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -583,3 +584,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curInteractGameObject: {fileID: 0}
   player: {fileID: 4231289937476553421}
+--- !u!114 &3623427690840109487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7283159387333180712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0189b527027d2364284e7419f55cf956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
