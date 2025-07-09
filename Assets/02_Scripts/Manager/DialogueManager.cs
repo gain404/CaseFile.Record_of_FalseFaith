@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.Cinemachine;
+using System;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -39,39 +40,44 @@ public class DialogueManager : MonoBehaviour
     public float typingSpeed = 0.02f;
 
     // --- 대화 상태 관리 ---
-    private enum DialogueState { Inactive, Transitioning, Typing, WaitingForInput, ShowingChoices }
-    private DialogueState currentState = DialogueState.Inactive;
+    public enum DialogueState { Inactive, Transitioning, Typing, WaitingForInput, ShowingChoices, Paused }
+    public DialogueState CurrentState = DialogueState.Inactive;
 
     private DialogueAsset currentDialogue;
     private int currentIndex = 0;
     private Coroutine displayCoroutine;
     private bool isClickLocked = false; // 연속 클릭 방지를 위한 잠금 변수
-
+    private NPCInteraction _currentNpc;
     // 기타 상태 변수
     private string[] currentItemLines;
     private int currentItemIndex = 0;
     private bool isItemDialogue = false;
     public bool IsDialogueFinished { get; private set; }
-    
+    private ShopManager _shopManager;
     private void Awake()
     {
         if (Instance != null && Instance != this) Destroy(this);
         else Instance = this;
     }
+    private void Start()
+    {
+        _shopManager = ShopManager.Instance;
+    }
 
     // --- 대화 시작/종료 로직 ---
     public void StartDialogue(DialogueAsset asset, Transform dialogueTarget)
     {
-        if (currentState != DialogueState.Inactive) return;
+        if (CurrentState != DialogueState.Inactive) return;
         currentDialogue = asset;
         isItemDialogue = false;
         SetCameraTarget(dialogueTarget);
+        _currentNpc = dialogueTarget.GetComponent<NPCInteraction>();
         StartDialogueCommon();
     }
     
     public void StartItemDialogue(string[] lines, Transform itemTarget)
     {
-        if (currentState != DialogueState.Inactive) return;
+        if (CurrentState != DialogueState.Inactive) return;
         currentItemLines = lines;
         isItemDialogue = true;
         
@@ -138,7 +144,7 @@ public class DialogueManager : MonoBehaviour
     public void HandleClick()
     {
         // 입력이 잠겨있거나, 입력을 받을 상태가 아니면 무시
-        if (isClickLocked || currentState != DialogueState.WaitingForInput)
+        if (isClickLocked || CurrentState != DialogueState.WaitingForInput)
         {
             return;
         }
@@ -158,7 +164,7 @@ public class DialogueManager : MonoBehaviour
     // --- 상태 및 UI 관리 ---
     private void SetState(DialogueState newState)
     {
-        currentState = newState;
+        CurrentState = newState;
         continueArrow.SetActive(newState == DialogueState.WaitingForInput);
     }
     
@@ -213,6 +219,32 @@ public class DialogueManager : MonoBehaviour
         {
             DialogueLine line = currentDialogue.lines[currentIndex];
             textToDisplay = line.text;
+
+            // ★★★ 여기가 최종 수정된 부분입니다 ★★★
+            // DisplayLineCoroutine 함수 전체를 이 코드로 사용하시면 됩니다.
+            if (line.type == DialogueType.OpenStore)
+            {
+                Debug.Log($"[DialogueManager] OpenStore 라인 진입! NPC: {(_currentNpc != null ? _currentNpc.name : "null")}");
+                if (line.shopData != null && _shopManager != null)
+                {
+                    dialoguePanel.SetActive(false);
+                    _shopManager.OpenShop(line.shopData);
+                    
+                    // '첫 대화 완료'를 알리는 책임은 이제 PlayerInteractState가 가집니다.
+                    // 따라서 이 코드는 최종 설계에 따라 삭제됩니다.
+                    // if (_currentNpc != null) { _currentNpc.CompleteFirstDialogue(); }
+                    
+                    PauseDialogue();
+                    yield break;
+                }
+                else
+                {
+                    Debug.LogError("ShopData 또는 ShopManager가 연결되지 않아 상점을 열 수 없습니다! 다음 대사로 강제 진행합니다.");
+                    AdvanceDialogue();
+                    yield break;
+                }
+            }
+            
             yield return StartCoroutine(TransitionSpeaker(line));
             if (line.type == DialogueType.PlayerChoice)
             {
@@ -224,7 +256,6 @@ public class DialogueManager : MonoBehaviour
         }
         
         yield return StartCoroutine(TypeTextCoroutine(textToDisplay));
-        // 타이핑이 정상적으로 끝나면 입력 대기 상태로 전환
         SetState(DialogueState.WaitingForInput);
     }
     
@@ -237,6 +268,18 @@ public class DialogueManager : MonoBehaviour
             dialogueText.text += c;
             yield return new WaitForSeconds(typingSpeed);
         }
+    }
+    public void PauseDialogue()
+    {
+        SetState(DialogueState.Paused);
+    }
+
+    public void ResetDialogueState()
+    {
+        StopAllCoroutines(); // 혹시 모를 코루틴 정지
+        SetState(DialogueState.Inactive);
+        IsDialogueFinished = true; // 대화가 끝났다고 확실히 명시
+        dialoguePanel.SetActive(false);
     }
     
     #region Other Methods (화자/선택지/애니메이션 - 수정 없음)

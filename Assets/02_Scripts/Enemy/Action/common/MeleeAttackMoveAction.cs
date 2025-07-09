@@ -24,8 +24,8 @@ public partial class MeleeAttackMoveAction : Action
         }
         
         _endPos = Target.Value.transform.position.x > Self.Value.transform.position.x
-            ? Target.Value.transform.position.x - MeleeAttackDistance
-            : Target.Value.transform.position.x + MeleeAttackDistance;
+            ? Target.Value.transform.position.x - MeleeAttackDistance.Value
+            : Target.Value.transform.position.x + MeleeAttackDistance.Value;
         float direction = Mathf.Sign(_endPos - Self.Value.transform.position.x);
         _rigidbody2D.linearVelocityX = direction * MeleeAttackMoveSpeed;
         return Status.Running;
