@@ -1823,21 +1823,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5914680830787497562, guid: 8fdc44108b5a18f4aaee56556e6e4e60, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 5914680830787497562, guid: 8fdc44108b5a18f4aaee56556e6e4e60, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.81
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fdc44108b5a18f4aaee56556e6e4e60, type: 3}
---- !u!4 &1000704246 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1877913112724969597, guid: 8fdc44108b5a18f4aaee56556e6e4e60, type: 3}
-  m_PrefabInstance: {fileID: 1000704245}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1000704248 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1411778421242455202, guid: 8fdc44108b5a18f4aaee56556e6e4e60, type: 3}
-  m_PrefabInstance: {fileID: 1000704245}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1001856554
 GameObject:
   m_ObjectHideFlags: 0
@@ -1905,7 +1903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c37f7b40575914bacc428f326a1eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerGameObject: {fileID: 1000704248}
+  playerGameObject: {fileID: 0}
   slots: []
   inventoryWindow: {fileID: 74645561}
   slotPanel: {fileID: 1156113653}
@@ -3104,7 +3102,7 @@ PrefabInstance:
     - target: {fileID: 3965910748523297459, guid: cbb6a40008cb1e346aeba783f1e15f8b, type: 3}
       propertyPath: Target.TrackingTarget
       value: 
-      objectReference: {fileID: 1000704246}
+      objectReference: {fileID: 0}
     - target: {fileID: 4657553357887509464, guid: cbb6a40008cb1e346aeba783f1e15f8b, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.2161
