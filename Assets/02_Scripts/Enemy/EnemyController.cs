@@ -1,4 +1,6 @@
+using System;
 using Unity.Behavior;
+using Unity.Behavior.GraphFramework;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour,IDamagable
@@ -10,6 +12,7 @@ public class EnemyHealth : MonoBehaviour,IDamagable
 
     private float _enemyMaxHealth;
     private float _enemyCurrentHealth;
+    private GameObject _player;
     
     private void Start()
     {
@@ -17,6 +20,16 @@ public class EnemyHealth : MonoBehaviour,IDamagable
         biteAttackCollider2D.enabled = false;
         agent.BlackboardReference.GetVariableValue<float>("MaxHealth", out _enemyMaxHealth);
         agent.BlackboardReference.GetVariableValue<float>("CurrentHealth", out _enemyCurrentHealth);
+    }
+
+    private void OnEnable()
+    {
+        if (_player == null)
+        {
+            _player = GameObject.FindWithTag("Player");
+        }
+
+        agent.BlackboardReference.SetVariableValue("Target", _player);
     }
 
     public void TakeDamage(float damage)
