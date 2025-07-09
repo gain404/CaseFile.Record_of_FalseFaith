@@ -14,7 +14,6 @@ public class WeaponHandler : MonoBehaviour
     
     private Dictionary<WeaponType, WeaponData> _weaponData;
     private RaycastHit2D _hit;
-    private EnemyHealth _enemyHealth;
     private Player _player;
     private BulletProjectile _bulletProjectile;
     private SwordAttack _swordAttackPoint;

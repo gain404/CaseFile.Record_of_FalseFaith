@@ -3,12 +3,10 @@ using Unity.Behavior;
 using Unity.Behavior.GraphFramework;
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour,IDamagable
+public class EnemyController : MonoBehaviour,IDamagable
 {
     [SerializeField] private BehaviorGraphAgent agent;
     [SerializeField] private LayerMask mask;
-    [SerializeField] private PolygonCollider2D meleeAttackCollider2D;
-    [SerializeField] private PolygonCollider2D biteAttackCollider2D;
 
     private float _enemyMaxHealth;
     private float _enemyCurrentHealth;
@@ -16,8 +14,6 @@ public class EnemyHealth : MonoBehaviour,IDamagable
     
     private void Start()
     {
-        meleeAttackCollider2D.enabled = false;
-        biteAttackCollider2D.enabled = false;
         agent.BlackboardReference.GetVariableValue<float>("MaxHealth", out _enemyMaxHealth);
         agent.BlackboardReference.GetVariableValue<float>("CurrentHealth", out _enemyCurrentHealth);
     }
@@ -47,24 +43,5 @@ public class EnemyHealth : MonoBehaviour,IDamagable
     {
         Debug.Log("보스 사망");
         //사망
-    }
-
-    private void MeleeAttack()
-    {
-        meleeAttackCollider2D.enabled = true;
-    }
-
-    private void MeleeAttackFinish()
-    {
-        meleeAttackCollider2D.enabled = false;
-    }
-
-    private void BiteAttack()
-    {
-        biteAttackCollider2D.enabled = true;
-    }
-    private void BiteAttackFinish()
-    {
-        biteAttackCollider2D.enabled = false;
     }
 }

@@ -8,7 +8,6 @@ public class BulletProjectile : MonoBehaviour
     public float damageDistance;
     
     [SerializeField] private LayerMask layerMask;
-    private EnemyHealth _enemyHealth;
     private Rigidbody2D _rb;
 
     private void Awake()
