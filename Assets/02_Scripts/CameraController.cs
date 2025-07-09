@@ -8,9 +8,12 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] private CinemachineCamera virtualCamera;
 
-    private float defaultSize = 10f; //기본 카메라
-    private float runningSize = 15f; //달릴 때 카메라
+    private float defaultZoomSize = 10f; //기본 카메라
+    private float maxZoomOutSize = 15f; //달릴 때 카메라
     private float zoomSpeed = 5f; //얼마나 빨리 변할지
+
+    private float currentDefaultZoom;
+    private float currentMaxZoom;
 
     private Coroutine zoomCoroutine;
 
@@ -21,19 +24,39 @@ public class CameraController : MonoBehaviour
         {
             virtualCamera = FindFirstObjectByType<CinemachineCamera>();
         }
+
+        // 초기 줌 설정
+        currentDefaultZoom = defaultZoomSize;
+        currentMaxZoom = maxZoomOutSize;
     }
 
+    public void SetZoomLimits(float newDefault, float newMax)
+    {
+        currentDefaultZoom = newDefault;
+        currentMaxZoom = newMax;
+    }
+
+    public void ResetZoomLimits()
+    {
+        currentDefaultZoom = defaultZoomSize;
+        currentMaxZoom = maxZoomOutSize;
+    }
 
     public void ZoomOutForRunning()
     {
-        if (zoomCoroutine != null) StopCoroutine(zoomCoroutine);
-        zoomCoroutine = StartCoroutine(ZoomTo(runningSize));
+        float target = Mathf.Min(currentMaxZoom, maxZoomOutSize);
+        StartZoom(target);
     }
 
     public void ZoomInToDefault()
     {
+        StartZoom(currentDefaultZoom);
+    }
+
+    private void StartZoom(float targetSize)
+    {
         if (zoomCoroutine != null) StopCoroutine(zoomCoroutine);
-        zoomCoroutine = StartCoroutine(ZoomTo(defaultSize));
+        zoomCoroutine = StartCoroutine(ZoomTo(targetSize));
     }
 
     private IEnumerator ZoomTo(float targetSize)
@@ -48,5 +71,11 @@ public class CameraController : MonoBehaviour
         }
 
         virtualCamera.Lens.OrthographicSize = targetSize;
+    }
+
+    public void DisableZoomTemporarily()
+    {
+        currentDefaultZoom = defaultZoomSize;
+        currentMaxZoom = defaultZoomSize;
     }
 }
