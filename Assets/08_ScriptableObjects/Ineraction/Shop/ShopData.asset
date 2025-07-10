@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77c2e7ffd76f3a34f8612b0e693b35f1, type: 3}
-  m_Name: DroneData
+  m_Script: {fileID: 11500000, guid: 2f86dc6423d572c42ba174b0bd1e93b0, type: 3}
+  m_Name: ShopData
   m_EditorClassIdentifier: 
-  npcID: Drone
-  firstDialogueAsset: {fileID: 11400000, guid: 627f64b62b8c274479dbf8bcad435889, type: 2}
-  secondDialogueAsset: {fileID: 11400000, guid: 4edf6d70a73f38e4296c2714234792c5, type: 2}
+  itemsForSale:
+  - {fileID: 11400000, guid: 8c43dfbd902a4c349b902b9c9e99de83, type: 2}
+  - {fileID: 11400000, guid: a21c6fd3f86afe34d84722d8e392b9f7, type: 2}

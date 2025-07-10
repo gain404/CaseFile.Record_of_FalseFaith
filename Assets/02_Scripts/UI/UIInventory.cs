@@ -38,8 +38,9 @@ public class UIInventory : MonoBehaviour
         // 플레이어 컨트롤러 등에서 Action 호출 시 필요한 함수 등록
         controller.inventory += Toggle;// inventory 키 입력 시
         itemUser = playerGameObject.GetComponent<ItemManager>();
-        //TestCharacterManager.Instance.Player.addItem += AddItem;  // 아이템 획득 시
-        player.addItem += AddItem;
+        
+        // 수정: 매개변수가 없는 player.addItem 이벤트를 처리하기 위해 래퍼 함수를 연결합니다.
+        player.addItem += AddItemFromPlayerEvent;
 
         // Inventory UI 초기화 로직들
         inventoryWindow.SetActive(false);
@@ -54,7 +55,20 @@ public class UIInventory : MonoBehaviour
         }
 
         ClearSelectedItemWindow();
-        RefreshUI();
+        // RefreshUI(); // Start에서 호출 시 다른 매니저가 초기화되지 않았을 수 있으므로 주석 처리 권장
+    }
+    
+    // 이 함수는 player.addItem 이벤트가 발생했을 때 호출됩니다.
+    private void AddItemFromPlayerEvent()
+    {
+        // Player 스크립트에 임시로 저장된 itemData를 가져옵니다.
+        ItemData data = player.itemData;
+        if (data != null)
+        {
+            // 데이터가 있는 경우, 매개변수를 받는 AddItem 함수를 호출합니다.
+            AddItem(data);
+            player.itemData = null; // 처리 후 비워줍니다.
+        }
     }
 
     // 선택한 아이템 표시할 정보창 Clear 함수
@@ -83,12 +97,12 @@ public class UIInventory : MonoBehaviour
     {
         return inventoryWindow.activeInHierarchy;
     }
-
-
-    public void AddItem()
+    
+    // 이제 이 함수는 상점에서든, 필드에서든 아이템을 추가하는 유일한 통로입니다.
+    public void AddItem(ItemData data)
     {
-        //여기에 플레이어에게 추가되는 아이템 정보를 가져오게 하면 됩니다.
-        ItemData data = TestCharacterManager.Instance.Player.itemData;
+        // 전달받은 데이터가 null이면 아무것도 하지 않습니다.
+        if (data == null) return;
 
         //여러 개 소유 가능한 아이템일 경우
         if (data.canStack)
@@ -97,28 +111,22 @@ public class UIInventory : MonoBehaviour
 
             if(slot != null)
             {
-                Debug.Log($"획득하려는 아이템 : {data.name}");
                 slot.quantity++;
                 UpdateUI();
-                player.itemData = null;
                 return;
             }
         }
+
         //위의 조건문을 돌지 않았다면 슬롯에 없다는 거니까 빈 슬롯을 찾기
-        //Debug.Log("빈 슬롯 찾아보겠습니다.");
-        //Debug.Log($"지금 슬롯 수:{slots.Length}");
         ItemSlot emptySlot = GetEmptySlot();
         if (emptySlot != null)
         {
-            //Debug.Log($"획득하려는 아이템 : {data.name}");
             emptySlot.item = data;
             emptySlot.quantity = 1;
             UpdateUI();
-            player.itemData = null;
             return;
         }
         Debug.Log("인벤토리 부족");
-        player.itemData = null;
     }
 
     // UI 정보 새로고침
@@ -154,18 +162,11 @@ public class UIInventory : MonoBehaviour
     // 슬롯의 item 정보가 비어있는 정보 return
     ItemSlot GetEmptySlot()
     {
-        //Debug.Log("빈 슬롯을 찾아보죠");
         for (int i = 0; i < slots.Length; i++)
         {
-            //Debug.Log($"{i}번째 슬롯입니다");
             if (slots[i].item == null)
             {
-                //Debug.Log($"오 찾음 : {i}번째 슬롯 비었음");
                 return slots[i];
-            }
-            else
-            {
-                //Debug.Log($"{i}번째 슬롯은 자리가 있습니다. 내용물 : {slots[i].item.name}");
             }
         }
         return null;
@@ -182,8 +183,6 @@ public class UIInventory : MonoBehaviour
         selectedItemName.text = selectedItem.item.displayName;
         selectedItemDescription.text = selectedItem.item.description;
     }
-
-    // UIInventory.cs
 
     public void UseItem()
     {
@@ -219,14 +218,15 @@ public class UIInventory : MonoBehaviour
                 Destroy(child.GetComponent<ItemSlot>().item);
             }
         }
-
+        
         // 인벤토리 데이터 기반으로 다시 그림
-        foreach (ItemData item in InventoryManager.Instance.items)
+        // InventoryManager에서 아이템 정보를 가져와서, 매개변수가 있는 AddItem 함수를 직접 호출합니다.
+        if (InventoryManager.Instance != null)
         {
-            player.itemData = item;
-            AddItem();
-            //GameObject slot = Instantiate(slotPrefab, slotPanel);
-            //slot.GetComponent<ItemSlot>().SetItem(item); // 슬롯에 정보 적용
+            foreach (ItemData item in InventoryManager.Instance.items)
+            {
+                AddItem(item);
+            }
         }
     }
 

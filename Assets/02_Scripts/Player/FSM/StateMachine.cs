@@ -10,7 +10,7 @@ public class StateMachine
         transitions.Add(transition);
     }
     
-    public void ChangeState(IState state)
+    public virtual void ChangeState(IState state)
     {
         currentState?.Exit();
         currentState = state;
