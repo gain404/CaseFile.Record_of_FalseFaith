@@ -164,22 +164,22 @@ public class PlayerStateMachine : StateMachine
         //Interact
         AddTransition(new StateTransition(
             IdleState, InteractState,
-            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
+            () => Player.PlayerController.playerActions.Interact.WasPressedThisFrame()
                 && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
 
         AddTransition(new StateTransition(
             WalkState, InteractState,
-            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
+            () => Player.PlayerController.playerActions.Interact.WasPressedThisFrame()
                 && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
 
         AddTransition(new StateTransition(
             RunState, InteractState,
-            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
+            () => Player.PlayerController.playerActions.Interact.WasPressedThisFrame()
                 && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
         
         AddTransition(new StateTransition(
             JumpState, InteractState,
-            () => Player.PlayerController.playerActions.Interact.ReadValue<float>() >= 0.5f
+            () => Player.PlayerController.playerActions.Interact.WasPressedThisFrame()
                   && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
         
         AddTransition(new StateTransition(
