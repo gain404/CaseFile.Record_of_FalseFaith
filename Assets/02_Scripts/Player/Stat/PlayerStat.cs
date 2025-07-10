@@ -45,6 +45,7 @@ public class PlayerStat : MonoBehaviour
             _maxStats.Add(StatType.Money, float.MaxValue);
         }
 
+        healthUI.UpdateHearts((int) CurrentHp, (int) MaxHp);
 
     }
 
