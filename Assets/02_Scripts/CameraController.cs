@@ -8,8 +8,8 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] private CinemachineCamera virtualCamera;
 
-    private float defaultZoomSize = 10f; //기본 카메라
-    private float maxZoomOutSize = 15f; //달릴 때 카메라
+    public float defaultZoomSize = 10f; //기본 카메라
+    public float maxZoomOutSize = 15f; //달릴 때 카메라
     private float zoomSpeed = 5f; //얼마나 빨리 변할지
 
     private float currentDefaultZoom;
