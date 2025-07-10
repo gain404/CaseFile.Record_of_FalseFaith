@@ -16,7 +16,10 @@ public class PlayerStat : MonoBehaviour
     public CharacterData characterData;//최대 체력 얻는 방식 변경 by 송도현
 
     public float CurrentHp => GetStatValue(StatType.Hp);
-    public float MaxHp => GetMaxStatValue(StatType.Hp);//최대 체력 계산 방식 변경 by 송도현
+    public float MaxHp => GetMaxStatValue(StatType.Hp);
+
+    [SerializeField] private HealthUI healthUI;//UI 표시 위한 추가
+    [SerializeField] private StaminaUI staminaUI;
 
     public bool isInvincible;
     private bool isRecoveryOnCooldown = false;
@@ -41,6 +44,8 @@ public class PlayerStat : MonoBehaviour
             CurrentStats.Add(StatType.Money, 0);
             _maxStats.Add(StatType.Money, float.MaxValue);
         }
+
+
     }
 
     public float GetStatValue(StatType type) => CurrentStats.TryGetValue(type, out float value) ? value : 0f;
@@ -105,7 +110,17 @@ public class PlayerStat : MonoBehaviour
         CurrentStats[type] = Mathf.Min(CurrentStats[type] + amount, maxStat);
 
         OnStatChanged?.Invoke(type);
-        Debug.Log($"{type}을(를) {amount} 만큼 회복. 현재 값: {CurrentStats[type]}");
+
+        if(type == StatType.Hp)
+        {
+            healthUI.UpdateHearts((int)CurrentHp, (int)MaxHp);
+        }
+        else if (type == StatType.Stamina)
+        {
+            staminaUI.UpdateStamina(CurrentStats[type], maxStat);
+        }
+
+            Debug.Log($"{type}을(를) {amount} 만큼 회복. 현재 값: {CurrentStats[type]}");
     }
 
     private IEnumerator StartRecoveryCooldown()
@@ -128,6 +143,7 @@ public class PlayerStat : MonoBehaviour
         {
             if (CurrentStats[StatType.Hp] <= 0) Die();
         }
+        healthUI.UpdateHearts((int)CurrentHp, (int)MaxHp);
     }
 
     private void Die()
