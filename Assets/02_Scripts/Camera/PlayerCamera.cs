@@ -5,21 +5,14 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
-    [SerializeField] private LayerMask hitLayerMask;
     private CinemachineConfiner2D _cinemachineConfiner2D;
-    private void Awake()
+    private GameObject _cameraCollider;
+    private PolygonCollider2D _polygonCollider2D;
+    private void Start()
     {
         _cinemachineConfiner2D = GetComponent<CinemachineConfiner2D>();
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (((1 << other.gameObject.layer) & hitLayerMask) != 0)
-        {
-            if (other.TryGetComponent(out BoxCollider2D boxCollider2D))
-            {
-                _cinemachineConfiner2D.BoundingShape2D = boxCollider2D;
-            }
-        }
+        _cameraCollider = GameObject.FindWithTag("CameraCollider");
+        _polygonCollider2D = _cameraCollider.GetComponent<PolygonCollider2D>();
+        _cinemachineConfiner2D.BoundingShape2D = _polygonCollider2D;
     }
 }
