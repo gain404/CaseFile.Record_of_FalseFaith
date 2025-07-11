@@ -28,6 +28,24 @@ public class EnemyController : MonoBehaviour,IDamagable
         agent.BlackboardReference.SetVariableValue("Target", _player);
     }
 
+    private void Update()
+    {
+        if (agent.enabled)
+        {
+            if (Math.Abs(transform.position.y - _player.transform.position.y) > 60)
+            {
+                agent.enabled = false;
+            }
+        }
+        else if(!agent.enabled)
+        {
+            if (Math.Abs(transform.position.y - _player.transform.position.y) < 60)
+            {
+                agent.enabled = true;
+            }
+        }
+    }
+
     public void TakeDamage(float damage)
     {
         Debug.Log("보스 데미지 입음 : " + damage);
