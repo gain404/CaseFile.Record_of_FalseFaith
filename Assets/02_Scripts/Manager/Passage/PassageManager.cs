@@ -10,15 +10,16 @@ public class PassageManager : MonoBehaviour
 
     public bool canMovement;
     
-    private GameObject _player;
+    [SerializeField] private GameObject _player;
     private GameObject _playerCamera;
     private bool _isSceneChange;
     private string _targetScene;
     private Vector3 _targetPosition;
-    private PlayerController _playerController;
+    [SerializeField] private PlayerController _playerController;
     private CinemachineCamera _playerCinemachineCamera;
     private CinemachineConfiner2D _playerCinemachineConfiner2D;
-    
+
+
     private void Awake()
     {
         if (Instance != null)
@@ -28,6 +29,10 @@ public class PassageManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
         _player = GameObject.FindWithTag("Player");
         _playerCamera = GameObject.FindWithTag("PlayerCamera");
         _playerController = _player.GetComponent<PlayerController>();
