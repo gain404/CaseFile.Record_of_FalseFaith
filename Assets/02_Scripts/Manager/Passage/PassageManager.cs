@@ -10,12 +10,12 @@ public class PassageManager : MonoBehaviour
 
     public bool canMovement;
     
-    [SerializeField] private GameObject _player;
+    private GameObject _player;
     private GameObject _playerCamera;
     private bool _isSceneChange;
     private string _targetScene;
     private Vector3 _targetPosition;
-    [SerializeField] private PlayerController _playerController;
+    private PlayerController _playerController;
     private CinemachineCamera _playerCinemachineCamera;
     private CinemachineConfiner2D _playerCinemachineConfiner2D;
 
@@ -36,6 +36,7 @@ public class PassageManager : MonoBehaviour
         _player = GameObject.FindWithTag("Player");
         _playerCamera = GameObject.FindWithTag("PlayerCamera");
         _playerController = _player.GetComponent<PlayerController>();
+        _playerCinemachineCamera = _playerCamera.GetComponent<CinemachineCamera>();
         _playerCinemachineConfiner2D = _playerCamera.GetComponent<CinemachineConfiner2D>();
         canMovement = false;
     }
@@ -89,9 +90,10 @@ public class PassageManager : MonoBehaviour
 
     private void SetPlayerPosition()
     {
+        Quaternion quaternion = new Quaternion(0, 0, 0, 0);
         _playerCinemachineConfiner2D.enabled = false;
         _player.transform.position = _targetPosition;
-        _playerCamera.transform.position = _targetPosition;
+        _playerCinemachineCamera.ForceCameraPosition(_targetPosition, quaternion);
         DOVirtual.DelayedCall(1,cameraColliderOn);
         
         canMovement = false;
