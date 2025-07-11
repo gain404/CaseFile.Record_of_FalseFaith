@@ -11,12 +11,6 @@ public class EnemyController : MonoBehaviour,IDamagable
     private float _enemyMaxHealth;
     private float _enemyCurrentHealth;
     private GameObject _player;
-    
-    private void Start()
-    {
-        agent.BlackboardReference.GetVariableValue<float>("MaxHealth", out _enemyMaxHealth);
-        agent.BlackboardReference.GetVariableValue<float>("CurrentHealth", out _enemyCurrentHealth);
-    }
 
     private void OnEnable()
     {
@@ -24,8 +18,14 @@ public class EnemyController : MonoBehaviour,IDamagable
         {
             _player = GameObject.FindWithTag("Player");
         }
-
         agent.BlackboardReference.SetVariableValue("Target", _player);
+    }
+    
+    private void Start()
+    {
+        agent.BlackboardReference.SetVariableValue("Target", _player);
+        agent.BlackboardReference.GetVariableValue<float>("MaxHealth", out _enemyMaxHealth);
+        agent.BlackboardReference.GetVariableValue<float>("CurrentHealth", out _enemyCurrentHealth);
     }
 
     private void Update()
