@@ -3,6 +3,6 @@ using UnityEngine;
 [System.Serializable]
 public struct AudioType
 {
-    public string name;
+    public AudioName audioName;
     public AudioClip clip;
 }
