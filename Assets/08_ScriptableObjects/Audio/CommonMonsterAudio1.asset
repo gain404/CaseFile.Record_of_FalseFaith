@@ -9,9 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 072de8ebf54928d4b8bfe901edfda9cc, type: 3}
-  m_Name: GoMarket
+  m_Script: {fileID: 11500000, guid: c6383792ecf902840a527d480a4c2452, type: 3}
+  m_Name: CommonMonsterAudio1
   m_EditorClassIdentifier: 
-  isSceneChange: 0
-  sceneName: StreetScene_1
-  targetPosition: {x: 6.44, y: 153.62, z: 0}
+  clips:
+  - name: walkClip
+    clip: {fileID: 0}
+  - name: attackClip
+    clip: {fileID: 0}
+  - name: deathClip
+    clip: {fileID: 0}

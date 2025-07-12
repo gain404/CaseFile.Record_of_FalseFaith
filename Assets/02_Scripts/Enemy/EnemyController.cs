@@ -1,7 +1,6 @@
-using System;
 using Unity.Behavior;
-using Unity.Behavior.GraphFramework;
 using UnityEngine;
+using DG.Tweening;
 
 public class EnemyController : MonoBehaviour,IDamagable
 {
@@ -11,39 +10,20 @@ public class EnemyController : MonoBehaviour,IDamagable
     private float _enemyMaxHealth;
     private float _enemyCurrentHealth;
     private GameObject _player;
+    private SpriteRenderer _spriteRenderer;
+    private bool _isDie;
+
+    private void Awake()
+    {
+        _player = GameObject.FindWithTag("Player");
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
     
     private void Start()
     {
+        agent.BlackboardReference.SetVariableValue("Target", _player);
         agent.BlackboardReference.GetVariableValue<float>("MaxHealth", out _enemyMaxHealth);
         agent.BlackboardReference.GetVariableValue<float>("CurrentHealth", out _enemyCurrentHealth);
-    }
-
-    private void OnEnable()
-    {
-        if (_player == null)
-        {
-            _player = GameObject.FindWithTag("Player");
-        }
-
-        agent.BlackboardReference.SetVariableValue("Target", _player);
-    }
-
-    private void Update()
-    {
-        if (agent.enabled)
-        {
-            if (Math.Abs(transform.position.y - _player.transform.position.y) > 60)
-            {
-                agent.enabled = false;
-            }
-        }
-        else if(!agent.enabled)
-        {
-            if (Math.Abs(transform.position.y - _player.transform.position.y) < 60)
-            {
-                agent.enabled = true;
-            }
-        }
     }
 
     public void TakeDamage(float damage)
@@ -59,7 +39,8 @@ public class EnemyController : MonoBehaviour,IDamagable
 
     public void Die()
     {
-        Debug.Log("보스 사망");
-        //사망
+        agent.enabled = false;
+        _isDie = true;
+        _spriteRenderer.DOFade(0, 2f).OnComplete(() => gameObject.SetActive(false));
     }
 }
