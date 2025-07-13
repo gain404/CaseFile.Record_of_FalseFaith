@@ -40,11 +40,11 @@ public partial class EnemyPatrolAction : Action
         Direction.Value = randomNum == 0 ? 1 : -1;
         if (Direction.Value > 0)
         {
-            ChangeDirection();
-            return Status.Running;
+            var scale = Self.Value.transform.localScale;
+            scale.x = scale.x * -1;
+            Self.Value.transform.localScale = scale;
         }
-        _direction = Direction.Value;
-        _rigidbody2D.linearVelocityX = Direction.Value * MoveSpeed.Value;
+        ChangeDirection();
         
         return Status.Running;
     }
@@ -61,8 +61,7 @@ public partial class EnemyPatrolAction : Action
         {
             ChangeDirection();
         }
-        
-        
+
         return Status.Running;
     }
 
