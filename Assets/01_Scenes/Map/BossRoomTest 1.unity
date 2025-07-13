@@ -335,11 +335,11 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: a85b7116bbf0fee46b7e5af9955bc785, type: 2}
     - target: {fileID: 5914680830787497562, guid: 8fdc44108b5a18f4aaee56556e6e4e60, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 857.4
+      value: 574
       objectReference: {fileID: 0}
     - target: {fileID: 5914680830787497562, guid: 8fdc44108b5a18f4aaee56556e6e4e60, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.4
+      value: 38.6
       objectReference: {fileID: 0}
     - target: {fileID: 5914680830787497562, guid: 8fdc44108b5a18f4aaee56556e6e4e60, type: 3}
       propertyPath: m_LocalPosition.z
@@ -404,7 +404,7 @@ Transform:
   m_GameObject: {fileID: 2015916791033505726}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 857.9, y: 5.4, z: -2}
+  m_LocalPosition: {x: 574.5, y: 38.6, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -501,7 +501,7 @@ Transform:
   m_GameObject: {fileID: 4628708542770103524}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 857.9, y: 5.4, z: -2}
+  m_LocalPosition: {x: 574.5, y: 38.6, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -747,7 +747,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1f191b4039cb184d82f8a54e46bbeff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
   sfxData: {fileID: 0}
 --- !u!114 &6658352911488549470
 MonoBehaviour:
@@ -826,10 +825,6 @@ PrefabInstance:
     - target: {fileID: 6700522227003764428, guid: 33ba30e2901e5eb4a984e69a68d4a22d, type: 3}
       propertyPath: m_Name
       value: CommonEnemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 6700522227003764428, guid: 33ba30e2901e5eb4a984e69a68d4a22d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
