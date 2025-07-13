@@ -15,6 +15,7 @@ public class PassageManager : MonoBehaviour
     private bool _isSceneChange;
     private string _targetScene;
     private Vector3 _targetPosition;
+    private SfxPlayer _sfxPlayer;
     private PlayerController _playerController;
     private CinemachineCamera _playerCinemachineCamera;
     private CinemachineConfiner2D _playerCinemachineConfiner2D;
@@ -52,11 +53,12 @@ public class PassageManager : MonoBehaviour
         }
     }
 
-    public void SetInfo(bool isSceneChange, string targetScene, Vector3 targetPosition, string targetPositionName)
+    public void SetInfo(bool isSceneChange, string targetScene, Vector3 targetPosition, string targetPositionName, SfxPlayer sfxPlayer)
     {
         _isSceneChange = isSceneChange;
         _targetScene = targetScene;
         _targetPosition = targetPosition;
+        _sfxPlayer = sfxPlayer;
         //ui표시
         //outline표시
     }
@@ -91,6 +93,7 @@ public class PassageManager : MonoBehaviour
 
     private void SetPlayerPosition()
     {
+        //페이드인 페이드아웃
         Quaternion quaternion = new Quaternion(0, 0, 0, 0);
         _playerCinemachineConfiner2D.enabled = false;
         _player.transform.position = _targetPosition;

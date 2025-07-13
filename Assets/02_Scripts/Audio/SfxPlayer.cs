@@ -3,27 +3,29 @@ using UnityEngine;
 
 public class SfxPlayer : MonoBehaviour
 {
-    [SerializeField] private AudioSource audioSource;
     [SerializeField] private SfxData sfxData;
     
-    private Dictionary<SfxName, AudioClip> _SfxClipDictionary = new Dictionary<SfxName, AudioClip>();
+    private Dictionary<SfxName, AudioClip> _sfxClipDictionary = new Dictionary<SfxName, AudioClip>();
+    private AudioSource _audioSource;
+    
 
     private void Awake()
     {
+        _audioSource = GetComponent<AudioSource>();
         foreach (var namedClip in sfxData.clips)
         {
-            if (!_SfxClipDictionary.ContainsKey(namedClip.audioName))
+            if (!_sfxClipDictionary.ContainsKey(namedClip.audioName))
             {
-                _SfxClipDictionary.Add(namedClip.audioName, namedClip.Sfxclip);
+                _sfxClipDictionary.Add(namedClip.audioName, namedClip.Sfxclip);
             }
         }
     }
     
     public void PlaySfx(SfxName sfxName)
     {
-        if (_SfxClipDictionary.TryGetValue(sfxName, out AudioClip clip))
+        if (_sfxClipDictionary.TryGetValue(sfxName, out AudioClip clip))
         {
-            audioSource.PlayOneShot(clip);
+            _audioSource.PlayOneShot(clip);
         }
         else
         {
