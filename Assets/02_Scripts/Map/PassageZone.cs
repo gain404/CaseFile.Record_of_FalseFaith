@@ -18,11 +18,9 @@ public class PassageZone : MonoBehaviour
     {
         if (((1 << other.gameObject.layer) & hitLayerMask) != 0)
         {
-            Debug.Log(_passageManager == null ? "_passageManager is null" : "_passageManager is NOT null");
             _passageManager.SetInfo(passageInfo.isSceneChange, passageInfo.sceneName, passageInfo.targetPosition,
                 passageInfo.targetPositionName, _sfxPlayer);
             _passageManager.canMovement = true;
-            Debug.Log($"bool값 : {_passageManager.canMovement}");
         }
     }
     

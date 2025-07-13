@@ -27,9 +27,5 @@ public class SfxPlayer : MonoBehaviour
         {
             _audioSource.PlayOneShot(clip);
         }
-        else
-        {
-            Debug.LogWarning($"{sfxName} 사운드를 찾을 수 없습니다.");
-        }
     }
 }
