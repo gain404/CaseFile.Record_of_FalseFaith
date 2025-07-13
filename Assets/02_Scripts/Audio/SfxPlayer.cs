@@ -4,30 +4,30 @@ using UnityEngine;
 public class SfxPlayer : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioData sfxData;
+    [SerializeField] private SfxData sfxData;
     
-    private Dictionary<AudioName, AudioClip> _clipDictionary = new Dictionary<AudioName, AudioClip>();
+    private Dictionary<SfxName, AudioClip> _SfxClipDictionary = new Dictionary<SfxName, AudioClip>();
 
     private void Awake()
     {
         foreach (var namedClip in sfxData.clips)
         {
-            if (!_clipDictionary.ContainsKey(namedClip.audioName))
+            if (!_SfxClipDictionary.ContainsKey(namedClip.audioName))
             {
-                _clipDictionary.Add(namedClip.audioName, namedClip.clip);
+                _SfxClipDictionary.Add(namedClip.audioName, namedClip.Sfxclip);
             }
         }
     }
     
-    public void PlaySound(AudioName audioName)
+    public void PlaySfx(SfxName sfxName)
     {
-        if (_clipDictionary.TryGetValue(audioName, out AudioClip clip))
+        if (_SfxClipDictionary.TryGetValue(sfxName, out AudioClip clip))
         {
             audioSource.PlayOneShot(clip);
         }
         else
         {
-            Debug.LogWarning($"{audioName} 사운드를 찾을 수 없습니다.");
+            Debug.LogWarning($"{sfxName} 사운드를 찾을 수 없습니다.");
         }
     }
 }
