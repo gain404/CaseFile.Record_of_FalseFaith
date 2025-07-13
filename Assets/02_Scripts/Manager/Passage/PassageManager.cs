@@ -52,12 +52,13 @@ public class PassageManager : MonoBehaviour
         }
     }
 
-    public void SetInfo(bool isSceneChange, string targetScene, Vector3 targetPosition)
+    public void SetInfo(bool isSceneChange, string targetScene, Vector3 targetPosition, string targetPositionName)
     {
         _isSceneChange = isSceneChange;
         _targetScene = targetScene;
         _targetPosition = targetPosition;
-
+        //ui표시
+        //outline표시
     }
 
     private void StartPassage()

@@ -6,4 +6,5 @@ public class PassageInfo : ScriptableObject
     public bool isSceneChange;
     public string sceneName;
     public Vector3 targetPosition;
+    public string targetPositionName;
 }
