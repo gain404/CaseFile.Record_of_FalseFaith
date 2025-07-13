@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using Unity.Behavior;
 using Unity.Cinemachine;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 public class TestBossRoom : MonoBehaviour
 {
-    [SerializeField] private GameObject doorTilemap;
+    [SerializeField] private List<GameObject> doors;
     [SerializeField] private LayerMask playerLayerMask;
     [SerializeField] private CinemachineCamera cineMachineCamera;
     [SerializeField] private GameObject monster;
@@ -18,14 +19,20 @@ public class TestBossRoom : MonoBehaviour
     {
         _boxCollider2D = GetComponent<BoxCollider2D>();
         _boxCollider2D.enabled = true;
-        doorTilemap.SetActive(false);
+        foreach (var  door in doors)
+        {
+            door.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if ((playerLayerMask.value & (1 << other.gameObject.layer)) != 0)
         {
-            doorTilemap.SetActive(true);
+            foreach (var  door in doors)
+            {
+                door.SetActive(true);
+            }
             _boxCollider2D.enabled = false;
             DOVirtual.DelayedCall(1.0f, () =>
             {
