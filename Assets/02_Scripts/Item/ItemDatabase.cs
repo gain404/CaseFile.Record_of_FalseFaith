@@ -8,6 +8,6 @@ public class ItemDatabase : MonoBehaviour
 
     public ItemData GetItemByName(string name)
     {
-        return allItems.Find(item => item.name == name);
+        return allItems.Find(item => item.displayName == name);
     }
 }
