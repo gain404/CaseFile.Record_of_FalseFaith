@@ -15,14 +15,15 @@ public class PassageManager : MonoBehaviour
     private bool _isSceneChange;
     private string _targetScene;
     private Vector3 _targetPosition;
+    private SfxPlayer _sfxPlayer;
     private PlayerController _playerController;
     private CinemachineCamera _playerCinemachineCamera;
-    private CinemachineConfiner2D _playerCinemachineConfiner2D;
+    private FadeManager _fadeManager;
 
 
     private void Awake()
     {
-        if (Instance != null)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
@@ -37,7 +38,7 @@ public class PassageManager : MonoBehaviour
         _playerCamera = GameObject.FindWithTag("PlayerCamera");
         _playerController = _player.GetComponent<PlayerController>();
         _playerCinemachineCamera = _playerCamera.GetComponent<CinemachineCamera>();
-        _playerCinemachineConfiner2D = _playerCamera.GetComponent<CinemachineConfiner2D>();
+        _fadeManager = FadeManager.Instance;
         canMovement = false;
     }
 
@@ -52,12 +53,15 @@ public class PassageManager : MonoBehaviour
         }
     }
 
-    public void SetInfo(bool isSceneChange, string targetScene, Vector3 targetPosition)
+    public void SetInfo(bool isSceneChange, string targetScene, Vector3 targetPosition, string targetPositionName,
+        SfxPlayer sfxPlayer)
     {
         _isSceneChange = isSceneChange;
         _targetScene = targetScene;
         _targetPosition = targetPosition;
-
+        _sfxPlayer = sfxPlayer == null ? null : sfxPlayer;
+        //ui표시
+        //outline표시
     }
 
     private void StartPassage()
@@ -71,7 +75,7 @@ public class PassageManager : MonoBehaviour
         }
         else
         {
-            SetPlayerPosition();
+            FadeOutBeforePassage();
         }
     }
 
@@ -81,26 +85,27 @@ public class PassageManager : MonoBehaviour
         _playerCamera = GameObject.FindWithTag("PlayerCamera");
         _playerController = _player.GetComponent<PlayerController>();
         _playerCinemachineCamera = _playerCamera.GetComponent<CinemachineCamera>();
-        _playerCinemachineConfiner2D = _playerCamera.GetComponent<CinemachineConfiner2D>();
         _playerCinemachineCamera.Follow = _player.transform;
-        SetPlayerPosition();
+        FadeOutBeforePassage();
         
         SceneManager.sceneLoaded -= OnSceneLoaded; 
     }
 
+    private void FadeOutBeforePassage()
+    {
+        if (_sfxPlayer != null)
+        {
+            _sfxPlayer.PlaySfx(SfxName.DoorOpenSound);
+        }
+        _fadeManager.FadeOut(SetPlayerPosition);
+    }
+    
     private void SetPlayerPosition()
     {
         Quaternion quaternion = new Quaternion(0, 0, 0, 0);
-        _playerCinemachineConfiner2D.enabled = false;
         _player.transform.position = _targetPosition;
         _playerCinemachineCamera.ForceCameraPosition(_targetPosition, quaternion);
-        DOVirtual.DelayedCall(1,cameraColliderOn);
-        
+        _fadeManager.FadeIn();
         canMovement = false;
-    }
-
-    private void cameraColliderOn()
-    {
-        _playerCinemachineConfiner2D.enabled = true;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI; // UI 요소를 사용하기 위해 필요합니다.
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TitleManager : MonoBehaviour
 {
@@ -14,7 +15,10 @@ public class TitleManager : MonoBehaviour
     [Header("Fade Durations")]
     public float fadeDuration = 1.0f;
     public float logoStayDuration = 2.0f;
-
+    
+    [Header("Scene Transition")]
+    public CanvasGroup fadePanel;
+    
     void Start()
     {
         // 시작 시 모든 패널을 비활성화 (로고 패널 제외)
@@ -22,6 +26,12 @@ public class TitleManager : MonoBehaviour
         savePanel.SetActive(false);
         settingsPanel.SetActive(false);
         confirmExitPopup.SetActive(false);
+        
+        if (fadePanel != null)
+        {
+            fadePanel.alpha = 0;
+            fadePanel.blocksRaycasts = false;
+        }
 
         // 타이틀 시퀀스 시작
         StartCoroutine(TitleSequence());
@@ -47,11 +57,16 @@ public class TitleManager : MonoBehaviour
         StartCoroutine(SwitchPanel(mainMenuPanel, savePanel));
     }
     
+    public void OnClick_NewGameStart(string sceneName)
+    {
+        StartCoroutine(FadeAndLoadScene(sceneName));
+    }
+    
     public void OnClick_Settings()
     {
         // 현재는 설정 패널을 활성화
         // 추후 언어, 사운드 설정 UI를 연결하고 기능을 구현
-        settingsPanel.SetActive(true);
+        StartCoroutine(SwitchPanel(mainMenuPanel, settingsPanel));
         // 필요하다면 메인 메뉴를 비활성화하거나 페이드 아웃 처리
         // mainMenuPanel.SetActive(false);
     }
@@ -108,5 +123,28 @@ public class TitleManager : MonoBehaviour
             yield return null;
         }
         canvasGroup.alpha = endAlpha;
+    }
+    
+    private IEnumerator FadeAndLoadScene(string sceneName)
+    {
+        if (fadePanel == null)
+        {
+            Debug.LogError("Fade Panel이 할당되지 않았습니다!");
+            yield break;
+        }
+        
+        // 페이드 아웃
+        fadePanel.blocksRaycasts = true;
+        float elapsedTime = 0f;
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            fadePanel.alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
+            yield return null;
+        }
+        fadePanel.alpha = 1f;
+
+        // 로딩 씬 호출
+        LoadingBar.LoadScene(sceneName);
     }
 }

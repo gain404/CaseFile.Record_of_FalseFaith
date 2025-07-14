@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
-
-public enum AudioName
+public enum SfxName
 {
     //오디오 이름 => 부족할시 추가
     //1줄 : 공통  2줄 : 플레이어 전용  3줄 : 몬스터 전용  4줄 : 그 외
@@ -11,9 +9,9 @@ public enum AudioName
     LightBreakSound, DoorOpenSound, DoorCloseSound
 }
 
-[CreateAssetMenu(fileName = "AudioData", menuName = "Scriptable Objects/AudioData")]
-
-public class AudioData : ScriptableObject
+[System.Serializable]
+public struct SfxType
 {
-    public List<AudioType> clips;
+    public SfxName audioName;
+    public AudioClip Sfxclip;
 }

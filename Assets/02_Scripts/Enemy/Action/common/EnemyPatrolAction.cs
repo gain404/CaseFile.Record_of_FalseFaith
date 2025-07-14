@@ -17,6 +17,7 @@ public partial class EnemyPatrolAction : Action
     [SerializeReference] public BlackboardVariable<Transform> StartTransform;
     private Rigidbody2D _rigidbody2D;
     private float _distance;
+    private int _direction;
     
     protected override Status OnStart()
     {
@@ -43,8 +44,7 @@ public partial class EnemyPatrolAction : Action
             scale.x = scale.x * -1;
             Self.Value.transform.localScale = scale;
         }
-
-        _rigidbody2D.linearVelocityX = Direction.Value * MoveSpeed.Value;
+        ChangeDirection();
         
         return Status.Running;
     }
@@ -56,13 +56,19 @@ public partial class EnemyPatrolAction : Action
             return Status.Success;
         }
         _distance = Vector2.Distance(Target.Value.transform.position, Self.Value.transform.position);
-        if (_distance > 150)
+
+        if (_direction != Direction.Value)
         {
-            Self.Value.transform.position = StartTransform.Value.position;
-            return Status.Success;
+            ChangeDirection();
         }
-        
+
         return Status.Running;
+    }
+
+    private void ChangeDirection()
+    {
+        _direction = Direction.Value;
+        _rigidbody2D.linearVelocityX = _direction * MoveSpeed.Value;
     }
 }
 

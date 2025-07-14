@@ -10,7 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6127843f0a1042649ad890962159055c, type: 3}
-  m_Name: BgmData
+  m_Name: Bgm
   m_EditorClassIdentifier: 
-  basicBgm: {fileID: 0}
-  fightBgm: {fileID: 0}
+  clips:
+  - bgmName: 0
+    bgmClip: {fileID: 0}
+  - bgmName: 1
+    bgmClip: {fileID: 0}
