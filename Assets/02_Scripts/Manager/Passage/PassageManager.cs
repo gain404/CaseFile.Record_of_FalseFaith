@@ -97,6 +97,7 @@ public class PassageManager : MonoBehaviour
         {
             _sfxPlayer.PlaySfx(SfxName.DoorOpenSound);
         }
+        _fadeManager.OnCanvas();
         _fadeManager.FadeOut(SetPlayerPosition);
     }
     
@@ -105,7 +106,7 @@ public class PassageManager : MonoBehaviour
         Quaternion quaternion = new Quaternion(0, 0, 0, 0);
         _player.transform.position = _targetPosition;
         _playerCinemachineCamera.ForceCameraPosition(_targetPosition, quaternion);
-        _fadeManager.FadeIn();
+        _fadeManager.FadeIn(_fadeManager.OffCanvas);
         canMovement = false;
     }
 }
