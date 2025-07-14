@@ -68,7 +68,11 @@ public class CameraController : MonoBehaviour
 
     private void StartZoom(float targetSize)
     {
-        if (zoomCoroutine != null) StopCoroutine(zoomCoroutine);
+        if (zoomCoroutine != null)
+        {
+            StopCoroutine(zoomCoroutine);
+            zoomCoroutine = null;
+        }
         zoomCoroutine = StartCoroutine(ZoomTo(targetSize));
     }
 
