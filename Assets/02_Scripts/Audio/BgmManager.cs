@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BgmManager : MonoBehaviour
@@ -6,6 +7,8 @@ public class BgmManager : MonoBehaviour
     
     [SerializeField] private AudioSource bgmSource;
     [SerializeField] private BgmData bgmData;
+    
+    private Dictionary<BgmName, AudioClip> _BgmClipDictionary = new Dictionary<BgmName, AudioClip>();
 
     private void Awake()
     {
@@ -16,17 +19,39 @@ public class BgmManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        
+        foreach (var namedClip in bgmData.clips)
+        {
+            if (!_BgmClipDictionary.ContainsKey(namedClip.bgmName))
+            {
+                _BgmClipDictionary.Add(namedClip.bgmName, namedClip.bgmClip);
+            }
+        }
+    }
+
+    public void PlaySfx(BgmName bgmName)
+    {
+        if (bgmSource.isPlaying)
+        {
+            bgmSource.Stop();
+        }
+        
+        if (_BgmClipDictionary.TryGetValue(bgmName, out AudioClip bgmClip))
+        {
+            bgmSource.clip = bgmClip;
+            bgmSource.Play();
+        }
     }
     
     
-    public void StopBGM()
+    public void StopBgm()
     {
         bgmSource.Stop();
     }
     
     
     // 현재 BGM 재생 여부 반환
-    public bool IsPlayingBGM()
+    public bool IsPlayingBgm()
     {
         return bgmSource.isPlaying;
     }
