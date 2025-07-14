@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe736c3f9a3450e4190fdce084c5ae71, type: 3}
+  m_Name: DroneDialogue
+  m_EditorClassIdentifier: 
+  npcID: Drone
+  lines:
+  - type: 0
+    text: Hello, where are you going?
+    characterName: Drone
+    portrait: {fileID: 21300000, guid: a1fc1786c427341769dba6c83feadde4, type: 3}
+    choices: []
+    nextLineIndices: 
+    shopData: {fileID: 0}
+  - type: 0
+    text: Im NPC
+    characterName: Drone
+    portrait: {fileID: 21300000, guid: a1fc1786c427341769dba6c83feadde4, type: 3}
+    choices: []
+    nextLineIndices: 
+    shopData: {fileID: 0}
+  - type: 1
+    text: I'm Player
+    characterName: 
+    portrait: {fileID: 21300000, guid: 041f56d6a022446e8b09e8a5be7f79ab, type: 3}
+    choices: []
+    nextLineIndices: 
+    shopData: {fileID: 0}
+  - type: 1
+    text: Nice to meet you
+    characterName: 
+    portrait: {fileID: 21300000, guid: 041f56d6a022446e8b09e8a5be7f79ab, type: 3}
+    choices: []
+    nextLineIndices: 
+    shopData: {fileID: 0}
+  - type: 2
+    text: 
+    characterName: 
+    portrait: {fileID: 21300000, guid: 041f56d6a022446e8b09e8a5be7f79ab, type: 3}
+    choices:
+    - Work
+    - Walk
+    - What
+    nextLineIndices: 050000000600000007000000
+    shopData: {fileID: 0}
+  - type: 0
+    text: oh wow you are working
+    characterName: Drone
+    portrait: {fileID: 21300000, guid: a1fc1786c427341769dba6c83feadde4, type: 3}
+    choices: []
+    nextLineIndices: 08000000
+    shopData: {fileID: 0}
+  - type: 0
+    text: oh wow you are walking
+    characterName: Drone
+    portrait: {fileID: 21300000, guid: a1fc1786c427341769dba6c83feadde4, type: 3}
+    choices: []
+    nextLineIndices: 08000000
+    shopData: {fileID: 0}
+  - type: 0
+    text: What?
+    characterName: Drone
+    portrait: {fileID: 21300000, guid: a1fc1786c427341769dba6c83feadde4, type: 3}
+    choices: []
+    nextLineIndices: 08000000
+    shopData: {fileID: 0}
+  - type: 0
+    text: ABABABABABABAB
+    characterName: Drone
+    portrait: {fileID: 21300000, guid: a1fc1786c427341769dba6c83feadde4, type: 3}
+    choices: []
+    nextLineIndices: 09000000
+    shopData: {fileID: 0}
+  - type: 3
+    text: Open store
+    characterName: Drone
+    portrait: {fileID: 21300000, guid: a1fc1786c427341769dba6c83feadde4, type: 3}
+    choices: []
+    nextLineIndices: 00000000
+    shopData: {fileID: 11400000, guid: 5be89a0229a53174499d039b07f057fc, type: 2}
