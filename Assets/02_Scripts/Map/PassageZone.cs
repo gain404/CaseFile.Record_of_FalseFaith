@@ -33,6 +33,7 @@ public class PassageZone : MonoBehaviour, IInteractable
         if (((1 << other.gameObject.layer) & hitLayerMask) != 0)
         {
             _passageManager.canMovement = false;
+            _player.CurrentPassageZone = null;
         }
     }
 
