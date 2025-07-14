@@ -999,6 +999,7 @@ Transform:
   - {fileID: 1471521483}
   - {fileID: 582360961}
   - {fileID: 12233741}
+  - {fileID: 1470700528}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &933701372 stripped
@@ -1275,6 +1276,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a8c3ed77581f784e91699bde43dcb98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1470700527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1470700528}
+  - component: {fileID: 1470700529}
+  m_Layer: 0
+  m_Name: InventoryManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1470700528
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1470700527}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894890819}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1470700529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1470700527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 049a4a10680a53641982178c3e4d333c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemDatabase: {fileID: 2788190171351130645, guid: 455e2bff6165b764abdc5c19bf9f230c, type: 3}
+  items: []
 --- !u!1001 &1471521482
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2529,7 +2576,6 @@ MonoBehaviour:
     skillParameterName: Skill
   <Data>k__BackingField: {fileID: 11400000, guid: a85b7116bbf0fee46b7e5af9955bc785, type: 2}
   itemData: {fileID: 0}
-  talkBalloon: {fileID: 3211228265334184491}
 --- !u!95 &5461951845114196662
 Animator:
   serializedVersion: 7
