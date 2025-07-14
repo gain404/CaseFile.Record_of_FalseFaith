@@ -22,7 +22,7 @@ public class Interaction : MonoBehaviour
                 player.itemData = currentItem.data;
             }
             //TestCharacterManager.Instance.Player.talkBalloon.SetActive(true);
-            player.talkBalloon.SetActive(true);
+            //player.talkBalloon.SetActive(true);
         }
     }
 
@@ -36,7 +36,7 @@ public class Interaction : MonoBehaviour
                 currentInteractable = null;
                 player.itemData = null;
                 //TestCharacterManager.Instance.Player.talkBalloon.SetActive(false);
-                player.talkBalloon.SetActive(false);
+                //player.talkBalloon.SetActive(false);
             }
         }
     }
