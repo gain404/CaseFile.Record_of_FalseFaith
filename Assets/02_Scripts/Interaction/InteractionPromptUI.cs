@@ -20,6 +20,23 @@ public class InteractionPromptUI : MonoBehaviour
 
     private void Update()
     {
+        if (DialogueManager.Instance.CurrentState != DialogueManager.DialogueState.Inactive)
+        {
+            if (interactPanel.activeSelf)
+            {
+                interactPanel.SetActive(false);
+                currentTarget = null;
+            }
+            return;
+        }
+        
+        if (interactPanel.activeSelf && player.PlayerController.playerActions.Interact.WasPressedThisFrame())
+        {
+            interactPanel.SetActive(false);
+            currentTarget = null; 
+            return;
+        }
+
         IInteractable newTarget = null;
         if (player.CurrentInteractableNPC != null)
         {
