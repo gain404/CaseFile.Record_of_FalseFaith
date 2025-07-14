@@ -74,12 +74,21 @@ public class CameraController : MonoBehaviour
 
     private IEnumerator ZoomTo(float targetSize)
     {
-        float currentSize = virtualCamera.Lens.OrthographicSize;
+        float initialSize = virtualCamera.Lens.OrthographicSize;
+        Vector3 initialPosition = virtualCamera.transform.position;
 
-        while (Mathf.Abs(currentSize - targetSize) > 0.01f)
+        while (Mathf.Abs(virtualCamera.Lens.OrthographicSize - targetSize) > 0.01f)
         {
+            float currentSize = virtualCamera.Lens.OrthographicSize;
             currentSize = Mathf.Lerp(currentSize, targetSize, Time.deltaTime * zoomSpeed);
             virtualCamera.Lens.OrthographicSize = currentSize;
+
+            // 중심 기준 보정 (줌 시 아래로 내리기)
+            float offsetRatio = (currentSize - initialSize) / initialSize;
+            Vector3 offset = Vector3.down * offsetRatio;
+
+            virtualCamera.transform.position = initialPosition + offset;
+
             yield return null;
         }
 
