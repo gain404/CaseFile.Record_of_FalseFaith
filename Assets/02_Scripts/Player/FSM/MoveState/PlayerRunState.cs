@@ -21,6 +21,12 @@ public class PlayerRunState : PlayerMoveState
         CameraController.Instance.isRunning = true;
     }
 
+    public override void Update()
+    {
+        base.Update();
+        stateMachine.Player.PlayerStat.Consume(StatType.Stamina, 5);
+    }
+    
     public override void Exit()
     {
         base.Exit();
