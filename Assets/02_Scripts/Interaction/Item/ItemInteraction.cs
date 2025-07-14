@@ -33,7 +33,7 @@ public class ItemInteraction : MonoBehaviour, IInteractable
 
     public string GetInteractPrompt()
     {
-        return "E - 조사하기"; //NPC와 동일
+        return "F - 조사하기"; //NPC와 동일
     }
 
     public void OnInteract()
