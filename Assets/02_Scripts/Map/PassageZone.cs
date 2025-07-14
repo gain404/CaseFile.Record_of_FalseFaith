@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PassageZone : MonoBehaviour
+public class PassageZone : MonoBehaviour, IInteractable
 {
     [SerializeField] private PassageInfo passageInfo;
     [SerializeField] private LayerMask hitLayerMask;
@@ -30,5 +30,15 @@ public class PassageZone : MonoBehaviour
         {
             _passageManager.canMovement = false;
         }
+    }
+
+    public string GetInteractPrompt()
+    {
+        return passageInfo.targetPositionName;
+    }
+
+    public void OnInteract()
+    {
+        //
     }
 }
