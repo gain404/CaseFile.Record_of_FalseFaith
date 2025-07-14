@@ -20,9 +20,11 @@ public class Player : MonoBehaviour
     public ItemData itemData;//추가한 스크립트(송도현)
     public Action addItem;//추가한 스크립트(송도현)
 
-    public GameObject talkBalloon;//추가한 스크립트(송도현)
+    //public GameObject talkBalloon;//추가한 스크립트(송도현)
     public NPCInteraction CurrentInteractableNPC { get; set; }
     public ItemInteraction CurrentInteractableItem { get; set; }
+    
+    public PassageZone CurrentPassageZone { get; set; }
 
     private void Awake()
     {
@@ -38,10 +40,10 @@ public class Player : MonoBehaviour
         WeaponHandler = GetComponent<WeaponHandler>();
         PlayerStat = GetComponent<PlayerStat>();
 
-        if(talkBalloon != null)
-        {
-            talkBalloon.SetActive(false);//추가한 스크립트(송도현)
-        }
+        //if(talkBalloon != null)
+        //{
+        //    talkBalloon.SetActive(false);//추가한 스크립트(송도현)
+        //}
     }
 
     private void Start()

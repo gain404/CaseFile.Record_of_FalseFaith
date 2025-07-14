@@ -7,6 +7,7 @@ public class FadeManager : MonoBehaviour
     public static FadeManager Instance { get; private set; }
 
     [SerializeField] private Image fadeImage;
+    [SerializeField] private GameObject canvas;
     [SerializeField] private float fadeDuration = 1.2f;
 
     private void Awake()
@@ -20,6 +21,7 @@ public class FadeManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         
         SetClearImmediately();
+        OffCanvas();
     }
 
     public void FadeIn(System.Action onComplete = null)
@@ -34,6 +36,16 @@ public class FadeManager : MonoBehaviour
         fadeImage.DOFade(1f, fadeDuration)
             .SetEase(Ease.Linear)
             .OnComplete(() => onComplete?.Invoke());
+    }
+
+    public void OnCanvas()
+    {
+        canvas.SetActive(true);
+    }
+
+    public void OffCanvas()
+    {
+        canvas.SetActive(false);
     }
 
     public void SetBlackImmediately() => SetAlpha(1f);

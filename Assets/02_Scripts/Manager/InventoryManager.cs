@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -61,7 +62,10 @@ public class InventoryManager : MonoBehaviour
         {
             if (item.type == ItemType.KeyItem || item.type == ItemType.Consumable)
             {
-                data.savedItemIDs.Add(item.name); // 또는 item.id 등 유니크한 식별자
+                if (item.displayName != null)
+                {
+                    data.savedItemIDs.Add(item.displayName); // 또는 item.id 등 유니크한 식별자
+                }
             }
         }
 

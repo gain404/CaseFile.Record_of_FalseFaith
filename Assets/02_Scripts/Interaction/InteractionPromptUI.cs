@@ -33,6 +33,10 @@ public class InteractionPromptUI : MonoBehaviour
         {
             newTarget = new ItemDataInteractable(player.itemData);
         }
+        else if(player.CurrentPassageZone != null)
+        {
+            newTarget = player.CurrentPassageZone;
+        }
         
         if (newTarget != currentTarget)
         {
