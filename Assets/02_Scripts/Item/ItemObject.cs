@@ -21,6 +21,7 @@ public class ItemObject : MonoBehaviour,IInteractable
         return str;
     }
 
+    
     public void OnInteract()//플레이어가 아이템을 주웠을 때 어떻게 될 지
     {
         TestCharacterManager.Instance.Player.itemData = data;

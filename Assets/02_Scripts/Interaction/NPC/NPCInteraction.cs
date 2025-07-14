@@ -38,6 +38,6 @@ public class NPCInteraction : MonoBehaviour, IInteractable
 
     public string GetInteractPrompt()
     {
-        return "E - 대화하기";
+        return "F - 대화하기";
     }
 }
