@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
     //public GameObject talkBalloon;//추가한 스크립트(송도현)
     public NPCInteraction CurrentInteractableNPC { get; set; }
     public ItemInteraction CurrentInteractableItem { get; set; }
+    
+    public PassageZone CurrentPassageZone { get; set; }
 
     private void Awake()
     {
