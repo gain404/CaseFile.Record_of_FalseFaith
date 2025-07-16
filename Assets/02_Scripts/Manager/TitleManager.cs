@@ -129,7 +129,6 @@ public class TitleManager : MonoBehaviour
     {
         if (fadePanel == null)
         {
-            Debug.LogError("Fade Panel이 할당되지 않았습니다!");
             yield break;
         }
         

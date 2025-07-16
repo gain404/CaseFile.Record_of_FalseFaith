@@ -146,7 +146,7 @@ public class PlayerStateMachine : StateMachine
         AddTransition(new StateTransition(
             InventoryState, IdleState,
             () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame()
-                    && TestUIManager.Instance.uiInventory.IsOpen() == true&& !ShopManager.Instance.shopPanel.activeSelf));
+                    && UIManager.Instance.UIInventory.IsOpen() == true&& !ShopManager.Instance.shopPanel.activeSelf));
 
         AddTransition(new StateTransition(
             SwordAttackState, IdleState,
@@ -190,22 +190,22 @@ public class PlayerStateMachine : StateMachine
         AddTransition(new StateTransition(
             IdleState, InventoryState,
             () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame()
-                && TestUIManager.Instance.uiInventory.IsOpen() == false));
+                && UIManager.Instance.UIInventory.IsOpen() == false));
 
         AddTransition(new StateTransition(
             WalkState, InventoryState,
             () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
-                && TestUIManager.Instance.uiInventory.IsOpen() == false));
+                && UIManager.Instance.UIInventory.IsOpen() == false));
 
         AddTransition(new StateTransition(
             RunState, InventoryState,
             () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
-                && TestUIManager.Instance.uiInventory.IsOpen() == false));
+                && UIManager.Instance.UIInventory.IsOpen() == false));
 
         AddTransition(new StateTransition(
             JumpState, InventoryState,
             () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
-                && TestUIManager.Instance.uiInventory.IsOpen() == false));
+                && UIManager.Instance.UIInventory.IsOpen() == false));
         AddTransition(new StateTransition(
             ShopState, InventoryState,
             () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame()));

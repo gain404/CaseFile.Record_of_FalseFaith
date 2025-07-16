@@ -4,10 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 
-public class PassageManager : MonoBehaviour
+public class PassageManager : Singleton<PassageManager>
 {
-    public static PassageManager Instance { get; private set; }
-
     public bool canMovement;
     
     private GameObject _player;
@@ -19,18 +17,6 @@ public class PassageManager : MonoBehaviour
     private PlayerController _playerController;
     private CinemachineCamera _playerCinemachineCamera;
     private FadeManager _fadeManager;
-
-
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
 
     private void Start()
     {

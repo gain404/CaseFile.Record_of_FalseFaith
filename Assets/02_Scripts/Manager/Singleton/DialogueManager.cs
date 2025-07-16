@@ -6,10 +6,8 @@ using TMPro;
 using Unity.Cinemachine;
 using System;
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : Singleton<DialogueManager>
 {
-    public static DialogueManager Instance { get; private set; }
-
     // --- UI 요소 ---
     [Header("UI")]
     public GameObject dialoguePanel;
@@ -54,11 +52,6 @@ public class DialogueManager : MonoBehaviour
     private bool isItemDialogue = false;
     public bool IsDialogueFinished { get; private set; }
     private ShopManager _shopManager;
-    private void Awake()
-    {
-        if (Instance != null && Instance != this) Destroy(this);
-        else Instance = this;
-    }
     private void Start()
     {
         _shopManager = ShopManager.Instance;
@@ -100,7 +93,6 @@ public class DialogueManager : MonoBehaviour
             {
                 // CinemachineTarget이 없으면 NPC/아이템 자체를 타겟으로 설정 (예비용)
                 dialogueCamera.Follow = targetParent;
-                Debug.LogWarning($"'{targetParent.name}' 오브젝트 밑에 'CinemachineTarget'을 찾을 수 없습니다. 부모 오브젝트를 타겟으로 설정합니다.");
             }
         }
     }
@@ -224,7 +216,6 @@ public class DialogueManager : MonoBehaviour
             // DisplayLineCoroutine 함수 전체를 이 코드로 사용하시면 됩니다.
             if (line.type == DialogueType.OpenStore)
             {
-                Debug.Log($"[DialogueManager] OpenStore 라인 진입! NPC: {(_currentNpc != null ? _currentNpc.name : "null")}");
                 if (line.shopData != null && _shopManager != null)
                 {
                     dialoguePanel.SetActive(false);
@@ -239,7 +230,6 @@ public class DialogueManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError("ShopData 또는 ShopManager가 연결되지 않아 상점을 열 수 없습니다! 다음 대사로 강제 진행합니다.");
                     AdvanceDialogue();
                     yield break;
                 }

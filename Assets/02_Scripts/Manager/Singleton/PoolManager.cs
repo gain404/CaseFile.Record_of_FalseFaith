@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class PoolManager : MonoBehaviour
+public class PoolManager : Singleton<PoolManager>
 {
-    public static PoolManager Instance { get; private set; }
-
     [System.Serializable]
     public class Pool
     {
@@ -19,15 +17,8 @@ public class PoolManager : MonoBehaviour
 
     private Dictionary<PoolKey, Queue<GameObject>> _poolDictionary = new Dictionary<PoolKey, Queue<GameObject>>();
 
-    private void Awake()
+    private void Start()
     {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
         InitializePools();
     }
 
