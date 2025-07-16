@@ -4,9 +4,8 @@ using TMPro;
 using System.Collections.Generic;
 using System;
 
-public class ShopManager : MonoBehaviour
+public class ShopManager : Singleton<ShopManager>
 {
-    public static ShopManager Instance { get; private set; }
 
     [Header("UI Panels")]
     public GameObject shopPanel;
@@ -33,9 +32,6 @@ public class ShopManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null) { Destroy(gameObject); return; }
-        Instance = this;
-        
         // 씬에서 필요한 컴포넌트들을 찾아 할당합니다.
         // FindObjectOfType은 씬에 해당 타입의 객체가 단 하나만 존재한다고 가정할 때 안전합니다.
         _playerStat = FindObjectOfType<PlayerStat>();
@@ -44,10 +40,6 @@ public class ShopManager : MonoBehaviour
         // 게임 시작 시 패널들을 비활성화합니다.
         if (shopPanel != null) shopPanel.SetActive(false);
         if (confirmationPopup != null) confirmationPopup.SetActive(false);
-        
-        // ★ 추가: 필수 컴포넌트를 찾지 못했을 경우 에러 로그를 남겨 디버깅을 돕습니다.
-        if (_playerStat == null) Debug.LogError("ShopManager: 씬에서 PlayerStat을 찾을 수 없습니다!");
-        if (_uiInventory == null) Debug.LogError("ShopManager: 씬에서 UIInventory를 찾을 수 없습니다!");
     }
 
     private void Start()

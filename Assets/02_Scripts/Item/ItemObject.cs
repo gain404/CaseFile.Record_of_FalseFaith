@@ -1,4 +1,5 @@
-﻿using Unity.VisualScripting;
+﻿using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // 인터랙션 가능한 객체에 상속할 인터페이스
@@ -13,7 +14,19 @@ public interface IInteractable
 /// </summary>
 public class ItemObject : MonoBehaviour,IInteractable
 {
+    private Player _player;
     public ItemData data;
+
+    private void Awake()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        _player = player.GetComponent<Player>();
+    }
+
+    private void Start()
+    {
+        
+    }
 
     public string GetInteractPrompt()//인벤토리 등에서 아이템 이름과 설명을 보여줄 수 있음
     {
@@ -24,8 +37,8 @@ public class ItemObject : MonoBehaviour,IInteractable
     
     public void OnInteract()//플레이어가 아이템을 주웠을 때 어떻게 될 지
     {
-        TestCharacterManager.Instance.Player.itemData = data;
-        TestCharacterManager.Instance.Player.addItem?.Invoke();
+        _player.itemData = data;
+        _player.addItem?.Invoke();
         InventoryManager.Instance.AddItem(data);
 
         Destroy(gameObject);

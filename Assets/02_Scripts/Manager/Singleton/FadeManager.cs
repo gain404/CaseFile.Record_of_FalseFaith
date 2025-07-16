@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class FadeManager : MonoBehaviour
+public class FadeManager : Singleton<FadeManager>
 {
     public static FadeManager Instance { get; private set; }
 
@@ -10,16 +10,8 @@ public class FadeManager : MonoBehaviour
     [SerializeField] private GameObject canvas;
     [SerializeField] private float fadeDuration = 1.2f;
 
-    private void Awake()
+    private void Start()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-        
         SetClearImmediately();
         OffCanvas();
     }
