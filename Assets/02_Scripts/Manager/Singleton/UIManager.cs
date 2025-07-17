@@ -21,11 +21,10 @@ public class UIManager : Singleton<UIManager>
         InitSceneUI(scene.name); // 자동 호출
     }
     
-    public void InitSceneUI(string sceneName)
+    private void InitSceneUI(string sceneName)
     {
         _canvas = Instantiate(canvasPrefab);
-
-       
+        
     }
     
     //canvas를 생성하고 씬에 맞는 ui생성

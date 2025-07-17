@@ -17,6 +17,5 @@ public class UIEntry
 {
     public SceneName sceneName;
     public UIType uiType;
-    public string componentTypeName;
     public GameObject uiPrefab;
 }
