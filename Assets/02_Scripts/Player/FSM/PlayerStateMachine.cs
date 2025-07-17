@@ -99,7 +99,7 @@ public class PlayerStateMachine : StateMachine
         
         AddTransition(new StateTransition(
             RunState, WalkState,
-            ()=> Player.PlayerController.playerActions.Run.ReadValue<float>() < 0.01f 
+            ()=> (Player.PlayerController.playerActions.Run.ReadValue<float>() < 0.01f || Player.PlayerStat.GetStatValue(StatType.Stamina) <= 0)
                  && Mathf.Abs(MovementInput.x) > 0.01f));
         
         AddTransition(new StateTransition(
@@ -111,18 +111,21 @@ public class PlayerStateMachine : StateMachine
         AddTransition(new StateTransition(
             IdleState, RunState,
             ()=> Mathf.Abs(MovementInput.x) > 0.01f
-                 && Player.PlayerController.playerActions.Run.IsPressed()));
+                 && Player.PlayerController.playerActions.Run.IsPressed()
+                 && Player.PlayerStat.GetStatValue(StatType.Stamina) > 0));
         
         AddTransition(new StateTransition(
             WalkState, RunState,
             ()=> Mathf.Abs(MovementInput.x) > 0.01f 
-                 &&Player.PlayerController.playerActions.Run.IsPressed()));
+                 && Player.PlayerController.playerActions.Run.IsPressed()
+                 && Player.PlayerStat.GetStatValue(StatType.Stamina) > 0));
         
         AddTransition(new StateTransition(
             DashState, RunState,
             () => IsDashFinished
                   && Mathf.Abs(MovementInput.x) > 0.01f
-                  && Player.PlayerController.playerActions.Run.IsPressed()));
+                  && Player.PlayerController.playerActions.Run.IsPressed()
+                  && Player.PlayerStat.GetStatValue(StatType.Stamina) > 0));
         
         //Idle
         AddTransition(new StateTransition(
