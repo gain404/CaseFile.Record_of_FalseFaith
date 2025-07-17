@@ -1,7 +1,9 @@
-﻿
+﻿using UnityEngine;
+
 public class PlayerRunState : PlayerMoveState
 {
     private CameraTargetMover cameraTargetMover;
+    private float staminaConsumeTimer;
     public PlayerRunState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -9,6 +11,7 @@ public class PlayerRunState : PlayerMoveState
     public override void Enter()
     {
         base.Enter();
+        staminaConsumeTimer = 0f;
         if (cameraTargetMover == null)
         {
             cameraTargetMover = stateMachine.Player.transform.Find("CameraTarget").GetComponent<CameraTargetMover>();
@@ -24,7 +27,12 @@ public class PlayerRunState : PlayerMoveState
     public override void Update()
     {
         base.Update();
-        stateMachine.Player.PlayerStat.Consume(StatType.Stamina, 5);
+        staminaConsumeTimer += Time.deltaTime;
+        if (staminaConsumeTimer >= 1f)
+        {
+            stateMachine.Player.PlayerStat.Consume(StatType.Stamina, 5);
+            staminaConsumeTimer -= 1f; // 타이머에서 1초를 빼서 다음 소모를 준비
+        }
     }
     
     public override void Exit()

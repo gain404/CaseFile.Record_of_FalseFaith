@@ -101,13 +101,15 @@ public class PlayerStat : MonoBehaviour
         return true; // 아이템 사용 성공
     }
 
-    private void Recover(StatType type, float amount)
+    public void Recover(StatType type, float amount)
     {
         if (amount <= 0) return;
 
         if (!CurrentStats.ContainsKey(type)) return;
 
         float maxStat = GetMaxStatValue(type);
+        if (CurrentStats[type] >= maxStat) return;
+
         CurrentStats[type] = Mathf.Min(CurrentStats[type] + amount, maxStat);
 
         OnStatChanged?.Invoke(type);
@@ -121,7 +123,7 @@ public class PlayerStat : MonoBehaviour
             staminaUI.UpdateStamina(CurrentStats[type], maxStat);
         }
 
-            Debug.Log($"{type}을(를) {amount} 만큼 회복. 현재 값: {CurrentStats[type]}");
+        Debug.Log($"{type}을(를) {amount} 만큼 회복. 현재 값: {CurrentStats[type]}");
     }
 
     private IEnumerator StartRecoveryCooldown()
