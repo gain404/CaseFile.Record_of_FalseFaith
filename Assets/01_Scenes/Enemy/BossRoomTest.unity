@@ -205,6 +205,56 @@ PolygonCollider2D:
       - {x: -0.41461274, y: 0.051221337}
       - {x: -0.27139312, y: 0.09798274}
   m_UseDelaunayMesh: 0
+--- !u!1 &413786948
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 413786950}
+  - component: {fileID: 413786949}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &413786949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413786948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80716bc847f1773488bcc16bf7000958, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasPrefab: {fileID: 0}
+  uiPrefabs:
+  - uiType: 0
+    uiPrefab: {fileID: 0}
+  - uiType: 1
+    uiPrefab: {fileID: 0}
+--- !u!4 &413786950
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413786948}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -23.34867, y: -21.36938, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &513625903
 GameObject:
   m_ObjectHideFlags: 0
@@ -3132,7 +3182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f487c5aad1e6dbd46bf5fc5fa119325e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorTilemap: {fileID: 2113798541}
+  doors: []
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 4096
@@ -3801,6 +3851,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0189b527027d2364284e7419f55cf956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterData: {fileID: 0}
+  healthUI: {fileID: 0}
+  staminaUI: {fileID: 0}
+  isInvincible: 0
 --- !u!1 &3326003482689471866
 GameObject:
   m_ObjectHideFlags: 0
@@ -4156,7 +4210,6 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 4096
-  meleeAttackCollider2D: {fileID: 67057472}
 --- !u!212 &8789575262945938962
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4239,7 +4292,6 @@ MonoBehaviour:
     skillParameterName: Skill
   <Data>k__BackingField: {fileID: 11400000, guid: a85b7116bbf0fee46b7e5af9955bc785, type: 2}
   itemData: {fileID: 0}
-  talkBalloon: {fileID: 2478854432179064600}
 --- !u!114 &8942410512525075345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4516,3 +4568,4 @@ SceneRoots:
   - {fileID: 4708288198521527469}
   - {fileID: 1089363697}
   - {fileID: 1044542061}
+  - {fileID: 413786950}
