@@ -99,7 +99,8 @@ public class PlayerStateMachine : StateMachine
         
         AddTransition(new StateTransition(
             RunState, WalkState,
-            ()=> Player.PlayerController.playerActions.Run.ReadValue<float>() < 0.01f));
+            ()=> Player.PlayerController.playerActions.Run.ReadValue<float>() < 0.01f 
+                 && Mathf.Abs(MovementInput.x) > 0.01f));
         
         AddTransition(new StateTransition(
             DashState, WalkState,
@@ -130,7 +131,7 @@ public class PlayerStateMachine : StateMachine
         
         AddTransition(new StateTransition(
             RunState, IdleState,
-            ()=> MovementInput == Vector2.zero));
+            ()=> Mathf.Abs(MovementInput.x) < 0.01f));
 
         AddTransition(new StateTransition(
             WalkState, IdleState,
