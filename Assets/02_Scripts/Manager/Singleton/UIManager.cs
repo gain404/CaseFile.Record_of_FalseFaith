@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -10,10 +11,21 @@ public class UIManager : Singleton<UIManager>
     private Dictionary<UIType, Component> _activeUIs = new();
     private GameObject _canvas;
 
-    //씬 시작할때 가장 먼저 호출
-    public void InitSceneUI()
+    private void Start()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        InitSceneUI(scene.name); // 자동 호출
+    }
+    
+    public void InitSceneUI(string sceneName)
     {
         _canvas = Instantiate(canvasPrefab);
+
+       
     }
     
     //canvas를 생성하고 씬에 맞는 ui생성
