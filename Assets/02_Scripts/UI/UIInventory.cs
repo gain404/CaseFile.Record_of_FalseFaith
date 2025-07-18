@@ -221,13 +221,13 @@ public class UIInventory : MonoBehaviour
         
         // 인벤토리 데이터 기반으로 다시 그림
         // InventoryManager에서 아이템 정보를 가져와서, 매개변수가 있는 AddItem 함수를 직접 호출합니다.
-        if (InventoryManager.Instance != null)
-        {
-            foreach (ItemData item in InventoryManager.Instance.items)
-            {
-                AddItem(item);
-            }
-        }
+        //if (InventoryManager.Instance != null)
+        //{
+        //    foreach (ItemData item in InventoryManager.Instance.items)
+        //    {
+        //        AddItem(item);
+        //    }
+        //}
     }
 
 }
