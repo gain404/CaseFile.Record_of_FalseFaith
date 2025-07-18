@@ -5,15 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : Singleton<UIManager>
 {
+    public UIInventory uiInventory;
+    
     [SerializeField] private GameObject canvasPrefab;
     [SerializeField] private List<UIEntry> uiPrefabs;
 
-    private Dictionary<UIType, Component> _activeUIs = new();
+    private Dictionary<UIType, GameObject> _activeUIs = new();
     private GameObject _canvas;
 
     private void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        //이거 awake이후에 실행되므로 ui캐싱은 Start에서 실행시켜주기
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -21,14 +24,26 @@ public class UIManager : Singleton<UIManager>
         InitSceneUI(scene.name); // 자동 호출
     }
     
-    private void InitSceneUI(string sceneName)
+    private void InitSceneUI(string scene)
     {
         _canvas = Instantiate(canvasPrefab);
-        
+        ClearUI();
+        foreach (UIEntry uiEntry in uiPrefabs)
+        {
+            if (uiEntry.sceneName == scene)
+            {
+                ShowUI(uiEntry.uiType);
+            }
+        }
+
+        if (_activeUIs.TryGetValue(UIType.Inventory, out GameObject ui))
+        {
+            uiInventory = ui.GetComponent<UIInventory>();
+        }
     }
     
     //canvas를 생성하고 씬에 맞는 ui생성
-    public void ShowUI<T>(UIType uiName) where T : Component
+    private void ShowUI(UIType uiName)
     {
         if (_activeUIs.ContainsKey(uiName)) return;
 
@@ -36,10 +51,9 @@ public class UIManager : Singleton<UIManager>
         if (prefab != null)
         {
             GameObject instance = Instantiate(prefab, _canvas.transform);
-            T uiComponent = instance.GetComponent<T>();
-            if (uiComponent != null)
+            if (instance != null)
             {
-                _activeUIs.Add(uiName, uiComponent);
+                _activeUIs.Add(uiName, instance);
             }
         }
     }
@@ -47,7 +61,7 @@ public class UIManager : Singleton<UIManager>
     //dictionary초기화할때 사용
     public void HideUI(UIType uiName)
     {
-        if (_activeUIs.TryGetValue(uiName, out Component ui))
+        if (_activeUIs.TryGetValue(uiName, out GameObject ui))
         {
             Destroy(ui);
             _activeUIs.Remove(uiName);
@@ -59,12 +73,8 @@ public class UIManager : Singleton<UIManager>
         _activeUIs.Clear();
     }
 
-    public T GetUI<T>(UIType uiName) where T : Component
+    public GameObject GetUI(UIType uiName)
     {
-        if (_activeUIs.TryGetValue(uiName, out var component))
-        {
-            return component as T;
-        }
-        return null;
+        return _activeUIs.GetValueOrDefault(uiName);
     }
 }
