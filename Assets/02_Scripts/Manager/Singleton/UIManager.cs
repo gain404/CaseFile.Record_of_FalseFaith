@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : Singleton<UIManager>
 {
-    public UIInventory uiInventory;
-    
+    public UIInventory UIInventory { get; private set; }
+
     [SerializeField] private GameObject canvasPrefab;
     [SerializeField] private List<UIEntry> uiPrefabs;
 
@@ -38,7 +38,7 @@ public class UIManager : Singleton<UIManager>
 
         if (_activeUIs.TryGetValue(UIType.Inventory, out GameObject ui))
         {
-            uiInventory = ui.GetComponent<UIInventory>();
+            UIInventory = ui.GetComponent<UIInventory>();
         }
     }
     

@@ -19,13 +19,13 @@ public class PlayerInventoryState : PlayerActionState
 
         stateMachine.MovementSpeedModifier = 0f;
 
-        //UIManager.Instance.GetUI<UIInventory>(UIType.Inventory).Toggle();
+        UIManager.Instance.UIInventory.Toggle();
     }
 
     //상태 빠져나올 때
     public override void Exit()
     {
-        //UIManager.Instance.GetUI<UIInventory>(UIType.Inventory).Toggle();
+        UIManager.Instance.UIInventory.Toggle();
         base.Exit();
         EndAnimation(stateMachine.Player.PlayerAnimationData.IdleParameterHash);
         stateMachine.MovementSpeedModifier = 1f;

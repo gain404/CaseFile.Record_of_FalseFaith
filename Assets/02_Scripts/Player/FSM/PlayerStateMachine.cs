@@ -143,16 +143,16 @@ public class PlayerStateMachine : StateMachine
         AddTransition(new StateTransition(
             DashState, IdleState,
             () => IsDashFinished));
-        
+
         AddTransition(new StateTransition(
             InteractState, IdleState,
-            ()=> DialogueManager.Instance.IsDialogueFinished || Player.itemData == null && Player.CurrentInteractableNPC == null && player.CurrentInteractableItem == null));
+            () => DialogueManager.Instance.IsDialogueFinished || Player.itemData == null &&
+                Player.CurrentInteractableNPC == null && player.CurrentInteractableItem == null));
 
         AddTransition(new StateTransition(
             InventoryState, IdleState,
             () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame()
-                    //&& UIManager.Instance.GetUI<UIInventory>(UIType.Inventory).IsOpen() == true
-                    && !ShopManager.Instance.shopPanel.activeSelf));
+                  && UIManager.Instance.UIInventory.IsOpen() == true && !ShopManager.Instance.shopPanel.activeSelf));
 
         AddTransition(new StateTransition(
             SwordAttackState, IdleState,
@@ -196,26 +196,22 @@ public class PlayerStateMachine : StateMachine
         AddTransition(new StateTransition(
             IdleState, InventoryState,
             () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame()
-                //&& UIManager.Instance.GetUI<UIInventory>(UIType.Inventory).IsOpen() == false
-                ));
+                && UIManager.Instance.UIInventory.IsOpen() == false));
 
         AddTransition(new StateTransition(
             WalkState, InventoryState,
             () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
-                //&& UIManager.Instance.GetUI<UIInventory>(UIType.Inventory).IsOpen() == false
-                ));
+                && UIManager.Instance.UIInventory.IsOpen() == false));
 
         AddTransition(new StateTransition(
             RunState, InventoryState,
             () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
-                //&& UIManager.Instance.GetUI<UIInventory>(UIType.Inventory).IsOpen() == false
-                ));
+                  && UIManager.Instance.UIInventory.IsOpen() == false));
 
         AddTransition(new StateTransition(
             JumpState, InventoryState,
             () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
-               // && UIManager.Instance.GetUI<UIInventory>(UIType.Inventory).IsOpen() == false
-               ));
+                  && UIManager.Instance.UIInventory.IsOpen() == false));
         AddTransition(new StateTransition(
             ShopState, InventoryState,
             () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame()));
