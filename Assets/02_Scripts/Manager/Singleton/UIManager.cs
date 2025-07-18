@@ -10,7 +10,7 @@ public class UIManager : Singleton<UIManager>
     public UIShop UIShop { get; private set; }
 
     [SerializeField] private GameObject canvasPrefab;
-    [SerializeField] private List<UIEntry> uiPrefabs;s
+    [SerializeField] private List<UIEntry> uiPrefabs;
 
     private Dictionary<UIType, GameObject> _activeUIs = new();
     private GameObject _canvas;
