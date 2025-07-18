@@ -4,8 +4,43 @@ using UnityEngine;
 
 public class InventoryManager : Singleton<InventoryManager>
 {
+
+    [Header("인벤토리 설정")]
+    public int maxSlots = 12;
+    private List<InventoryItem> inventory = new List<InventoryItem>();
+
+    //인벤토리에 아이템 추가하기
+
+    public bool AddItem(int itemId, int quantity)
+    {
+        CSVItemData itemData = ItemDatabase.Instance.GetItemData(itemId);
+        if(itemData == null)
+        {
+            Debug.LogError($"{itemId}는 존재하지 않는 아이템입니다.");
+            return false;
+        }
+
+        //이미 가지고 있는 아이템인지 확인
+        InventoryItem haveItem = inventory.Find(item => item.itemId == itemId);
+
+        //없다면
+        if(haveItem != null)
+        {
+            //스택 가능한 아이템이라면
+            if (haveItem.quantity + quantity <= itemData.maxStack)
+            {
+
+            }
+        }
+    }
+
+
+
+    //기존에 있던 스크립트 - csv 파일로 대체하면서 우선 주석 처리
+    /*
     public ItemDatabase itemDatabase;
     public List<ItemData> items = new List<ItemData>();
+
 
     public void AddItem(ItemData item)
     {
@@ -66,11 +101,12 @@ public class InventoryManager : Singleton<InventoryManager>
             items.Clear();
             foreach (string itemID in data.savedItemIDs)
             {
-                ItemData loadedItem = itemDatabase.GetItemByName(itemID); // 또는 GetItemByID
+                CSVItemData loadedItem = itemDatabase.GetItemByName(itemID); // 또는 GetItemByID
                 if (loadedItem != null)
                     items.Add(loadedItem);
             }
         }
     }
+    */
 
 }
