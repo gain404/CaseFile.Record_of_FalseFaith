@@ -152,7 +152,7 @@ public class PlayerStateMachine : StateMachine
         AddTransition(new StateTransition(
             InventoryState, IdleState,
             () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame()
-                  && UIManager.Instance.UIInventory.IsOpen() == true && !ShopManager.Instance.shopPanel.activeSelf));
+                  && UIManager.Instance.UIInventory.IsOpen() == true && !UIManager.Instance.UIShop.shopPanel.activeSelf));
 
         AddTransition(new StateTransition(
             SwordAttackState, IdleState,
@@ -190,7 +190,7 @@ public class PlayerStateMachine : StateMachine
         
         AddTransition(new StateTransition(
             ShopState, InteractState,
-            () => !ShopManager.Instance.shopPanel.activeSelf));
+            () => !UIManager.Instance.UIShop.shopPanel.activeSelf));
 
         //Inventory
         AddTransition(new StateTransition(
@@ -265,7 +265,7 @@ public class PlayerStateMachine : StateMachine
         AddTransition(new StateTransition(
             InventoryState, ShopState,
             () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame() &&
-                  ShopManager.Instance.shopPanel.activeSelf));
+                  UIManager.Instance.UIShop.shopPanel.activeSelf));
     }
 
     public override void Update()

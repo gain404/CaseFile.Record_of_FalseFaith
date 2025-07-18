@@ -7,9 +7,10 @@ public class UIManager : Singleton<UIManager>
 {
     public UIInventory UIInventory { get; private set; }
     public UIDialogue UIDialogue { get; private set; }
+    public UIShop UIShop { get; private set; }
 
     [SerializeField] private GameObject canvasPrefab;
-    [SerializeField] private List<UIEntry> uiPrefabs;
+    [SerializeField] private List<UIEntry> uiPrefabs;s
 
     private Dictionary<UIType, GameObject> _activeUIs = new();
     private GameObject _canvas;
@@ -37,10 +38,9 @@ public class UIManager : Singleton<UIManager>
             }
         }
 
-        if (_activeUIs.TryGetValue(UIType.UIInventory, out GameObject ui))
-        {
-            UIInventory = ui.GetComponent<UIInventory>();
-        }
+        UIInventory = GetUIComponent<UIInventory>(UIType.UIInventory);
+        UIDialogue = GetUIComponent<UIDialogue>(UIType.UIDialogue);
+        UIShop = GetUIComponent<UIShop>(UIType.UIShop);
     }
     
     //canvas를 생성하고 씬에 맞는 ui생성
@@ -77,5 +77,14 @@ public class UIManager : Singleton<UIManager>
     public GameObject GetUI(UIType uiName)
     {
         return _activeUIs.GetValueOrDefault(uiName);
+    }
+    
+    private T GetUIComponent<T>(UIType uiType) where T : Component
+    {
+        if (_activeUIs.TryGetValue(uiType, out GameObject ui))
+        {
+            return ui.GetComponent<T>();
+        }
+        return null;
     }
 }

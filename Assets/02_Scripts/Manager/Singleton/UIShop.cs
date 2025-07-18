@@ -4,7 +4,7 @@ using TMPro;
 using System.Collections.Generic;
 using System;
 
-public class ShopManager : Singleton<ShopManager>
+public class UIShop : MonoBehaviour
 {
 
     [Header("UI Panels")]
@@ -27,16 +27,10 @@ public class ShopManager : Singleton<ShopManager>
     public Button confirmNoButton;
 
     private PlayerStat _playerStat;
-    private UIInventory _uiInventory;
     private ItemData _currentItemToBuy;
 
     private void Awake()
     {
-        // 씬에서 필요한 컴포넌트들을 찾아 할당합니다.
-        // FindObjectOfType은 씬에 해당 타입의 객체가 단 하나만 존재한다고 가정할 때 안전합니다.
-        _playerStat = FindObjectOfType<PlayerStat>();
-        _uiInventory = FindObjectOfType<UIInventory>();
-
         // 게임 시작 시 패널들을 비활성화합니다.
         if (shopPanel != null) shopPanel.SetActive(false);
         if (confirmationPopup != null) confirmationPopup.SetActive(false);
@@ -44,7 +38,8 @@ public class ShopManager : Singleton<ShopManager>
 
     private void Start()
     {
-        // 버튼에 기능을 연결합니다.
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        _playerStat = player.GetComponent<PlayerStat>();
         buyButton.onClick.AddListener(OnBuyButtonPressed);
         exitButton.onClick.AddListener(CloseShop);
         confirmYesButton.onClick.AddListener(ConfirmPurchase);
@@ -75,7 +70,7 @@ public class ShopManager : Singleton<ShopManager>
             {
                 // 슬롯을 활성화하고 데이터를 설정합니다.
                 itemSlots[i].gameObject.SetActive(true);
-                // ★ ShopItemSlot의 Setup에 ShopManager 자기 자신(this)을 넘겨줍니다.
+                // ★ ShopItemSlot의 Setup에 UIShop 자기 자신(this)을 넘겨줍니다.
                 itemSlots[i].Setup(items[i], this);
             }
             // 판매할 아이템이 더 이상 없으면
@@ -125,7 +120,7 @@ public class ShopManager : Singleton<ShopManager>
 
         if (_playerStat.Consume(StatType.Money, _currentItemToBuy.price))
         {
-            _uiInventory.AddItem(_currentItemToBuy);
+            UIManager.Instance.UIInventory.AddItem(_currentItemToBuy);
             Debug.Log($"{_currentItemToBuy.displayName} 구매 완료!");
         }
         else

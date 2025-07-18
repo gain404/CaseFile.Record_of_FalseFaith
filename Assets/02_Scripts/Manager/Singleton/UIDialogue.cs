@@ -42,11 +42,11 @@ public class UIDialogue : MonoBehaviour
     private string[] _currentItemLines;
     private int _currentItemIndex;
     private bool _isItemDialogue;
-    private ShopManager _shopManager;
+    private UIShop _uiShop;
     private TextMeshProUGUI[] _buttonTexts;
     private void Start()
     {
-        _shopManager = ShopManager.Instance;
+        _uiShop = UIManager.Instance.UIShop;
         CurrentState = DialogueState.Inactive;
         for (int i = 0; i < choiceButtons.Length; i++)
         {
@@ -222,10 +222,10 @@ public class UIDialogue : MonoBehaviour
             // DisplayLineCoroutine 함수 전체를 이 코드로 사용하시면 됩니다.
             if (line.type == DialogueType.OpenStore)
             {
-                if (line.shopData != null && _shopManager != null)
+                if (line.shopData != null && _uiShop != null)
                 {
                     dialoguePanel.SetActive(false);
-                    _shopManager.OpenShop(line.shopData);
+                    _uiShop.OpenShop(line.shopData);
                     
                     // '첫 대화 완료'를 알리는 책임은 이제 PlayerInteractState가 가집니다.
                     // 따라서 이 코드는 최종 설계에 따라 삭제됩니다.
