@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum UIType
 {
-    Inventory,
+    UIInventory, UIDialogue,
     Title
     //ui 붙일까 안붙일까...
 }

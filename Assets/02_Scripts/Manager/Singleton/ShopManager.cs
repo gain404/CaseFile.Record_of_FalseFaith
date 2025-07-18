@@ -61,7 +61,7 @@ public class ShopManager : Singleton<ShopManager>
 
     public void CloseShop()
     {
-        DialogueManager.Instance.ResetDialogueState();
+        UIManager.Instance.UIDialogue.ResetDialogueState();
         shopPanel.SetActive(false);
     }
     

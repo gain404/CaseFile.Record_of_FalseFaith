@@ -20,7 +20,7 @@ public class InteractionPromptUI : MonoBehaviour
 
     private void Update()
     {
-        if (DialogueManager.Instance.CurrentState != DialogueManager.DialogueState.Inactive)
+        if (UIManager.Instance.UIDialogue.CurrentState != DialogueState.Inactive)
         {
             if (interactPanel.activeSelf)
             {

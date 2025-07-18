@@ -17,7 +17,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerSwordAttackState SwordAttackState { get; }
     public PlayerGunAttackState GunAttackState { get; }
     public PlayerShopState ShopState { get; private set; }
-    
+        
     public IState PreviousState { get; private set; }
     //움직임 보정값
     public Vector2 MovementInput { get; set; }
@@ -146,7 +146,7 @@ public class PlayerStateMachine : StateMachine
 
         AddTransition(new StateTransition(
             InteractState, IdleState,
-            () => DialogueManager.Instance.IsDialogueFinished || Player.itemData == null &&
+            () => UIManager.Instance.UIDialogue.IsDialogueFinished || Player.itemData == null &&
                 Player.CurrentInteractableNPC == null && player.CurrentInteractableItem == null));
 
         AddTransition(new StateTransition(
@@ -260,7 +260,7 @@ public class PlayerStateMachine : StateMachine
         //Shop
         AddTransition(new StateTransition(
             InteractState, ShopState,
-            () => DialogueManager.Instance.CurrentState == DialogueManager.DialogueState.Paused));
+            () => UIManager.Instance.UIDialogue.CurrentState == DialogueState.Paused));
         
         AddTransition(new StateTransition(
             InventoryState, ShopState,

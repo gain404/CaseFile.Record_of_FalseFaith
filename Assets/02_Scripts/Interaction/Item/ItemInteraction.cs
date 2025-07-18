@@ -40,7 +40,7 @@ public class ItemInteraction : MonoBehaviour, IInteractable
     {
         if (dialogueData != null)
         {
-            DialogueManager.Instance.StartItemDialogue(dialogueData.dialogueLines, this.transform);
+            UIManager.Instance.UIDialogue.StartItemDialogue(dialogueData.dialogueLines, this.transform);
         }
     }
 }

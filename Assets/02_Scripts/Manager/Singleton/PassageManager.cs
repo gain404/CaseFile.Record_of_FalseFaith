@@ -84,7 +84,7 @@ public class PassageManager : Singleton<PassageManager>
             _sfxPlayer.PlaySfx(SfxName.DoorOpenSound);
         }
         _fadeManager.OnCanvas();
-        _fadeManager.FadeOut(SetPlayerPosition);
+        _fadeManager.FadeOut(1.0f, SetPlayerPosition);
     }
     
     private void SetPlayerPosition()
@@ -92,7 +92,7 @@ public class PassageManager : Singleton<PassageManager>
         Quaternion quaternion = new Quaternion(0, 0, 0, 0);
         _player.transform.position = _targetPosition;
         _playerCinemachineCamera.ForceCameraPosition(_targetPosition, quaternion);
-        _fadeManager.FadeIn(_fadeManager.OffCanvas);
+        _fadeManager.FadeIn(0, _fadeManager.OffCanvas);
         canMovement = false;
     }
 }
