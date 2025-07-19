@@ -7,24 +7,24 @@ using System;
 public class UIShop : MonoBehaviour
 {
 
-    [Header("UI Panels")]
-    public GameObject shopPanel;
-    public GameObject confirmationPopup;
+    [Header("UI Panels")] 
+    public GameObject ShopPanel;
+    [SerializeField] private GameObject confirmationPopup;
 
     [Header("Item List (미리 생성된 슬롯)")]
-    public List<ShopItemSlot> itemSlots; // 프리팹 대신 미리 만든 슬롯 리스트를 받습니다.
+    [SerializeField] private List<ShopItemSlot> itemSlots; // 프리팹 대신 미리 만든 슬롯 리스트를 받습니다.
 
     [Header("Item Details")]
-    public TMP_Text selectedItemName;
-    public TMP_Text selectedItemDescription;
-    public TMP_Text playerGoldText;
+    [SerializeField] private TMP_Text selectedItemName;
+    [SerializeField] private TMP_Text selectedItemDescription;
+    [SerializeField] private TMP_Text playerGoldText;
 
     [Header("Buttons & Popup")]
-    public Button buyButton;
-    public Button exitButton;
-    public TMP_Text confirmationText;
-    public Button confirmYesButton;
-    public Button confirmNoButton;
+    [SerializeField] private Button buyButton;
+    [SerializeField] private Button exitButton;
+    [SerializeField] private TMP_Text confirmationText;
+    [SerializeField] private Button confirmYesButton;
+    [SerializeField] private Button confirmNoButton;
 
     private PlayerStat _playerStat;
     private ItemData _currentItemToBuy;
@@ -32,7 +32,7 @@ public class UIShop : MonoBehaviour
     private void Awake()
     {
         // 게임 시작 시 패널들을 비활성화합니다.
-        if (shopPanel != null) shopPanel.SetActive(false);
+        if (ShopPanel != null) ShopPanel.SetActive(false);
         if (confirmationPopup != null) confirmationPopup.SetActive(false);
     }
 
@@ -48,7 +48,7 @@ public class UIShop : MonoBehaviour
 
     public void OpenShop(ShopData data)
     {
-        shopPanel.SetActive(true);
+        ShopPanel.SetActive(true);
         UpdatePlayerGold();
         PopulateShop(data.itemsForSale);
         ClearDetails();
@@ -57,7 +57,7 @@ public class UIShop : MonoBehaviour
     public void CloseShop()
     {
         UIManager.Instance.UIDialogue.ResetDialogueState();
-        shopPanel.SetActive(false);
+        ShopPanel.SetActive(false);
     }
     
     void PopulateShop(List<ItemData> items)

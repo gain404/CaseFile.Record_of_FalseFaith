@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,6 +7,8 @@ public class UIManager : Singleton<UIManager>
     public UIInventory UIInventory { get; private set; }
     public UIDialogue UIDialogue { get; private set; }
     public UIShop UIShop { get; private set; }
+    public UIHealth UIHealth { get; private set; }
+    public UIStamina UIStamina { get; private set; }
 
     [SerializeField] private GameObject canvasPrefab;
     [SerializeField] private List<UIEntry> uiPrefabs;
@@ -32,7 +33,7 @@ public class UIManager : Singleton<UIManager>
         ClearUI();
         foreach (UIEntry uiEntry in uiPrefabs)
         {
-            if (uiEntry.sceneName == scene)
+            if (uiEntry.sceneName.Contains(scene))
             {
                 ShowUI(uiEntry.uiType);
             }
@@ -41,6 +42,8 @@ public class UIManager : Singleton<UIManager>
         UIInventory = GetUIComponent<UIInventory>(UIType.UIInventory);
         UIDialogue = GetUIComponent<UIDialogue>(UIType.UIDialogue);
         UIShop = GetUIComponent<UIShop>(UIType.UIShop);
+        UIHealth = GetUIComponent<UIHealth>(UIType.UIHealth);
+        UIStamina = GetUIComponent<UIStamina>(UIType.UIStamina);
     }
     
     //canvas를 생성하고 씬에 맞는 ui생성

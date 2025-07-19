@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum UIType
 {
-    UIInventory, UIDialogue,UIShop,
+    UIInventory, UIDialogue,UIShop,UIHealth,UIStamina,UIPrompt,
     Title
     //ui 붙일까 안붙일까...
 }
@@ -10,7 +11,7 @@ public enum UIType
 [System.Serializable]
 public class UIEntry
 {
-    public string sceneName;
+    public List<string> sceneName;
     public UIType uiType;
     public GameObject uiPrefab;
 }

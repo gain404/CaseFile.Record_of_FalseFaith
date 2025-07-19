@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class StaminaUI : MonoBehaviour
+public class UIStamina : MonoBehaviour
 {
     /// <summary>
     /// UI에 표시될 스테미나 정보
     /// </summary>
-    public Image staminaBar;
+    [SerializeField] private Image staminaBar;
 
     public void UpdateStamina(float currentStamina, float maxStamina)
     {
