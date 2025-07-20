@@ -6,7 +6,7 @@ public class FadeManager : Singleton<FadeManager>
 {
     [SerializeField] private Image fadeImage;
     [SerializeField] private GameObject canvas;
-    [SerializeField] private float fadeDuration = 1.2f;
+    [SerializeField] private Canvas mainCanvas;
 
     private void Start()
     {
@@ -14,14 +14,7 @@ public class FadeManager : Singleton<FadeManager>
         OffCanvas();
     }
 
-    public void FadeIn(float targetAlpha, System.Action onComplete = null)
-    {
-        fadeImage.DOFade(targetAlpha, fadeDuration)
-            .SetEase(Ease.Linear)
-            .OnComplete(() => onComplete?.Invoke());
-    }
-
-    public void FadeOut(float targetAlpha, System.Action onComplete = null)
+    public void Fade(float targetAlpha, float fadeDuration, System.Action onComplete = null)
     {
         fadeImage.DOFade(targetAlpha, fadeDuration)
             .SetEase(Ease.Linear)
@@ -36,6 +29,11 @@ public class FadeManager : Singleton<FadeManager>
     public void OffCanvas()
     {
         canvas.SetActive(false);
+    }
+
+    public void OrderChange(int order)
+    {
+        mainCanvas.sortingOrder = order;
     }
 
     public void SetBlackImmediately() => SetAlpha(1f);

@@ -20,6 +20,7 @@ public class UIHealth : MonoBehaviour
 
     private void InitHeart()
     {
+        _heartList = new List<Image>();
         foreach (Transform child in heartContainer.transform)
         {
             Destroy(child.gameObject);

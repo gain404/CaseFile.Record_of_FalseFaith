@@ -43,17 +43,21 @@ public class UIDialogue : MonoBehaviour
     private int _currentItemIndex;
     private bool _isItemDialogue;
     private UIShop _uiShop;
-    private TextMeshProUGUI[] _buttonTexts;
+    private TMP_Text[] _buttonTexts;
+    private FadeManager _fadeManager;
     private void Start()
     {
         _uiShop = UIManager.Instance.UIShop;
         CurrentState = DialogueState.Inactive;
+        _buttonTexts = new TMP_Text[choiceButtons.Length];
         for (int i = 0; i < choiceButtons.Length; i++)
         {
-            _buttonTexts[i] = choiceButtons[i].GetComponentInChildren<TextMeshProUGUI>();
+            _buttonTexts[i] = choiceButtons[i].GetComponentInChildren<TMP_Text>();
         }
         GameObject dialogueCamera = GameObject.FindGameObjectWithTag("DialogueCamera");
         _dialogueCamera = dialogueCamera.GetComponent<CinemachineCamera>();
+        _fadeManager = FadeManager.Instance;
+        EndDialogue();
     }
 
     // --- 대화 시작/종료 로직 ---
@@ -109,8 +113,9 @@ public class UIDialogue : MonoBehaviour
         _currentItemIndex = 0;
         IsDialogueFinished = false;
 
-        //cameraSwitcher.SwitchToDialogueCamera();
-        //backgroundDim.SetActive(true);
+        _dialogueCamera.Priority = 30;
+        _fadeManager.OrderChange(0);
+        _fadeManager.Fade(0.5f,0.1f);
         dialoguePanel.SetActive(true);
         choicePanel.SetActive(false);
         
@@ -131,8 +136,8 @@ public class UIDialogue : MonoBehaviour
         npcImage.gameObject.SetActive(false);
         dialoguePanel.SetActive(false);
         choicePanel.SetActive(false);
-        //backgroundDim.SetActive(false);
-        //cameraSwitcher.SwitchToPlayerCamera();
+        _fadeManager.Fade(0,0.1f);
+        _dialogueCamera.Priority = 0;
         _dialogueCamera.Follow = null;
         _currentDialogue = null;
         _currentItemLines = null;

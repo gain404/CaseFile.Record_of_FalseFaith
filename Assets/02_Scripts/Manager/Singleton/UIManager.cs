@@ -15,6 +15,11 @@ public class UIManager : Singleton<UIManager>
 
     private Dictionary<UIType, GameObject> _activeUIs = new();
     private GameObject _canvas;
+    protected override void Awake()
+    {
+        base.Awake();
+        InitSceneUI(SceneManager.GetActiveScene().name);
+    }
 
     private void Start()
     {
