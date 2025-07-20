@@ -33,9 +33,13 @@ public class UIManager : Singleton<UIManager>
         ClearUI();
         foreach (UIEntry uiEntry in uiPrefabs)
         {
-            if (uiEntry.sceneName.Contains(scene))
+            foreach (SceneName sceneName in uiEntry.sceneName)
             {
-                ShowUI(uiEntry.uiType);
+                if (sceneName.scene == scene)
+                {
+                    ShowUI(uiEntry.uiType);
+                    break;
+                }
             }
         }
 

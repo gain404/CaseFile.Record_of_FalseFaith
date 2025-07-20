@@ -11,7 +11,7 @@ public enum UIType
 [System.Serializable]
 public class UIEntry
 {
-    public List<string> sceneName;
+    public List<SceneName> sceneName;
     public UIType uiType;
     public GameObject uiPrefab;
 }
