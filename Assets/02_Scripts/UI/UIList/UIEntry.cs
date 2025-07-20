@@ -8,10 +8,15 @@ public enum UIType
     //ui 붙일까 안붙일까...
 }
 
+public enum SceneNaem
+{
+    Chapter1,Chapter2,Chapter3
+}
+
 [System.Serializable]
 public class UIEntry
 {
-    public List<SceneName> sceneName;
+    public List<SceneNaem> sceneName;
     public UIType uiType;
     public GameObject uiPrefab;
 }
