@@ -924,54 +924,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8348749983455324352, guid: 760c86e484a847f438b42786c6845120, type: 3}
   m_PrefabInstance: {fileID: 1471521482}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1494156312
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1494156314}
-  - component: {fileID: 1494156313}
-  m_Layer: 0
-  m_Name: CameraController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1494156313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1494156312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72b0170b49c3e8d4781d36ac6e886a9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  virtualCamera: {fileID: 8197504206793850487}
-  defaultZoomSize: 10
-  maxZoomOutSize: 15
-  isRunning: 0
---- !u!4 &1494156314
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1494156312}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.48918, y: 2.25002, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1570770709
 GameObject:
   m_ObjectHideFlags: 0
@@ -1405,6 +1357,7 @@ GameObject:
   - component: {fileID: 8197504206793850487}
   - component: {fileID: 5890014442078838712}
   - component: {fileID: 8197504206793850488}
+  - component: {fileID: 8197504206793850489}
   m_Layer: 0
   m_Name: PlayerCamera
   m_TagString: PlayerCamera
@@ -2157,6 +2110,22 @@ MonoBehaviour:
     MaxWindowSize: 0
     Padding: 0
   m_LegacyMaxWindowSize: -2
+--- !u!114 &8197504206793850489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595200038126828120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72b0170b49c3e8d4781d36ac6e886a9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultZoomSize: 10
+  maxZoomOutSize: 15
+  zoomSpeed: 5
+  isRunning: 0
 --- !u!1 &8651661184886401076
 GameObject:
   m_ObjectHideFlags: 0
@@ -2227,7 +2196,6 @@ SceneRoots:
   - {fileID: 1840666757}
   - {fileID: 1436282589}
   - {fileID: 2427073267061954667}
-  - {fileID: 1494156314}
   - {fileID: 1570770711}
   - {fileID: 1454953630}
   - {fileID: 894890819}
