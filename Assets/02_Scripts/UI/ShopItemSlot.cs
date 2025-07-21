@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
@@ -13,9 +13,9 @@ public class ShopItemSlot : MonoBehaviour
     {
         if (itemData == null) return;
         
-        if (itemImage != null) itemImage.sprite = itemData.icon;
-        if (itemName != null) itemName.text = itemData.displayName;
-        if (itemPrice != null) itemPrice.text = itemData.price.ToString();
+        if (itemImage != null) itemImage.sprite = Resources.Load<Sprite>(itemData.itemSprite);
+        if (itemName != null) itemName.text = itemData.itemName;
+        if (itemPrice != null) itemPrice.text = itemData.itemPrice.ToString();
 
         itemButton.onClick.RemoveAllListeners();
         // ★ 버튼을 누르면 ShopManager의 SelectItem 함수를 직접 호출합니다.

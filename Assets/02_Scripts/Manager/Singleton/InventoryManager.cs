@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class InventoryManager : Singleton<InventoryManager>
@@ -13,7 +12,7 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public bool AddItem(int itemId, int quantity)
     {
-        CSVItemData itemData = ItemDatabase.Instance.GetItemData(itemId);
+        ItemData itemData = ItemDatabase.Instance.GetItemData(itemId);
         if (itemData == null)
         {
             Debug.LogError($"{itemId}는 존재하지 않는 아이템입니다.");
@@ -27,7 +26,7 @@ public class InventoryManager : Singleton<InventoryManager>
         if (haveItem != null)
         {
             //스택 가능한 아이템이라면
-            if (haveItem.quantity + quantity <= itemData.maxStack)
+            if (haveItem.quantity + quantity <= itemData.maxStackAmount)
             {
                 haveItem.quantity += quantity;
                 return true;
@@ -36,8 +35,8 @@ public class InventoryManager : Singleton<InventoryManager>
             {
                 //개수가 초과하면 새로운 슬롯에 넣기
                 // 스택 한계 초과 시 새 슬롯에 추가
-                int remainingQuantity = (haveItem.quantity + quantity) - itemData.maxStack;
-                haveItem.quantity = itemData.maxStack;
+                int remainingQuantity = (haveItem.quantity + quantity) - itemData.maxStackAmount;
+                haveItem.quantity = itemData.maxStackAmount;
 
                 if (inventory.Count < maxSlots)
                 {

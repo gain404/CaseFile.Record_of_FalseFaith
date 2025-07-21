@@ -104,8 +104,8 @@ public class UIInventory : MonoBehaviour
         // 전달받은 데이터가 null이면 아무것도 하지 않습니다.
         if (data == null) return;
 
-        //여러 개 소유 가능한 아이템일 경우
-        if (data.canStack)
+        //여러 개 소유 가능한 아이템(회복템)일 경우
+        if (data.itemType == ItemType.Recover)
         {
             ItemSlot slot = GetItemStack(data);
 
@@ -180,13 +180,13 @@ public class UIInventory : MonoBehaviour
         selectedItem = slots[index];
         selectedItemIndex = index;
 
-        selectedItemName.text = selectedItem.item.displayName;
-        selectedItemDescription.text = selectedItem.item.description;
+        selectedItemName.text = selectedItem.item.itemName;
+        selectedItemDescription.text = selectedItem.item.itemDescription;
     }
 
     public void UseItem()
     {
-        if (selectedItem == null || selectedItem.item.type != ItemType.Consumable)
+        if (selectedItem == null || selectedItem.item.itemType != ItemType.Recover)
         {
             return;
         }

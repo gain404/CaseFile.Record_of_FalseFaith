@@ -12,7 +12,7 @@ public class PlayerManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
-            // 플레이어 오브젝트 자동 찾기 직접 넣어줘도 됨
+            // 플레이어 오브젝트 자동 찾기 (직접 넣어줘도 됨)
             if (playerObject == null)
             {
                 playerObject = GameObject.FindGameObjectWithTag("Player");
