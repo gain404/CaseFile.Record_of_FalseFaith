@@ -3,9 +3,8 @@ using UnityEngine;
 
 public enum UIType
 {
-    UIInventory, UIDialogue,UIShop,UIHealth,UIStamina,UIPrompt,
+    UIInventory, UIDialogue,UIShop,UIHealth,UIStamina,UIPrompt,UISurvey,
     Title
-    //ui 붙일까 안붙일까...
 }
 
 public enum SceneNaem
