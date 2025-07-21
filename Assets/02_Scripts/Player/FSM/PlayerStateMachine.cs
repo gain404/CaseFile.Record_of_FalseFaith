@@ -134,11 +134,11 @@ public class PlayerStateMachine : StateMachine
         
         AddTransition(new StateTransition(
             RunState, IdleState,
-            ()=> Mathf.Abs(MovementInput.x) < 0.01f));
+            ()=> RunState.timeSinceNoInput > RunState.gracePeriod));
 
         AddTransition(new StateTransition(
             WalkState, IdleState,
-            () => Mathf.Abs(MovementInput.x) < 0.01f));
+            () => WalkState.timeSinceNoInput > WalkState.gracePeriod));
         
         AddTransition(new StateTransition(
             DashState, IdleState,
