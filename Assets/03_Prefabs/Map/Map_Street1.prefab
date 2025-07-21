@@ -10074,6 +10074,7 @@ GameObject:
   - component: {fileID: 6860918357707688473}
   - component: {fileID: 5697722650628411575}
   - component: {fileID: 5448411665858647036}
+  - component: {fileID: 1413369287679802682}
   m_Layer: 11
   m_Name: Monster
   m_TagString: Untagged
@@ -10349,6 +10350,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meleeAttackCollider2D: {fileID: 4369400702045409134}
   biteAttackCollider2D: {fileID: 2977596380275495653}
+--- !u!114 &1413369287679802682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2808398183349648660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1f191b4039cb184d82f8a54e46bbeff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxData: {fileID: 0}
 --- !u!1 &2845054572133441667
 GameObject:
   m_ObjectHideFlags: 0

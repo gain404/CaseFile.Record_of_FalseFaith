@@ -68,7 +68,7 @@ public class PassageZone : MonoBehaviour, IInteractable
     {
         if (_sfxPlayer != null)
         {
-            _sfxPlayer.PlaySfx(SfxName.DoorOpenSound);
+            _sfxPlayer.PlaySfx(SfxName.DoorOpen);
         }
         _fadeManager.OnCanvas();
         _fadeManager.OrderChange(200);
