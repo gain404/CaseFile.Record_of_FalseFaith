@@ -5,74 +5,76 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.Cinemachine;
 using System;
-
-public class DialogueManager : Singleton<DialogueManager>
+public enum DialogueState { Inactive, Transitioning, Typing, WaitingForInput, ShowingChoices, Paused }
+public class UIDialogue : MonoBehaviour
 {
-    // --- UI 요소 ---
-    [Header("UI")]
-    public GameObject dialoguePanel;
-    public GameObject choicePanel;
-    public TMP_Text dialogueText;
-    public TMP_Text npcNameText;
-    public Image playerImage;
-    public Image npcImage;
-    public GameObject continueArrow;
-    public Button[] choiceButtons;
-
-    // --- 카메라 및 효과 ---
-    [Header("Cinemachine & Effect")]
-    public CinemachineCamera dialogueCamera;
-    public CameraSwitcher cameraSwitcher;
-    public CanvasGroup dialogueBoxGroup;
-    public CanvasGroup playerImageGroup;
-    public CanvasGroup npcImageGroup;
-    public GameObject backgroundDim;
-
-    // --- 위치 및 애니메이션 설정 ---
-    [Header("Settings")]
-    public RectTransform dialogueBoxRect;
-    public Vector2 playerBoxPos;
-    public Vector2 npcBoxPos;
-    public float fadeDuration = 0.3f;
-    public float moveDuration = 0.4f;
-    public float typingSpeed = 0.02f;
-
-    // --- 대화 상태 관리 ---
-    public enum DialogueState { Inactive, Transitioning, Typing, WaitingForInput, ShowingChoices, Paused }
-    public DialogueState CurrentState = DialogueState.Inactive;
-
-    private DialogueAsset currentDialogue;
-    private int currentIndex = 0;
-    private Coroutine displayCoroutine;
-    private bool isClickLocked = false; // 연속 클릭 방지를 위한 잠금 변수
-    private NPCInteraction _currentNpc;
-    // 기타 상태 변수
-    private string[] currentItemLines;
-    private int currentItemIndex = 0;
-    private bool isItemDialogue = false;
+    public DialogueState CurrentState { get; private set; }
     public bool IsDialogueFinished { get; private set; }
-    private ShopManager _shopManager;
+    
+    [Header("UI")]
+    [SerializeField] private GameObject dialoguePanel;
+    [SerializeField] private GameObject choicePanel;
+    [SerializeField] private TMP_Text dialogueText;
+    [SerializeField] private TMP_Text npcNameText;
+    [SerializeField] private Image playerImage;
+    [SerializeField] private Image npcImage;
+    [SerializeField] private GameObject continueArrow;
+    [SerializeField] private Button[] choiceButtons;
+    
+    [Header("Effect")]
+    [SerializeField] private CanvasGroup playerImageGroup;
+    [SerializeField] private CanvasGroup npcImageGroup;
+    
+    [Header("Settings")]
+    [SerializeField] private RectTransform dialogueBoxRect;
+    [SerializeField] private Vector2 playerBoxPos;
+    [SerializeField] private Vector2 npcBoxPos;
+    [SerializeField] private float fadeDuration;
+    [SerializeField] private float moveDuration;
+    [SerializeField] private float typingSpeed;
+    
+    private DialogueAsset _currentDialogue;
+    private int _currentIndex;
+    private Coroutine _displayCoroutine;
+    private bool _isClickLocked; // 연속 클릭 방지를 위한 잠금 변수
+    // 기타 상태 변수
+    private CinemachineCamera _dialogueCamera;
+    private string[] _currentItemLines;
+    private int _currentItemIndex;
+    private bool _isItemDialogue;
+    private UIShop _uiShop;
+    private TMP_Text[] _buttonTexts;
+    private FadeManager _fadeManager;
     private void Start()
     {
-        _shopManager = ShopManager.Instance;
+        _uiShop = UIManager.Instance.UIShop;
+        CurrentState = DialogueState.Inactive;
+        _buttonTexts = new TMP_Text[choiceButtons.Length];
+        for (int i = 0; i < choiceButtons.Length; i++)
+        {
+            _buttonTexts[i] = choiceButtons[i].GetComponentInChildren<TMP_Text>();
+        }
+        GameObject dialogueCamera = GameObject.FindGameObjectWithTag("DialogueCamera");
+        _dialogueCamera = dialogueCamera.GetComponent<CinemachineCamera>();
+        _fadeManager = FadeManager.Instance;
+        EndDialogue();
     }
 
     // --- 대화 시작/종료 로직 ---
     public void StartDialogue(DialogueAsset asset, Transform dialogueTarget)
     {
         if (CurrentState != DialogueState.Inactive) return;
-        currentDialogue = asset;
-        isItemDialogue = false;
+        _currentDialogue = asset;
+        _isItemDialogue = false;
         SetCameraTarget(dialogueTarget);
-        _currentNpc = dialogueTarget.GetComponent<NPCInteraction>();
         StartDialogueCommon();
     }
     
     public void StartItemDialogue(string[] lines, Transform itemTarget)
     {
         if (CurrentState != DialogueState.Inactive) return;
-        currentItemLines = lines;
-        isItemDialogue = true;
+        _currentItemLines = lines;
+        _isItemDialogue = true;
         
         SetCameraTarget(itemTarget);
 
@@ -84,31 +86,40 @@ public class DialogueManager : Singleton<DialogueManager>
         if (targetParent != null)
         {
             // 부모 오브젝트(NPC나 아이템) 밑에서 "CinemachineTarget"을 이름으로 찾음
-            Transform newTarget = targetParent.Find("CinemachineTarget");
+            Transform newTarget = null;
+            foreach (Transform child in targetParent)
+            {
+                if (child.name == "CinemachineTarget")
+                {
+                    newTarget = child;
+                    break;
+                }
+            }
             if (newTarget != null)
             {
-                dialogueCamera.Follow = newTarget;
+                _dialogueCamera.Follow = newTarget;
             }
             else
             {
                 // CinemachineTarget이 없으면 NPC/아이템 자체를 타겟으로 설정 (예비용)
-                dialogueCamera.Follow = targetParent;
+                _dialogueCamera.Follow = targetParent;
             }
         }
     }
 
     private void StartDialogueCommon()
     {
-        currentIndex = 0;
-        currentItemIndex = 0;
+        _currentIndex = 0;
+        _currentItemIndex = 0;
         IsDialogueFinished = false;
 
-        cameraSwitcher.SwitchToDialogueCamera();
-        backgroundDim.SetActive(true);
+        _dialogueCamera.Priority = 30;
+        _fadeManager.OrderChange(0);
+        _fadeManager.Fade(0.5f,0.1f);
         dialoguePanel.SetActive(true);
         choicePanel.SetActive(false);
         
-        if (isItemDialogue)
+        if (_isItemDialogue)
         {
             npcNameText.text = "";
             playerImage.gameObject.SetActive(false);
@@ -125,18 +136,18 @@ public class DialogueManager : Singleton<DialogueManager>
         npcImage.gameObject.SetActive(false);
         dialoguePanel.SetActive(false);
         choicePanel.SetActive(false);
-        backgroundDim.SetActive(false);
-        cameraSwitcher.SwitchToPlayerCamera();
-        dialogueCamera.Follow = null;
-        currentDialogue = null;
-        currentItemLines = null;
+        _fadeManager.Fade(0,0.1f);
+        _dialogueCamera.Priority = 0;
+        _dialogueCamera.Follow = null;
+        _currentDialogue = null;
+        _currentItemLines = null;
     }
 
     // --- 핵심 입력 처리 (더욱 단순화) ---
     public void HandleClick()
     {
         // 입력이 잠겨있거나, 입력을 받을 상태가 아니면 무시
-        if (isClickLocked || CurrentState != DialogueState.WaitingForInput)
+        if (_isClickLocked || CurrentState != DialogueState.WaitingForInput)
         {
             return;
         }
@@ -148,9 +159,9 @@ public class DialogueManager : Singleton<DialogueManager>
 
     private IEnumerator ClickLockout()
     {
-        isClickLocked = true;
+        _isClickLocked = true;
         yield return new WaitForSeconds(0.2f); // 0.2초간 추가 클릭 방지
-        isClickLocked = false;
+        _isClickLocked = false;
     }
     
     // --- 상태 및 UI 관리 ---
@@ -162,30 +173,30 @@ public class DialogueManager : Singleton<DialogueManager>
     
     private void StopDisplayCoroutine()
     {
-        if (displayCoroutine != null)
+        if (_displayCoroutine != null)
         {
-            StopCoroutine(displayCoroutine);
-            displayCoroutine = null;
+            StopCoroutine(_displayCoroutine);
+            _displayCoroutine = null;
         }
     }
 
     // --- 대화 진행 로직 ---
     private void AdvanceDialogue()
     {
-        if (isItemDialogue)
+        if (_isItemDialogue)
         {
-            currentItemIndex++;
-            if (currentItemIndex >= currentItemLines.Length) { EndDialogue(); return; }
+            _currentItemIndex++;
+            if (_currentItemIndex >= _currentItemLines.Length) { EndDialogue(); return; }
         }
         else
         {
-            DialogueLine currentLine = currentDialogue.lines[currentIndex];
+            DialogueLine currentLine = _currentDialogue.lines[_currentIndex];
             if (currentLine.nextLineIndices != null && currentLine.nextLineIndices.Length > 0)
-                currentIndex = currentLine.nextLineIndices[0];
+                _currentIndex = currentLine.nextLineIndices[0];
             else
-                currentIndex++;
+                _currentIndex++;
             
-            if (currentIndex >= currentDialogue.lines.Length) { EndDialogue(); return; }
+            if (_currentIndex >= _currentDialogue.lines.Length) { EndDialogue(); return; }
         }
         ShowLine();
     }
@@ -193,7 +204,7 @@ public class DialogueManager : Singleton<DialogueManager>
     private void ShowLine()
     {
         StopDisplayCoroutine();
-        displayCoroutine = StartCoroutine(DisplayLineCoroutine());
+        _displayCoroutine = StartCoroutine(DisplayLineCoroutine());
     }
     
     // --- 코루틴 로직 ---
@@ -202,24 +213,24 @@ public class DialogueManager : Singleton<DialogueManager>
         SetState(DialogueState.Transitioning);
 
         string textToDisplay;
-        if (isItemDialogue)
+        if (_isItemDialogue)
         {
-            textToDisplay = currentItemLines[currentItemIndex];
+            textToDisplay = _currentItemLines[_currentItemIndex];
             yield return null; 
         }
         else
         {
-            DialogueLine line = currentDialogue.lines[currentIndex];
+            DialogueLine line = _currentDialogue.lines[_currentIndex];
             textToDisplay = line.text;
 
             // ★★★ 여기가 최종 수정된 부분입니다 ★★★
             // DisplayLineCoroutine 함수 전체를 이 코드로 사용하시면 됩니다.
             if (line.type == DialogueType.OpenStore)
             {
-                if (line.shopData != null && _shopManager != null)
+                if (line.shopData != null && _uiShop != null)
                 {
                     dialoguePanel.SetActive(false);
-                    _shopManager.OpenShop(line.shopData);
+                    _uiShop.OpenShop(line.shopData);
                     
                     // '첫 대화 완료'를 알리는 책임은 이제 PlayerInteractState가 가집니다.
                     // 따라서 이 코드는 최종 설계에 따라 삭제됩니다.
@@ -305,7 +316,7 @@ public class DialogueManager : Singleton<DialogueManager>
             choiceButtons[i].gameObject.SetActive(isActive);
             if (isActive)
             {
-                choiceButtons[i].GetComponentInChildren<TMP_Text>().text = line.choices[i];
+                _buttonTexts[i].text = line.choices[i];
                 int choiceIndex = i;
                 choiceButtons[i].onClick.RemoveAllListeners();
                 choiceButtons[i].onClick.AddListener(() => OnChoiceSelected(choiceIndex));
@@ -318,10 +329,10 @@ public class DialogueManager : Singleton<DialogueManager>
 
         SetState(DialogueState.Inactive);
     
-        DialogueLine line = currentDialogue.lines[currentIndex];
-        currentIndex = line.nextLineIndices[choiceIndex];
+        DialogueLine line = _currentDialogue.lines[_currentIndex];
+        _currentIndex = line.nextLineIndices[choiceIndex];
 
-        if (currentIndex >= currentDialogue.lines.Length)
+        if (_currentIndex >= _currentDialogue.lines.Length)
         {
             EndDialogue();
         }

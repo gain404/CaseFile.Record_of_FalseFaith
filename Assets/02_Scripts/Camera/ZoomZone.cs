@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class ZoomZone : MonoBehaviour
 {
@@ -8,12 +9,20 @@ public class ZoomZone : MonoBehaviour
     /// </summary>
     public float maxZoomOutSize = 15f; // 달릴 때 허용할 최대 줌 아웃 크기
     public float defaultZoomSize = 10f; // 기본 카메라 크기
+    private PlayerCameraController _playerCameraController;
+
+    private void Start()
+    {
+        GameObject playerCamera= GameObject.FindGameObjectWithTag("PlayerCamera");
+        _playerCameraController = playerCamera.GetComponent<PlayerCameraController>();
+    }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            CameraController.Instance.SetZoomLimits(defaultZoomSize, maxZoomOutSize);
+            _playerCameraController.SetZoomLimits(defaultZoomSize, maxZoomOutSize);
         }
     }
 
@@ -22,7 +31,7 @@ public class ZoomZone : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // 기본값으로 복구
-            CameraController.Instance.ResetZoomLimits();
+            _playerCameraController.ResetZoomLimits();
         }
     }
 }

@@ -9,7 +9,7 @@ public class ShopItemSlot : MonoBehaviour
     public TMP_Text itemPrice;
     public Button itemButton;
 
-    public void Setup(ItemData itemData, ShopManager manager)
+    public void Setup(ItemData itemData, UIShop manager)
     {
         if (itemData == null) return;
         

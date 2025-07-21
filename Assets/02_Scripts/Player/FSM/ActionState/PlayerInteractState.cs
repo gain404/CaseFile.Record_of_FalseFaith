@@ -10,7 +10,6 @@ public class PlayerInteractState : PlayerActionState
     //상태 진입할 때
     public override void Enter()
     {
-        Debug.Log("다이알로그 상태 진입");
         base.Enter();
         _rb.linearVelocity = Vector2.zero;
         stateMachine.Player.Animator.SetBool(stateMachine.Player.PlayerAnimationData.MoveParameterHash, false);
@@ -27,8 +26,6 @@ public class PlayerInteractState : PlayerActionState
 
         if (npc != null)
         {
-            Debug.Log($"--- NPC와 상호작용 시작: {npc.name} ---");
-        
             DialogueAsset dialogueToStart = null;
             
             if (stateMachine.PreviousState == stateMachine.ShopState)
@@ -43,7 +40,7 @@ public class PlayerInteractState : PlayerActionState
         
             if (dialogueToStart != null)
             {
-                DialogueManager.Instance.StartDialogue(dialogueToStart, npc.transform);
+                UIManager.Instance.UIDialogue.StartDialogue(dialogueToStart, npc.transform);
             }
             else
             {
@@ -52,12 +49,10 @@ public class PlayerInteractState : PlayerActionState
         }
         else if (item != null)
         {
-            Debug.Log($"--- 필드 아이템과 상호작용 시작: {item.name} ---");
             item.OnInteract();
         }
         else if (itemData != null)
         {
-            Debug.Log("--- 기타 아이템 데이터 상호작용 시작 ---");
             Interaction interaction = stateMachine.Player.GetComponent<Interaction>();
             if (interaction != null)
             {
@@ -71,7 +66,6 @@ public class PlayerInteractState : PlayerActionState
     //상태 빠져나올 때
     public override void Exit()
     {
-        Debug.Log("다이알로그 상태 퇴장");
         base.Exit();
         EndAnimation(stateMachine.Player.PlayerAnimationData.IdleParameterHash);
         stateMachine.MovementSpeedModifier = 1f;
@@ -84,7 +78,7 @@ public class PlayerInteractState : PlayerActionState
 
         if (confirm || click)
         {
-            DialogueManager.Instance.HandleClick();
+            UIManager.Instance.UIDialogue.HandleClick();
         }
     }
     public override void Update()

@@ -1,50 +1,45 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using System;
 
-public class ShopManager : Singleton<ShopManager>
+public class UIShop : MonoBehaviour
 {
 
-    [Header("UI Panels")]
-    public GameObject shopPanel;
-    public GameObject confirmationPopup;
+    [Header("UI Panels")] 
+    public GameObject ShopPanel;
+    [SerializeField] private GameObject confirmationPopup;
 
     [Header("Item List (미리 생성된 슬롯)")]
-    public List<ShopItemSlot> itemSlots; // 프리팹 대신 미리 만든 슬롯 리스트를 받습니다.
+    [SerializeField] private List<ShopItemSlot> itemSlots; // 프리팹 대신 미리 만든 슬롯 리스트를 받습니다.
 
     [Header("Item Details")]
-    public TMP_Text selectedItemName;
-    public TMP_Text selectedItemDescription;
-    public TMP_Text playerGoldText;
+    [SerializeField] private TMP_Text selectedItemName;
+    [SerializeField] private TMP_Text selectedItemDescription;
+    [SerializeField] private TMP_Text playerGoldText;
 
     [Header("Buttons & Popup")]
-    public Button buyButton;
-    public Button exitButton;
-    public TMP_Text confirmationText;
-    public Button confirmYesButton;
-    public Button confirmNoButton;
+    [SerializeField] private Button buyButton;
+    [SerializeField] private Button exitButton;
+    [SerializeField] private TMP_Text confirmationText;
+    [SerializeField] private Button confirmYesButton;
+    [SerializeField] private Button confirmNoButton;
 
     private PlayerStat _playerStat;
-    private UIInventory _uiInventory;
     private ItemData _currentItemToBuy;
 
     private void Awake()
     {
-        // 씬에서 필요한 컴포넌트들을 찾아 할당합니다.
-        // FindObjectOfType은 씬에 해당 타입의 객체가 단 하나만 존재한다고 가정할 때 안전합니다.
-        _playerStat = FindObjectOfType<PlayerStat>();
-        _uiInventory = FindObjectOfType<UIInventory>();
-
         // 게임 시작 시 패널들을 비활성화합니다.
-        if (shopPanel != null) shopPanel.SetActive(false);
+        if (ShopPanel != null) ShopPanel.SetActive(false);
         if (confirmationPopup != null) confirmationPopup.SetActive(false);
     }
 
     private void Start()
     {
-        // 버튼에 기능을 연결합니다.
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        _playerStat = player.GetComponent<PlayerStat>();
         buyButton.onClick.AddListener(OnBuyButtonPressed);
         exitButton.onClick.AddListener(CloseShop);
         confirmYesButton.onClick.AddListener(ConfirmPurchase);
@@ -53,7 +48,7 @@ public class ShopManager : Singleton<ShopManager>
 
     public void OpenShop(ShopData data)
     {
-        shopPanel.SetActive(true);
+        ShopPanel.SetActive(true);
         UpdatePlayerGold();
         PopulateShop(data.itemsForSale);
         ClearDetails();
@@ -61,8 +56,8 @@ public class ShopManager : Singleton<ShopManager>
 
     public void CloseShop()
     {
-        DialogueManager.Instance.ResetDialogueState();
-        shopPanel.SetActive(false);
+        UIManager.Instance.UIDialogue.ResetDialogueState();
+        ShopPanel.SetActive(false);
     }
     
     void PopulateShop(List<ItemData> items)
@@ -75,7 +70,7 @@ public class ShopManager : Singleton<ShopManager>
             {
                 // 슬롯을 활성화하고 데이터를 설정합니다.
                 itemSlots[i].gameObject.SetActive(true);
-                // ★ ShopItemSlot의 Setup에 ShopManager 자기 자신(this)을 넘겨줍니다.
+                // ★ ShopItemSlot의 Setup에 UIShop 자기 자신(this)을 넘겨줍니다.
                 itemSlots[i].Setup(items[i], this);
             }
             // 판매할 아이템이 더 이상 없으면
@@ -90,8 +85,8 @@ public class ShopManager : Singleton<ShopManager>
     public void SelectItem(ItemData item)
     {
         _currentItemToBuy = item;
-        selectedItemName.text = item.itemName;
-        selectedItemDescription.text = item.itemDescription;
+        selectedItemName.text = item.displayName;
+        selectedItemDescription.text = item.description;
     }
 
     void ClearDetails()
@@ -116,17 +111,17 @@ public class ShopManager : Singleton<ShopManager>
             Debug.Log("구매할 아이템을 선택하세요.");
             return;
         }
-        ShowConfirmationPopup($"'{_currentItemToBuy.itemName}'을(를) 구매하시겠습니까?", ConfirmPurchase);
+        ShowConfirmationPopup($"'{_currentItemToBuy.displayName}'을(를) 구매하시겠습니까?", ConfirmPurchase);
     }
 
     void ConfirmPurchase()
     {
         if (_currentItemToBuy == null) return;
 
-        if (_playerStat.Consume(StatType.Money, _currentItemToBuy.itemPrice))
+        if (_playerStat.Consume(StatType.Money, _currentItemToBuy.price))
         {
-            _uiInventory.AddItem(_currentItemToBuy);
-            Debug.Log($"{_currentItemToBuy.itemName} 구매 완료!");
+            UIManager.Instance.UIInventory.AddItem(_currentItemToBuy);
+            Debug.Log($"{_currentItemToBuy.displayName} 구매 완료!");
         }
         else
         {

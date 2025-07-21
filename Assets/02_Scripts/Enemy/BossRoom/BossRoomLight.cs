@@ -8,14 +8,14 @@ public class BossRoomLight : MonoBehaviour
     
     [SerializeField] private Sprite crackBulb;
     [SerializeField] private Sprite breakBulb;
+    [SerializeField] private Light2D light2D;
     
     private SpriteRenderer _spriteRenderer;
-    private Light2D _light2D;
+    
 
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _light2D = GetComponent<Light2D>();
         BreakCount = 2;
     }
 
@@ -29,7 +29,7 @@ public class BossRoomLight : MonoBehaviour
         else if (BreakCount == 0)
         {
             _spriteRenderer.sprite = breakBulb;
-            _light2D.enabled = false;
+            light2D.enabled = false;
         }
     }
 }

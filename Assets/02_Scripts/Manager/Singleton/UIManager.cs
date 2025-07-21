@@ -1,19 +1,30 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UIManager : Singleton<UIManager>
 {
+    public UIInventory UIInventory { get; private set; }
+    public UIDialogue UIDialogue { get; private set; }
+    public UIShop UIShop { get; private set; }
+    public UIHealth UIHealth { get; private set; }
+    public UIStamina UIStamina { get; private set; }
+
     [SerializeField] private GameObject canvasPrefab;
     [SerializeField] private List<UIEntry> uiPrefabs;
 
-    private Dictionary<UIType, Component> _activeUIs = new();
+    private Dictionary<UIType, GameObject> _activeUIs = new();
     private GameObject _canvas;
+    protected override void Awake()
+    {
+        base.Awake();
+        InitSceneUI(SceneManager.GetActiveScene().name);
+    }
 
     private void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        //이거 awake이후에 실행되므로 ui캐싱은 Start에서 실행시켜주기
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -21,15 +32,31 @@ public class UIManager : Singleton<UIManager>
         InitSceneUI(scene.name); // 자동 호출
     }
     
-    public void InitSceneUI(string sceneName)
+    private void InitSceneUI(string scene)
     {
         _canvas = Instantiate(canvasPrefab);
+        ClearUI();
+        foreach (UIEntry uiEntry in uiPrefabs)
+        {
+            foreach (SceneNaem sceneName  in uiEntry.sceneName)
+            {
+                if (sceneName.ToString() == scene)
+                {
+                    ShowUI(uiEntry.uiType);
+                    break;
+                }
+            }
+        }
 
-       
+        UIInventory = GetUIComponent<UIInventory>(UIType.UIInventory);
+        UIDialogue = GetUIComponent<UIDialogue>(UIType.UIDialogue);
+        UIShop = GetUIComponent<UIShop>(UIType.UIShop);
+        UIHealth = GetUIComponent<UIHealth>(UIType.UIHealth);
+        UIStamina = GetUIComponent<UIStamina>(UIType.UIStamina);
     }
     
     //canvas를 생성하고 씬에 맞는 ui생성
-    public void ShowUI<T>(UIType uiName) where T : Component
+    private void ShowUI(UIType uiName)
     {
         if (_activeUIs.ContainsKey(uiName)) return;
 
@@ -37,10 +64,9 @@ public class UIManager : Singleton<UIManager>
         if (prefab != null)
         {
             GameObject instance = Instantiate(prefab, _canvas.transform);
-            T uiComponent = instance.GetComponent<T>();
-            if (uiComponent != null)
+            if (instance != null)
             {
-                _activeUIs.Add(uiName, uiComponent);
+                _activeUIs.Add(uiName, instance);
             }
         }
     }
@@ -48,7 +74,7 @@ public class UIManager : Singleton<UIManager>
     //dictionary초기화할때 사용
     public void HideUI(UIType uiName)
     {
-        if (_activeUIs.TryGetValue(uiName, out Component ui))
+        if (_activeUIs.TryGetValue(uiName, out GameObject ui))
         {
             Destroy(ui);
             _activeUIs.Remove(uiName);
@@ -60,11 +86,16 @@ public class UIManager : Singleton<UIManager>
         _activeUIs.Clear();
     }
 
-    public T GetUI<T>(UIType uiName) where T : Component
+    public GameObject GetUI(UIType uiName)
     {
-        if (_activeUIs.TryGetValue(uiName, out var component))
+        return _activeUIs.GetValueOrDefault(uiName);
+    }
+    
+    private T GetUIComponent<T>(UIType uiType) where T : Component
+    {
+        if (_activeUIs.TryGetValue(uiType, out GameObject ui))
         {
-            return component as T;
+            return ui.GetComponent<T>();
         }
         return null;
     }

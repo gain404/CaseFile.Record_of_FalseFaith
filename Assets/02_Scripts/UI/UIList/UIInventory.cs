@@ -6,41 +6,37 @@ using UnityEngine;
 /// </summary>
 public class UIInventory : MonoBehaviour
 {
-    public GameObject playerGameObject;
-    private Player player;
-    public ItemSlot[] slots; //인벤토리에 들어갈 아이템 슬롯들
-
-    public GameObject inventoryWindow;
-    public Transform slotPanel;
-    public GameObject slotPrefab;
+    [SerializeField] private ItemSlot[] slots; //인벤토리에 들어갈 아이템 슬롯들
+    [SerializeField] private GameObject inventoryWindow;
+    [SerializeField] private Transform slotPanel;
+    [SerializeField] private GameObject slotPrefab;
 
     [Header("Selected Item")]           // 선택한 슬롯의 아이템 정보 표시 위한 UI
-    private ItemSlot selectedItem;
-    private int selectedItemIndex;
-    public TextMeshProUGUI selectedItemName;
-    public TextMeshProUGUI selectedItemDescription;
-
-    private PlayerController controller;
-    private ItemManager itemUser;
-    private int curEquipIndex;
-
-    public UIAnimator inventoryAnimator;
-
+    [SerializeField] private TextMeshProUGUI selectedItemName;
+    [SerializeField] private TextMeshProUGUI selectedItemDescription;
+    [SerializeField] private UIAnimator inventoryAnimator;
+    
+    private ItemSlot _selectedItem;
+    private ItemManager _itemUser;
+    private Player _player;
+    private PlayerController _playerController;
+    private int _curEquipIndex;
+    private int _selectedItemIndex;
+    
     //나중에 플레이어 관련 정보도 추가되면 여기에 추가하기
 
     private void Start()
     {
-        //플레이어 컨트롤러 등 여기에 초기화
-        //controller = TestCharacterManager.Instance.Player.controller;
-        controller = playerGameObject.GetComponent<PlayerController>();
-        player = playerGameObject.GetComponent<Player>();
+        GameObject playerGameObject = GameObject.FindGameObjectWithTag("Player");
+        _playerController = playerGameObject.GetComponent<PlayerController>();
+        _player = playerGameObject.GetComponent<Player>();
 
         // 플레이어 컨트롤러 등에서 Action 호출 시 필요한 함수 등록
-        controller.inventory += Toggle;// inventory 키 입력 시
-        itemUser = playerGameObject.GetComponent<ItemManager>();
+        _playerController.inventory += Toggle;// inventory 키 입력 시
+        _itemUser = playerGameObject.GetComponent<ItemManager>();
         
-        // 수정: 매개변수가 없는 player.addItem 이벤트를 처리하기 위해 래퍼 함수를 연결합니다.
-        player.addItem += AddItemFromPlayerEvent;
+        // 수정: 매개변수가 없는 _player.addItem 이벤트를 처리하기 위해 래퍼 함수를 연결합니다.
+        _player.addItem += AddItemFromPlayerEvent;
 
         // Inventory UI 초기화 로직들
         inventoryWindow.SetActive(false);
@@ -58,23 +54,23 @@ public class UIInventory : MonoBehaviour
         // RefreshUI(); // Start에서 호출 시 다른 매니저가 초기화되지 않았을 수 있으므로 주석 처리 권장
     }
     
-    // 이 함수는 player.addItem 이벤트가 발생했을 때 호출됩니다.
+    // 이 함수는 _player.addItem 이벤트가 발생했을 때 호출됩니다.
     private void AddItemFromPlayerEvent()
     {
         // Player 스크립트에 임시로 저장된 itemData를 가져옵니다.
-        ItemData data = player.itemData;
+        ItemData data = _player.itemData;
         if (data != null)
         {
             // 데이터가 있는 경우, 매개변수를 받는 AddItem 함수를 호출합니다.
             AddItem(data);
-            player.itemData = null; // 처리 후 비워줍니다.
+            _player.itemData = null; // 처리 후 비워줍니다.
         }
     }
 
     // 선택한 아이템 표시할 정보창 Clear 함수
     void ClearSelectedItemWindow()
     {
-        selectedItem = null;
+        _selectedItem = null;
 
         selectedItemName.text = string.Empty;
         selectedItemDescription.text = string.Empty;
@@ -104,8 +100,8 @@ public class UIInventory : MonoBehaviour
         // 전달받은 데이터가 null이면 아무것도 하지 않습니다.
         if (data == null) return;
 
-        //여러 개 소유 가능한 아이템(회복템)일 경우
-        if (data.itemType == ItemType.Recover)
+        //여러 개 소유 가능한 아이템일 경우
+        if (data.canStack)
         {
             ItemSlot slot = GetItemStack(data);
 
@@ -177,30 +173,30 @@ public class UIInventory : MonoBehaviour
     {
         if (slots[index].item == null) return;
 
-        selectedItem = slots[index];
-        selectedItemIndex = index;
+        _selectedItem = slots[index];
+        _selectedItemIndex = index;
 
-        selectedItemName.text = selectedItem.item.itemName;
-        selectedItemDescription.text = selectedItem.item.itemDescription;
+        selectedItemName.text = _selectedItem.item.displayName;
+        selectedItemDescription.text = _selectedItem.item.description;
     }
 
     public void UseItem()
     {
-        if (selectedItem == null || selectedItem.item.itemType != ItemType.Recover)
+        if (_selectedItem == null || _selectedItem.item.type != ItemType.Consumable)
         {
             return;
         }
         
-        bool success = itemUser.UseItem(selectedItem.item);
+        bool success = _itemUser.UseItem(_selectedItem.item);
         
         if (success)
         {
-            selectedItem.quantity--;
+            _selectedItem.quantity--;
 
-            if (selectedItem.quantity <= 0)
+            if (_selectedItem.quantity <= 0)
             {
                 ClearSelectedItemWindow();
-                slots[selectedItemIndex].Clear();
+                slots[_selectedItemIndex].Clear();
             }
 
             UpdateUI();

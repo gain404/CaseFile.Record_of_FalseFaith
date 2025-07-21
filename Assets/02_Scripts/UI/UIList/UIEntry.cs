@@ -1,22 +1,21 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum UIType
 {
-    Inventory,
+    UIInventory, UIDialogue,UIShop,UIHealth,UIStamina,UIPrompt,UISurvey,
     Title
-    //ui 붙일까 안붙일까...
 }
 
-public enum SceneName
+public enum SceneNaem
 {
-    //Scene이름 정확히 작성
+    Chapter1,Chapter2,Chapter3
 }
 
 [System.Serializable]
 public class UIEntry
 {
-    public SceneName sceneName;
+    public List<SceneNaem> sceneName;
     public UIType uiType;
-    public string componentTypeName;
     public GameObject uiPrefab;
 }

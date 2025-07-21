@@ -173,7 +173,7 @@ public class SavePoint : MonoBehaviour
             PlayerStat playerStat = player.GetComponent<PlayerStat>();
             if (playerStat != null)
             {
-                data.health = (int) playerStat.CurrentHp;
+                data.health = (int) playerStat.CurrentHeart;
             }
         }
 
