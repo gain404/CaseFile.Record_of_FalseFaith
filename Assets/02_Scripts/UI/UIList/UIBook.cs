@@ -1,15 +1,14 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class UIBook : MonoBehaviour
 {
     [SerializeField] private float pageSpeed = 0.5f;
     [SerializeField] private List<Transform> pages;
-    [SerializeField] private GameObject forwardButton;
-    [SerializeField] private GameObject backButton;
+    [SerializeField] private Button forwardButton;
+    [SerializeField] private Button backButton;
 
     [SerializeField]private int _index;//저장해놓기
     private bool _isRotating;
@@ -30,12 +29,14 @@ public class UIBook : MonoBehaviour
     {
         _index = -1;
         _isRotating = false;
+        forwardButton.onClick.AddListener(RotateForward);
+        backButton.onClick.AddListener(RotateBack);
         foreach (Transform page in pages)
         {
             page.transform.rotation = Quaternion.identity;
         }
         pages[0].SetAsFirstSibling();
-        backButton.SetActive(false);
+        backButton.gameObject.SetActive(false);
     }
 
     public void RotateForward()
@@ -49,14 +50,14 @@ public class UIBook : MonoBehaviour
 
     private void NextButtonAction()
     {
-        if (!backButton.activeInHierarchy)
+        if (!backButton.gameObject.activeInHierarchy)
         {
-            backButton.SetActive(true);
+            backButton.gameObject.SetActive(true);
         }
 
         if (_index == pages.Count - 1)
         {
-            forwardButton.SetActive(false);
+            forwardButton.gameObject.SetActive(false);
         }
     }
 
@@ -70,18 +71,19 @@ public class UIBook : MonoBehaviour
 
     private void BackButtonAction()
     {
-        if (!forwardButton.activeInHierarchy)
+        if (!forwardButton.gameObject.activeInHierarchy)
         {
-            forwardButton.SetActive(true);
+            forwardButton.gameObject.SetActive(true);
         }
 
         if (_index == 0)
         {
-            backButton.SetActive(false);
+            backButton.gameObject.SetActive(false);
         }
     }
     
     //어떤 페이지의 왼쪽이 몇page인지 index 넣기
+    //이건 addlistener보다 인스펙터 창에서 직접 할당해주는게 좋을듯
     public void ChoosePage(int index)
     {
         if (_isFastRotating || _isRotating) return;
@@ -126,5 +128,3 @@ public class UIBook : MonoBehaviour
             });
     }
 }
-
-//다음페이지랑 전 페이지 뜨는거 fast에 추가

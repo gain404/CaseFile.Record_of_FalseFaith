@@ -5,22 +5,28 @@ using UnityEngine.UI;
 public class UISurvey : MonoBehaviour
 {
     [SerializeField] private Button bookButton;
-    [SerializeField] private GameObject uiBook;
-
+    [SerializeField] private GameObject uiFile;
+    
     private void Start()
     {
         bookButton.onClick.AddListener(OnBook);
+        uiFile.SetActive(false);
+    }
+
+    public void BookButtonActive()
+    {
+        bookButton.gameObject.SetActive(true);
     }
 
     private void OnBook()
     {
-        uiBook.SetActive(true);
-        bookButton.gameObject.SetActive(false);
-    }
-
-    private void OffBook()
-    {
-        uiBook.SetActive(false);
-        bookButton.gameObject.SetActive(true);
+        if (!uiFile.activeSelf)
+        {
+            uiFile.SetActive(true);
+        }
+        else
+        {
+            uiFile.SetActive(false);
+        }
     }
 }
