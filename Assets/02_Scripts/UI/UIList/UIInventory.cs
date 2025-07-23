@@ -100,8 +100,8 @@ public class UIInventory : MonoBehaviour
         // 전달받은 데이터가 null이면 아무것도 하지 않습니다.
         if (data == null) return;
 
-        //여러 개 소유 가능한 아이템일 경우
-        if (data.canStack)
+        //여러 개 소유 가능한 아이템(= 회복템)일 경우
+        if (data.itemType == ItemType.Recover)
         {
             ItemSlot slot = GetItemStack(data);
 
@@ -176,13 +176,13 @@ public class UIInventory : MonoBehaviour
         _selectedItem = slots[index];
         _selectedItemIndex = index;
 
-        selectedItemName.text = _selectedItem.item.displayName;
-        selectedItemDescription.text = _selectedItem.item.description;
+        selectedItemName.text = _selectedItem.item.itemName;
+        selectedItemDescription.text = _selectedItem.item.itemDescription;
     }
 
     public void UseItem()
     {
-        if (_selectedItem == null || _selectedItem.item.type != ItemType.Consumable)
+        if (_selectedItem == null || _selectedItem.item.itemType != ItemType.Recover)
         {
             return;
         }
@@ -205,6 +205,7 @@ public class UIInventory : MonoBehaviour
 
     public void RefreshUI()
     {
+        Debug.Log("인벤토리 UI 새로고침하겠습니다.");
         // 기존 슬롯 삭제
         foreach (Transform child in slotPanel)
         {
@@ -215,7 +216,22 @@ public class UIInventory : MonoBehaviour
             }
         }
         
-        // 인벤토리 데이터 기반으로 다시 그림
+
+        // 인벤토리 아이템 기반으로 다시 그림
+        if (InventoryManager.Instance != null)
+        {
+            Debug.Log("인벤토리 매니저로 새로고침하겠습니다.");
+            foreach (InventoryItem item in InventoryManager.Instance.inventory)
+            {
+                for (int i = 0; i < item.quantity; i++)
+                {
+                    AddItemByIndex(item.itemId);
+                }
+            }
+        }
+
+
+
         // InventoryManager에서 아이템 정보를 가져와서, 매개변수가 있는 AddItem 함수를 직접 호출합니다.
         //if (InventoryManager.Instance != null)
         //{
@@ -224,6 +240,22 @@ public class UIInventory : MonoBehaviour
         //        AddItem(item);
         //    }
         //}
+    }
+
+    public void AddItemByIndex(int idx)
+    {
+        string path = $"Item/Item_{idx}";
+        ItemData item = Resources.Load<ItemData>(path);
+
+        if (item != null)
+        {
+            AddItem(item);
+            Debug.Log($"아이템 {item.itemName}을(를) 인벤토리에 추가했습니다.");
+        }
+        else
+        {
+            Debug.LogWarning($"아이템을 불러올 수 없습니다: {path}");
+        }
     }
 
 }

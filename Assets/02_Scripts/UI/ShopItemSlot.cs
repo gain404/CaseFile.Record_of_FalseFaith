@@ -13,7 +13,7 @@ public class ShopItemSlot : MonoBehaviour
     {
         if (itemData == null) return;
         
-        if (itemImage != null) itemImage.sprite = Resources.Load<Sprite>(itemData.itemSprite);
+        if (itemImage != null) itemImage.sprite = itemData.itemSprite;
         if (itemName != null) itemName.text = itemData.itemName;
         if (itemPrice != null) itemPrice.text = itemData.itemPrice.ToString();
 

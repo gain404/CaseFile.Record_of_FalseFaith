@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
+using DG.Tweening.Core.Easing;
+using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class SaveManager : MonoBehaviour
 {
     public static SaveManager Instance;
 
-    private const int MAX_SAVE_SLOTS = 3; //변경되지 않도록 const로
+    private const int MAX_SAVE_SLOTS = 3;
     private string saveDirectory;
 
     void Awake()
@@ -66,7 +71,6 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-
     // 특정 슬롯에서 게임 데이터 로드
     public SaveData LoadGame(int slotIndex)
     {
@@ -75,8 +79,8 @@ public class SaveManager : MonoBehaviour
             Debug.LogError("잘못된 슬롯 인덱스: " + slotIndex);
             return new SaveData();
         }
-        //try-catch로 오류가 날 경우에 대비
-        try//오류가 발생할 수 있는 구문
+
+        try
         {
             string filePath = Path.Combine(saveDirectory, $"save_slot_{slotIndex}.json");
 
@@ -96,7 +100,7 @@ public class SaveManager : MonoBehaviour
                 return new SaveData();
             }
         }
-        catch (Exception e)//오류가 발생했을 때 실행시킬 구문
+        catch (Exception e)
         {
             Debug.LogError($"슬롯 {slotIndex} 로드 실패: " + e.Message);
             return new SaveData();
@@ -112,7 +116,6 @@ public class SaveManager : MonoBehaviour
         string filePath = Path.Combine(saveDirectory, $"save_slot_{slotIndex}.json");
         return File.Exists(filePath);
     }
-
 
     // 특정 슬롯의 세이브 파일 삭제
     public void DeleteSaveFile(int slotIndex)
@@ -159,48 +162,262 @@ public class SaveManager : MonoBehaviour
         return saveSlots;
     }
 
-    // 게임 로드 및 씬 이동
+    // 게임 로드 및 씬 이동 (개선된 버전)
     public void LoadGameAndScene(int slotIndex)
     {
         SaveData saveData = LoadGame(slotIndex);
 
-        if (saveData != null)
+        if (saveData != null && !string.IsNullOrEmpty(saveData.sceneName))
         {
-            // 씬 이동
-            if (!string.IsNullOrEmpty(saveData.sceneName))
-            {
-                UnityEngine.SceneManagement.SceneManager.LoadScene(saveData.sceneName);
-            }
-
-            // 플레이어 위치 복원 (씬 로드 후 실행되도록 코루틴 사용)
-            StartCoroutine(RestorePlayerPosition(saveData));
+            // 코루틴으로 안전한 씬 로드 및 데이터 복원
+            StartCoroutine(LoadSceneAndRestoreData(saveData));
+        }
+        else
+        {
+            Debug.LogError("로드할 데이터가 없거나 씬 이름이 비어있습니다.");
         }
     }
 
-    private System.Collections.IEnumerator RestorePlayerPosition(SaveData saveData)
+    // 안전한 씬 로드 및 데이터 복원 코루틴
+    private IEnumerator LoadSceneAndRestoreData(SaveData saveData)
     {
-        // 씬 로드 완료까지 대기
+        // 1. EventSystem 정리 (씬 로드 전)
+        CleanupEventSystems();
+
+        // 2. 비동기 씬 로드
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(saveData.sceneName);
+        yield return asyncLoad;
+
+        // 3. 씬 로드 완료 대기
         yield return new WaitForEndOfFrame();
 
-        GameObject player = PlayerManager.Instance.GetPlayer();
+        // 4. EventSystem 재확인 및 정리
+        CheckEventSystem();
 
-        if (player != null)
+        // 5. 모든 매니저들이 초기화될 시간 확보
+        yield return new WaitForSeconds(0.1f);
+
+        // 6. 데이터 복원 시작
+        yield return StartCoroutine(RestoreGameData(saveData));
+
+        Debug.Log("게임 로드 및 데이터 복원 완료!");
+    }
+
+    // EventSystem 정리
+    private void CleanupEventSystems()
+    {
+        EventSystem[] eventSystems = FindObjectsByType<EventSystem>(FindObjectsSortMode.None);
+        for (int i = 1; i < eventSystems.Length; i++)
         {
-            // 플레이어 위치 복원
-            Vector3 savedPosition = new Vector3(saveData.posX, saveData.posY, saveData.posZ);
-            player.transform.position = savedPosition;
-
-            // 추가 플레이어 데이터 복원 (필요에 따라 수정)
-            /*
-            PlayerController playerController = player.GetComponent<PlayerController>();
-            if (playerController != null)
+            if (eventSystems[i] != null)
             {
-                playerController.health = saveData.health;
-                playerController.playerName = saveData.playerName;
+                DestroyImmediate(eventSystems[i].gameObject);
             }
-            */
-
-            Debug.Log($"플레이어 위치 복원 완료: {savedPosition}");
         }
     }
+
+    // EventSystem 확인 및 생성
+    private void CheckEventSystem()
+    {
+        EventSystem[] eventSystems = FindObjectsByType<EventSystem>(FindObjectsSortMode.None);
+
+        if (eventSystems.Length > 1)
+        {
+            // 중복 제거
+            for (int i = 1; i < eventSystems.Length; i++)
+            {
+                if (eventSystems[i] != null)
+                {
+                    DestroyImmediate(eventSystems[i].gameObject);
+                }
+            }
+        }
+        else if (eventSystems.Length == 0)
+        {
+            // EventSystem이 없으면 생성
+            GameObject eventSystemGO = new GameObject("EventSystem");
+            eventSystemGO.AddComponent<EventSystem>();
+            eventSystemGO.AddComponent<StandaloneInputModule>();
+            Debug.Log("EventSystem이 생성되었습니다.");
+        }
+    }
+
+    // 게임 데이터 복원 (순서 중요)
+    private IEnumerator RestoreGameData(SaveData saveData)
+    {
+        // 1. PlayerManager 찾기 및 대기
+        PlayerManager playerManager = null;
+        float timeout = 3f; // 3초 타임아웃
+        float timer = 0f;
+
+        while (playerManager == null && timer < timeout)
+        {
+            playerManager = PlayerManager.Instance;
+            if (playerManager == null)
+            {
+                yield return new WaitForSeconds(0.1f);
+                timer += 0.1f;
+            }
+        }
+
+        if (playerManager == null)
+        {
+            Debug.LogError("PlayerManager를 찾을 수 없습니다!");
+            yield break;
+        }
+
+        // 2. 플레이어 오브젝트 찾기
+        GameObject player = playerManager.GetPlayer();
+        if (player == null)
+        {
+            Debug.LogError("플레이어 오브젝트를 찾을 수 없습니다!");
+            yield break;
+        }
+
+        // 3. 플레이어 물리 초기화
+        Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
+        if (playerRb != null)
+        {
+            playerRb.linearVelocity = Vector2.zero;
+            playerRb.angularVelocity = 0f;
+        }
+
+        // 4. 플레이어 위치 복원
+        Vector3 savedPosition = new Vector3(saveData.posX, saveData.posY, saveData.posZ);
+        player.transform.position = savedPosition;
+
+        // 5. 카메라 위치 즉시 동기화
+        yield return new WaitForFixedUpdate();
+        SyncCameraToPlayer(savedPosition);
+
+        // 6. 플레이어 컨트롤러 상태 복원
+        PlayerController playerController = player.GetComponent<PlayerController>();
+        if (playerController != null)
+        {
+            // 플레이어 활성화 및 이동 가능하게 설정
+            playerController.gameObject.SetActive(true);
+
+            Debug.Log($"플레이어 컨트롤러 상태 복원 완료");
+        }
+
+        // 7. UI 업데이트 (다음 프레임에)
+        yield return new WaitForEndOfFrame();
+
+        // UI 업데이트는 안전하게 별도 메서드에서 처리
+        SafeRefreshAllUI();
+
+        // 8. 기타 매니저들 데이터 복원도 메서드로 처리
+        SafeRestoreOtherManagersData(saveData);
+
+        Debug.Log($"플레이어 위치 복원 완료: {savedPosition}");
+    }
+
+    // 카메라를 플레이어 위치에 동기화
+    private void SyncCameraToPlayer(Vector3 playerPosition)
+    {
+        try
+        {
+            // Cinemachine Virtual Camera 찾기
+            CinemachineCamera virtualCamera =
+                FindAnyObjectByType<CinemachineCamera>();
+
+            if (virtualCamera != null)
+            {
+                // Follow 타겟이 플레이어로 설정되어 있다면, 카메라가 자동으로 따라갈 것임
+                // 하지만 즉시 위치를 동기화하려면 강제로 카메라를 이동
+                virtualCamera.ForceCameraPosition(playerPosition, Quaternion.identity);
+                Debug.Log($"Cinemachine 카메라 위치 동기화: {playerPosition}");
+            }
+            else
+            {
+                // Cinemachine이 없는 경우 일반 카메라 처리
+                Camera mainCamera = Camera.main;
+                if (mainCamera != null)
+                {
+                    // 일반 카메라 컨트롤러가 있는 경우
+                    PlayerCameraController cameraController = mainCamera.GetComponent<PlayerCameraController>();
+                    if (cameraController != null)
+                    {
+                        cameraController.SetPosition(playerPosition);
+                    }
+                    else
+                    {
+                        // 카메라를 플레이어 위치로 즉시 이동 (Z값은 유지)
+                        Vector3 cameraPos = mainCamera.transform.position;
+                        cameraPos.x = playerPosition.x;
+                        cameraPos.y = playerPosition.y;
+                        mainCamera.transform.position = cameraPos;
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"카메라 동기화 중 오류: {e.Message}");
+        }
+    }
+
+    // 모든 UI 새로고침 (안전한 버전)
+    private void SafeRefreshAllUI()
+    {
+        try
+        {
+            // UIHealth 업데이트
+            UIHealth[] healthUIs = FindObjectsByType<UIHealth>(FindObjectsSortMode.None);
+            foreach (var healthUI in healthUIs)
+            {
+                if (healthUI != null)
+                {
+                    healthUI.UpdateHeart();
+                }
+            }
+
+            // UIManager가 있다면 사용
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.UIHealth.UpdateHeart();
+            }
+
+            Debug.Log("UI 새로고침 완료");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"UI 새로고침 중 오류: {e.Message}");
+        }
+    }
+
+    // 기타 매니저들 데이터 복원 (안전한 버전)
+    private void SafeRestoreOtherManagersData(SaveData saveData)
+    {
+        try
+        {
+            // GameManager 데이터 복원
+            //if (GameManager.Instance != null)
+            //{
+            //    // GameManager에 로드 메서드가 있다면 호출
+            //    // GameManager.Instance.LoadGameStateData(saveData);
+            //}
+
+            // InventoryManager 데이터 복원
+            if (InventoryManager.Instance != null)
+            {
+                InventoryManager.Instance.SetInventoryData(saveData.inventoryItems);
+                UIManager.Instance.UIInventory.RefreshUI();
+            }
+
+            // EventManager 데이터 복원
+            //if (EventManager.Instance != null)
+            //{
+            //    // EventManager.Instance.LoadEventData(saveData);
+            //}
+
+            Debug.Log("기타 매니저 데이터 복원 완료");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"기타 매니저 데이터 복원 중 오류: {e.Message}");
+        }
+    }
+
+    // 기존 RestorePlayerPosition 메서드는 제거하고 위의 RestoreGameData로 통합됨
 }

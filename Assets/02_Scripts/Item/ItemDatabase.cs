@@ -60,7 +60,7 @@ public class ItemDatabase : MonoBehaviour
                     int maxStackAmount = int.Parse(values[11]);
 
 
-                    ItemData itemData = new ItemData(idx, itemName,  itemDiscription, itemSprite, itemType, healHP, healStamina, canSearch, stageAvailable, acquireCondition, itemPrice, maxStackAmount);
+                    ItemData itemData = ScriptableObject.CreateInstance<ItemData>();
                     itemDatabase[idx] = itemData;
                     //CSVItemData csvItemData = new CSVItemData(idx, itemName, itemDiscription, itemSpritePath, maxStack, itemType, value, isConsumable, canSearch);
                     //itemDatabase[idx] = csvItemData;

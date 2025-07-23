@@ -103,4 +103,29 @@ public class PlayerCameraController : MonoBehaviour
         _currentDefaultZoom = defaultZoomSize;
         _currentMaxZoom = defaultZoomSize;
     }
+
+
+    //테스트용
+    [Header("Boundary Settings")]
+    public bool useBoundary = false;
+    public float minX, maxX, minY, maxY; // 카메라 이동 제한
+    public Vector3 offset = new Vector3(0, 0, -10); // 카메라 오프셋
+
+    // 세이브/로드 시 카메라 위치를 즉시 설정하는 메서드
+    public void SetPosition(Vector3 playerPosition)
+    {
+        Vector3 newPosition = playerPosition + offset;
+
+        // 경계 제한 적용
+        if (useBoundary)
+        {
+            newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
+            newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
+        }
+
+        // 즉시 위치 설정 (부드러운 이동 없이)
+        transform.position = newPosition;
+
+        Debug.Log($"카메라 위치 즉시 설정: {newPosition}");
+    }
 }

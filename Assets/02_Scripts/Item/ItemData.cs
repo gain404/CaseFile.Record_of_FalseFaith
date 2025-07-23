@@ -17,7 +17,7 @@ public class ItemData : ScriptableObject
     public int idx;
     public string itemName;
     public string itemDescription;
-    public string itemSprite;
+    public Sprite itemSprite;
     public ItemType itemType;
     public int healHP;
     public int healStamina;
@@ -27,7 +27,7 @@ public class ItemData : ScriptableObject
     public int itemPrice;
     public int maxStackAmount;
 
-    public ItemData(int idx, string itemName, string itemDescription, string itemSprite,
+    public ItemData(int idx, string itemName, string itemDescription, Sprite itemSprite,
         ItemType itemType, int healHP, int healStamina, bool canSearch, int stageAvailable, string acquireCondition,
         int itemPrice, int maxStackAmount)
     {

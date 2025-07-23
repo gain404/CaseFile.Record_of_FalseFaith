@@ -1,12 +1,26 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+// 인벤토리 아이템 (ID + 수량로 저장)
+[System.Serializable]
+public class InventoryItem
+{
+    public int itemId;
+    public int quantity;
+
+    public InventoryItem(int id, int qty)
+    {
+        itemId = id;
+        quantity = qty;
+    }
+}
+
 public class InventoryManager : Singleton<InventoryManager>
 {
 
     [Header("인벤토리 설정")]
     public int maxSlots = 12;
-    private List<InventoryItem> inventory = new List<InventoryItem>();
+    public List<InventoryItem> inventory = new List<InventoryItem>();
 
     //인벤토리에 아이템 추가하기
 
@@ -22,7 +36,7 @@ public class InventoryManager : Singleton<InventoryManager>
         //이미 가지고 있는 아이템인지 확인
         InventoryItem haveItem = inventory.Find(item => item.itemId == itemId);
 
-        //없다면
+        //있다면
         if (haveItem != null)
         {
             //스택 가능한 아이템이라면
@@ -115,6 +129,8 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         inventory = new List<InventoryItem>(inventoryData);
     }
+
+
 
     // 인벤토리 초기화
     public void ClearInventory()
