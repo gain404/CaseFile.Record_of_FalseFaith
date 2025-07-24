@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +9,9 @@ public class UIManager : Singleton<UIManager>
     public UIShop UIShop { get; private set; }
     public UIHealth UIHealth { get; private set; }
     public UIStamina UIStamina { get; private set; }
+
+    public UISave UISave { get; private set; }
+    public UILoad UILoad { get; private set; }
 
     [SerializeField] private GameObject canvasPrefab;
     [SerializeField] private List<UIEntry> uiPrefabs;
@@ -53,8 +56,10 @@ public class UIManager : Singleton<UIManager>
         UIShop = GetUIComponent<UIShop>(UIType.UIShop);
         UIHealth = GetUIComponent<UIHealth>(UIType.UIHealth);
         UIStamina = GetUIComponent<UIStamina>(UIType.UIStamina);
+        UISave = GetUIComponent<UISave>(UIType.UISave);
+        UILoad = GetUIComponent<UILoad>(UIType.UILoad);
     }
-    
+
     //canvas를 생성하고 씬에 맞는 ui생성
     private void ShowUI(UIType uiName)
     {

@@ -9,7 +9,7 @@ public class ItemDatabase : MonoBehaviour
     [Header("CSV 설정")]
     public TextAsset itemDataCSV; // Inspector에서 CSV 파일 할당
 
-    private Dictionary<int, CSVItemData> itemDatabase = new Dictionary<int, CSVItemData>();
+    private Dictionary<int, ItemData> itemDatabase = new Dictionary<int, ItemData>();
 
     private void Awake()
     {
@@ -42,22 +42,28 @@ public class ItemDatabase : MonoBehaviour
 
             string[] values = line.Split(",");
             //아이템 데이타에 들어가는 정보랑 values에 들어있는 정보랑 개수 비교
-            if (values.Length >= 9)
+            if (values.Length >= 11)
             {
                 try
                 {
                     int idx = int.Parse(values[0]);
                     string itemName = values[1];
                     string itemDiscription = values[2];
-                    string itemSpritePath = values[3];
-                    int maxStack = int.Parse(values[4]);
-                    string itemType = values[5];
-                    int value = int.Parse(values[6]);
-                    bool isConsumable = bool.Parse(values[7]);
-                    bool canSearch = bool.Parse(values[8]);
+                    string itemSprite = values[3];
+                    ItemType itemType = (ItemType) Enum.Parse(typeof(ItemType), values[4]);
+                    int healHP = int.Parse(values[5]);
+                    int healStamina = int.Parse(values[6]);
+                    bool canSearch = bool.Parse(values[7]);
+                    int stageAvailable = int.Parse(values[8]);
+                    string acquireCondition = values[9];
+                    int itemPrice = int.Parse(values[10]);
+                    int maxStackAmount = int.Parse(values[11]);
 
-                    CSVItemData csvItemData = new CSVItemData(idx, itemName, itemDiscription, itemSpritePath, maxStack, itemType, value, isConsumable, canSearch);
-                    itemDatabase[idx] = csvItemData;
+
+                    ItemData itemData = ScriptableObject.CreateInstance<ItemData>();
+                    itemDatabase[idx] = itemData;
+                    //CSVItemData csvItemData = new CSVItemData(idx, itemName, itemDiscription, itemSpritePath, maxStack, itemType, value, isConsumable, canSearch);
+                    //itemDatabase[idx] = csvItemData;
                 }
                 catch (Exception ex)
                 {
@@ -68,13 +74,13 @@ public class ItemDatabase : MonoBehaviour
         Debug.Log($"아이템 데이터베이스 로드 완료: {itemDatabase.Count}개 아이템");
     }
 
-    public CSVItemData GetItemData(int itemId)
+    public ItemData GetItemData(int itemId)
     {
-        itemDatabase.TryGetValue(itemId, out CSVItemData csvitemData);
-        return csvitemData;
+        itemDatabase.TryGetValue(itemId, out ItemData itemData);
+        return itemData;
     }
 
-    public Dictionary<int, CSVItemData> GetAllItems()
+    public Dictionary<int, ItemData> GetAllItems()
     {
         return itemDatabase;
     }
