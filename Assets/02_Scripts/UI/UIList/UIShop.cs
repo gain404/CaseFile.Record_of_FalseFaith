@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
@@ -85,8 +85,8 @@ public class UIShop : MonoBehaviour
     public void SelectItem(ItemData item)
     {
         _currentItemToBuy = item;
-        selectedItemName.text = item.displayName;
-        selectedItemDescription.text = item.description;
+        selectedItemName.text = item.itemName;
+        selectedItemDescription.text = item.itemDescription;
     }
 
     void ClearDetails()
@@ -111,17 +111,17 @@ public class UIShop : MonoBehaviour
             Debug.Log("구매할 아이템을 선택하세요.");
             return;
         }
-        ShowConfirmationPopup($"'{_currentItemToBuy.displayName}'을(를) 구매하시겠습니까?", ConfirmPurchase);
+        ShowConfirmationPopup($"'{_currentItemToBuy.itemName}'을(를) 구매하시겠습니까?", ConfirmPurchase);
     }
 
     void ConfirmPurchase()
     {
         if (_currentItemToBuy == null) return;
 
-        if (_playerStat.Consume(StatType.Money, _currentItemToBuy.price))
+        if (_playerStat.Consume(StatType.Money, _currentItemToBuy.itemPrice))
         {
             UIManager.Instance.UIInventory.AddItem(_currentItemToBuy);
-            Debug.Log($"{_currentItemToBuy.displayName} 구매 완료!");
+            Debug.Log($"{_currentItemToBuy.itemName} 구매 완료!");
         }
         else
         {

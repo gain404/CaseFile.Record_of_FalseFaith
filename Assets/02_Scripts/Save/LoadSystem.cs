@@ -62,7 +62,7 @@ public class LoadSystem : MonoBehaviour
         if (loadUIPanel != null)
         {
             loadUIPanel.SetActive(false);
-            Time.timeScale = 1f; // 게임 재개
+            Time.timeScale = 1f; // 시간 다시 흐르게
         }
     }
 
@@ -80,7 +80,7 @@ public class LoadSystem : MonoBehaviour
                     loadSlotInfoTexts[i].text = $"Slot {i + 1}\n" +
                                                $"Player: {saveSlots[i].playerName}\n" +
                                                $"Scene: {saveSlots[i].sceneName}\n" +
-                                               $"Saved: {saveSlots[i].saveTime:yyyy-MM-dd HH:mm}";
+                                               $"Saved: {saveSlots[i].saveTime:yyyy-MM-dd HH:mm:ss}";
 
                     // 버튼 활성화
                     loadSlotButtons[i].interactable = true;

@@ -1,19 +1,32 @@
 ﻿using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+
+// 인벤토리 아이템 (ID + 수량로 저장)
+[System.Serializable]
+public class InventoryItem
+{
+    public int itemId;
+    public int quantity;
+
+    public InventoryItem(int id, int qty)
+    {
+        itemId = id;
+        quantity = qty;
+    }
+}
 
 public class InventoryManager : Singleton<InventoryManager>
 {
 
     [Header("인벤토리 설정")]
     public int maxSlots = 12;
-    private List<InventoryItem> inventory = new List<InventoryItem>();
+    public List<InventoryItem> inventory = new List<InventoryItem>();
 
     //인벤토리에 아이템 추가하기
 
     public bool AddItem(int itemId, int quantity)
     {
-        CSVItemData itemData = ItemDatabase.Instance.GetItemData(itemId);
+        ItemData itemData = ItemDatabase.Instance.GetItemData(itemId);
         if (itemData == null)
         {
             Debug.LogError($"{itemId}는 존재하지 않는 아이템입니다.");
@@ -23,11 +36,11 @@ public class InventoryManager : Singleton<InventoryManager>
         //이미 가지고 있는 아이템인지 확인
         InventoryItem haveItem = inventory.Find(item => item.itemId == itemId);
 
-        //없다면
+        //있다면
         if (haveItem != null)
         {
             //스택 가능한 아이템이라면
-            if (haveItem.quantity + quantity <= itemData.maxStack)
+            if (haveItem.quantity + quantity <= itemData.maxStackAmount)
             {
                 haveItem.quantity += quantity;
                 return true;
@@ -36,8 +49,8 @@ public class InventoryManager : Singleton<InventoryManager>
             {
                 //개수가 초과하면 새로운 슬롯에 넣기
                 // 스택 한계 초과 시 새 슬롯에 추가
-                int remainingQuantity = (haveItem.quantity + quantity) - itemData.maxStack;
-                haveItem.quantity = itemData.maxStack;
+                int remainingQuantity = (haveItem.quantity + quantity) - itemData.maxStackAmount;
+                haveItem.quantity = itemData.maxStackAmount;
 
                 if (inventory.Count < maxSlots)
                 {
@@ -116,6 +129,8 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         inventory = new List<InventoryItem>(inventoryData);
     }
+
+
 
     // 인벤토리 초기화
     public void ClearInventory()

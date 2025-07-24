@@ -25,6 +25,6 @@ public class SaveData
         health = 10;
         sceneName = "MainScene";
         saveTime = DateTime.Now;
-        inventoryItems = new List<InventoryItem>();
+        inventoryItems = InventoryManager.Instance.GetInventoryData();
     }
 }
