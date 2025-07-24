@@ -40,6 +40,8 @@ public class ItemObject : MonoBehaviour,IInteractable
         _player.itemData = data;
         _player.addItem?.Invoke();
         InventoryManager.Instance.AddItem(data.idx, 1);
+        Debug.Log($"{data.idx} 아이템 먹었으니 퀘스트 확인");
+        ObjectiveManager.Instance.OnItemCollected($"{data.idx}", 1);
 
         Destroy(gameObject);
     }

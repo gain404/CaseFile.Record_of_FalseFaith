@@ -1,9 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public enum UIType
 {
-    UIInventory, UIDialogue,UIShop,UIHealth,UIStamina,UIPrompt,UISurvey,
+    UIInventory, UIDialogue,UIShop,UIHealth,UIStamina,UIPrompt,UISurvey, UISave, UILoad,
     Title
 }
 

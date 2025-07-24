@@ -128,6 +128,7 @@ public class ItemPickup : MonoBehaviour
         if (success)
         {
             Debug.Log($"{itemData.itemName} x{quantity} 획득!");
+            ObjectiveManager.Instance.OnItemCollected($"{itemData.idx}");
 
             // 아이템 획득 효과 (선택사항)
             PlayPickupEffect();

@@ -391,12 +391,6 @@ public class SaveManager : MonoBehaviour
     {
         try
         {
-            // GameManager 데이터 복원
-            //if (GameManager.Instance != null)
-            //{
-            //    // GameManager에 로드 메서드가 있다면 호출
-            //    // GameManager.Instance.LoadGameStateData(saveData);
-            //}
 
             // InventoryManager 데이터 복원
             if (InventoryManager.Instance != null)
@@ -405,11 +399,6 @@ public class SaveManager : MonoBehaviour
                 UIManager.Instance.UIInventory.RefreshUI();
             }
 
-            // EventManager 데이터 복원
-            //if (EventManager.Instance != null)
-            //{
-            //    // EventManager.Instance.LoadEventData(saveData);
-            //}
 
             Debug.Log("기타 매니저 데이터 복원 완료");
         }
@@ -419,5 +408,4 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    // 기존 RestorePlayerPosition 메서드는 제거하고 위의 RestoreGameData로 통합됨
 }

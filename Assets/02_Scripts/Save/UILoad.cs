@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoadSystem : MonoBehaviour
+public class UILoad : MonoBehaviour
 {
 
     [Header("로드 UI 설정")]
@@ -39,7 +39,7 @@ public class LoadSystem : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.P))
         {
-            LoadSystem loadSystem = FindAnyObjectByType<LoadSystem>();
+            UILoad loadSystem = FindAnyObjectByType<UILoad>();
             loadSystem.OpenLoadUI();
         }
     }
