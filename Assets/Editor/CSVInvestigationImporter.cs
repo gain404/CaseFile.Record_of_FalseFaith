@@ -28,16 +28,14 @@ public class CSVInvestigationImporter : MonoBehaviour
         {
             string[] values = lines[i].Split(',');
 
-            if (values.Length < 4) continue;
-
             InvestigationData data = ScriptableObject.CreateInstance<InvestigationData>();
-            data.chapter = int.Parse(values[0]);
-            data.indexNumber = int.Parse(values[1]);
-            data.investigationName = values[2];
-            data.investigationDescription = values[3];
+            data.chapter = int.Parse(values[0]) / 100;
+            data.indexNumber = int.Parse(values[0]);
+            data.investigationName = values[1];
+            data.investigationDescription = values[2];
 
             AssetDatabase.CreateAsset(data,
-                $"Assets/ScriptableObjects/Investigation/InvestigationData_{data.chapter}_{data.investigationName}.asset");
+                $"Assets/ScriptableObjects/Investigation/InvestigationData_{data.indexNumber}.asset");
         }
 
         AssetDatabase.SaveAssets();
