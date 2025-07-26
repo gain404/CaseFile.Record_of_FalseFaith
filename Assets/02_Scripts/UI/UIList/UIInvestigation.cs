@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UISurvey : MonoBehaviour
+public class UIInvestigation : MonoBehaviour
 {
     [SerializeField] private Button bookButton;
     [SerializeField] private GameObject uiFile;
@@ -20,19 +20,12 @@ public class UISurvey : MonoBehaviour
     //조사 시트 버튼을 active시켜주는 메써드
     public void BookButtonActive()
     {
-        bookButton.gameObject.SetActive(true);
+        bookButton.enabled = true;
     }
 
     private void ActiveBook()
     {
-        if (!uiFile.activeSelf)
-        {
-            uiFile.SetActive(true);
-        }
-        else
-        {
-            uiFile.SetActive(false);
-        }
+        uiFile.SetActive(!uiFile.activeSelf);
     }
     
 

@@ -6,29 +6,28 @@ using UnityEngine.Serialization;
 
 public class UIFile : MonoBehaviour
 {
-    public static List<List<bool>> SurveyActive { get; private set; }
+    private static List<List<bool>> _surveyActive;
 
     [SerializeField] private GameObject file;
     [SerializeField] private List<Button> chapterButton;
-    
     [SerializeField] private List<Button> listButtons;
-    //설명 데이터 리스트로 받아오기
-    [SerializeField] private List<string> explainNames;
-    [SerializeField] private List<string> explains;
     [SerializeField] private TextMeshProUGUI explainNameText;
     [SerializeField] private TextMeshProUGUI explainText;
-    [SerializeField] private UISurvey uiSurvey;
 
     private List<TextMeshProUGUI> _buttonText = new List<TextMeshProUGUI>();
     private void Start()
     {
+        if (_surveyActive == null)
+        {
+            _surveyActive = new List<List<bool>>();
+        }
         for (int i = 0; i < listButtons.Count; i++)
         {
             int capturedIndex = i;
             listButtons[capturedIndex].onClick.AddListener(() => OnExplain(capturedIndex));
             var textMesh = listButtons[capturedIndex].gameObject.GetComponentInChildren<TextMeshProUGUI>();
             _buttonText.Add(textMesh);
-            if (SurveyActive[1][capturedIndex])
+            if (_surveyActive[1][capturedIndex])
             {
                 OnActiveUi(1,capturedIndex);
             }
@@ -49,13 +48,11 @@ public class UIFile : MonoBehaviour
     
     public void OnActiveUi(int chapter, int index)
     {
-        SurveyActive[chapter][index] = true;
-        _buttonText[index].text = explainNames[index];
+        _surveyActive[chapter][index] = true;
     }
     
     private void OnExplain(int index)
     {
-        explainText.text = explains[index];
-        explainNameText.text = explainNames[index];
+        
     }
 }
