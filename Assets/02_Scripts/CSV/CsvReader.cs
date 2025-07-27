@@ -18,6 +18,10 @@ public class CsvReader : MonoBehaviour
     private void Awake()
     {
         _csvManager = CsvManager.Instance;
+        if(_csvManager.InvestigationData.Count > 0)
+        {
+            LoadCsv("InvestigationData");
+        }
     }
 
     public void LoadCsv(string fileName)
@@ -31,9 +35,8 @@ public class CsvReader : MonoBehaviour
 
         using (StringReader reader = new StringReader(csvFile.text))
         {
-            string line;
             bool isFirstLine = true;
-            while ((line = reader.ReadLine()) != null)
+            while (reader.ReadLine() is { } line)
             {
                 if (isFirstLine)
                 {
@@ -53,11 +56,11 @@ public class CsvReader : MonoBehaviour
                     isOpen = false
                 };
 
-                _csvManager.investigationData.Add(investigationData);
+                _csvManager.InvestigationData.Add(investigationData.index,investigationData);
             }
         }
 
-        Debug.Log($"총 {_csvManager.investigationData.Count}개의 데이터를 불러왔습니다.");
+        Debug.Log($"총 {_csvManager.InvestigationData.Count}개의 데이터를 불러왔습니다.");
     }
 
     private string[] SplitCsvLine(string line)

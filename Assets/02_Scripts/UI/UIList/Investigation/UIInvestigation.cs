@@ -8,13 +8,13 @@ public class UIInvestigation : MonoBehaviour
     [SerializeField] private Button bookButton;
     [SerializeField] private GameObject uiFile;
 
-    private UIFile _uiFile;
+    private CsvManager _csvManager;
     
     private void Start()
     {
+        _csvManager = CsvManager.Instance;
         bookButton.onClick.AddListener(ActiveBook);
         uiFile.SetActive(false);
-        _uiFile = uiFile.GetComponent<UIFile>();
     }
 
     //조사 시트 버튼을 active시켜주는 메써드
@@ -30,8 +30,11 @@ public class UIInvestigation : MonoBehaviour
     
 
     //이부에서 정보를 수집했을 때 호출되는 메써드
-    public void GetSurvey(int chapter, int index)
+    public void GetSurvey(int index)
     {
-        _uiFile.OnActiveUi(chapter, index);
+        if (_csvManager.InvestigationData.TryGetValue(index,out InvestigationData data))
+        {
+            data.isOpen = true;
+        }
     }
 }
