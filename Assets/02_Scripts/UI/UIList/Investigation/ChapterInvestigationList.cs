@@ -19,6 +19,11 @@ public class ChapterInvestigationList : MonoBehaviour
     private void Start()
     {
         _csvManager = CsvManager.Instance;
+        InitUI();
+    }
+
+    private void InitUI()
+    {
         CreateButtons();
         for (int i = 0;i<_investigationButton.Count;i++)
         {
@@ -26,6 +31,8 @@ public class ChapterInvestigationList : MonoBehaviour
             _investigationButton[buttonIndex].onClick.AddListener(() => SetExplainPanel(buttonIndex));
         }
         SetButton();
+        investigationObjectName.text = " ";
+        investigationObjectExplain.text = " ";
     }
 
     private void SetButton()
@@ -37,10 +44,12 @@ public class ChapterInvestigationList : MonoBehaviour
                 if (data.isOpen)
                 {
                     _buttonText[i].text = data.name;
+                    _investigationButton[i].enabled = true;
                 }
                 else
                 {
                     _buttonText[i].text = "? ? ? ? ?";
+                    _investigationButton[i].enabled = false;
                 }
             }
         }

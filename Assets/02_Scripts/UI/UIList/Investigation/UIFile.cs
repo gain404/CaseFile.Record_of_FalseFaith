@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
@@ -6,33 +7,46 @@ using UnityEngine.Serialization;
 
 public class UIFile : MonoBehaviour
 {
-    [SerializeField] private GameObject file;
     [SerializeField] private List<Button> chapterButton;
-    [SerializeField] private List<Button> listButtons;
-    [SerializeField] private TextMeshProUGUI explainNameText;
-    [SerializeField] private TextMeshProUGUI explainText;
+    [SerializeField] private List<GameObject> chapterList;
+    
+    private List<bool> _isChapterOpen = new();
 
-    private List<TextMeshProUGUI> _buttonText = new List<TextMeshProUGUI>();
-    private CsvManager _csvManager;
+    private void Awake()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            _isChapterOpen.Add(false);
+        }
+        //밑에는 임시
+        ChapterOpen(3);
+    }
+    
     private void Start()
     {
-        _csvManager = CsvManager.Instance;
         for (int i = 0; i < chapterButton.Count; i++)
         {
             int chapter = i;
             chapterButton[i].onClick.AddListener(() => SetChapterList(chapter));
+            chapterButton[i].enabled = _isChapterOpen[i];
         }
     }
 
     private void SetChapterList(int chapter)
     {
-        file.transform.SetAsLastSibling();
-        listButtons[chapter].gameObject.transform.SetAsLastSibling();
-        //데이터 넣기
+        chapterButton[chapter].gameObject.transform.SetAsLastSibling();
+        foreach (GameObject list in chapterList)
+        {
+            list.SetActive(false);
+        }
+        chapterList[chapter].SetActive(true);
     }
-    
-    private void OnExplain(int index)
+
+    public void ChapterOpen(int chapter)
     {
-        
+        for (int i = 0; i < chapter; i++)
+        {
+            _isChapterOpen[i] = true;
+        }
     }
 }
