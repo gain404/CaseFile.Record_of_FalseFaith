@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -13,28 +12,24 @@ public class ChapterInvestigationList : MonoBehaviour
     [SerializeField] private GameObject buttonPrefab;
 
     private CsvManager _csvManager;
-    private List<Button> _investigationButton;
-    private List<TextMeshProUGUI> _buttonText;
-    private List<int> _buttonIndex;
-    private void Start()
+    private readonly List<Button> _investigationButton = new();
+    private readonly List<TextMeshProUGUI> _buttonText = new();
+    private readonly List<int> _buttonIndex = new();
+    public void Init()
     {
         _csvManager = CsvManager.Instance;
-        InitUI();
-    }
-
-    private void InitUI()
-    {
         CreateButtons();
         for (int i = 0;i<_investigationButton.Count;i++)
         {
             int buttonIndex = i;
             _investigationButton[buttonIndex].onClick.AddListener(() => SetExplainPanel(buttonIndex));
+            Debug.Log(buttonIndex + "버튼 시스너 성공");
         }
         SetButton();
         investigationObjectName.text = " ";
         investigationObjectExplain.text = " ";
     }
-
+    
     private void SetButton()
     {
         for (int i = 0; i < _buttonIndex.Count; i++)
@@ -48,7 +43,7 @@ public class ChapterInvestigationList : MonoBehaviour
                 }
                 else
                 {
-                    _buttonText[i].text = "? ? ? ? ?";
+                    _buttonText[i].text = "? ? ? ? ? ? ?";
                     _investigationButton[i].enabled = false;
                 }
             }
@@ -57,7 +52,6 @@ public class ChapterInvestigationList : MonoBehaviour
 
     private void CreateButtons()
     {
-        _investigationButton.Clear();
         foreach (Transform child in content.transform)
         {
             Destroy(child.gameObject);
@@ -90,10 +84,21 @@ public class ChapterInvestigationList : MonoBehaviour
     
     private void SetExplainPanel(int buttonIndex)
     {
-        if (_csvManager.InvestigationData.TryGetValue(buttonIndex,out InvestigationData data))
+        int index = _buttonIndex[buttonIndex];
+        if (_csvManager.InvestigationData.TryGetValue(index,out InvestigationData data))
         {
             investigationObjectName.text = data.name;
             investigationObjectExplain.text = data.content;
+        }
+    }
+
+    public void ShowButtonText(int index)
+    {
+        int listNum = _buttonIndex.IndexOf(index);
+        if (_csvManager.InvestigationData.TryGetValue(index, out InvestigationData data))
+        {
+            _buttonText[listNum].text = data.name;
+            _investigationButton[listNum].enabled = true;
         }
     }
 }

@@ -12,15 +12,15 @@ public class InvestigationData
     public bool isOpen;
 }
 
-public class CsvReader : MonoBehaviour
+public class InvestigationCsvReader : MonoBehaviour
 {
     private CsvManager _csvManager;
     private void Awake()
     {
         _csvManager = CsvManager.Instance;
-        if(_csvManager.InvestigationData.Count > 0)
+        if(_csvManager.InvestigationData.Count == 0)
         {
-            LoadCsv("InvestigationData");
+            LoadCsv("InvestigationFileData");
         }
     }
 
@@ -45,7 +45,12 @@ public class CsvReader : MonoBehaviour
                 }
 
                 string[] parts = SplitCsvLine(line);
+
                 if (parts.Length < 3) continue;
+                if (!int.TryParse(parts[0], out int index))
+                {
+                    continue;
+                }
 
                 InvestigationData investigationData = new InvestigationData
                 {
@@ -55,7 +60,6 @@ public class CsvReader : MonoBehaviour
                     content = parts[2],
                     isOpen = false
                 };
-
                 _csvManager.InvestigationData.Add(investigationData.index,investigationData);
             }
         }

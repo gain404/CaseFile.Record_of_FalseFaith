@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,11 +7,13 @@ public class UIInvestigation : MonoBehaviour
     [SerializeField] private GameObject uiFile;
 
     private CsvManager _csvManager;
+    private UIFile _uiFile;
     
     private void Start()
     {
         _csvManager = CsvManager.Instance;
         bookButton.onClick.AddListener(ActiveBook);
+        _uiFile = uiFile.GetComponent<UIFile>();
         uiFile.SetActive(false);
     }
 
@@ -30,11 +30,8 @@ public class UIInvestigation : MonoBehaviour
     
 
     //이부에서 정보를 수집했을 때 호출되는 메써드
-    public void GetSurvey(int index)
+    public void GetInvestigation(int index)
     {
-        if (_csvManager.InvestigationData.TryGetValue(index,out InvestigationData data))
-        {
-            data.isOpen = true;
-        }
+        _uiFile.OpenInvestigationList(index);
     }
 }

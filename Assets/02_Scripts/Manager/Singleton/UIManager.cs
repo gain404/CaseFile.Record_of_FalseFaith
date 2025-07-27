@@ -12,6 +12,7 @@ public class UIManager : Singleton<UIManager>
 
     public UISave UISave { get; private set; }
     public UILoad UILoad { get; private set; }
+    public UIInvestigation UIInvestigation { get; private set; }
 
     [SerializeField] private GameObject canvasPrefab;
     [SerializeField] private List<UIEntry> uiPrefabs;
@@ -60,6 +61,7 @@ public class UIManager : Singleton<UIManager>
         UIStamina = GetUIComponent<UIStamina>(UIType.UIStamina);
         UISave = GetUIComponent<UISave>(UIType.UISave);
         UILoad = GetUIComponent<UILoad>(UIType.UILoad);
+        UIInvestigation = GetUIComponent<UIInvestigation>(UIType.UISurvey);
     }
 
     //canvas를 생성하고 씬에 맞는 ui생성
