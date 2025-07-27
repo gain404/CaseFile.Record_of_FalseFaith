@@ -1,44 +1,37 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UISurvey : MonoBehaviour
+public class UIInvestigation : MonoBehaviour
 {
     [SerializeField] private Button bookButton;
     [SerializeField] private GameObject uiFile;
 
+    private CsvManager _csvManager;
     private UIFile _uiFile;
     
     private void Start()
     {
+        _csvManager = CsvManager.Instance;
         bookButton.onClick.AddListener(ActiveBook);
-        uiFile.SetActive(false);
         _uiFile = uiFile.GetComponent<UIFile>();
+        uiFile.SetActive(false);
     }
 
     //조사 시트 버튼을 active시켜주는 메써드
     public void BookButtonActive()
     {
-        bookButton.gameObject.SetActive(true);
+        bookButton.enabled = true;
     }
 
     private void ActiveBook()
     {
-        if (!uiFile.activeSelf)
-        {
-            uiFile.SetActive(true);
-        }
-        else
-        {
-            uiFile.SetActive(false);
-        }
+        uiFile.SetActive(!uiFile.activeSelf);
     }
     
 
     //이부에서 정보를 수집했을 때 호출되는 메써드
-    public void GetSurvey(int chapter, int index)
+    public void GetInvestigation(int index)
     {
-        _uiFile.OnActiveUi(chapter, index);
+        _uiFile.OpenInvestigationList(index);
     }
 }
