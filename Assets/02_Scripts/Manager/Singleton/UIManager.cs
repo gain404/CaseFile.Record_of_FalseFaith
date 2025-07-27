@@ -61,7 +61,7 @@ public class UIManager : Singleton<UIManager>
         UIStamina = GetUIComponent<UIStamina>(UIType.UIStamina);
         UISave = GetUIComponent<UISave>(UIType.UISave);
         UILoad = GetUIComponent<UILoad>(UIType.UILoad);
-        UIInvestigation = GetUIComponent<UIInvestigation>(UIType.UISurvey);
+        UIInvestigation = GetUIComponent<UIInvestigation>(UIType.UIInvestigation);
     }
 
     //canvas를 생성하고 씬에 맞는 ui생성
