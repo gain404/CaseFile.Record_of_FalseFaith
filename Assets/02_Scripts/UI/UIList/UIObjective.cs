@@ -7,21 +7,21 @@ using UnityEngine.UI;
 public class UIObjective : MonoBehaviour
 {
     [Header("UI References")]
-    [SerializeField] private Transform objectiveContainer;
-    [SerializeField] private GameObject objectiveItemPrefab;
-    [SerializeField] private TextMeshProUGUI chapterTitle;
+    [SerializeField] private Transform objectiveContainer;// 생성된 퀘스트 항목들을 담는 컨테이너
+    [SerializeField] private GameObject objectiveItemPrefab;// 퀘스트 항목 UI 프리팹
+    [SerializeField] private TextMeshProUGUI chapterTitle;// 챕터 타이틀 텍스트
     [SerializeField] private ScrollRect scrollRect;
     [SerializeField] private GameObject targetPanel; // 토글할 패널을 따로 지정
 
     [Header("UI Settings")]
-    [SerializeField] private float itemSpacing = 10f;
+    [SerializeField] private float itemSpacing = 10f; // 퀘스트 항목 간 간격
     [SerializeField] private bool autoScroll = true;
 
     [Header("Toggle Settings")]
-    [SerializeField] private KeyCode toggleKey = KeyCode.O;
+    [SerializeField] private KeyCode toggleKey = KeyCode.O; // UI 토글
     [SerializeField] private bool startVisible = false; // 시작 시 보이기 여부
 
-    private Dictionary<int, ObjectiveUIItem> objectiveUIItems = new Dictionary<int, ObjectiveUIItem>();
+    private Dictionary<int, ObjectiveUIItem> objectiveUIItems = new Dictionary<int, ObjectiveUIItem>();// UI에 표시할 목표들
     private VerticalLayoutGroup layoutGroup;
 
 
@@ -48,6 +48,7 @@ public class UIObjective : MonoBehaviour
             layoutGroup = objectiveContainer.gameObject.AddComponent<VerticalLayoutGroup>();
         }
 
+        // 레이아웃 세부 설정 (인스펙터 창에서 해도 됨)
         layoutGroup.spacing = itemSpacing;
         layoutGroup.padding = new RectOffset(10, 10, 10, 10);
         layoutGroup.childAlignment = TextAnchor.UpperCenter;
@@ -83,6 +84,7 @@ public class UIObjective : MonoBehaviour
         }
     }
 
+    // 퀘스트 UI 토글
     public void ToggleObjectiveUI()
     {
         if (targetPanel != null)
@@ -103,6 +105,8 @@ public class UIObjective : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+
+    // 현재 UI가 열려 있는지 확인
     public bool IsVisible()
     {
         return gameObject.activeSelf;
@@ -116,9 +120,12 @@ public class UIObjective : MonoBehaviour
 
         foreach (var objective in objectives)
         {
+            // 프리팹을 생성하여 컨테이너에 추가
             GameObject uiItem = Instantiate(objectiveItemPrefab, objectiveContainer);
             ObjectiveUIItem itemComponent = uiItem.GetComponent<ObjectiveUIItem>();
+            // 목표 데이터 추가
             itemComponent.Setup(objective);
+            // 딕셔너리에 추가 (진행도 업데이트용)
             objectiveUIItems[objective.idx] = itemComponent;
         }
 
@@ -148,6 +155,7 @@ public class UIObjective : MonoBehaviour
         }
     }
 
+    // 단일 목표 UI 생성
     private void CreateObjectiveItem(ObjectiveData objective)
     {
         GameObject uiItem = Instantiate(objectiveItemPrefab, objectiveContainer);
@@ -168,6 +176,7 @@ public class UIObjective : MonoBehaviour
         StartCoroutine(FadeInItem(canvasGroup));
     }
 
+    // 목표 페이드인 효과
     private IEnumerator FadeInItem(CanvasGroup canvasGroup)
     {
         float timer = 0;
@@ -180,6 +189,7 @@ public class UIObjective : MonoBehaviour
         canvasGroup.alpha = 1f;
     }
 
+    // 페이드아웃
     private IEnumerator FadeOutOldItems()
     {
         List<Coroutine> fadeCoroutines = new List<Coroutine>();
@@ -215,6 +225,7 @@ public class UIObjective : MonoBehaviour
         canvasGroup.alpha = 0f;
     }
 
+    // UI 상에 있는 모든 목표 항목 제거
     private void ClearObjectiveItems()
     {
         foreach (Transform child in objectiveContainer)
@@ -224,6 +235,7 @@ public class UIObjective : MonoBehaviour
         objectiveUIItems.Clear();
     }
 
+    // 목표의 진행도를 UI에 반영 (예: 아이템을 3/5 획득)
     public void UpdateObjectiveProgress(ObjectiveData objective)
     {
         if (objectiveUIItems.ContainsKey(objective.idx))
@@ -232,6 +244,7 @@ public class UIObjective : MonoBehaviour
         }
     }
 
+    // 목표를 완료 처리하여 UI에 완료 표시
     public void CompleteObjective(ObjectiveData objective)
     {
         if (objectiveUIItems.ContainsKey(objective.idx))

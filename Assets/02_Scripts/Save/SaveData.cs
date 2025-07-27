@@ -15,6 +15,10 @@ public class SaveData
     // 인벤토리 데이터
     public List<InventoryItem> inventoryItems;
 
+    // 퀘스트 데이터
+    public List<ObjectiveData> activeObjectives;    // 진행 중인 목표
+    public List<ObjectiveData> completedObjectives; // 완료된 목표
+
     // 기본 생성자
     public SaveData()
     {
@@ -24,5 +28,11 @@ public class SaveData
         sceneName = "MainScene";
         saveTime = DateTime.Now;
         inventoryItems = InventoryManager.Instance.GetInventoryData();
+
+        // 퀘스트 진행도 저장
+        activeObjectives = ObjectiveManager.Instance?.GetActiveObjectives();
+        completedObjectives = ObjectiveManager.Instance != null
+            ? new List<ObjectiveData>(ObjectiveManager.Instance.GetCompletedObjectives())
+            : new List<ObjectiveData>();
     }
 }
