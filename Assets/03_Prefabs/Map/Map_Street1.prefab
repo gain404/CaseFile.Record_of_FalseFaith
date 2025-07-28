@@ -7254,7 +7254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8317a1b3078745a48971d1eb849d68b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 29ee73d9192abcb40ad32f27db0ece52, type: 2}
+  data: {fileID: 11400000, guid: ab9bfdd91bcc5bd41ad729427571f5d8, type: 2}
 --- !u!1 &2008466039017997645
 GameObject:
   m_ObjectHideFlags: 0
@@ -10075,6 +10075,7 @@ GameObject:
   - component: {fileID: 5697722650628411575}
   - component: {fileID: 5448411665858647036}
   - component: {fileID: 1413369287679802682}
+  - component: {fileID: 5699412161347954851}
   m_Layer: 11
   m_Name: Monster
   m_TagString: Untagged
@@ -10248,6 +10249,7 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 4096
+  spriteRenderer: {fileID: 1042025029847435321}
 --- !u!60 &6860918357707688473
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -10350,6 +10352,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meleeAttackCollider2D: {fileID: 4369400702045409134}
   biteAttackCollider2D: {fileID: 2977596380275495653}
+  meleeAttack: {fileID: 4005590833325748227}
+  biteAttack: {fileID: 7429580080059344026}
+  sfxPlayer: {fileID: 0}
 --- !u!114 &1413369287679802682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10362,7 +10367,104 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1f191b4039cb184d82f8a54e46bbeff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sfxData: {fileID: 0}
+  sfxData: {fileID: 11400000, guid: 2cfba058f0add97489404442031ed9ab, type: 2}
+--- !u!82 &5699412161347954851
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2808398183349648660}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -1786885819164082146, guid: 541d1f249db2d2c48a582470729d9b9a, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2845054572133441667
 GameObject:
   m_ObjectHideFlags: 0
@@ -19475,6 +19577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e311d6ca962da564db644da3afc8e743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDamaged: 0
   mask:
     serializedVersion: 2
     m_Bits: 4096
@@ -28211,6 +28314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e311d6ca962da564db644da3afc8e743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDamaged: 0
   mask:
     serializedVersion: 2
     m_Bits: 4096
@@ -28816,7 +28920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8317a1b3078745a48971d1eb849d68b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 45fa97841adb1be4f8c39e7b4029b375, type: 2}
+  data: {fileID: 11400000, guid: 65487ba09a7e53b469052fbc494cf8ff, type: 2}
 --- !u!1 &8520423219743058596
 GameObject:
   m_ObjectHideFlags: 0
@@ -32026,6 +32130,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CommonEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 8852232986419776024, guid: 33ba30e2901e5eb4a984e69a68d4a22d, type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 510580522996843243}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -32037,6 +32145,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6290518047783708658}
   m_SourcePrefab: {fileID: 100100000, guid: 33ba30e2901e5eb4a984e69a68d4a22d, type: 3}
+--- !u!212 &510580522996843243 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4885169559111188730, guid: 33ba30e2901e5eb4a984e69a68d4a22d, type: 3}
+  m_PrefabInstance: {fileID: 4962519919492727313}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1739340421751975133 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6700522227003764428, guid: 33ba30e2901e5eb4a984e69a68d4a22d, type: 3}
@@ -32299,7 +32412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8317a1b3078745a48971d1eb849d68b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: aaaf85656529b0b499efb3a8abd1b8bb, type: 2}
+  data: {fileID: 11400000, guid: d10c0ba8800aeab409299d752e864173, type: 2}
 --- !u!4 &4675654478345826589 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3538071025775944091, guid: a26e3c4b912ff6349a513840ce49e9ab, type: 3}

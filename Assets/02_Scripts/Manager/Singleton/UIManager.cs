@@ -42,7 +42,7 @@ public class UIManager : Singleton<UIManager>
         ClearUI();
         foreach (UIEntry uiEntry in uiPrefabs)
         {
-            foreach (SceneNaem sceneName  in uiEntry.sceneName)
+            foreach (SceneName sceneName  in uiEntry.sceneName)
             {
                 //if (sceneName.ToString() == scene)
                 //{

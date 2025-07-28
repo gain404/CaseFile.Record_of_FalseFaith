@@ -6,23 +6,20 @@ public class EnemyController : MonoBehaviour,IDamagable
 {
     [SerializeField] private BehaviorGraphAgent agent;
     [SerializeField] private LayerMask mask;
-
-    private float _enemyMaxHealth;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    
     private float _enemyCurrentHealth;
     private GameObject _player;
-    private SpriteRenderer _spriteRenderer;
     private bool _isDie;
 
     private void Awake()
     {
         _player = GameObject.FindWithTag("Player");
-        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
     
     private void Start()
     {
         agent.BlackboardReference.SetVariableValue("Target", _player);
-        agent.BlackboardReference.GetVariableValue<float>("MaxHealth", out _enemyMaxHealth);
         agent.BlackboardReference.GetVariableValue<float>("CurrentHealth", out _enemyCurrentHealth);
     }
 
@@ -41,6 +38,6 @@ public class EnemyController : MonoBehaviour,IDamagable
     {
         agent.enabled = false;
         _isDie = true;
-        _spriteRenderer.DOFade(0, 2f).OnComplete(() => gameObject.SetActive(false));
+        spriteRenderer.DOFade(0, 2f).OnComplete(() => gameObject.SetActive(false));
     }
 }
