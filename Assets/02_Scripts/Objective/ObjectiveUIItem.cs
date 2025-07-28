@@ -13,7 +13,7 @@ public class ObjectiveUIItem : MonoBehaviour
 
     [Header("Visual Settings")]
     [SerializeField] private Color activeColor = Color.white;
-    [SerializeField] private Color completedTextColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+    [SerializeField] private Color completedTextColor = new Color(0.0f, 0.0f, 0.0f, 1f);
     [SerializeField] private Color completedBackgroundColor = new Color(0.2f, 0.7f, 0.2f, 0.3f); //완료시 좀 더 어둡게
     [SerializeField] private Color progressColor = Color.yellow;
 

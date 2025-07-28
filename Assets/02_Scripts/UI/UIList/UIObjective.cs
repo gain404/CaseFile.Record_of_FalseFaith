@@ -249,7 +249,7 @@ public class UIObjective : MonoBehaviour
     {
         if (objectiveUIItems.ContainsKey(objective.idx))
         {
-            objectiveUIItems[objective.idx].MarkAsCompleted(true);
+            objectiveUIItems[objective.idx].MarkAsCompleted(false);
         }
     }
 
