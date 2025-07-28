@@ -399,6 +399,13 @@ public class SaveManager : MonoBehaviour
                 UIManager.Instance.UIInventory.RefreshUI();
             }
 
+            if (ObjectiveManager.Instance != null)
+            {
+                Debug.Log("목표 데이터 불러오기 시도");
+                ObjectiveManager.Instance.LoadObjectiveProgress(saveData.activeObjectives, saveData.completedObjectives);
+            }
+
+
 
             Debug.Log("기타 매니저 데이터 복원 완료");
         }
