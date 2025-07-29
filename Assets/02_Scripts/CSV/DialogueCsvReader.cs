@@ -128,7 +128,7 @@ public class DialogueCsvReader : MonoBehaviour
                     dialogueLine.nextLineIndices = parts[7].Split('|').Select(s => int.TryParse(s.Trim(), out var i) ? i : -1).Where(i => i >= 0).ToArray();
 
                 if (parts.Length > 8 && !string.IsNullOrWhiteSpace(parts[8]))
-                    dialogueLine.shopData = Resources.Load<ShopData>($"ShopData/{parts[8].Trim()}");
+                    dialogueLine.shopData = Resources.Load<ShopData>(parts[8].Trim());
 
                 if (!result.ContainsKey(dialogueID))
                     result[dialogueID] = new List<(int, DialogueLine)>();
