@@ -27,7 +27,7 @@ public class ItemSlot : MonoBehaviour
     public void Set()
     {
         icon.gameObject.SetActive(true);
-        icon.sprite = item.icon;
+        icon.sprite = item.itemSprite;
         quatityText.text = quantity > 1 ? quantity.ToString() : string.Empty;
     }
 
@@ -35,7 +35,7 @@ public class ItemSlot : MonoBehaviour
     public void SetItem(ItemData item)
     {
         icon.gameObject.SetActive(true);
-        icon.sprite = item.icon;
+        icon.sprite = item.itemSprite;
         quatityText.text = quantity > 1 ? quantity.ToString() : string.Empty;
     }
 

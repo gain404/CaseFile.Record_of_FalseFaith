@@ -4,11 +4,9 @@ using DG.Tweening;
 
 public class FadeManager : Singleton<FadeManager>
 {
-    public static FadeManager Instance { get; private set; }
-
     [SerializeField] private Image fadeImage;
     [SerializeField] private GameObject canvas;
-    [SerializeField] private float fadeDuration = 1.2f;
+    [SerializeField] private Canvas mainCanvas;
 
     private void Start()
     {
@@ -16,16 +14,9 @@ public class FadeManager : Singleton<FadeManager>
         OffCanvas();
     }
 
-    public void FadeIn(System.Action onComplete = null)
+    public void Fade(float targetAlpha, float fadeDuration, System.Action onComplete = null)
     {
-        fadeImage.DOFade(0f, fadeDuration)
-            .SetEase(Ease.Linear)
-            .OnComplete(() => onComplete?.Invoke());
-    }
-
-    public void FadeOut(System.Action onComplete = null)
-    {
-        fadeImage.DOFade(1f, fadeDuration)
+        fadeImage.DOFade(targetAlpha, fadeDuration)
             .SetEase(Ease.Linear)
             .OnComplete(() => onComplete?.Invoke());
     }
@@ -38,6 +29,11 @@ public class FadeManager : Singleton<FadeManager>
     public void OffCanvas()
     {
         canvas.SetActive(false);
+    }
+
+    public void OrderChange(int order)
+    {
+        mainCanvas.sortingOrder = order;
     }
 
     public void SetBlackImmediately() => SetAlpha(1f);

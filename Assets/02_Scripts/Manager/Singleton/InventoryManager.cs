@@ -1,11 +1,149 @@
 ﻿using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+
+// 인벤토리 아이템 (ID + 수량로 저장)
+[System.Serializable]
+public class InventoryItem
+{
+    public int itemId;
+    public int quantity;
+
+    public InventoryItem(int id, int qty)
+    {
+        itemId = id;
+        quantity = qty;
+    }
+}
 
 public class InventoryManager : Singleton<InventoryManager>
 {
+
+    [Header("인벤토리 설정")]
+    public int maxSlots = 12;
+    public List<InventoryItem> inventory = new List<InventoryItem>();
+
+    //인벤토리에 아이템 추가하기
+
+    public bool AddItem(int itemId, int quantity)
+    {
+        ItemData itemData = ItemDatabase.Instance.GetItemData(itemId);
+        if (itemData == null)
+        {
+            Debug.LogError($"{itemId}는 존재하지 않는 아이템입니다.");
+            return false;
+        }
+
+        //이미 가지고 있는 아이템인지 확인
+        InventoryItem haveItem = inventory.Find(item => item.itemId == itemId);
+
+        //있다면
+        if (haveItem != null)
+        {
+            //스택 가능한 아이템이라면
+            if (haveItem.quantity + quantity <= itemData.maxStackAmount)
+            {
+                haveItem.quantity += quantity;
+                return true;
+            }
+            else
+            {
+                //개수가 초과하면 새로운 슬롯에 넣기
+                // 스택 한계 초과 시 새 슬롯에 추가
+                int remainingQuantity = (haveItem.quantity + quantity) - itemData.maxStackAmount;
+                haveItem.quantity = itemData.maxStackAmount;
+
+                if (inventory.Count < maxSlots)
+                {
+                    inventory.Add(new InventoryItem(itemId, remainingQuantity));
+                    return true;
+                }
+                else
+                {
+                    Debug.LogWarning("인벤토리가 가득 참!");
+                    return false;
+                }
+            }
+        }
+        else
+        {
+            // 새 아이템 추가
+            if (inventory.Count < maxSlots)
+            {
+                inventory.Add(new InventoryItem(itemId, quantity));
+                return true;
+            }
+            else
+            {
+                Debug.LogWarning("인벤토리가 가득 참!");
+                return false;
+            }
+        }
+    }
+
+    // 아이템 제거
+    public bool RemoveItem(int itemId, int quantity)
+    {
+        //제거할 아이템 찾음
+        InventoryItem item = inventory.Find(invItem => invItem.itemId == itemId);
+
+        //있으면 빼려는 개수만큼 있는지 확인
+        if (item != null && item.quantity >= quantity)
+        {
+            item.quantity -= quantity;
+
+            if (item.quantity <= 0)
+            {
+                inventory.Remove(item);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+
+    // 아이템 수량 확인
+    public int GetItemQuantity(int itemId)
+    {
+        //우선 0으로 초기화
+        int totalQuantity = 0;
+        foreach (var item in inventory)
+        {
+            if (item.itemId == itemId)
+            {
+                totalQuantity += item.quantity;
+            }
+        }
+        return totalQuantity;
+    }
+
+    // 인벤토리 데이터 가져오기 (세이브용)
+    public List<InventoryItem> GetInventoryData()
+    {
+        return new List<InventoryItem>(inventory);
+    }
+
+    // 인벤토리 데이터 설정 (로드용)
+    public void SetInventoryData(List<InventoryItem> inventoryData)
+    {
+        inventory = new List<InventoryItem>(inventoryData);
+    }
+
+
+
+    // 인벤토리 초기화
+    public void ClearInventory()
+    {
+        inventory.Clear();
+    }
+
+
+    //기존에 있던 스크립트 - csv 파일로 대체하면서 우선 주석 처리
+    /*
     public ItemDatabase itemDatabase;
     public List<ItemData> items = new List<ItemData>();
+
 
     public void AddItem(ItemData item)
     {
@@ -66,11 +204,12 @@ public class InventoryManager : Singleton<InventoryManager>
             items.Clear();
             foreach (string itemID in data.savedItemIDs)
             {
-                ItemData loadedItem = itemDatabase.GetItemByName(itemID); // 또는 GetItemByID
+                CSVItemData loadedItem = itemDatabase.GetItemByName(itemID); // 또는 GetItemByID
                 if (loadedItem != null)
                     items.Add(loadedItem);
             }
         }
     }
+    */
 
 }

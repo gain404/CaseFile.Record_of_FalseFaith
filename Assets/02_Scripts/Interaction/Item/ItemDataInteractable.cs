@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// ItemData를 IInteractable처럼 행동하게 만들어주는 어댑터 클래스입니다.
@@ -23,7 +23,7 @@ public class ItemDataInteractable : IInteractable
     {
         // ItemManager를 찾아 아이템 사용 로직을 호출합니다.
         // 이 부분은 기존 PlayerInteractState에 있던 로직을 가져온 것입니다.
-        Debug.Log($"--- 어댑터를 통해 {_itemData.displayName} 사용 ---");
+        Debug.Log($"--- 어댑터를 통해 {_itemData.itemName} 사용 ---");
         var itemManager = Object.FindObjectOfType<ItemManager>();
         if (itemManager != null)
         {

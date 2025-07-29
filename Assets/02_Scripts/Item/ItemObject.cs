@@ -30,16 +30,18 @@ public class ItemObject : MonoBehaviour,IInteractable
 
     public string GetInteractPrompt()//인벤토리 등에서 아이템 이름과 설명을 보여줄 수 있음
     {
-        string str = $"{data.displayName}\n{data.description}";
+        string str = $"{data.itemName}\n{data.itemDescription}";
         return str;
-    }
+}
 
     
     public void OnInteract()//플레이어가 아이템을 주웠을 때 어떻게 될 지
     {
         _player.itemData = data;
         _player.addItem?.Invoke();
-        InventoryManager.Instance.AddItem(data);
+        InventoryManager.Instance.AddItem(data.idx, 1);
+        Debug.Log($"{data.idx} 아이템 먹었으니 퀘스트 확인");
+        ObjectiveManager.Instance.OnItemCollected($"{data.idx}", 1);
 
         Destroy(gameObject);
     }

@@ -3102,6 +3102,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8248335826759533002}
   - component: {fileID: 3814249136407083769}
+  - component: {fileID: 2834898778897432469}
+  - component: {fileID: 5954256551387304009}
   m_Layer: 20
   m_Name: Streetlights_3 (2)
   m_TagString: Untagged
@@ -3180,6 +3182,57 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2834898778897432469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001171544530671554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 695d89b03d4fda5448d2b81289fee781, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crackBulb: {fileID: 5267323753666503373, guid: ec93f3beffa7b584bb77091cb58302fa, type: 3}
+  breakBulb: {fileID: 4085629658424233975, guid: ec93f3beffa7b584bb77091cb58302fa, type: 3}
+  light2D: {fileID: 1683870089500406887}
+--- !u!58 &5954256551387304009
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001171544530671554}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.6}
+  m_Radius: 0.14
 --- !u!1 &1015813703108297149
 GameObject:
   m_ObjectHideFlags: 0
@@ -4489,6 +4542,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7609231142118508805}
   - component: {fileID: 1088216624325291411}
+  - component: {fileID: 6914887008913652397}
+  - component: {fileID: 5316100647345095163}
   m_Layer: 20
   m_Name: Streetlights_3
   m_TagString: Untagged
@@ -4567,6 +4622,57 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6914887008913652397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324995323861497921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 695d89b03d4fda5448d2b81289fee781, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crackBulb: {fileID: 5267323753666503373, guid: ec93f3beffa7b584bb77091cb58302fa, type: 3}
+  breakBulb: {fileID: 4085629658424233975, guid: ec93f3beffa7b584bb77091cb58302fa, type: 3}
+  light2D: {fileID: 5641820084807353057}
+--- !u!58 &5316100647345095163
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324995323861497921}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.6}
+  m_Radius: 0.14
 --- !u!1 &1368833046399431569
 GameObject:
   m_ObjectHideFlags: 0
@@ -9968,6 +10074,8 @@ GameObject:
   - component: {fileID: 6860918357707688473}
   - component: {fileID: 5697722650628411575}
   - component: {fileID: 5448411665858647036}
+  - component: {fileID: 1413369287679802682}
+  - component: {fileID: 4000883969106873626}
   m_Layer: 11
   m_Name: Monster
   m_TagString: Untagged
@@ -10243,6 +10351,119 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meleeAttackCollider2D: {fileID: 4369400702045409134}
   biteAttackCollider2D: {fileID: 2977596380275495653}
+  meleeAttack: {fileID: 4005590833325748227}
+  biteAttack: {fileID: 7429580080059344026}
+  sfxPlayer: {fileID: 0}
+--- !u!114 &1413369287679802682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2808398183349648660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1f191b4039cb184d82f8a54e46bbeff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxData: {fileID: 0}
+--- !u!82 &4000883969106873626
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2808398183349648660}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -1786885819164082146, guid: 541d1f249db2d2c48a582470729d9b9a, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 5
+  MaxDistance: 40
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2845054572133441667
 GameObject:
   m_ObjectHideFlags: 0
@@ -19355,6 +19576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e311d6ca962da564db644da3afc8e743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDamaged: 0
   mask:
     serializedVersion: 2
     m_Bits: 4096
@@ -26551,6 +26773,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1842566793382451493}
   - component: {fileID: 5080144287715291556}
+  - component: {fileID: 1751835178170041062}
+  - component: {fileID: 7406944398259822804}
   m_Layer: 20
   m_Name: Streetlights_3 (1)
   m_TagString: Untagged
@@ -26629,6 +26853,57 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1751835178170041062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7951759768318800116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 695d89b03d4fda5448d2b81289fee781, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crackBulb: {fileID: 5267323753666503373, guid: ec93f3beffa7b584bb77091cb58302fa, type: 3}
+  breakBulb: {fileID: 4085629658424233975, guid: ec93f3beffa7b584bb77091cb58302fa, type: 3}
+  light2D: {fileID: 8647646214392353843}
+--- !u!58 &7406944398259822804
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7951759768318800116}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.6}
+  m_Radius: 0.14
 --- !u!1 &7952859791163316806
 GameObject:
   m_ObjectHideFlags: 0
@@ -28038,6 +28313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e311d6ca962da564db644da3afc8e743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDamaged: 0
   mask:
     serializedVersion: 2
     m_Bits: 4096

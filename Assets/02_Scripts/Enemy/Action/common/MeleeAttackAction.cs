@@ -6,7 +6,7 @@ using Unity.Properties;
 using DG.Tweening;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "MeleeAttack", story: "[Self] set [attackTrigger] or [Phase2AttackTrigger] on and Wait for [duration] seconds based on [IsPhase2]", category: "Action", id: "630e8b7ae158ae0f4ede33fb387b88ac")]
+[NodeDescription(name: "MeleeAttackSuccess", story: "[Self] set [attackTrigger] or [Phase2AttackTrigger] on and Wait for [duration] seconds based on [IsPhase2]", category: "Action", id: "630e8b7ae158ae0f4ede33fb387b88ac")]
 public partial class MeleeAttackAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;

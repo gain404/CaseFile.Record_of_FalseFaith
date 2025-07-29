@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 public class PlayerStateMachine : StateMachine
 {
@@ -16,7 +17,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerSwordAttackState SwordAttackState { get; }
     public PlayerGunAttackState GunAttackState { get; }
     public PlayerShopState ShopState { get; private set; }
-    
+        
     public IState PreviousState { get; private set; }
     //움직임 보정값
     public Vector2 MovementInput { get; set; }
@@ -98,7 +99,7 @@ public class PlayerStateMachine : StateMachine
         
         AddTransition(new StateTransition(
             RunState, WalkState,
-            ()=> Player.PlayerController.playerActions.Run.ReadValue<float>() < 0.01f 
+            ()=> (Player.PlayerController.playerActions.Run.ReadValue<float>() < 0.01f || Player.PlayerStat.GetStatValue(StatType.Stamina) <= 0)
                  && Mathf.Abs(MovementInput.x) > 0.01f));
         
         AddTransition(new StateTransition(
@@ -110,18 +111,21 @@ public class PlayerStateMachine : StateMachine
         AddTransition(new StateTransition(
             IdleState, RunState,
             ()=> Mathf.Abs(MovementInput.x) > 0.01f
-                 && Player.PlayerController.playerActions.Run.IsPressed()));
+                 && Player.PlayerController.playerActions.Run.IsPressed()
+                 && Player.PlayerStat.GetStatValue(StatType.Stamina) > 0));
         
         AddTransition(new StateTransition(
             WalkState, RunState,
             ()=> Mathf.Abs(MovementInput.x) > 0.01f 
-                 &&Player.PlayerController.playerActions.Run.IsPressed()));
+                 && Player.PlayerController.playerActions.Run.IsPressed()
+                 && Player.PlayerStat.GetStatValue(StatType.Stamina) > 0));
         
         AddTransition(new StateTransition(
             DashState, RunState,
             () => IsDashFinished
                   && Mathf.Abs(MovementInput.x) > 0.01f
-                  && Player.PlayerController.playerActions.Run.IsPressed()));
+                  && Player.PlayerController.playerActions.Run.IsPressed()
+                  && Player.PlayerStat.GetStatValue(StatType.Stamina) > 0));
         
         //Idle
         AddTransition(new StateTransition(
@@ -130,24 +134,25 @@ public class PlayerStateMachine : StateMachine
         
         AddTransition(new StateTransition(
             RunState, IdleState,
-            ()=> Mathf.Abs(MovementInput.x) < 0.01f));
+            ()=> RunState.timeSinceNoInput > RunState.gracePeriod));
 
         AddTransition(new StateTransition(
             WalkState, IdleState,
-            () => Mathf.Abs(MovementInput.x) < 0.01f));
+            () => WalkState.timeSinceNoInput > WalkState.gracePeriod));
         
         AddTransition(new StateTransition(
             DashState, IdleState,
             () => IsDashFinished));
-        
+
         AddTransition(new StateTransition(
             InteractState, IdleState,
-            ()=> DialogueManager.Instance.IsDialogueFinished || Player.itemData == null && Player.CurrentInteractableNPC == null && player.CurrentInteractableItem == null));
+            () => UIManager.Instance.UIDialogue.IsDialogueFinished || Player.itemData == null &&
+                Player.CurrentInteractableNPC == null && player.CurrentInteractableItem == null));
 
         AddTransition(new StateTransition(
             InventoryState, IdleState,
             () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame()
-                    && UIManager.Instance.UIInventory.IsOpen() == true&& !ShopManager.Instance.shopPanel.activeSelf));
+                  && UIManager.Instance.UIInventory.IsOpen() == true && !UIManager.Instance.UIShop.ShopPanel.activeSelf));
 
         AddTransition(new StateTransition(
             SwordAttackState, IdleState,
@@ -185,7 +190,7 @@ public class PlayerStateMachine : StateMachine
         
         AddTransition(new StateTransition(
             ShopState, InteractState,
-            () => !ShopManager.Instance.shopPanel.activeSelf));
+            () => !UIManager.Instance.UIShop.ShopPanel.activeSelf));
 
         //Inventory
         AddTransition(new StateTransition(
@@ -201,12 +206,12 @@ public class PlayerStateMachine : StateMachine
         AddTransition(new StateTransition(
             RunState, InventoryState,
             () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
-                && UIManager.Instance.UIInventory.IsOpen() == false));
+                  && UIManager.Instance.UIInventory.IsOpen() == false));
 
         AddTransition(new StateTransition(
             JumpState, InventoryState,
             () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
-                && UIManager.Instance.UIInventory.IsOpen() == false));
+                  && UIManager.Instance.UIInventory.IsOpen() == false));
         AddTransition(new StateTransition(
             ShopState, InventoryState,
             () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame()));
@@ -255,12 +260,12 @@ public class PlayerStateMachine : StateMachine
         //Shop
         AddTransition(new StateTransition(
             InteractState, ShopState,
-            () => DialogueManager.Instance.CurrentState == DialogueManager.DialogueState.Paused));
+            () => UIManager.Instance.UIDialogue.CurrentState == DialogueState.Paused));
         
         AddTransition(new StateTransition(
             InventoryState, ShopState,
             () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame() &&
-                  ShopManager.Instance.shopPanel.activeSelf));
+                  UIManager.Instance.UIShop.ShopPanel.activeSelf));
     }
 
     public override void Update()
