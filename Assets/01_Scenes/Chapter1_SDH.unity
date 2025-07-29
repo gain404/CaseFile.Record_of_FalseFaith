@@ -12897,6 +12897,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIObjectivePanel
       objectReference: {fileID: 0}
+    - target: {fileID: 3003079643806474276, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3003079643806474276, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3003079643806474276, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3287829773456607565, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -12915,11 +12927,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4851869774710006222, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.61714
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4851869774710006222, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 35.60249
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4851869774710006222, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12953,6 +12965,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7783445176173789959, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 7783445176173789959, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 7783445176173789959, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8515809664985071248, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -12961,7 +12985,20 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8791701965873930535, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8791701965873930535, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 8791701965873930535, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5316385822532226882, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -13603,7 +13640,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isRunning: 0
-  defaultZoomSize: 10
+  defaultZoomSize: 7
   maxZoomOutSize: 15
   zoomSpeed: 5
   useBoundary: 0
