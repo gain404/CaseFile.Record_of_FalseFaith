@@ -11,6 +11,7 @@ public class PlayerInteractState : PlayerActionState
     public override void Enter()
     {
         base.Enter();
+        Debug.Log("PlayerInteractState Enter");
         _rb.linearVelocity = Vector2.zero;
         stateMachine.Player.Animator.SetBool(stateMachine.Player.PlayerAnimationData.MoveParameterHash, false);
         stateMachine.Player.Animator.SetBool(stateMachine.Player.PlayerAnimationData.RunParameterHash, false);
@@ -67,6 +68,7 @@ public class PlayerInteractState : PlayerActionState
     public override void Exit()
     {
         base.Exit();
+        Debug.Log("PlayerInteractState Exit");
         EndAnimation(stateMachine.Player.PlayerAnimationData.IdleParameterHash);
         stateMachine.MovementSpeedModifier = 1f;
     }
