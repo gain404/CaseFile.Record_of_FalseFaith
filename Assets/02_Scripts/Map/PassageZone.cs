@@ -43,7 +43,7 @@ public class PassageZone : MonoBehaviour, IInteractable
         {
             _canPassage = true;
             _player.CurrentPassageZone = this;
-            UIManager.Instance.UIGuideIcon.OnGuideIcon(currentguideIconType, transform);
+            UIManager.Instance.UIGuideIcon.OnGuideIcon(currentguideIconType, transform.position);
         }
     }
     

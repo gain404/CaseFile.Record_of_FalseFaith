@@ -44,12 +44,12 @@ public class UIGuideIcon : MonoBehaviour
         _spriteRenderer.sortingOrder = 25;
     }
     
-    public void OnGuideIcon(GuideIconType guideIconType, Transform iconTransform)
+    public void OnGuideIcon(GuideIconType guideIconType, Vector3 iconTransform)
     {
         Vector3 guidePosition = new Vector3(0, -1, 0);
         
         _spriteRenderer.sprite = _guideIcon[guideIconType];
-        _spriteRenderer.transform.position = iconTransform.position + guidePosition;
+        _spriteRenderer.transform.position = iconTransform + guidePosition;
         _spriteRenderer.enabled = true;
     }
 
