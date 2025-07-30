@@ -32,6 +32,7 @@ public class ObjectiveManager : MonoBehaviour
     private List<ObjectiveData> activeObjectives = new List<ObjectiveData>(); // 현재 진행 중인 목표 목록
     private List<ObjectiveData> completedObjectives = new List<ObjectiveData>(); // 완료된 목표 목록
 
+
     // 목표가 완료되었을 때, 또는 업데이트 되었을 때 호출되는 이벤트
     public System.Action<ObjectiveData> OnObjectiveCompleted;
     public System.Action<ObjectiveData> OnObjectiveUpdated;
@@ -51,6 +52,10 @@ public class ObjectiveManager : MonoBehaviour
 
     private void Start()
     {
+        if(completeNotifier == null)
+        {
+            completeNotifier = FindAnyObjectByType<UIObjectiveCompleteNotifier>();
+        }
         dataLoader.LoadObjectiveData();// 전체 퀘스트 데이터 로드
         LoadChapterObjectives(1); // 챕터 1 목표 로드 -> 이건 Scene에 맞게 수정해주기
         objectiveUI.SetChapterTitle("Chapter 1");

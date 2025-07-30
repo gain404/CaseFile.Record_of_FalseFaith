@@ -22,7 +22,7 @@ public class UIObjectiveCompleteNotifier : MonoBehaviour
         ObjectiveUIItem item = popup.GetComponent<ObjectiveUIItem>();
 
         item.Setup(data);
-        item.MarkAsCompleted(false);// 애니메이션 없이 완료 상태로 표시
+        item.MarkAsCompleted(true);// 애니메이션 없이 완료 상태로 표시
 
         // 팝업용으로 진행도 텍스트 등은 숨김 처리
         rect.anchoredPosition += slideOffset;
