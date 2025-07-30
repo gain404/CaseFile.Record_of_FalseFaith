@@ -5,6 +5,7 @@ public class PassageZone : MonoBehaviour, IInteractable
 {
     [SerializeField] private PassageInfo passageInfo;
     [SerializeField] private LayerMask hitLayerMask;
+    [SerializeField] private GuideIconType currentguideIconType;
     private Player _player;
     private PlayerController _playerController;
     private CinemachineCamera _playerCinemachineCamera;
@@ -42,6 +43,7 @@ public class PassageZone : MonoBehaviour, IInteractable
         {
             _canPassage = true;
             _player.CurrentPassageZone = this;
+            UIManager.Instance.UIGuideIcon.OnGuideIcon(currentguideIconType, transform);
         }
     }
     
@@ -51,6 +53,7 @@ public class PassageZone : MonoBehaviour, IInteractable
         {
             _canPassage = false;
             _player.CurrentPassageZone = null;
+            UIManager.Instance.UIGuideIcon.OffGuideIcon();
         }
     }
 
