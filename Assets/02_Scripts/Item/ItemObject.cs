@@ -1,6 +1,5 @@
-﻿using System;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Audio;
 
 // 인터랙션 가능한 객체에 상속할 인터페이스
 public interface IInteractable
@@ -43,6 +42,9 @@ public class ItemObject : MonoBehaviour,IInteractable
         Debug.Log($"{data.idx} 아이템 먹었으니 퀘스트 확인");
         ObjectiveManager.Instance.OnItemCollected($"{data.idx}", 1);
 
-        Destroy(gameObject);
+        // 사운드 재생
+        SoundManager.Instance.PlayItemPickupSFX();
+
+        Destroy(gameObject, 0.1f); // 소리 재생 후 오브젝트 파괴
     }
 }
