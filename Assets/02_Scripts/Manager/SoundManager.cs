@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
@@ -10,8 +11,11 @@ public class SoundManager : MonoBehaviour
     public AudioSource sfxSource;
     public AudioSource uiSource;
 
-    [Header("Audio Clips")]
+
+    [Header("BGM Clips")]
     public AudioClip defaultBgm;
+    public AudioClip battleBgm;
+    [Header("Audio Clips")]
     public AudioClip itemPickupClip; // 아이템 주웠을 때
     public AudioClip buttonClickClip; // 버튼 눌렀을 때
     public AudioClip doorOpen; // 문 상호작용할 때
@@ -19,9 +23,9 @@ public class SoundManager : MonoBehaviour
     public AudioClip fileOpen; // 파일 열 때
     public AudioClip inventoryOpen; // 인벤토리 열 때
     public AudioClip mapOpen; // 맵 열 때
-    public AudioClip attack1; // 공격 효과음 1
-    public AudioClip attack2; // 공격 효과음 2
-    public AudioClip attack3; // 공격 효과음 3
+
+    [Header("Attack SFX")]
+    public AudioClip[] swordAttackClips; // 칼 공격 효과음들을 배열로 관리
 
     private void Awake()
     {
@@ -55,11 +59,48 @@ public class SoundManager : MonoBehaviour
         bgmSource.Play();
     }
 
+    public void PlayBattleBGM()
+    {
+        if (battleBgm != null)
+            PlayBGM(battleBgm);
+    }
+
+    public void PlayDefaultBGM()
+    {
+        if (defaultBgm != null)
+            PlayBGM(defaultBgm);
+    }
+
     // BGM 정지
     public void StopBGM()
     {
         if (bgmSource.isPlaying)
             bgmSource.Stop();
+    }
+    //BGM 전환
+    public IEnumerator FadeBGM(AudioClip newClip, float duration = 1f)
+    {
+        float startVolume = bgmSource.volume;
+
+        // Fade out
+        while (bgmSource.volume > 0)
+        {
+            bgmSource.volume -= startVolume * Time.unscaledDeltaTime / duration;
+            yield return null;
+        }
+
+        bgmSource.Stop();
+        bgmSource.clip = newClip;
+        bgmSource.Play();
+
+        // Fade in
+        while (bgmSource.volume < startVolume)
+        {
+            bgmSource.volume += startVolume * Time.unscaledDeltaTime / duration;
+            yield return null;
+        }
+
+        bgmSource.volume = startVolume;
     }
 
     // 효과음 재생
@@ -116,5 +157,18 @@ public class SoundManager : MonoBehaviour
     public void PlayButtonClick()
     {
         PlayUI(buttonClickClip);
+    }
+
+    //공격 효과음 랜덤 재생
+    public void PlayRandomAttackSFX()
+    {
+        if (swordAttackClips.Length == 0) return;
+
+        int index = Random.Range(0, swordAttackClips.Length);
+        AudioClip selectedClip = swordAttackClips[index];
+
+        sfxSource.pitch = Random.Range(0.95f, 1.05f); // 살짝 톤 변화
+        PlaySFX(selectedClip);
+        sfxSource.pitch = 1f; // 원래대로 복구
     }
 }
