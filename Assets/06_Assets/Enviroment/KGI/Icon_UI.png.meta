@@ -23,6 +23,24 @@ TextureImporter:
   - first:
       213: 5810794128060582992
     second: Icon_UI_6
+  - first:
+      213: -5604518810976404965
+    second: Icon_UI_7
+  - first:
+      213: 4457390896181193405
+    second: Icon_UI_8
+  - first:
+      213: 6914032438308487581
+    second: Icon_UI_9
+  - first:
+      213: -2716879659081310447
+    second: Icon_UI_10
+  - first:
+      213: 6542025840841233918
+    second: Icon_UI_11
+  - first:
+      213: 3113213907640764096
+    second: Icon_UI_12
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -235,7 +253,7 @@ TextureImporter:
       name: Stair
       rect:
         serializedVersion: 2
-        x: 153
+        x: 152
         y: 19
         width: 30
         height: 30
@@ -253,11 +271,55 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: GoDownStreet
+      rect:
+        serializedVersion: 2
+        x: 183
+        y: 21
+        width: 29
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1ab1ced5dfb832b0800000000000000
+      internalID: -5604518810976404965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GoUpStreet
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 20
+        width: 29
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c6cbb2fd8b543b20800000000000000
+      internalID: 3113213907640764096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: e4e8dd076ca5c54438990004d18b1073
+    spriteID: 3254b7b10d5a3b745bd23b396b26361e
     internalID: 0
     vertices: []
     indices: 
@@ -269,8 +331,14 @@ TextureImporter:
     nameFileIdTable:
       CloseDoor: -127309970513838899
       Go: 1403377513182942382
+      GoDownStreet: -5604518810976404965
+      GoUpStreet: 3113213907640764096
+      Icon_UI_10: -2716879659081310447
+      Icon_UI_11: 6542025840841233918
       Icon_UI_4: -2394328594451275970
       Icon_UI_6: 5810794128060582992
+      Icon_UI_8: 4457390896181193405
+      Icon_UI_9: 6914032438308487581
       Investigation: 8042595596918637313
       OpenDoor: 2791849664176845034
       Stair: -5041629697883540416

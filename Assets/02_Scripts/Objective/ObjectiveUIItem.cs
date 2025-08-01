@@ -176,7 +176,8 @@ public class ObjectiveUIItem : MonoBehaviour
     private IEnumerator ShowStrikethroughAnimation()
     {
         strikethroughLine.SetActive(true);
-
+        // 취소선 긋는 효과음
+        SoundManager.Instance.PlayObjectiveGet();
         // 취소선을 왼쪽에서 오른쪽으로 그리는 애니메이션
         RectTransform strikeRect = strikethroughLine.GetComponent<RectTransform>();
         Vector2 originalSize = strikeRect.sizeDelta;
