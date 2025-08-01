@@ -8,7 +8,9 @@ public enum GuideIconType
     CloseDoor,
     Investigation,
     Go,
-    Stair
+    Stair,
+    GoDownStreet,
+    GoUpStreet,
 }
 
 public class UIGuideIcon : MonoBehaviour

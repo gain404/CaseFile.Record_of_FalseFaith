@@ -12,12 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 811c3cd2eed36a24c8b32d7e47bde5fb, type: 3}
   m_Name: Bullet
   m_EditorClassIdentifier: 
-  displayName: "\uD0C4\uD658"
-  description: "\uBA39\uC73C\uBA74 \uC544\uD504\uB2E4"
-  type: 1
-  price: 100
-  icon: {fileID: -6619111317931664985, guid: f3313c875e0e9d641bd903cc88717b17, type: 3}
-  dropPrefab: {fileID: 5376064765485478582, guid: b72459fec5a625344bf6334ce366c34d, type: 3}
-  canStack: 1
+  idx: 0
+  itemName: 
+  itemDescription: 
+  itemSprite: {fileID: 0}
+  itemType: 0
+  healHP: 0
+  healStamina: 0
+  canSearch: 0
+  stageAvailable: 0
+  acquireCondition: 
+  itemPrice: 0
   maxStackAmount: 99
   Effect: {fileID: 11400000, guid: 058e249fc42036c478f19208af61c4ab, type: 2}
