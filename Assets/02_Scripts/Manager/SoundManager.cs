@@ -10,8 +10,11 @@ public class SoundManager : MonoBehaviour
     public AudioSource sfxSource;
     public AudioSource uiSource;
 
-    [Header("Audio Clips")]
+
+    [Header("BGM Clips")]
     public AudioClip defaultBgm;
+    public AudioClip battleBgm;
+    [Header("Audio Clips")]
     public AudioClip itemPickupClip; // 아이템 주웠을 때
     public AudioClip buttonClickClip; // 버튼 눌렀을 때
     public AudioClip doorOpen; // 문 상호작용할 때
@@ -53,6 +56,18 @@ public class SoundManager : MonoBehaviour
         bgmSource.clip = clip;
         bgmSource.loop = loop;
         bgmSource.Play();
+    }
+
+    public void PlayBattleBGM()
+    {
+        if (battleBgm != null)
+            PlayBGM(battleBgm);
+    }
+
+    public void PlayDefaultBGM()
+    {
+        if (defaultBgm != null)
+            PlayBGM(defaultBgm);
     }
 
     // BGM 정지
