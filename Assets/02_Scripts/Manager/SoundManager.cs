@@ -23,9 +23,9 @@ public class SoundManager : MonoBehaviour
     public AudioClip fileOpen; // 파일 열 때
     public AudioClip inventoryOpen; // 인벤토리 열 때
     public AudioClip mapOpen; // 맵 열 때
-    public AudioClip attack1; // 공격 효과음 1
-    public AudioClip attack2; // 공격 효과음 2
-    public AudioClip attack3; // 공격 효과음 3
+
+    [Header("Attack SFX")]
+    public AudioClip[] swordAttackClips; // 칼 공격 효과음들을 배열로 관리
 
     private void Awake()
     {
@@ -77,7 +77,7 @@ public class SoundManager : MonoBehaviour
         if (bgmSource.isPlaying)
             bgmSource.Stop();
     }
-
+    //BGM 전환
     public IEnumerator FadeBGM(AudioClip newClip, float duration = 1f)
     {
         float startVolume = bgmSource.volume;
@@ -157,5 +157,18 @@ public class SoundManager : MonoBehaviour
     public void PlayButtonClick()
     {
         PlayUI(buttonClickClip);
+    }
+
+    //공격 효과음 랜덤 재생
+    public void PlayRandomAttackSFX()
+    {
+        if (swordAttackClips.Length == 0) return;
+
+        int index = Random.Range(0, swordAttackClips.Length);
+        AudioClip selectedClip = swordAttackClips[index];
+
+        sfxSource.pitch = Random.Range(0.95f, 1.05f); // 살짝 톤 변화
+        PlaySFX(selectedClip);
+        sfxSource.pitch = 1f; // 원래대로 복구
     }
 }
