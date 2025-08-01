@@ -10,7 +10,7 @@ public class BattleSoundZone : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            SoundManager.Instance.PlayBattleBGM();
+            StartCoroutine(SoundManager.Instance.FadeBGM(SoundManager.Instance.battleBgm));
             hasEntered = true; // 중복 재생 방지
         }
     }
@@ -20,7 +20,7 @@ public class BattleSoundZone : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            SoundManager.Instance.PlayDefaultBGM();
+            StartCoroutine(SoundManager.Instance.FadeBGM(SoundManager.Instance.defaultBgm));
             hasEntered = false;
         }
     }

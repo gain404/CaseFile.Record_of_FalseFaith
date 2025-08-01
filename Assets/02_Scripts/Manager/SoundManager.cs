@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
@@ -75,6 +76,31 @@ public class SoundManager : MonoBehaviour
     {
         if (bgmSource.isPlaying)
             bgmSource.Stop();
+    }
+
+    public IEnumerator FadeBGM(AudioClip newClip, float duration = 1f)
+    {
+        float startVolume = bgmSource.volume;
+
+        // Fade out
+        while (bgmSource.volume > 0)
+        {
+            bgmSource.volume -= startVolume * Time.unscaledDeltaTime / duration;
+            yield return null;
+        }
+
+        bgmSource.Stop();
+        bgmSource.clip = newClip;
+        bgmSource.Play();
+
+        // Fade in
+        while (bgmSource.volume < startVolume)
+        {
+            bgmSource.volume += startVolume * Time.unscaledDeltaTime / duration;
+            yield return null;
+        }
+
+        bgmSource.volume = startVolume;
     }
 
     // 효과음 재생
