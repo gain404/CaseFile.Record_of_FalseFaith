@@ -23,7 +23,6 @@ public class ChapterInvestigationList : MonoBehaviour
         {
             int buttonIndex = i;
             _investigationButton[buttonIndex].onClick.AddListener(() => SetExplainPanel(buttonIndex));
-            Debug.Log(buttonIndex + "버튼 시스너 성공");
         }
         SetButton();
         investigationObjectName.text = " ";
