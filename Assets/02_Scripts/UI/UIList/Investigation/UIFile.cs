@@ -20,11 +20,7 @@ public class UIFile : MonoBehaviour
         {
             _chapterInvestigationList.Add(chapter.GetComponent<ChapterInvestigationList>());
         }
-
-        foreach (var list in _chapterInvestigationList)
-        {
-            list.Init();
-        }
+        
         for (int i = 0; i < 5; i++)
         {
             _isChapterOpen.Add(false);
@@ -37,6 +33,11 @@ public class UIFile : MonoBehaviour
     
     private void Start()
     {
+        foreach (var list in _chapterInvestigationList)
+        {
+            list.Init();
+        }
+        
         for (int i = 0; i < chapterButton.Count; i++)
         {
             int chapter = i;

@@ -34,4 +34,9 @@ public class UIInvestigation : MonoBehaviour
     {
         _uiFile.OpenInvestigationList(index);
     }
+
+    public void StartChapter(int chapter)
+    {
+        _uiFile.ChapterOpen(chapter);
+    }
 }
