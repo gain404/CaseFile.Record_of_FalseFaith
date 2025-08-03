@@ -20,10 +20,12 @@ public class UITutorial : MonoBehaviour
     [SerializeField] private GameObject mainPanel;
     [SerializeField] private List<TutorialList> tutorialList;
     [SerializeField] private Button xButton;
+    [SerializeField] private Button testButton;
 
     private void Start()
     {
         xButton.onClick.AddListener(OffTutorialPanel);
+        testButton.onClick.AddListener(() => OnTutorialPanel(TutorialType.Fight));
         mainPanel.SetActive(false);
     }
 
