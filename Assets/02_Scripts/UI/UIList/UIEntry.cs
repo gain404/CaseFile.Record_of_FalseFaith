@@ -3,7 +3,8 @@ using UnityEngine;
 
 public enum UIType
 {
-    UIInventory, UIDialogue,UIShop,UIHealth,UIStamina,UIPrompt,UIInvestigation, UISave, UILoad, UIMap, UIGuideIcon,
+    UIInventory, UIDialogue,UIShop,UIHealth,UIStamina,UIPrompt,
+    UIInvestigation, UISave, UILoad, UIMap, UIGuideIcon,UITutorial,
     Title
 }
 

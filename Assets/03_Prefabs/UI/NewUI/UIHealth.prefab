@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 40, y: -40}
+  m_AnchoredPosition: {x: 79, y: -72}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2214976564496667945
@@ -51,8 +51,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heartContainer: {fileID: 4979883440360983766}
   heartPrefab: {fileID: 7474029741119761058, guid: fa3e3c979b5ac144d949d17dd6187917, type: 3}
-  fullHeart: {fileID: -3823153081306352603, guid: 23e031d22e9267040a49b5199c0d41da, type: 3}
-  halfHeart: {fileID: -3418600332588541903, guid: 89e6a9e8ace33af4a81a10496472fdce, type: 3}
+  fullHeart: {fileID: -6371644077884369873, guid: 4a682819a34a3704181cac283b71ad15, type: 3}
+  halfHeart: {fileID: -6371644077884369873, guid: 4a682819a34a3704181cac283b71ad15, type: 3}
   emptyHeart: {fileID: 9010997100383349577, guid: c298c0e49bf48da418761334070be6b0, type: 3}
 --- !u!1 &4979883440360983766
 GameObject:
@@ -88,8 +88,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0}
-  m_SizeDelta: {x: 500, y: 100}
+  m_AnchoredPosition: {x: 152, y: 11.0905}
+  m_SizeDelta: {x: 389.0952, y: 77.8191}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &4855922191858004103
 MonoBehaviour:
@@ -155,11 +155,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7773311311379368925, guid: fa3e3c979b5ac144d949d17dd6187917, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 80
+      value: 61.1004
       objectReference: {fileID: 0}
     - target: {fileID: 7773311311379368925, guid: fa3e3c979b5ac144d949d17dd6187917, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 76.3755
       objectReference: {fileID: 0}
     - target: {fileID: 7773311311379368925, guid: fa3e3c979b5ac144d949d17dd6187917, type: 3}
       propertyPath: m_LocalPosition.x
