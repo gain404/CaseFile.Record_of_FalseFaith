@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 9bd5de341e4a6cd46a0a153dbfa45217
+guid: e38a936e87c014c409f67430ae295195
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4073584572699426348
-    second: HongsamLatte_0
+      213: 116579304522745477
+    second: street_object_0
+  - first:
+      213: 4774601224624538221
+    second: street_object_1
+  - first:
+      213: -2166911137872359004
+    second: street_object_2
+  - first:
+      213: 8121548848415044373
+    second: street_object_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +135,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HongsamLatte_0
+      name: street_object_0
       rect:
         serializedVersion: 2
-        x: 13
-        y: 12
-        width: 109
-        height: 113
+        x: 5
+        y: 27
+        width: 120
+        height: 65
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +150,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c2eb24a0697488830800000000000000
-      internalID: 4073584572699426348
+      spriteID: 5868d32824c2e9100800000000000000
+      internalID: 116579304522745477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: street_object_1
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 54
+        width: 88
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6204e1548ac24240800000000000000
+      internalID: 4774601224624538221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: street_object_2
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 15
+        width: 112
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a1d7470dc59de1e0800000000000000
+      internalID: -2166911137872359004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: street_object_3
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 51
+        width: 99
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 513f2c7d5a985b070800000000000000
+      internalID: 8121548848415044373
       vertices: []
       indices: 
       edges: []
@@ -161,7 +236,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      HongsamLatte_0: 4073584572699426348
+      street_object_0: 116579304522745477
+      street_object_1: 4774601224624538221
+      street_object_2: -2166911137872359004
+      street_object_3: 8121548848415044373
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
