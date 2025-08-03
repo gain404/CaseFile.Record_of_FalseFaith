@@ -183,23 +183,43 @@ public class UIDialogue : MonoBehaviour
     // --- 대화 진행 로직 ---
     private void AdvanceDialogue()
     {
-        if (_isItemDialogue)
+        Debug.Log($"[Dialogue] AdvanceDialogue 호출됨, currentIndex={_currentIndex}");
+
+        DialogueLine currentLine = _currentDialogue.lines[_currentIndex];
+        int nextIndex = (currentLine.nextLineIndices?.Length > 0)
+            ? currentLine.nextLineIndices[0]
+            : _currentIndex + 1;
+
+        Debug.Log($"[Dialogue] nextIndex 초기값={nextIndex}");
+
+        if (nextIndex < _currentDialogue.lines.Length)
         {
-            _currentItemIndex++;
-            if (_currentItemIndex >= _currentItemLines.Length) { EndDialogue(); return; }
+            DialogueLine nextLine = _currentDialogue.lines[nextIndex];
+
+            if (nextLine.randomGroupIndices != null && nextLine.randomGroupIndices.Length > 1)
+            {
+                int randomPick = UnityEngine.Random.Range(0, nextLine.randomGroupIndices.Length);
+                nextIndex = nextLine.randomGroupIndices[randomPick];
+
+                Debug.Log($"[Dialogue] baseIndex={nextLine.baseIndex}, 후보={string.Join(",", nextLine.randomGroupIndices)} → 선택={nextIndex}");
+            }
         }
-        else
+
+        _currentIndex = nextIndex;
+
+        if (_currentIndex >= _currentDialogue.lines.Length)
         {
-            DialogueLine currentLine = _currentDialogue.lines[_currentIndex];
-            if (currentLine.nextLineIndices != null && currentLine.nextLineIndices.Length > 0)
-                _currentIndex = currentLine.nextLineIndices[0];
-            else
-                _currentIndex++;
-            
-            if (_currentIndex >= _currentDialogue.lines.Length) { EndDialogue(); return; }
+            Debug.Log("[Dialogue] 대화 종료");
+            EndDialogue();
+            return;
         }
+
         ShowLine();
     }
+
+
+
+
 
     private void ShowLine()
     {

@@ -33,8 +33,29 @@ public class DialogueCsvReader : MonoBehaviour
         foreach (var kvp in grouped)
         {
             string dialogueID = kvp.Key;
+
+            // 랜덤 그룹 계산
+            var groups = kvp.Value
+                .GroupBy(x => x.line.baseIndex)
+                .Where(g => g.Count() > 1)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Select(x => x.lineIndex).ToArray()
+                );
+
+            // 각 라인에 randomGroupIndices 할당
+            foreach (var (lineIndex, line) in kvp.Value)
+            {
+                if (groups.TryGetValue(line.baseIndex, out var group))
+                {
+                    line.randomGroupIndices = group;
+                }
+            }
+
+            // 최종 정렬 후 배열로 변환
             var lineList = kvp.Value.OrderBy(x => x.lineIndex).Select(x => x.line).ToArray();
 
+            // ID 파싱
             int underscoreIndex = dialogueID.LastIndexOf('_');
             if (underscoreIndex < 0)
             {
@@ -44,7 +65,7 @@ public class DialogueCsvReader : MonoBehaviour
             string npcID = dialogueID.Substring(0, underscoreIndex);
             string suffix = dialogueID.Substring(underscoreIndex + 1);
 
-            var dialogueAssetPath = $"GeneratedDialogues/{npcID}_{suffix}";
+            string dialogueAssetPath = $"GeneratedDialogues/{npcID}_{suffix}";
             var dialogueAsset = Resources.Load<DialogueAsset>(dialogueAssetPath);
 
 #if UNITY_EDITOR
@@ -91,12 +112,18 @@ public class DialogueCsvReader : MonoBehaviour
     {
         var result = new Dictionary<string, List<(int, DialogueLine)>>();
         var csv = Resources.Load<TextAsset>(dialogueCsvFileName);
-        if (csv == null) { Debug.LogError("CSV 파일을 찾을 수 없습니다."); return result; }
+        if (csv == null)
+        {
+            Debug.LogError("CSV 파일을 찾을 수 없습니다.");
+            return result;
+        }
 
         using (StringReader reader = new StringReader(csv.text))
         {
             string line;
             bool isFirst = true;
+            int autoIndex = 0;
+
             while ((line = reader.ReadLine()) != null)
             {
                 if (isFirst) { isFirst = false; continue; }
@@ -106,7 +133,16 @@ public class DialogueCsvReader : MonoBehaviour
                 if (parts.Length < 5) continue;
 
                 string dialogueID = parts[0].Trim();
-                int.TryParse(parts[1], out int lineIndex);
+                string rawIndex = parts[1].Trim();
+
+                // baseIndex 추출 (2_0 → 2)
+                int baseIndex = autoIndex;
+                if (!string.IsNullOrEmpty(rawIndex))
+                {
+                    string[] split = rawIndex.Split('_');
+                    int.TryParse(split[0], out baseIndex);
+                }
+
                 Enum.TryParse(parts[2], out DialogueType type);
                 string charName = parts[3];
                 string text = parts[4];
@@ -115,7 +151,8 @@ public class DialogueCsvReader : MonoBehaviour
                 {
                     type = type,
                     characterName = charName,
-                    text = text
+                    text = text,
+                    baseIndex = baseIndex
                 };
 
                 if (parts.Length > 5 && !string.IsNullOrWhiteSpace(parts[5]))
@@ -125,14 +162,18 @@ public class DialogueCsvReader : MonoBehaviour
                     dialogueLine.choices = parts[6].Split('|').Select(s => s.Trim()).ToArray();
 
                 if (parts.Length > 7 && !string.IsNullOrWhiteSpace(parts[7]))
-                    dialogueLine.nextLineIndices = parts[7].Split('|').Select(s => int.TryParse(s.Trim(), out var i) ? i : -1).Where(i => i >= 0).ToArray();
+                    dialogueLine.nextLineIndices = parts[7].Split('|')
+                        .Select(s => int.TryParse(s.Trim(), out var i) ? i : -1)
+                        .Where(i => i >= 0).ToArray();
 
                 if (parts.Length > 8 && !string.IsNullOrWhiteSpace(parts[8]))
                     dialogueLine.shopData = Resources.Load<ShopData>(parts[8].Trim());
 
                 if (!result.ContainsKey(dialogueID))
                     result[dialogueID] = new List<(int, DialogueLine)>();
-                result[dialogueID].Add((lineIndex, dialogueLine));
+
+                result[dialogueID].Add((autoIndex, dialogueLine));
+                autoIndex++;
             }
         }
         return result;
