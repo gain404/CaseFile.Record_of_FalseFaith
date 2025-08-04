@@ -1,25 +1,25 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class InvestigationManager : Singleton<InvestigationManager>
 {
     [Header("Timer UI")]
     [SerializeField] private GameObject timerUI;
-    [SerializeField] private Image timerFill;
+    [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private float investigationDuration = 30f;
 
     private bool _isInvestigating;
     private int _currentItemIndex;
     private float _timeRemaining;
 
-    private UIInvestigation _uiInvestigation;  // 조사 파일 UI
-    private UIInventory _inventory;           // 실제 인벤토리 UI
-    private UIDialogue _uiDialogue;           // 대화 UI
+    private UIInvestigation _uiInvestigation;
+    private UIInventory _inventory;
+    private UIDialogue _uiDialogue;
 
     protected override void Awake()
     {
-        base.Awake(); 
+        base.Awake();
         timerUI.SetActive(false);
     }
 
@@ -29,10 +29,10 @@ public class InvestigationManager : Singleton<InvestigationManager>
         _inventory = FindObjectOfType<UIInventory>();
         _uiDialogue = FindObjectOfType<UIDialogue>();
     }
-    
+
     public void StartInvestigation(int itemIndex)
     {
-        if (_isInvestigating) return; // 중복 방지
+        if (_isInvestigating) return;
 
         _isInvestigating = true;
         _currentItemIndex = itemIndex;
@@ -40,46 +40,47 @@ public class InvestigationManager : Singleton<InvestigationManager>
         // 타이머 시작
         timerUI.SetActive(true);
         _timeRemaining = investigationDuration;
-        timerFill.fillAmount = 1f;
+        UpdateTimerText();
         StartCoroutine(TimerRoutine());
 
         Debug.Log($"[Investigation] 아이템 {itemIndex} 조사 시작. {investigationDuration}초 후 완료.");
 
-        // Second Dialogue로 전환
+        // 세컨드 대사 전환 후 대화 종료
         if (_uiDialogue != null)
         {
-            // UIDialogue 내부에 구현 필요
             _uiDialogue.ForceEndAndStartSecondDialogue();
         }
 
         // 조사 모드 종료 → 인벤토리 닫기
         if (_inventory != null)
         {
-            _inventory.Toggle(); // 인벤토리 닫기
+            _inventory.ExitInvestigationMode();
         }
     }
-    //조사 타이머
+
     private IEnumerator TimerRoutine()
     {
         while (_timeRemaining > 0f)
         {
             _timeRemaining -= Time.deltaTime;
-            timerFill.fillAmount = _timeRemaining / investigationDuration;
+            UpdateTimerText();
             yield return null;
         }
 
         EndInvestigation();
     }
 
-    /// <summary>
-    /// 조사 완료 처리
-    /// </summary>
+    private void UpdateTimerText()
+    {
+        int seconds = Mathf.CeilToInt(_timeRemaining);
+        timerText.text = seconds.ToString();
+    }
+
     private void EndInvestigation()
     {
         timerUI.SetActive(false);
         _isInvestigating = false;
 
-        // 조사 파일에 정보 추가
         if (_uiInvestigation != null)
         {
             _uiInvestigation.GetInvestigation(_currentItemIndex);
