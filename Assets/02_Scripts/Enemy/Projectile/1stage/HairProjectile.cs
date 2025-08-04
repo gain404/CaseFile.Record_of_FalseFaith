@@ -4,14 +4,16 @@ public class HairProjectile : MonoBehaviour
 {
     [SerializeField] private int damage = 1;
     [SerializeField] private LayerMask hitLayerMask;
-    [SerializeField] private HairZone hairZone;
+    [SerializeField] private GameObject hairProjectileController;
 
     private Animator _animator;
+    private PoolManager _poolManager;
     private readonly int _hairAttack = Animator.StringToHash("HairAttack");
 
     private void Awake()
     {
         _animator = gameObject.GetComponent<Animator>();
+        _poolManager = PoolManager.Instance;
     }
 
     public void HairAttack()
@@ -21,7 +23,7 @@ public class HairProjectile : MonoBehaviour
 
     private void FinishAttack()
     {
-        hairZone.CloseZone();
+        _poolManager.Return(PoolKey.HairProjectile, hairProjectileController);
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
