@@ -9,9 +9,21 @@ public class ObjectiveData
     public string content; // 목표 설명 텍스트
     public bool achieve; // 목표 달성 여부
     public ObjectiveType type;
-    public string targetId; // 아이템ID, 위치ID, 몬스터ID 등
-    public int targetCount; // 필요한 개수
-    public int currentCount; // 현재 진행도
+
+
+    // 여러 목표 항목
+    public List<ObjectiveRequirement> requirements = new List<ObjectiveRequirement>();
+
+    // 특정 퀘스트를 완료하면 이어서 활성화될 퀘스트들 [101;102] 이런 식으로 추가하시면 됩니다.
+    public List<int> nextObjectiveIds = new List<int>();
+}
+
+[System.Serializable]
+public class ObjectiveRequirement
+{
+    public string targetId;     // 아이템ID, 위치ID, 몬스터ID 등
+    public int targetCount;     // 필요 개수
+    public int currentCount;    // 현재 수집한 개수
 }
 
 public enum ObjectiveType
@@ -28,6 +40,7 @@ public class ObjectiveManager : MonoBehaviour
     [SerializeField] private ObjectiveDataLoader dataLoader;
     [SerializeField] private UIObjective objectiveUI; // 퀘스트 UI를 업데이트하는 UI 컴포넌트
     [SerializeField] private UIObjectiveCompleteNotifier completeNotifier; // 퀘스트 달성시 알려주는 UI 컴포넌트
+    [SerializeField] private TriggerObjectiveDataLoader triggerLoader; // 아이템 먹을 시 트리거가 있는지 체크
 
     private List<ObjectiveData> activeObjectives = new List<ObjectiveData>(); // 현재 진행 중인 목표 목록
     private List<ObjectiveData> completedObjectives = new List<ObjectiveData>(); // 완료된 목표 목록
@@ -36,6 +49,9 @@ public class ObjectiveManager : MonoBehaviour
     // 목표가 완료되었을 때, 또는 업데이트 되었을 때 호출되는 이벤트
     public System.Action<ObjectiveData> OnObjectiveCompleted;
     public System.Action<ObjectiveData> OnObjectiveUpdated;
+
+
+    private HashSet<int> registeredObjectiveIds = new HashSet<int>();
 
     private void Awake()
     {
@@ -52,7 +68,9 @@ public class ObjectiveManager : MonoBehaviour
 
     private void Start()
     {
-        if(completeNotifier == null)
+        triggerLoader.LoadTriggerData();
+
+        if (completeNotifier == null)
         {
             completeNotifier = FindAnyObjectByType<UIObjectiveCompleteNotifier>();
         }
@@ -98,20 +116,53 @@ public class ObjectiveManager : MonoBehaviour
         for (int i = activeObjectives.Count - 1; i >= 0; i--)
         {
             var objective = activeObjectives[i];
-            if (objective.type == ObjectiveType.CollectItem &&
-                objective.targetId == itemId &&
-                !objective.achieve)
-            {
-                objective.currentCount += count;
 
-                if (objective.currentCount >= objective.targetCount)//목표 달성시
+            if (objective.type == ObjectiveType.CollectItem && !objective.achieve) // 아이템 모으는 퀘스트이고 달성되지 않았다면
+            {
+                bool updated = false;
+
+                foreach (var req in objective.requirements)
                 {
-                    CompleteObjective(objective);//목표 완료
+                    if (req.targetId == itemId)
+                    {
+                        req.currentCount += count;
+                        req.currentCount = Mathf.Min(req.currentCount, req.targetCount); // 현재 소지품과 목표 개수 중 적은 쪽으로 업데이트
+                        updated = true;
+                    }
                 }
-                else//목표 미 달성시
+                // 위의 foreach문에서 변화가 있었다면 
+                if (updated)
                 {
-                    OnObjectiveUpdated?.Invoke(objective);// 진행도 업데이트 이벤트 발생
-                    objectiveUI.UpdateObjectiveProgress(objective);// UI에 진행도 반영
+                    // 전체 조건 달성 여부 체크
+                    bool allMet = objective.requirements.TrueForAll(r => r.currentCount >= r.targetCount);
+                    // 모두 충족되었다면
+                    if (allMet)
+                    {
+                        CompleteObjective(objective);
+                    }
+                    else // 아니라면
+                    {
+                        OnObjectiveUpdated?.Invoke(objective);
+                        objectiveUI.UpdateObjectiveProgress(objective);
+                    }
+                }
+            }
+        }
+
+        // 추가: 아이템 기반 퀘스트 트리거
+        var triggered = triggerLoader.GetTriggeredQuests(itemId);
+        foreach (int questId in triggered)
+        {
+            if (!registeredObjectiveIds.Contains(questId))
+            {
+                var newObjective = dataLoader.GetObjective(questId);
+                if (newObjective != null)
+                {
+                    activeObjectives.Add(newObjective);
+                    registeredObjectiveIds.Add(questId);
+
+                    objectiveUI.UpdateObjectiveDisplay(activeObjectives); // UI에도 반영
+                    Debug.Log($"아이템 {itemId}로 인해 퀘스트 {questId}가 추가되었습니다.");
                 }
             }
         }
@@ -120,16 +171,40 @@ public class ObjectiveManager : MonoBehaviour
     // 위치 도달 시 호출
     public void OnLocationReached(string locationId)
     {
+        Debug.Log("목표 도달 확인하기");
         // 역순 반복으로 안전하게 처리
         for (int i = activeObjectives.Count - 1; i >= 0; i--)
         {
             var objective = activeObjectives[i];
 
-            if (objective.type == ObjectiveType.ReachLocation &&
-                objective.targetId == locationId &&
-                !objective.achieve)
+
+            if (objective.type == ObjectiveType.ReachLocation && !objective.achieve)
             {
-                CompleteObjective(objective);
+                bool updated = false;
+                foreach (var req in objective.requirements)
+                {
+                    Debug.Log($"{locationId}와 목표인 {req.targetId}가 같은지 확인");
+                    if (req.targetId == locationId)
+                    {
+                        Debug.Log($"{locationId} 도달 퀘스트 완료");
+                        req.currentCount = 1; // 도달은 한 번으로 완료되므로
+                        updated = true;
+                    }
+                }
+
+                if (updated)
+                {
+                    bool allMet = objective.requirements.TrueForAll(r => r.currentCount >= r.targetCount);
+                    if (allMet)
+                    {
+                        CompleteObjective(objective);
+                    }
+                    else
+                    {
+                        OnObjectiveUpdated?.Invoke(objective);
+                        objectiveUI.UpdateObjectiveProgress(objective);
+                    }
+                }
             }
         }
     }
@@ -141,20 +216,32 @@ public class ObjectiveManager : MonoBehaviour
         for (int i = activeObjectives.Count - 1; i >= 0; i--)
         {
             var objective = activeObjectives[i];
-            if (objective.type == ObjectiveType.DefeatMonster &&
-                objective.targetId == monsterId &&
-                !objective.achieve)
+            if (objective.type == ObjectiveType.DefeatMonster && !objective.achieve)
             {
-                objective.currentCount += count;
+                bool updated = false;
 
-                if (objective.currentCount >= objective.targetCount)
+                foreach (var req in objective.requirements)
                 {
-                    CompleteObjective(objective);
+                    if (req.targetId == monsterId)
+                    {
+                        req.currentCount += count;
+                        req.currentCount = Mathf.Min(req.currentCount, req.targetCount);
+                        updated = true;
+                    }
                 }
-                else
+
+                if (updated)
                 {
-                    OnObjectiveUpdated?.Invoke(objective);
-                    objectiveUI.UpdateObjectiveProgress(objective);
+                    bool allMet = objective.requirements.TrueForAll(r => r.currentCount >= r.targetCount);
+                    if (allMet)
+                    {
+                        CompleteObjective(objective);
+                    }
+                    else
+                    {
+                        OnObjectiveUpdated?.Invoke(objective);
+                        objectiveUI.UpdateObjectiveProgress(objective);
+                    }
                 }
             }
         }

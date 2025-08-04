@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class ObjectiveDataLoader : MonoBehaviour
 {
-    [SerializeField] private TextAsset csvFile;
+    [Header("CSV Files")]
+    [SerializeField] private TextAsset goalDataCSV;
+    [SerializeField] private TextAsset goalRequirmentCSV;
+
     private Dictionary<int, ObjectiveData> objectiveDatabase = new Dictionary<int, ObjectiveData>();
 
     private void Start()
@@ -25,29 +28,65 @@ public class ObjectiveDataLoader : MonoBehaviour
 
     public void LoadObjectiveData()
     {
-        if (csvFile == null) return;
-
-        string[] lines = csvFile.text.Split('\n');
-
-        // 헤더 스킷
-        for (int i = 1; i < lines.Length; i++)
+        if (goalDataCSV == null || goalRequirmentCSV == null)
         {
-            string[] values = lines[i].Split(',');
+            Debug.LogError("CSV 파일이 설정되지 않았습니다!");
+            return;
+        }
+
+        // 1단계: 퀘스트 본문 로드
+        string[] questLines = goalDataCSV.text.Split('\n');
+
+        for (int i = 1; i < questLines.Length; i++) // 헤더 스킵
+        {
+            string[] values = questLines[i].Trim().Split(',');
             if (values.Length < 3) continue;
+
+            int idx = int.Parse(values[0]);
+            string content = values[1];
+            string typeStr = values[3];
+            ObjectiveType type = ParseObjectiveType(typeStr);
 
             ObjectiveData data = new ObjectiveData
             {
-                idx = int.Parse(values[0]),
-                content = values[1],
-                achieve = bool.Parse(values[2]),
-                type = ParseObjectiveType(values[3]),
-                targetId = values.Length > 4 ? values[4] : "",
-                targetCount = values.Length > 5 ? int.Parse(values[5]) : 1,
-                currentCount = 0
+                idx = idx,
+                content = content,
+                type = type,
+                achieve = false,
+                requirements = new List<ObjectiveRequirement>()
             };
 
-            objectiveDatabase[data.idx] = data;
+            objectiveDatabase[idx] = data;
         }
+
+        // 2단계: 조건 로드
+        string[] reqLines = goalRequirmentCSV.text.Split('\n');
+
+        for (int i = 1; i < reqLines.Length; i++)
+        {
+            string[] values = reqLines[i].Trim().Split(',');
+            if (values.Length < 3) continue;
+
+            int questIdx = int.Parse(values[0]);
+            string targetId = values[1];
+            int count = int.Parse(values[2]);
+
+            if (objectiveDatabase.TryGetValue(questIdx, out var objective))
+            {
+                objective.requirements.Add(new ObjectiveRequirement
+                {
+                    targetId = targetId,
+                    targetCount = count,
+                    currentCount = 0
+                });
+            }
+            else
+            {
+                Debug.LogWarning($"요구 조건에 대응되는 퀘스트 ID {questIdx}가 없습니다.");
+            }
+        }
+
+        Debug.Log($"퀘스트 {objectiveDatabase.Count}개 로드 완료");
     }
 
     private ObjectiveType ParseObjectiveType(string typeString)
