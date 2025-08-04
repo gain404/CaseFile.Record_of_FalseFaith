@@ -39,7 +39,7 @@ public class UIDialogue : MonoBehaviour
     private DialogueAsset _currentDialogue;
     private int _currentIndex;
     private Coroutine _displayCoroutine;
-    private bool _isClickLocked; // 연속 클릭 방지를 위한 잠금 변수
+    private bool _isClickLocked;
 
     private CinemachineCamera _dialogueCamera;
     private string[] _currentItemLines;
@@ -49,15 +49,18 @@ public class UIDialogue : MonoBehaviour
     private TMP_Text[] _buttonTexts;
     private FadeManager _fadeManager;
 
+    // 🔹 조사 후 세컨드 대화를 위해 NPC 정보 저장
+    private NPCData _currentNpcData;
+    private Transform _currentNpcTransform;
+
     private void Start()
     {
         _uiShop = UIManager.Instance.UIShop;
         CurrentState = DialogueState.Inactive;
         _buttonTexts = new TMP_Text[choiceButtons.Length];
         for (int i = 0; i < choiceButtons.Length; i++)
-        {
             _buttonTexts[i] = choiceButtons[i].GetComponentInChildren<TMP_Text>();
-        }
+
         GameObject dialogueCamera = GameObject.FindGameObjectWithTag("DialogueCamera");
         _dialogueCamera = dialogueCamera.GetComponent<CinemachineCamera>();
         _fadeManager = FadeManager.Instance;
@@ -65,11 +68,15 @@ public class UIDialogue : MonoBehaviour
     }
 
     // --- 대화 시작/종료 ---
-    public void StartDialogue(DialogueAsset asset, Transform dialogueTarget)
+    public void StartDialogue(DialogueAsset asset, Transform dialogueTarget, NPCData npcData = null)
     {
         if (CurrentState != DialogueState.Inactive) return;
+
         _currentDialogue = asset;
         _isItemDialogue = false;
+        _currentNpcData = npcData;
+        _currentNpcTransform = dialogueTarget;
+
         SetCameraTarget(dialogueTarget);
         StartDialogueCommon();
     }
@@ -136,6 +143,18 @@ public class UIDialogue : MonoBehaviour
         _currentItemLines = null;
     }
 
+    // --- 조사 전용: 대화 강제 종료 후 세컨드 대화 시작 ---
+    public void ForceEndAndStartSecondDialogue()
+    {
+        EndDialogue();
+
+        if (_currentNpcData != null && _currentNpcData.secondDialogueAsset != null)
+        {
+            Debug.Log("[Dialogue] 세컨드 대화 시작");
+            StartDialogue(_currentNpcData.secondDialogueAsset, _currentNpcTransform, _currentNpcData);
+        }
+    }
+
     // --- 입력 처리 ---
     public void HandleClick()
     {
@@ -168,7 +187,7 @@ public class UIDialogue : MonoBehaviour
         }
     }
 
-    // --- 핵심: 모든 대사 이동을 중앙에서 처리 ---
+    // --- 모든 대사 이동을 중앙에서 처리 ---
     private void GoToLine(int targetIndex)
     {
         if (targetIndex >= _currentDialogue.lines.Length)
@@ -177,7 +196,6 @@ public class UIDialogue : MonoBehaviour
             return;
         }
 
-        // Dictionary 복구 (런타임 안전장치)
         if (_currentDialogue.randomGroups == null &&
             _currentDialogue.randomGroupList != null &&
             _currentDialogue.randomGroupList.Count > 0)
@@ -208,7 +226,7 @@ public class UIDialogue : MonoBehaviour
             ? currentLine.nextLineIndices[0]
             : _currentIndex + 1;
 
-        Debug.Log($"[Dialogue] AdvanceDialogue 호출됨. 다음 목표 인덱스: {nextIndex}");
+        Debug.Log($"[Dialogue] AdvanceDialogue 호출됨 → 다음 목표 {nextIndex}");
         GoToLine(nextIndex);
     }
 
@@ -219,7 +237,7 @@ public class UIDialogue : MonoBehaviour
 
         DialogueLine line = _currentDialogue.lines[_currentIndex];
         int targetIndex = line.nextLineIndices[choiceIndex];
-        Debug.Log($"[Dialogue] 선택지 {choiceIndex}번 선택 → 목표 인덱스 {targetIndex}");
+        Debug.Log($"[Dialogue] 선택지 {choiceIndex} 선택 → 목표 {targetIndex}");
 
         GoToLine(targetIndex);
     }
@@ -230,7 +248,6 @@ public class UIDialogue : MonoBehaviour
         _displayCoroutine = StartCoroutine(DisplayLineCoroutine());
     }
 
-    // --- 대사 표시 코루틴 ---
     private IEnumerator DisplayLineCoroutine()
     {
         SetState(DialogueState.Transitioning);
@@ -298,7 +315,7 @@ public class UIDialogue : MonoBehaviour
         dialoguePanel.SetActive(false);
     }
 
-    #region Other Methods (화자/선택지/애니메이션)
+    #region Other Methods
     private IEnumerator TransitionSpeaker(DialogueLine line)
     {
         bool isPlayer = (line.type == DialogueType.PlayerLine || line.type == DialogueType.PlayerChoice);

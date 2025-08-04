@@ -196,10 +196,16 @@ public class UIInventory : MonoBehaviour
     {
         if (!_isInvestigationMode || _selectedItem == null) return;
 
-        int investigationIndex = _selectedItem.item.investigationIndex; 
-        // ItemData에 investigationIndex 필드가 있어야 함
-        InvestigationManager.Instance.StartInvestigation(investigationIndex);
+        ItemData data = _selectedItem.item;
+        if (!data.canInvestigate)
+        {
+            Debug.Log("[Inventory] 조사 불가능한 아이템입니다.");
+            return;
+        }
+
+        InvestigationManager.Instance.StartInvestigation(data.investigationIndex);
     }
+
 
     //  인벤토리 새로고침 (요청하신 그대로 유지)
     public void RefreshUI()
