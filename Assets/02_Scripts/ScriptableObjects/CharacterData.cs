@@ -29,6 +29,7 @@ public class BaseStat
 {
     public StatType Type;
     public float Value;
+    public float MaxValue;
 }
 
 
