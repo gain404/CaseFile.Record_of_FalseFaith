@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Unity.Behavior;
 using Unity.Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class TestBossRoom : MonoBehaviour
 {
@@ -12,6 +12,7 @@ public class TestBossRoom : MonoBehaviour
     [SerializeField] private LayerMask playerLayerMask;
     [SerializeField] private CinemachineCamera cineMachineCamera;
     [SerializeField] private GameObject monster;
+    [SerializeField] private Light2D globalLight;
 
     private BoxCollider2D _boxCollider2D;
 
@@ -47,6 +48,7 @@ public class TestBossRoom : MonoBehaviour
         string isInRoom = "IsPlayerInBossRoom";
         DOVirtual.DelayedCall(1.0f, () =>
         {
+            globalLight.color = new Color(0.01f, 0.01f, 0.01f, 1);
             BehaviorGraphAgent agent = monster.GetComponent<BehaviorGraphAgent>();
             monster.SetActive(true);
             agent.BlackboardReference.SetVariableValue(isInRoom, true);
