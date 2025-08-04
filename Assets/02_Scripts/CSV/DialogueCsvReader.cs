@@ -1,4 +1,3 @@
-// DialogueCsvReader.cs
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +9,6 @@ using UnityEditor;
 
 public class DialogueCsvReader : MonoBehaviour
 {
-    [Tooltip("Resources 폴더 내 CSV 파일 이름 (확장자 제외)")]
     [SerializeField] private string dialogueCsvFileName = "DialogueData";
 
     private void Awake()
@@ -33,35 +31,16 @@ public class DialogueCsvReader : MonoBehaviour
         foreach (var kvp in grouped)
         {
             string dialogueID = kvp.Key;
-
-            // 랜덤 그룹 계산
-            var groups = kvp.Value
-                .GroupBy(x => x.line.baseIndex)
-                .Where(g => g.Count() > 1)
-                .ToDictionary(
-                    g => g.Key,
-                    g => g.Select(x => x.lineIndex).ToArray()
-                );
-
-            // 각 라인에 randomGroupIndices 할당
-            foreach (var (lineIndex, line) in kvp.Value)
-            {
-                if (groups.TryGetValue(line.baseIndex, out var group))
-                {
-                    line.randomGroupIndices = group;
-                }
-            }
-
-            // 최종 정렬 후 배열로 변환
+            // CSV에서 읽은 lineIndex 기준 정렬
             var lineList = kvp.Value.OrderBy(x => x.lineIndex).Select(x => x.line).ToArray();
 
-            // ID 파싱
             int underscoreIndex = dialogueID.LastIndexOf('_');
             if (underscoreIndex < 0)
             {
                 Debug.LogError($"DialogueID '{dialogueID}' 는 '_First' 또는 '_Second' 접미사가 필요합니다.");
                 continue;
             }
+
             string npcID = dialogueID.Substring(0, underscoreIndex);
             string suffix = dialogueID.Substring(underscoreIndex + 1);
 
@@ -83,6 +62,24 @@ public class DialogueCsvReader : MonoBehaviour
                 EditorUtility.SetDirty(dialogueAsset);
             }
 #endif
+
+            // 🔹 랜덤 그룹 생성 (2_0, 2_1 같은 라인만)
+            var randomGroups = kvp.Value
+                .Where(x => !string.IsNullOrEmpty(x.rawIndex) && x.rawIndex.Contains("_")) // "_" 있는 라인만
+                .GroupBy(x => x.line.baseIndex)
+                .Where(g => g.Count() > 1)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Select(x => x.lineIndex).ToArray()
+                );
+
+            // 직렬화용 리스트 생성
+            dialogueAsset.randomGroupList = randomGroups
+                .Select(g => new DialogueAsset.RandomGroup { baseIndex = g.Key, indices = g.Value })
+                .ToList();
+
+            // 런타임 딕셔너리 세팅
+            dialogueAsset.randomGroups = randomGroups;
 
             if (npcMap.TryGetValue(npcID, out var npcData))
             {
@@ -108,9 +105,12 @@ public class DialogueCsvReader : MonoBehaviour
 #endif
     }
 
-    private Dictionary<string, List<(int lineIndex, DialogueLine line)>> ParseCsvAndGroupById()
+    /// <summary>
+    /// CSV → (lineIndex, rawIndex, DialogueLine) 리스트 반환
+    /// </summary>
+    private Dictionary<string, List<(int lineIndex, string rawIndex, DialogueLine line)>> ParseCsvAndGroupById()
     {
-        var result = new Dictionary<string, List<(int, DialogueLine)>>();
+        var result = new Dictionary<string, List<(int, string, DialogueLine)>>();
         var csv = Resources.Load<TextAsset>(dialogueCsvFileName);
         if (csv == null)
         {
@@ -133,9 +133,8 @@ public class DialogueCsvReader : MonoBehaviour
                 if (parts.Length < 5) continue;
 
                 string dialogueID = parts[0].Trim();
-                string rawIndex = parts[1].Trim();
+                string rawIndex = parts[1].Trim();  // 예: 2_0
 
-                // baseIndex 추출 (2_0 → 2)
                 int baseIndex = autoIndex;
                 if (!string.IsNullOrEmpty(rawIndex))
                 {
@@ -170,9 +169,9 @@ public class DialogueCsvReader : MonoBehaviour
                     dialogueLine.shopData = Resources.Load<ShopData>(parts[8].Trim());
 
                 if (!result.ContainsKey(dialogueID))
-                    result[dialogueID] = new List<(int, DialogueLine)>();
+                    result[dialogueID] = new List<(int, string, DialogueLine)>();
 
-                result[dialogueID].Add((autoIndex, dialogueLine));
+                result[dialogueID].Add((autoIndex, rawIndex, dialogueLine));
                 autoIndex++;
             }
         }

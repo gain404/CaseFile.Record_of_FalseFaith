@@ -5,7 +5,10 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.Cinemachine;
 using System;
+using System.Linq;
+
 public enum DialogueState { Inactive, Transitioning, Typing, WaitingForInput, ShowingChoices, Paused }
+
 public class UIDialogue : MonoBehaviour
 {
     public DialogueState CurrentState { get; private set; }
@@ -37,7 +40,7 @@ public class UIDialogue : MonoBehaviour
     private int _currentIndex;
     private Coroutine _displayCoroutine;
     private bool _isClickLocked; // 연속 클릭 방지를 위한 잠금 변수
-    // 기타 상태 변수
+
     private CinemachineCamera _dialogueCamera;
     private string[] _currentItemLines;
     private int _currentItemIndex;
@@ -45,6 +48,7 @@ public class UIDialogue : MonoBehaviour
     private UIShop _uiShop;
     private TMP_Text[] _buttonTexts;
     private FadeManager _fadeManager;
+
     private void Start()
     {
         _uiShop = UIManager.Instance.UIShop;
@@ -60,7 +64,7 @@ public class UIDialogue : MonoBehaviour
         EndDialogue();
     }
 
-    // --- 대화 시작/종료 로직 ---
+    // --- 대화 시작/종료 ---
     public void StartDialogue(DialogueAsset asset, Transform dialogueTarget)
     {
         if (CurrentState != DialogueState.Inactive) return;
@@ -75,9 +79,7 @@ public class UIDialogue : MonoBehaviour
         if (CurrentState != DialogueState.Inactive) return;
         _currentItemLines = lines;
         _isItemDialogue = true;
-        
         SetCameraTarget(itemTarget);
-
         StartDialogueCommon();
     }
     
@@ -85,7 +87,6 @@ public class UIDialogue : MonoBehaviour
     {
         if (targetParent != null)
         {
-            // 부모 오브젝트(NPC나 아이템) 밑에서 "CinemachineTarget"을 이름으로 찾음
             Transform newTarget = null;
             foreach (Transform child in targetParent)
             {
@@ -95,15 +96,7 @@ public class UIDialogue : MonoBehaviour
                     break;
                 }
             }
-            if (newTarget != null)
-            {
-                _dialogueCamera.Follow = newTarget;
-            }
-            else
-            {
-                // CinemachineTarget이 없으면 NPC/아이템 자체를 타겟으로 설정 (예비용)
-                _dialogueCamera.Follow = targetParent;
-            }
+            _dialogueCamera.Follow = newTarget != null ? newTarget : targetParent;
         }
     }
 
@@ -143,16 +136,12 @@ public class UIDialogue : MonoBehaviour
         _currentItemLines = null;
     }
 
-    // --- 핵심 입력 처리 (더욱 단순화) ---
+    // --- 입력 처리 ---
     public void HandleClick()
     {
-        // 입력이 잠겨있거나, 입력을 받을 상태가 아니면 무시
         if (_isClickLocked || CurrentState != DialogueState.WaitingForInput)
-        {
             return;
-        }
 
-        // 클릭이 처리되면 즉시 잠그고 다음 대사로 진행
         StartCoroutine(ClickLockout());
         AdvanceDialogue();
     }
@@ -160,11 +149,10 @@ public class UIDialogue : MonoBehaviour
     private IEnumerator ClickLockout()
     {
         _isClickLocked = true;
-        yield return new WaitForSeconds(0.2f); // 0.2초간 추가 클릭 방지
+        yield return new WaitForSeconds(0.2f);
         _isClickLocked = false;
     }
     
-    // --- 상태 및 UI 관리 ---
     private void SetState(DialogueState newState)
     {
         CurrentState = newState;
@@ -180,54 +168,69 @@ public class UIDialogue : MonoBehaviour
         }
     }
 
-    // --- 대화 진행 로직 ---
+    // --- 핵심: 모든 대사 이동을 중앙에서 처리 ---
+    private void GoToLine(int targetIndex)
+    {
+        if (targetIndex >= _currentDialogue.lines.Length)
+        {
+            EndDialogue();
+            return;
+        }
+
+        // Dictionary 복구 (런타임 안전장치)
+        if (_currentDialogue.randomGroups == null &&
+            _currentDialogue.randomGroupList != null &&
+            _currentDialogue.randomGroupList.Count > 0)
+        {
+            _currentDialogue.randomGroups = _currentDialogue.randomGroupList
+                .ToDictionary(g => g.baseIndex, g => g.indices);
+        }
+
+        int baseIdx = _currentDialogue.lines[targetIndex].baseIndex;
+        int finalIndex = targetIndex;
+
+        if (_currentDialogue.randomGroups != null &&
+            _currentDialogue.randomGroups.TryGetValue(baseIdx, out var group))
+        {
+            int randomPick = UnityEngine.Random.Range(0, group.Length);
+            finalIndex = group[randomPick];
+            Debug.Log($"[Dialogue] 랜덤 그룹 발견! BaseIndex={baseIdx}, 후보: [{string.Join(",", group)}] → 선택: {finalIndex}");
+        }
+
+        _currentIndex = finalIndex;
+        ShowLine();
+    }
+
     private void AdvanceDialogue()
     {
-        Debug.Log($"[Dialogue] AdvanceDialogue 호출됨, currentIndex={_currentIndex}");
-
         DialogueLine currentLine = _currentDialogue.lines[_currentIndex];
         int nextIndex = (currentLine.nextLineIndices?.Length > 0)
             ? currentLine.nextLineIndices[0]
             : _currentIndex + 1;
 
-        Debug.Log($"[Dialogue] nextIndex 초기값={nextIndex}");
-
-        if (nextIndex < _currentDialogue.lines.Length)
-        {
-            DialogueLine nextLine = _currentDialogue.lines[nextIndex];
-
-            if (nextLine.randomGroupIndices != null && nextLine.randomGroupIndices.Length > 1)
-            {
-                int randomPick = UnityEngine.Random.Range(0, nextLine.randomGroupIndices.Length);
-                nextIndex = nextLine.randomGroupIndices[randomPick];
-
-                Debug.Log($"[Dialogue] baseIndex={nextLine.baseIndex}, 후보={string.Join(",", nextLine.randomGroupIndices)} → 선택={nextIndex}");
-            }
-        }
-
-        _currentIndex = nextIndex;
-
-        if (_currentIndex >= _currentDialogue.lines.Length)
-        {
-            Debug.Log("[Dialogue] 대화 종료");
-            EndDialogue();
-            return;
-        }
-
-        ShowLine();
+        Debug.Log($"[Dialogue] AdvanceDialogue 호출됨. 다음 목표 인덱스: {nextIndex}");
+        GoToLine(nextIndex);
     }
 
+    private void OnChoiceSelected(int choiceIndex)
+    {
+        choicePanel.SetActive(false);
+        SetState(DialogueState.Transitioning);
 
+        DialogueLine line = _currentDialogue.lines[_currentIndex];
+        int targetIndex = line.nextLineIndices[choiceIndex];
+        Debug.Log($"[Dialogue] 선택지 {choiceIndex}번 선택 → 목표 인덱스 {targetIndex}");
 
-
+        GoToLine(targetIndex);
+    }
 
     private void ShowLine()
     {
         StopDisplayCoroutine();
         _displayCoroutine = StartCoroutine(DisplayLineCoroutine());
     }
-    
-    // --- 코루틴 로직 ---
+
+    // --- 대사 표시 코루틴 ---
     private IEnumerator DisplayLineCoroutine()
     {
         SetState(DialogueState.Transitioning);
@@ -236,26 +239,19 @@ public class UIDialogue : MonoBehaviour
         if (_isItemDialogue)
         {
             textToDisplay = _currentItemLines[_currentItemIndex];
-            yield return null; 
+            yield return null;
         }
         else
         {
             DialogueLine line = _currentDialogue.lines[_currentIndex];
             textToDisplay = line.text;
 
-            // ★★★ 여기가 최종 수정된 부분입니다 ★★★
-            // DisplayLineCoroutine 함수 전체를 이 코드로 사용하시면 됩니다.
             if (line.type == DialogueType.OpenStore)
             {
                 if (line.shopData != null && _uiShop != null)
                 {
                     dialoguePanel.SetActive(false);
                     _uiShop.OpenShop(line.shopData);
-                    
-                    // '첫 대화 완료'를 알리는 책임은 이제 PlayerInteractState가 가집니다.
-                    // 따라서 이 코드는 최종 설계에 따라 삭제됩니다.
-                    // if (_currentNpc != null) { _currentNpc.CompleteFirstDialogue(); }
-                    
                     PauseDialogue();
                     yield break;
                 }
@@ -265,8 +261,9 @@ public class UIDialogue : MonoBehaviour
                     yield break;
                 }
             }
-            
+
             yield return StartCoroutine(TransitionSpeaker(line));
+
             if (line.type == DialogueType.PlayerChoice)
             {
                 dialogueText.text = textToDisplay;
@@ -279,7 +276,7 @@ public class UIDialogue : MonoBehaviour
         yield return StartCoroutine(TypeTextCoroutine(textToDisplay));
         SetState(DialogueState.WaitingForInput);
     }
-    
+
     private IEnumerator TypeTextCoroutine(string text)
     {
         SetState(DialogueState.Typing);
@@ -290,20 +287,18 @@ public class UIDialogue : MonoBehaviour
             yield return new WaitForSeconds(typingSpeed);
         }
     }
-    public void PauseDialogue()
-    {
-        SetState(DialogueState.Paused);
-    }
+
+    public void PauseDialogue() => SetState(DialogueState.Paused);
 
     public void ResetDialogueState()
     {
-        StopAllCoroutines(); // 혹시 모를 코루틴 정지
+        StopAllCoroutines();
         SetState(DialogueState.Inactive);
-        IsDialogueFinished = true; // 대화가 끝났다고 확실히 명시
+        IsDialogueFinished = true;
         dialoguePanel.SetActive(false);
     }
-    
-    #region Other Methods (화자/선택지/애니메이션 - 수정 없음)
+
+    #region Other Methods (화자/선택지/애니메이션)
     private IEnumerator TransitionSpeaker(DialogueLine line)
     {
         bool isPlayer = (line.type == DialogueType.PlayerLine || line.type == DialogueType.PlayerChoice);
@@ -341,24 +336,6 @@ public class UIDialogue : MonoBehaviour
                 choiceButtons[i].onClick.RemoveAllListeners();
                 choiceButtons[i].onClick.AddListener(() => OnChoiceSelected(choiceIndex));
             }
-        }
-    }
-    private void OnChoiceSelected(int choiceIndex)
-    {
-        choicePanel.SetActive(false);
-
-        SetState(DialogueState.Inactive);
-    
-        DialogueLine line = _currentDialogue.lines[_currentIndex];
-        _currentIndex = line.nextLineIndices[choiceIndex];
-
-        if (_currentIndex >= _currentDialogue.lines.Length)
-        {
-            EndDialogue();
-        }
-        else
-        {
-            ShowLine();
         }
     }
     IEnumerator FadeCanvasGroup(CanvasGroup group, float targetAlpha)

@@ -8,15 +8,16 @@ public class DialogueLine
     [TextArea(2, 5)]
     public string text;
 
-    public string characterName;
-    public Sprite portrait;
+    public string characterName;         
+    public Sprite portrait;            
 
-    public string[] choices;
-    public int[] nextLineIndices;
-
+    public string[] choices;           
+    public int[] nextLineIndices;      
+    
     [Header("Store-Specific")]
+    [Tooltip("Type이 OpenStore일 때 연결할 상점 데이터")]
     public ShopData shopData;
 
-    public int baseIndex;                  // 그룹 기준 인덱스
-    public int[] randomGroupIndices;       // 같은 baseIndex 후보들
+    // 🔹 랜덤 그룹용 baseIndex
+    public int baseIndex;
 }
