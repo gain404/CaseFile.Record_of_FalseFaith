@@ -10,11 +10,12 @@ public class EnemyController : MonoBehaviour,IDamagable
     
     private float _enemyCurrentHealth;
     private GameObject _player;
-    private bool _isDie;
+    private bool _isHide;
 
     private void Awake()
     {
         _player = GameObject.FindWithTag("Player");
+        _isHide = false;
     }
     
     private void Start()
@@ -25,6 +26,10 @@ public class EnemyController : MonoBehaviour,IDamagable
 
     public void TakeDamage(float damage)
     {
+        if (_isHide)
+        {
+            return;
+        }
         Debug.Log("보스 데미지 입음 : " + damage);
         _enemyCurrentHealth -= damage;
         agent.BlackboardReference.SetVariableValue("CurrentHealth", _enemyCurrentHealth);
@@ -37,7 +42,16 @@ public class EnemyController : MonoBehaviour,IDamagable
     public void Die()
     {
         agent.enabled = false;
-        _isDie = true;
         spriteRenderer.DOFade(0, 2f).OnComplete(() => gameObject.SetActive(false));
+    }
+
+    private void Hide()
+    {
+        _isHide = true;
+    }
+
+    private void Reveal()
+    {
+        _isHide = false;
     }
 }

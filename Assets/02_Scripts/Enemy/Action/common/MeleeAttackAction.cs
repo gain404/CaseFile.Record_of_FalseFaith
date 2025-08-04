@@ -11,9 +11,7 @@ public partial class MeleeAttackAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<string> AttackTrigger;
-    [SerializeReference] public BlackboardVariable<string> Phase2AttackTrigger;
     [SerializeReference] public BlackboardVariable<float> Duration;
-    [SerializeReference] public BlackboardVariable<bool> IsPhase2;
     private bool _isAttack;
     private Animator _animator;
 
@@ -25,14 +23,7 @@ public partial class MeleeAttackAction : Action
         }
 
         _isAttack = false;
-        if (IsPhase2.Value)
-        {
-            _animator.SetTrigger(Phase2AttackTrigger.Value);
-        }
-        else
-        {
-            _animator.SetTrigger(AttackTrigger.Value); 
-        }
+        _animator.SetTrigger(AttackTrigger.Value);
         DOVirtual.DelayedCall(Duration, () =>
         {
             _isAttack = true;
