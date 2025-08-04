@@ -1,16 +1,24 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
+public enum PassageZoneType
+{
+    Open,
+    Close
+}
+
 public class PassageZone : MonoBehaviour, IInteractable
 {
     [SerializeField] private PassageInfo passageInfo;
     [SerializeField] private LayerMask hitLayerMask;
     [SerializeField] private GuideIconType currentguideIconType;
+    [SerializeField] private PassageZoneType currentPassageZoneType;
     private Player _player;
     private PlayerController _playerController;
     private CinemachineCamera _playerCinemachineCamera;
     private SfxPlayer _sfxPlayer;
     private FadeManager _fadeManager;
+    private UnlockPassageZone _unlockPassageZone;
     private bool _canPassage;
     
 
@@ -23,6 +31,7 @@ public class PassageZone : MonoBehaviour, IInteractable
         _playerCinemachineCamera = playerCamera.GetComponent<CinemachineCamera>();
         _sfxPlayer = GetComponent<SfxPlayer>();
         _fadeManager = FadeManager.Instance;
+        _unlockPassageZone = GetComponent<UnlockPassageZone>();
         _canPassage = false;
     }
     
@@ -39,17 +48,24 @@ public class PassageZone : MonoBehaviour, IInteractable
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (((1 << other.gameObject.layer) & hitLayerMask) != 0)
+        if (!IsInLayerMask(other.gameObject.layer, hitLayerMask))
+            return;
+
+        if (currentPassageZoneType == PassageZoneType.Open || _unlockPassageZone.IsOpen())
         {
             _canPassage = true;
-            _player.CurrentPassageZone = this;
-            UIManager.Instance.UIGuideIcon.OnGuideIcon(currentguideIconType, transform.position);
         }
+        else
+        {
+            _canPassage = false;
+        }
+        _player.CurrentPassageZone = this;
+        UIManager.Instance.UIGuideIcon.OnGuideIcon(currentguideIconType, transform.position);
     }
     
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (((1 << other.gameObject.layer) & hitLayerMask) != 0)
+        if (IsInLayerMask(other.gameObject.layer, hitLayerMask))
         {
             _canPassage = false;
             _player.CurrentPassageZone = null;
@@ -57,6 +73,11 @@ public class PassageZone : MonoBehaviour, IInteractable
         }
     }
 
+    private bool IsInLayerMask(int layer, LayerMask mask)
+    {
+        return ((1 << layer) & mask) != 0;
+    }
+    
     public string GetInteractPrompt()
     {
         return passageInfo.targetPositionName;
