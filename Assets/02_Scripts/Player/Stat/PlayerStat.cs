@@ -33,7 +33,7 @@ public class PlayerStat : MonoBehaviour
         foreach (var stat in data.Stats)
         {
             _currentStats.Add(stat.Type, stat.Value);
-            _maxStats.Add(stat.Type, stat.Value);
+            _maxStats.Add(stat.Type, stat.MaxValue);
         }
 
         if (!_currentStats.ContainsKey(StatType.Money))
@@ -130,6 +130,14 @@ public class PlayerStat : MonoBehaviour
         _isRecoveryOnCooldown = false;
     }
 
+    public void AddStat(StatType type, float value)
+    {
+        float currentValue = _currentStats.GetValueOrDefault(type);
+        float clampedValue = Mathf.Clamp(value + currentValue, 0, _maxStats[type]);
+
+        _currentStats[type] = clampedValue;
+    }
+    
     public void TakeDamage(float damage)
     {
         if (Consume(StatType.Heart, damage))
