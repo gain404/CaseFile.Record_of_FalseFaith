@@ -27,6 +27,6 @@ public class TutorialEnemy : MonoBehaviour
     private void Die()
     {
         animator.SetBool(IsDie,true);
-        spriteRenderer.DOFade(0.9f, 1.3f).OnComplete(() => gameObject.SetActive(false));
+        spriteRenderer.DOFade(0.9f, 1.0f).OnComplete(() => gameObject.SetActive(false));
     }
 }
