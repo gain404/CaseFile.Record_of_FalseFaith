@@ -21,8 +21,9 @@ public class PlayerStat : MonoBehaviour
     private UIStamina _uiStamina;
     private bool _isRecoveryOnCooldown;
     private const float RecoveryCooldownDuration = 10.0f;
-    
-    
+
+    public GameOverManager gameOverManager; // 할당 필요
+
     private void Awake()
     {
         var data = GetComponent<Player>().Data;
@@ -150,5 +151,8 @@ public class PlayerStat : MonoBehaviour
     private void Die()
     {
         Debug.Log($"{gameObject.name} 사망!");
+        // 연출부터 시작
+        UIGameOverEffect.Instance.PlayYouDiedEffect();
+        // 플레이어 비활성화, 애니메이션, 사운드 등도 여기에
     }
 }
