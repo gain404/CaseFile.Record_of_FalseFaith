@@ -7,11 +7,18 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// 게임의 세이브&로드 시스템을 관리하는 매니저 클래스
+/// 3개의 세이브 슬롯을 지원하며, JSON 형태로 데이터를 저장
+/// 싱글톤 패턴을 사용하여 전체 게임에서 하나의 인스턴스만 존재
+/// </summary>
 public class SaveManager : MonoBehaviour
 {
     public static SaveManager Instance;
-
+    // 최대 세이브 슬롯 개수 (0, 1, 2번 슬롯)
     private const int MAX_SAVE_SLOTS = 3;
+    // 세이브 파일이 저장될 디렉토리 경로
+    // Application.persistentDataPath + "/SaveFiles"
     private string saveDirectory;
 
     void Awake()
@@ -42,6 +49,7 @@ public class SaveManager : MonoBehaviour
     // 특정 슬롯에 게임 데이터 저장
     public void SaveGame(SaveData data, int slotIndex)
     {
+        // 슬롯 인덱스 유효성 검사
         if (slotIndex < 0 || slotIndex >= MAX_SAVE_SLOTS)
         {
             Debug.LogError("잘못된 슬롯 인덱스: " + slotIndex);
@@ -67,6 +75,7 @@ public class SaveManager : MonoBehaviour
         }
         catch (Exception e)
         {
+            // 저장 중 오류 발생 시 로그 출력
             Debug.LogError($"슬롯 {slotIndex} 저장 실패: " + e.Message);
         }
     }
@@ -74,6 +83,7 @@ public class SaveManager : MonoBehaviour
     // 특정 슬롯에서 게임 데이터 로드
     public SaveData LoadGame(int slotIndex)
     {
+        // 슬롯 인덱스 유효성 검사
         if (slotIndex < 0 || slotIndex >= MAX_SAVE_SLOTS)
         {
             Debug.LogError("잘못된 슬롯 인덱스: " + slotIndex);
@@ -82,11 +92,14 @@ public class SaveManager : MonoBehaviour
 
         try
         {
+            // 로드할 파일의 전체 경로 생성
             string filePath = Path.Combine(saveDirectory, $"save_slot_{slotIndex}.json");
-
+            // 파일이 존재하는지 확인
             if (File.Exists(filePath))
             {
+                // 파일에서 JSON 데이터 읽기
                 string jsonData = File.ReadAllText(filePath);
+                // JSON을 SaveData로 변환
                 SaveData data = JsonUtility.FromJson<SaveData>(jsonData);
 
                 Debug.Log($"슬롯 {slotIndex}에서 게임 로드 완료!");
@@ -103,11 +116,11 @@ public class SaveManager : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError($"슬롯 {slotIndex} 로드 실패: " + e.Message);
-            return new SaveData();
+            return new SaveData();// 빈 데이터 반환
         }
     }
 
-    // 특정 슬롯에 세이브 파일이 있는지 확인
+    // 특정 슬롯에 세이브 파일이 있는지 확인해서 bool값으로 반환
     public bool HasSaveFile(int slotIndex)
     {
         if (slotIndex < 0 || slotIndex >= MAX_SAVE_SLOTS)
@@ -142,11 +155,13 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    // 모든 슬롯 정보 가져오기
+    // 모든 세이브 슬롯의 정보를 배열로 반환
+    // UI에서 세이브 슬롯 목록을 표시할 때 사용
     public SaveData[] GetAllSaveSlots()
     {
+        // 최대 슬롯 개수만큼 배열 생성
         SaveData[] saveSlots = new SaveData[MAX_SAVE_SLOTS];
-
+        // 각 슬롯을 순회하며 데이터 로드
         for (int i = 0; i < MAX_SAVE_SLOTS; i++)
         {
             if (HasSaveFile(i))
@@ -162,11 +177,12 @@ public class SaveManager : MonoBehaviour
         return saveSlots;
     }
 
-    // 게임 로드 및 씬 이동 (개선된 버전)
+    // 게임 로드 및 씬 이동
     public void LoadGameAndScene(int slotIndex)
     {
+        // 슬롯에서 세이브 데이터 로드
         SaveData saveData = LoadGame(slotIndex);
-
+        // 로드된 데이터가 유효하고 씬 이름이 있는지 확인
         if (saveData != null && !string.IsNullOrEmpty(saveData.sceneName))
         {
             // 코루틴으로 안전한 씬 로드 및 데이터 복원
@@ -182,6 +198,7 @@ public class SaveManager : MonoBehaviour
     private IEnumerator LoadSceneAndRestoreData(SaveData saveData)
     {
         // 1. EventSystem 정리 (씬 로드 전)
+        // 씬 전환 시 EventSystem이 중복 생성되는 문제 방지
         CleanupEventSystems();
 
         // 2. 비동기 씬 로드
@@ -192,9 +209,11 @@ public class SaveManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         // 4. EventSystem 재확인 및 정리
+        // 새 씬에서도 EventSystem 중복 문제 해결
         CheckEventSystem();
 
         // 5. 모든 매니저들이 초기화될 시간 확보
+        // Awake, Start 메서드들이 완전히 실행되도록 대기
         yield return new WaitForSeconds(0.1f);
 
         // 6. 데이터 복원 시작
@@ -206,7 +225,9 @@ public class SaveManager : MonoBehaviour
     // EventSystem 정리
     private void CleanupEventSystems()
     {
+        // 현재 씬의 모든 EventSystem 찾기
         EventSystem[] eventSystems = FindObjectsByType<EventSystem>(FindObjectsSortMode.None);
+        // 첫 번째를 제외하고 나머지 모두 삭제
         for (int i = 1; i < eventSystems.Length; i++)
         {
             if (eventSystems[i] != null)
@@ -219,6 +240,7 @@ public class SaveManager : MonoBehaviour
     // EventSystem 확인 및 생성
     private void CheckEventSystem()
     {
+        // 현재 씬의 모든 EventSystem 찾기
         EventSystem[] eventSystems = FindObjectsByType<EventSystem>(FindObjectsSortMode.None);
 
         if (eventSystems.Length > 1)
@@ -283,6 +305,7 @@ public class SaveManager : MonoBehaviour
         }
 
         // 4. 플레이어 위치 복원
+        // 세이브된 좌표로 플레이어 이동
         Vector3 savedPosition = new Vector3(saveData.posX, saveData.posY, saveData.posZ);
         player.transform.position = savedPosition;
 
@@ -357,7 +380,7 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    // 모든 UI 새로고침 (안전한 버전)
+    // 모든 UI 새로고침
     private void SafeRefreshAllUI()
     {
         try
@@ -386,7 +409,7 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    // 기타 매니저들 데이터 복원 (안전한 버전)
+    // 기타 매니저들 데이터 복원
     private void SafeRestoreOtherManagersData(SaveData saveData)
     {
         try
