@@ -41,7 +41,7 @@ public class PlayerInteractState : PlayerActionState
         
             if (dialogueToStart != null)
             {
-                UIManager.Instance.UIDialogue.StartDialogue(dialogueToStart, npc.transform, npc.NpcData);
+                UIManager.Instance.UIDialogue.StartDialogue(dialogueToStart, npc.transform);
             }
             else
             {
