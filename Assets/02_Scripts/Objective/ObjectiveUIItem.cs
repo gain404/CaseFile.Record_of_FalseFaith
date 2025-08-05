@@ -70,17 +70,53 @@ public class ObjectiveUIItem : MonoBehaviour
     {
         if (progressText == null) return;
 
-        // 진행도 텍스트 업데이트
-        if (objective.targetCount > 1)
+        if (objective.requirements.Count > 1)
         {
-            progressText.text = $"({objective.currentCount}/{objective.targetCount})";
+            string combined = "";
+            foreach (var requirement in objective.requirements)
+            {
+                combined += $"{GetItemName(requirement.targetId)} ({requirement.currentCount}/{requirement.targetCount})\n";
+            }
+            progressText.text = combined.TrimEnd();
             progressText.gameObject.SetActive(true);
+        }
+        else if (objective.requirements.Count == 1)
+        {
+            var r = objective.requirements[0];
+            progressText.text = $"({r.currentCount}/{r.targetCount})";
+
+            // 목표 개수가 1 이상이면 보여주고, 1이면 숨김 (옵션)
+            if (r.targetCount > 1)
+                progressText.gameObject.SetActive(true);
+            else
+                progressText.gameObject.SetActive(false);
         }
         else
         {
-            // 목표 개수가 1이면 진행도 텍스트를 숨김
+            // 목표가 없는 경우 (예외 처리용)
+            progressText.text = "";
             progressText.gameObject.SetActive(false);
         }
+    }
+
+    public string GetItemName(string targetId)
+    {
+        if (int.TryParse(targetId, out int id))
+        {
+            ItemData itemData = ItemDatabase.Instance.GetItemData(id);
+            if (itemData != null)
+                return itemData.itemName;
+        }
+        else if (targetId.StartsWith("location_"))
+        {
+            return "위치 도달";
+        }
+        else if (targetId.StartsWith("monster_"))
+        {
+            return "몬스터 처치";
+        }
+
+        return "알 수 없음";
     }
 
     /// <summary>

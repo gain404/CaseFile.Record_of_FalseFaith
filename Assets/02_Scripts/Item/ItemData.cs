@@ -22,6 +22,11 @@ public class ItemData : ScriptableObject
     public int healHP;
     public int healStamina;
     public bool canSearch;
+
+    [Header("Investigation")] 
+    public bool canInvestigate;          // 인스펙터에서 체크하면 조사 가능한 아이템
+    public int investigationIndex;  // CSV idx (예: 101)
+
     public int stageAvailable;
     public string acquireCondition;
     public int itemPrice;

@@ -4,13 +4,13 @@ using UnityEngine;
 public enum UIType
 {
     UIInventory, UIDialogue,UIShop,UIHealth,UIStamina,UIPrompt,
-    UIInvestigation, UISave, UILoad, UIMap, UIGuideIcon,UITutorial,
+    UIInvestigation, UISave, UILoad, UIMap, UIGuideIcon,UITutorial, UIScript,
     Title
 }
 
 public enum SceneName
 {
-    Chapter1,Chapter2,Chapter3
+    Tutorial,Chapter1,Chapter2,Chapter3
 }
 
 [System.Serializable]

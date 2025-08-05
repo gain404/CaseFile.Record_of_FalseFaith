@@ -11589,6 +11589,7 @@ GameObject:
   - component: {fileID: 5753250295484717961}
   - component: {fileID: 5796910174445653243}
   - component: {fileID: 2570871877694420995}
+  - component: {fileID: 1256496996701627920}
   m_Layer: 0
   m_Name: HotDog_Item
   m_TagString: Item
@@ -11604,14 +11605,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3291071168955004375}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.1861354, y: 0.019898321, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.39576793, w: 0.91835064}
+  m_LocalPosition: {x: 1.1861354, y: -0.0357, z: 0}
   m_LocalScale: {x: 0.04853251, y: 0.04853251, z: 0.04853251}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8383328693190316770}
   m_Father: {fileID: 6194046220063365355}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 46.628}
 --- !u!61 &5753250295484717961
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11649,10 +11650,10 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.15, y: 1.24}
+    newSize: {x: 1.15, y: 1.24}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
@@ -11684,6 +11685,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   guideIconType: 2
+--- !u!212 &1256496996701627920
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3291071168955004375}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 20
+  m_Sprite: {fileID: -4233411480161985835, guid: 0675e662b8e180b45bdd4a0e41f965cb, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.15, y: 1.24}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &3293862198390376463
 GameObject:
   m_ObjectHideFlags: 0
@@ -25161,6 +25217,7 @@ MonoBehaviour:
     m_Bits: 4096
   cineMachineCamera: {fileID: 5059938413969519403}
   monster: {fileID: 2808398183349648660}
+  globalLight: {fileID: 0}
 --- !u!61 &8002088387495150877
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -26307,7 +26364,7 @@ SpriteRenderer:
   m_Size: {x: 0.21, y: 0.18}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &7843039354663755759
