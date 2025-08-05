@@ -54,6 +54,8 @@ public class PlayerStat : MonoBehaviour
 
     public bool Consume(StatType type, float amount)
     {
+        float maxStat = GetMaxStatValue(type);
+
         if (isInvincible)
             return false;
         
@@ -68,6 +70,14 @@ public class PlayerStat : MonoBehaviour
         }
 
         _currentStats[type] -= amount;
+        if (type == StatType.Heart)
+        {
+            _uiHealth.UpdateHeart();
+        }
+        else if (type == StatType.Stamina)
+        {
+            _uiStamina.UpdateStamina(_currentStats[type], maxStat);
+        }
         OnStatChanged?.Invoke(type);
         return true;
     }
