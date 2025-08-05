@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class HairProjectile : MonoBehaviour
@@ -16,9 +17,9 @@ public class HairProjectile : MonoBehaviour
         _poolManager = PoolManager.Instance;
     }
 
-    public void HairAttack()
+    private void OnEnable()
     {
-        _animator.SetTrigger(_hairAttack);
+        DOVirtual.DelayedCall(0.5f, () => _animator.SetTrigger(_hairAttack));
     }
 
     private void FinishAttack()

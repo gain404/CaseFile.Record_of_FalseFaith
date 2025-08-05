@@ -315,7 +315,6 @@ MonoBehaviour:
   - rid: 5285736690839454048
   - rid: 5524834895492284630
   - rid: 5524834901609677179
-  - rid: 5524835009392017411
   m_IsInitialised: 0
   m_IsStarted: 0
   references:
@@ -345,14 +344,6 @@ MonoBehaviour:
           m_Value1: 6850356753096240394
         Name: HairAttackZone
         m_Value: {fileID: 3603486865456745011}
-    - rid: 5524835009392017411
-      type: {class: 'BlackboardVariable`1[[UnityEngine.Transform, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 8790947961141426919
-          m_Value1: 16962021332793333738
-        Name: HowlingAttackZone
-        m_Value: {fileID: 6306510008404257164}
 --- !u!114 &6569319263707056567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,7 +360,6 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 4096
-  spriteRenderer: {fileID: 5103508690448692392}
 --- !u!60 &9173680531016233034
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -475,6 +465,9 @@ MonoBehaviour:
   meleeAttack: {fileID: 246757438059674347}
   biteAttack: {fileID: 9205254462874504786}
   howlingZone: {fileID: 6306510008404257164}
+  enemyController: {fileID: 6569319263707056567}
+  animator: {fileID: 196930139250499698}
+  spriteRenderer: {fileID: 5103508690448692392}
 --- !u!114 &6156042443033364236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -790,7 +783,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1866748104078843137}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -980.1, y: 37.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -821,6 +814,7 @@ MonoBehaviour:
     m_Bits: 4096
   cineMachineCamera: {fileID: 5910729571600903136}
   monster: {fileID: 678524739008298242}
+  globalLight: {fileID: 0}
 --- !u!61 &3781775330524681225
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -970,7 +964,7 @@ Transform:
   m_GameObject: {fileID: 5925904157825488505}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 874.5, y: -13.49, z: 0}
+  m_LocalPosition: {x: 874.5, y: -18.09, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
