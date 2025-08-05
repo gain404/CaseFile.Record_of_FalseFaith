@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe736c3f9a3450e4190fdce084c5ae71, type: 3}
+  m_Name: TutorialDohaDialogue
+  m_EditorClassIdentifier: 
+  npcID: 
+  lines:
+  - type: 1
+    text: "\uD6C8\uB828 \uC77C\uCC0D \uB05D\uB0AC\uB124. \uB18D\uB561\uC774 \uD53C\uC6B4
+      \uAC70 \uC544\uB0D0?"
+    characterName: "\uAC15\uC11C\uD604"
+    portrait: {fileID: -6899380113163247172, guid: 3aae5eda0998cdc4a8b2da139b30109e, type: 3}
+    choices: []
+    nextLineIndices: 
+    shopData: {fileID: 0}
+    baseIndex: 0
+  - type: 0
+    text: "\uADF8\uB7F4 \uB9AC \uC5C6\uC796\uC544\uC694...! \uC120\uBC30\uAC00 \uC601\uC0C1
+      \uB3CC\uB824\uBCFC \uAC70 \uB2E4 \uC544\uB294\uB370!"
+    characterName: "\uC720\uB3C4\uD558"
+    portrait: {fileID: -6705134736494471165, guid: 0a1c3f5883ec2ca44b217cf95cd51d56, type: 3}
+    choices: []
+    nextLineIndices: 
+    shopData: {fileID: 0}
+    baseIndex: 0
+  randomGroupList: []
