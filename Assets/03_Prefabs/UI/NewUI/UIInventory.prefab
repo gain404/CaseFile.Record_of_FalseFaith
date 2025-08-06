@@ -481,10 +481,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Use
+  m_text: "\uC0AC\uC6A9"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7f18e127ce0f6334cb23a562f27a035c, type: 2}
+  m_sharedMaterial: {fileID: -8274246347632638585, guid: 7f18e127ce0f6334cb23a562f27a035c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -685,6 +685,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11500000, guid: b2c37f7b40575914bacc428f326a1eb0, type: 3}
+        m_TargetAssemblyTypeName: UIInventory, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8596190384509831737
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,6 +831,7 @@ MonoBehaviour:
   selectedItemName: {fileID: 5040698983554802305}
   selectedItemDescription: {fileID: 2819233187447881716}
   inventoryAnimator: {fileID: 7581744753425889086}
+  useButtonText: {fileID: 1455896492615961618}
 --- !u!114 &7581744753425889086
 MonoBehaviour:
   m_ObjectHideFlags: 0

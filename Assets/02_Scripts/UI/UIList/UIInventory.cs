@@ -173,23 +173,26 @@ public class UIInventory : MonoBehaviour
             UpdateUI();
         }
     }
+    
+    [SerializeField] private TextMeshProUGUI useButtonText; // 버튼 텍스트 연결
 
-    //  조사 모드 진입
     public void EnterInvestigationMode()
     {
         _isInvestigationMode = true;
         if (!IsOpen()) Toggle();
+        useButtonText.text = "조사";   // 조사 모드 표시
         Debug.Log("[Inventory] 조사 모드 진입");
     }
 
-    //  조사 모드 종료
     public void ExitInvestigationMode()
     {
         _isInvestigationMode = false;
         if (IsOpen()) Toggle();
         ClearSelectedItemWindow();
+        useButtonText.text = "사용";  // 기본 상태로 복귀
         Debug.Log("[Inventory] 조사 모드 종료");
     }
+
 
     //  선택한 아이템 조사 시작
     public void InvestigateItem()
