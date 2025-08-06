@@ -118,7 +118,8 @@ public class UIDialogue : MonoBehaviour
         _fadeManager.Fade(0.5f,0.1f);
         dialoguePanel.SetActive(true);
         choicePanel.SetActive(false);
-        
+        dialogueBoxRect.anchoredPosition = Vector2.zero;
+
         if (_isItemDialogue)
         {
             npcNameText.text = "";
@@ -132,13 +133,20 @@ public class UIDialogue : MonoBehaviour
     {
         SetState(DialogueState.Inactive);
         IsDialogueFinished = true; 
+        dialogueText.text = "";
+        npcNameText.text = "";
+        continueArrow.SetActive(false);
+        choicePanel.SetActive(false);
+
         playerImage.gameObject.SetActive(false);
         npcImage.gameObject.SetActive(false);
+
         dialoguePanel.SetActive(false);
-        choicePanel.SetActive(false);
         _fadeManager.Fade(0,0.1f);
+
         _dialogueCamera.Priority = 0;
         _dialogueCamera.Follow = null;
+
         _currentDialogue = null;
         _currentItemLines = null;
     }
@@ -263,6 +271,7 @@ public class UIDialogue : MonoBehaviour
             DialogueLine line = _currentDialogue.lines[_currentIndex];
             textToDisplay = line.text;
 
+            //  OpenStore 처리
             if (line.type == DialogueType.OpenStore)
             {
                 if (line.shopData != null && _uiShop != null)
@@ -279,6 +288,26 @@ public class UIDialogue : MonoBehaviour
                 }
             }
 
+            //  StartInvestigation 처리
+            if (line.type == DialogueType.StartInvestigation)
+            {
+                Debug.Log("[Dialogue] StartInvestigation 호출됨 → 인벤토리 조사 모드 진입");
+            
+                // 1) 대화 패널 닫기
+                dialoguePanel.SetActive(false);
+
+                // 2) 인벤토리 조사 모드 열기
+                UIInventory inventory = FindObjectOfType<UIInventory>();
+                if (inventory != null)
+                {
+                    inventory.EnterInvestigationMode();
+                }
+
+                // 3) 대화 종료 상태로 전환 (세컨드 대화는 조사 완료 후에 진행)
+                PauseDialogue();
+                yield break;
+            }
+
             yield return StartCoroutine(TransitionSpeaker(line));
 
             if (line.type == DialogueType.PlayerChoice)
@@ -289,10 +318,11 @@ public class UIDialogue : MonoBehaviour
                 yield break;
             }
         }
-        
+
         yield return StartCoroutine(TypeTextCoroutine(textToDisplay));
         SetState(DialogueState.WaitingForInput);
     }
+
 
     private IEnumerator TypeTextCoroutine(string text)
     {

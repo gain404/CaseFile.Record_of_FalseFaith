@@ -29,7 +29,7 @@ public class PlayerInteractState : PlayerActionState
         {
             DialogueAsset dialogueToStart = null;
             
-            if (stateMachine.PreviousState == stateMachine.ShopState)
+            if (stateMachine.PreviousState == stateMachine.InteractUIState)
             {
                 dialogueToStart = npc.GetSecondDialogue();
             }

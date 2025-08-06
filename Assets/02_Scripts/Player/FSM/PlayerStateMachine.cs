@@ -16,7 +16,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerInventoryState InventoryState { get; }
     public PlayerSwordAttackState SwordAttackState { get; }
     public PlayerGunAttackState GunAttackState { get; }
-    public PlayerShopState ShopState { get; private set; }
+    public PlayerInteractUIState InteractUIState { get; private set; }
         
     public IState PreviousState { get; private set; }
     //움직임 보정값
@@ -50,7 +50,7 @@ public class PlayerStateMachine : StateMachine
         InventoryState = new PlayerInventoryState(this);
         SwordAttackState = new PlayerSwordAttackState(this);
         GunAttackState = new PlayerGunAttackState(this);
-        ShopState = new PlayerShopState(this);
+        InteractUIState = new PlayerInteractUIState(this);
         
         //---------------상태 Change------------//
         
@@ -189,8 +189,10 @@ public class PlayerStateMachine : StateMachine
                   && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
         
         AddTransition(new StateTransition(
-            ShopState, InteractState,
-            () => !UIManager.Instance.UIShop.ShopPanel.activeSelf));
+            InteractUIState, InteractState,
+            () => !UIManager.Instance.UIShop.ShopPanel.activeSelf 
+                  && !UIManager.Instance.UIInventory.IsOpen()));
+
 
         //Inventory
         AddTransition(new StateTransition(
@@ -213,7 +215,7 @@ public class PlayerStateMachine : StateMachine
             () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
                   && UIManager.Instance.UIInventory.IsOpen() == false));
         AddTransition(new StateTransition(
-            ShopState, InventoryState,
+            InteractUIState, InventoryState,
             () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame()));
         
         //SwordAttack
@@ -259,11 +261,11 @@ public class PlayerStateMachine : StateMachine
                  && Player.WeaponHandler.weaponCount > 0));
         //Shop
         AddTransition(new StateTransition(
-            InteractState, ShopState,
+            InteractState, InteractUIState,
             () => UIManager.Instance.UIDialogue.CurrentState == DialogueState.Paused));
         
         AddTransition(new StateTransition(
-            InventoryState, ShopState,
+            InventoryState, InteractUIState,
             () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame() &&
                   UIManager.Instance.UIShop.ShopPanel.activeSelf));
     }

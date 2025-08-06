@@ -83,5 +83,5 @@ public class UIFile : MonoBehaviour
             data.isOpen = true;
             _chapterInvestigationList[data.chapter - 1].ShowButtonText(index);
         }
-    }
+    } 
 }

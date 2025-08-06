@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class PlayerShopState : PlayerActionState
+public class PlayerInteractUIState : PlayerActionState
 {
-    public PlayerShopState(PlayerStateMachine playerStateMachine) : base(playerStateMachine) { }
+    public PlayerInteractUIState(PlayerStateMachine playerStateMachine) : base(playerStateMachine) { }
 
     public override void Enter()
     {

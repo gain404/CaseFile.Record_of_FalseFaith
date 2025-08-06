@@ -18,6 +18,6 @@ public class DialogueLine
     [Tooltip("Type이 OpenStore일 때 연결할 상점 데이터")]
     public ShopData shopData;
 
-    // 🔹 랜덤 그룹용 baseIndex
+    //  랜덤 그룹용 baseIndex
     public int baseIndex;
 }
