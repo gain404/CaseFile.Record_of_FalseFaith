@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
-public class InvestigationManager : Singleton<InvestigationManager>
+public class UIInvestigationTimer : Singleton<UIInvestigationTimer>
 {
     [Header("Timer UI")]
     [SerializeField] private GameObject timerUI;

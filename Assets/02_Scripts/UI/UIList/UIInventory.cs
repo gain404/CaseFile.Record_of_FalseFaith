@@ -206,7 +206,7 @@ public class UIInventory : MonoBehaviour
             return;
         }
 
-        InvestigationManager.Instance.StartInvestigation(data.investigationIndex);
+        UIInvestigationTimer.Instance.StartInvestigation(data.investigationIndex);
     }
 
 
