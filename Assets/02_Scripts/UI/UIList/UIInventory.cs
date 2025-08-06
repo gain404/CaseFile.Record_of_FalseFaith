@@ -184,17 +184,25 @@ public class UIInventory : MonoBehaviour
         Debug.Log("[Inventory] 조사 모드 진입");
     }
 
+    // In: UIInventory.cs
+
     public void ExitInvestigationMode()
     {
+        Debug.Log("[Inventory] ExitInvestigationMode 메서드가 성공적으로 호출되었습니다."); // 확인용 로그 3
         _isInvestigationMode = false;
-        if (IsOpen()) Toggle();
+    
+        Debug.Log($"[Inventory] 현재 인벤토리 활성화 상태(IsOpen): {IsOpen()}"); // 확인용 로그 4
+        if (IsOpen())
+        {
+            Debug.Log("[Inventory] 인벤토리가 열려있어 Toggle()을 호출하여 닫습니다."); // 확인용 로그 5
+            Toggle();
+        }
         ClearSelectedItemWindow();
-        useButtonText.text = "사용";  // 기본 상태로 복귀
-        Debug.Log("[Inventory] 조사 모드 종료");
+        useButtonText.text = "사용";
+        Debug.Log("[Inventory] 조사 모드 종료 로직 완료."); // 확인용 로그 6
     }
 
 
-    //  선택한 아이템 조사 시작
     public void InvestigateItem()
     {
         if (!_isInvestigationMode || _selectedItem == null) return;
@@ -206,8 +214,19 @@ public class UIInventory : MonoBehaviour
             return;
         }
 
+        // 1. 조사 타이머 시작
         UIInvestigationTimer.Instance.StartInvestigation(data.investigationIndex);
+
+        // 2. 인벤토리 닫기 (조사 모드 종료)
+        ExitInvestigationMode();  // 🔹 여기서 InteractUIState → InteractState 전환됨
+
+        // 3. 세컨드 대사 시작
+        if (UIManager.Instance.UIDialogue != null)
+        {
+            UIManager.Instance.UIDialogue.ForceEndAndStartSecondDialogue();
+        }
     }
+
 
 
     //  인벤토리 새로고침 (요청하신 그대로 유지)

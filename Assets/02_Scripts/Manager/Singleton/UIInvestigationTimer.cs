@@ -37,7 +37,7 @@ public class UIInvestigationTimer : Singleton<UIInvestigationTimer>
         _isInvestigating = true;
         _currentItemIndex = itemIndex;
 
-        // 타이머 시작
+        // 타이머 시작 로직만 남겨둡니다.
         timerUI.SetActive(true);
         _timeRemaining = investigationDuration;
         UpdateTimerText();
@@ -45,17 +45,11 @@ public class UIInvestigationTimer : Singleton<UIInvestigationTimer>
 
         Debug.Log($"[Investigation] 아이템 {itemIndex} 조사 시작. {investigationDuration}초 후 완료.");
 
-        // 세컨드 대사 전환 후 대화 종료
-        if (_uiDialogue != null)
-        {
-            _uiDialogue.ForceEndAndStartSecondDialogue();
-        }
-
-        // 조사 모드 종료 → 인벤토리 닫기
-        if (_inventory != null)
-        {
-            _inventory.ExitInvestigationMode();
-        }
+        /*
+        // [삭제] 이 부분의 코드들을 EndInvestigation()으로 옮깁니다.
+        if (_uiDialogue != null) { ... }
+        if (_inventory != null) { ... }
+        */
     }
 
     private IEnumerator TimerRoutine()
@@ -67,6 +61,7 @@ public class UIInvestigationTimer : Singleton<UIInvestigationTimer>
             yield return null;
         }
 
+        // 타이머가 끝나면 EndInvestigation을 호출합니다.
         EndInvestigation();
     }
 
@@ -75,6 +70,8 @@ public class UIInvestigationTimer : Singleton<UIInvestigationTimer>
         int seconds = Mathf.CeilToInt(_timeRemaining);
         timerText.text = seconds.ToString();
     }
+
+    // In: UIInvestigationTimer.cs
 
     private void EndInvestigation()
     {
@@ -88,4 +85,5 @@ public class UIInvestigationTimer : Singleton<UIInvestigationTimer>
 
         Debug.Log($"[Investigation] 아이템 {_currentItemIndex} 조사 완료!");
     }
+
 }
