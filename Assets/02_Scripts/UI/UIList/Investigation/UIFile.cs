@@ -31,7 +31,7 @@ public class UIFile : MonoBehaviour
         ChapterOpen(3);
     }
     
-    private void Start()
+    public void FileInit()
     {
         foreach (var list in _chapterInvestigationList)
         {
