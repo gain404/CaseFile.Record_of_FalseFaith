@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,18 +20,20 @@ public class UITutorial : MonoBehaviour
 {
     [SerializeField] private GameObject mainPanel;
     [SerializeField] private List<TutorialList> tutorialList;
-    [SerializeField] private Button xButton;
     [SerializeField] private Button testButton;
 
+    private Player _player;
     private void Start()
     {
-        xButton.onClick.AddListener(OffTutorialPanel);
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        _player = player.GetComponent<Player>();
         testButton.onClick.AddListener(() => OnTutorialPanel(TutorialType.Fight));
         mainPanel.SetActive(false);
     }
 
     public void OnTutorialPanel(TutorialType tutorialType)
     {
+        _player.PlayerController.playerActions.Disable();
         mainPanel.SetActive(true);
         foreach (TutorialList tutorial in tutorialList)
         {
@@ -39,12 +42,13 @@ public class UITutorial : MonoBehaviour
                 tutorial.tutorialPanel.SetActive(tutorial.tutorialType == tutorialType);
             }
         }
-        Time.timeScale = 0;
+
+        DOVirtual.DelayedCall(2.0f, OffTutorialPanel);
     }
 
     private void OffTutorialPanel()
     {
+        _player.PlayerController.playerActions.Enable();
         mainPanel.SetActive(false);
-        Time.timeScale = 1;
     }
 }
