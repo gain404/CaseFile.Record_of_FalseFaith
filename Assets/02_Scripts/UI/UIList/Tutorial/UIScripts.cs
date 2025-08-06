@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 
 public class UIScripts : MonoBehaviour
@@ -9,6 +10,7 @@ public class UIScripts : MonoBehaviour
     [SerializeField] private GameObject subtitlePanel;
     [SerializeField] private TMP_Text subtitleText;
     [SerializeField] private List<string> promptTextData;
+    [SerializeField] private PlayableDirector playableDirector;
     private Player _player;
     private float _textDelayTime = 0.05f;
     private float _sentenceDelayTime = 0.5f;
@@ -17,6 +19,9 @@ public class UIScripts : MonoBehaviour
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         _player = player.GetComponent<Player>();
+        
+        GameObject playable = GameObject.FindGameObjectWithTag("Playable");
+        playableDirector = playable.GetComponent<PlayableDirector>();
     }
     
     private void Start()
@@ -35,6 +40,11 @@ public class UIScripts : MonoBehaviour
         }
         subtitlePanel.SetActive(false);
         _player.PlayerController.playerActions.Enable();
+
+        if (playableDirector != null)
+        {
+            playableDirector.Play();
+        }
     }
 
     private IEnumerator PromptText(string text)

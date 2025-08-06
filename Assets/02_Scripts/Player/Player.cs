@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     public WeaponHandler WeaponHandler { get; private set; }
     public PlayerStat PlayerStat { get; private set; }
     
-    private PlayerStateMachine _stateMachine;
+    public PlayerStateMachine stateMachine { get; private set; }
     
 
     public ItemData itemData;//추가한 스크립트(송도현)
@@ -47,18 +47,18 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        _stateMachine = new PlayerStateMachine(this);
-        _stateMachine.ChangeState(_stateMachine.IdleState);
+        stateMachine = new PlayerStateMachine(this);
+        stateMachine.ChangeState(stateMachine.IdleState);
     }
 
     private void Update()
     {
-        _stateMachine.HandleInput();
-        _stateMachine.Update();
+        stateMachine.HandleInput();
+        stateMachine.Update();
     }
 
     private void FixedUpdate()
     {
-        _stateMachine.PhysicsUpdate();
+        stateMachine.PhysicsUpdate();
     }
 }
