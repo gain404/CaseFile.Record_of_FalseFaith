@@ -35,6 +35,7 @@ public class UITutorial : MonoBehaviour
     {
         _player.PlayerController.playerActions.Disable();
         mainPanel.SetActive(true);
+
         foreach (TutorialList tutorial in tutorialList)
         {
             if (tutorial.tutorialPanel != null)
@@ -44,6 +45,7 @@ public class UITutorial : MonoBehaviour
         }
 
         DOVirtual.DelayedCall(2.0f, OffTutorialPanel);
+
     }
 
     private void OffTutorialPanel()
