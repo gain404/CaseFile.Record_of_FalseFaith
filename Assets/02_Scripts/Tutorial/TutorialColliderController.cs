@@ -9,10 +9,10 @@ public class TutorialColliderController : MonoBehaviour
     private void Start()
     {
         _uiManager = UIManager.Instance;
-        foreach (TutorialCollider tutorial in tutorialCollider)
-        {
-            tutorial.gameObject.SetActive(false);
-        }
+        // foreach (TutorialCollider tutorial in tutorialCollider)
+        // {
+        //     tutorial.gameObject.SetActive(false);
+        // }
     }
 
     public void OnMovePanel()
