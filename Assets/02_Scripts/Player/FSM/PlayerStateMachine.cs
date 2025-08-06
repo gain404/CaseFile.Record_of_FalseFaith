@@ -214,9 +214,6 @@ public class PlayerStateMachine : StateMachine
             JumpState, InventoryState,
             () => Player.PlayerController.playerActions.Inventory.ReadValue<float>() >= 0.5f
                   && UIManager.Instance.UIInventory.IsOpen() == false));
-        AddTransition(new StateTransition(
-            InteractUIState, InventoryState,
-            () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame()));
         
         //SwordAttack
         AddTransition(new StateTransition(
@@ -263,11 +260,6 @@ public class PlayerStateMachine : StateMachine
         AddTransition(new StateTransition(
             InteractState, InteractUIState,
             () => UIManager.Instance.UIDialogue.CurrentState == DialogueState.Paused));
-        
-        AddTransition(new StateTransition(
-            InventoryState, InteractUIState,
-            () => Player.PlayerController.playerActions.Inventory.WasPressedThisFrame() &&
-                  UIManager.Instance.UIShop.ShopPanel.activeSelf));
     }
 
     public override void Update()
