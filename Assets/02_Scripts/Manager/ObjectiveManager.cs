@@ -68,12 +68,10 @@ public class ObjectiveManager : MonoBehaviour
 
     private void Start()
     {
+        objectiveUI = UIManager.Instance.UIObjective;
+        completeNotifier = UIManager.Instance.UIObjectiveCompleteNotifier;
         triggerLoader.LoadTriggerData();
 
-        if (completeNotifier == null)
-        {
-            completeNotifier = FindAnyObjectByType<UIObjectiveCompleteNotifier>();
-        }
         dataLoader.LoadObjectiveData();// 전체 퀘스트 데이터 로드
         LoadChapterObjectives(1); // 챕터 1 목표 로드 -> 이건 Scene에 맞게 수정해주기
         objectiveUI.SetChapterTitle("Chapter 1");

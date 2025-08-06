@@ -18,6 +18,10 @@ public class UIManager : Singleton<UIManager>
     
     public UIInvestigationTimer UIInvestigationTimer { get; private set; }
 
+    public UIObjective UIObjective { get; private set; }
+    public UIObjectiveCompleteNotifier UIObjectiveCompleteNotifier { get; private set; }
+
+
     [SerializeField] private GameObject canvasPrefab;
     [SerializeField] private List<UIEntry> uiPrefabs;
 
@@ -74,6 +78,8 @@ public class UIManager : Singleton<UIManager>
         UIGuideIcon = GetUIComponent<UIGuideIcon>(UIType.UIGuideIcon);
         UITutorial = GetUIComponent<UITutorial>(UIType.UITutorial);
         UIInvestigationTimer = GetUIComponent<UIInvestigationTimer>(UIType.UIInvestigationTimer);
+        UIObjective = GetUIComponent<UIObjective>(UIType.UIObjective);
+        UIObjectiveCompleteNotifier = GetUIComponent<UIObjectiveCompleteNotifier>(UIType.UIObjectiveCompleteNotifier);
     }
 
     //canvas를 생성하고 씬에 맞는 ui생성
