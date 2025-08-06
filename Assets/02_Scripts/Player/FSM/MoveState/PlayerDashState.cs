@@ -63,10 +63,10 @@ public class PlayerDashState : PlayerMoveState
 
     private IEnumerator DashEndCoroutine()
     {
-        stateMachine.Player.PlayerStat.OnInvincibility();
+        stateMachine.Player.PlayerStat.SetInvincibility(true);
         // 정해진 시간만큼 기다립니다.
         yield return new WaitForSeconds(_dashingTime);
-        stateMachine.Player.PlayerStat.OffInvincibility();
+        stateMachine.Player.PlayerStat.SetInvincibility(false);
         // 시간이 지나면 대쉬가 끝났다고 알려줍니다.
         stateMachine.IsDashFinished = true;
     }

@@ -157,11 +157,11 @@ public class PlayerStat : MonoBehaviour
         if(_isInvincibility)return;
         if (Consume(StatType.Heart, damage))
         {
-            OnInvincibility();
+            SetInvincibility(true);
             if (_currentStats[StatType.Heart] <= 0) Die();
         }
         _uiHealth.UpdateHeart();
-        DOVirtual.DelayedCall(1.0f, OffInvincibility);
+        DOVirtual.DelayedCall(1.0f, () => SetInvincibility(false));
     }
 
     private void Die()
@@ -172,13 +172,8 @@ public class PlayerStat : MonoBehaviour
         // 플레이어 비활성화, 애니메이션, 사운드 등도 여기에
     }
 
-    public void OnInvincibility()
+    public void SetInvincibility(bool isTrue)
     {
-        _isInvincibility = true;
-    }
-
-    public void OffInvincibility()
-    {
-        _isInvincibility = false;
+        _isInvincibility = isTrue;
     }
 }
