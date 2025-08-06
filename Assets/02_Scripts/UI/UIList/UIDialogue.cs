@@ -31,6 +31,7 @@ public class UIDialogue : MonoBehaviour
     
     [Header("Settings")]
     [SerializeField] private RectTransform dialogueBoxRect;
+    [SerializeField] private Vector2 defaultBoxPos;
     [SerializeField] private Vector2 playerBoxPos;
     [SerializeField] private Vector2 npcBoxPos;
     [SerializeField] private float fadeDuration;
@@ -119,7 +120,7 @@ public class UIDialogue : MonoBehaviour
         _fadeManager.Fade(0.5f,0.1f);
         dialoguePanel.SetActive(true);
         choicePanel.SetActive(false);
-        dialogueBoxRect.anchoredPosition = Vector2.zero;
+        dialogueBoxRect.anchoredPosition = defaultBoxPos;
 
         if (_isItemDialogue)
         {
