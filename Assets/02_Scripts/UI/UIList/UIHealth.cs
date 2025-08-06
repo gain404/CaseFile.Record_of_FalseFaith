@@ -36,6 +36,12 @@ public class UIHealth : MonoBehaviour
 
     public void UpdateHeart()
     {
+        if (_heartList == null || _playerStat == null)
+        {
+            Debug.LogWarning("UpdateHeart가 너무 일찍 호출되었습니다. heartList가 null입니다.");
+            return;
+        }
+
         if (_heartList.Count * 2 < (int)_playerStat.MaxHeart)
         {
             GameObject heart = Instantiate(heartPrefab, heartContainer.transform);

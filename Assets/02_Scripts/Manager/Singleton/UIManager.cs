@@ -40,6 +40,13 @@ public class UIManager : Singleton<UIManager>
     
     private void InitSceneUI(string scene)
     {
+        // 기존 Canvas가 있다면 제거 - 씬 로드할 때 중복 방지
+        if (_canvas != null)
+        {
+            Destroy(_canvas);
+            _canvas = null;
+        }
+
         _canvas = Instantiate(canvasPrefab);
         ClearUI();
         foreach (UIEntry uiEntry in uiPrefabs)
