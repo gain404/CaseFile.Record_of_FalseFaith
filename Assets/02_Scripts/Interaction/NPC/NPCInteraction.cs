@@ -3,6 +3,13 @@ using UnityEngine;
 public class NPCInteraction : MonoBehaviour, IInteractable
 {
     public NPCData npcData;
+    private Player _player;
+
+    private void Awake()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        _player = player.GetComponent<Player>();
+    }
     
     public DialogueAsset GetFirstDialogue()
     {
@@ -40,4 +47,26 @@ public class NPCInteraction : MonoBehaviour, IInteractable
     {
         return "F - 대화하기";
     }
+
+    public void OffInput()
+    {
+        _player.PlayerController.playerActions.Disable();
+    }
+    
+    public void OnEnterDialogue()
+    {
+        _player.CurrentInteractableNPC = this;
+        UIManager.Instance.UIDialogue.StartDialogue(GetFirstDialogue(), transform);
+        UIManager.Instance.UIDialogue.autoAdvanced = true;
+    }
+
+    public void OnExitDialogue()
+    {
+        Debug.Log("ExitDialogue 호출");
+        _player.PlayerController.playerActions.Enable();
+        _player.CurrentInteractableNPC = null;
+        UIManager.Instance.UIDialogue.autoAdvanced = false;
+        gameObject.SetActive(false);
+    }
+    
 }
