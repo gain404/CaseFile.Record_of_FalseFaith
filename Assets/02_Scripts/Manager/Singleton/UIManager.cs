@@ -59,13 +59,11 @@ public class UIManager : Singleton<UIManager>
         {
             foreach (SceneName sceneName  in uiEntry.sceneName)
             {
-                //if (sceneName.ToString() == scene)
-                //{
-                   // ShowUI(uiEntry.uiType);
-                    //break;
-                //}
-                ShowUI(uiEntry.uiType);
-                break;
+                if (sceneName.ToString() == scene)
+                {
+                    ShowUI(uiEntry.uiType);
+                    break;
+                }
             }
         }
 

@@ -20,14 +20,12 @@ public class UITutorial : MonoBehaviour
 {
     [SerializeField] private GameObject mainPanel;
     [SerializeField] private List<TutorialList> tutorialList;
-    [SerializeField] private Button testButton;
 
     private Player _player;
     private void Start()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         _player = player.GetComponent<Player>();
-        testButton.onClick.AddListener(() => OnTutorialPanel(TutorialType.Fight));
         mainPanel.SetActive(false);
     }
 
