@@ -4,7 +4,7 @@ using UnityEngine.Rendering.Universal;
 
 public class BossRoomLight : MonoBehaviour
 {
-    public int BreakCount { get; private set; }
+    public int BreakCount;
     
     [SerializeField] private Sprite crackBulb;
     [SerializeField] private Sprite breakBulb;

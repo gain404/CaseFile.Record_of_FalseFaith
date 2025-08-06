@@ -14,7 +14,6 @@ public class EnemyAttackCollider : MonoBehaviour
     {
         if (((1 << collision.gameObject.layer) & playerLayerMask) != 0)
         {
-            Debug.Log("플레이어 충돌");
             agent.BlackboardReference.SetVariableValue(boolString, true);
         }
         else if (((1 << collision.gameObject.layer) & wallLayerMask) != 0)

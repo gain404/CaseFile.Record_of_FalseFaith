@@ -315,7 +315,6 @@ MonoBehaviour:
   - rid: 5285736690839454048
   - rid: 5524834895492284630
   - rid: 5524834901609677179
-  - rid: 5524835009392017411
   m_IsInitialised: 0
   m_IsStarted: 0
   references:
@@ -345,14 +344,6 @@ MonoBehaviour:
           m_Value1: 6850356753096240394
         Name: HairAttackZone
         m_Value: {fileID: 3603486865456745011}
-    - rid: 5524835009392017411
-      type: {class: 'BlackboardVariable`1[[UnityEngine.Transform, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 8790947961141426919
-          m_Value1: 16962021332793333738
-        Name: HowlingAttackZone
-        m_Value: {fileID: 6306510008404257164}
 --- !u!114 &6569319263707056567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,7 +360,6 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 4096
-  spriteRenderer: {fileID: 5103508690448692392}
 --- !u!60 &9173680531016233034
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -416,20 +406,58 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.48, y: 0.015}
-      - {x: 0.48, y: 0.265}
-      - {x: 0.45, y: 0.305}
-      - {x: 0.19999999, y: 0.305}
-      - {x: 0.16, y: 0.265}
-      - {x: -0.049999997, y: 0.285}
-      - {x: -0.22999999, y: 0.185}
-      - {x: -0.48, y: -0.035}
-      - {x: -0.48, y: -0.265}
-      - {x: -0.42999998, y: -0.305}
-      - {x: -0.06, y: -0.305}
-      - {x: 0.14999999, y: -0.175}
-      - {x: 0.22999999, y: -0.195}
-      - {x: 0.32, y: -0.195}
+    - - {x: 2.422682, y: 1.0009304}
+      - {x: 2.2328808, y: 1.4173987}
+      - {x: 1.8679354, y: 4.0822673}
+      - {x: 1.5286157, y: 4.235912}
+      - {x: 1.3658022, y: 4.8873487}
+      - {x: 1.0218247, y: 4.907348}
+      - {x: 0.77483594, y: 4.6537037}
+      - {x: 0.84492934, y: 4.0356345}
+      - {x: 0.58506674, y: 4.065257}
+      - {x: -0.17821068, y: 2.5411155}
+      - {x: -1.0068762, y: 1.969109}
+      - {x: -1.1146799, y: 2.726245}
+      - {x: -1.2007163, y: 2.755434}
+      - {x: -1.259738, y: 2.0130255}
+      - {x: -1.4187945, y: 2.0484722}
+      - {x: -1.6999918, y: 3.0916748}
+      - {x: -1.755424, y: 2.9976957}
+      - {x: -1.6767638, y: 1.9630471}
+      - {x: -2.1628256, y: 3.0385184}
+      - {x: -2.2197516, y: 2.9223084}
+      - {x: -1.8847727, y: 1.8996853}
+      - {x: -2.4020863, y: 2.3969903}
+      - {x: -2.4686618, y: 2.2604249}
+      - {x: -2.167884, y: 1.789677}
+      - {x: -1.6152384, y: 1.58156}
+      - {x: -1.0873549, y: 1.6905324}
+      - {x: -0.008481383, y: 2.2680128}
+      - {x: 0.7328714, y: 3.729927}
+      - {x: 0.849365, y: 3.4579442}
+      - {x: 1.0010191, y: 1.5299578}
+      - {x: 0.841931, y: 0.4531145}
+      - {x: 0.0060049146, y: -0.00080596283}
+      - {x: 1.5608267, y: -0.011011619}
+      - {x: 1.3205673, y: 0.27127475}
+      - {x: 1.3510333, y: 0.65643644}
+      - {x: 1.8311222, y: 1.9501444}
+      - {x: 1.7248143, y: 3.3954377}
+      - {x: 2.0054953, y: 1.4107674}
+      - {x: 1.6461686, y: 0.5799102}
+      - {x: 1.6921958, y: 0.5219782}
+      - {x: 2.092304, y: 1.2519972}
+      - {x: 2.051441, y: 0.93073624}
+      - {x: 1.8262525, y: 0.37678254}
+      - {x: 1.8462355, y: 0.29553592}
+      - {x: 2.1722753, y: 0.9257804}
+      - {x: 2.2159636, y: 0.9259764}
+      - {x: 2.0492437, y: 0.3574978}
+      - {x: 2.1044788, y: 0.28078043}
+      - {x: 2.1894276, y: 0.32734284}
+      - {x: 2.3190246, y: 0.7140937}
+      - {x: 2.3405225, y: 0.441089}
+      - {x: 2.4042366, y: 0.44484815}
   m_UseDelaunayMesh: 0
 --- !u!50 &4201205304546092408
 Rigidbody2D:
@@ -475,6 +503,9 @@ MonoBehaviour:
   meleeAttack: {fileID: 246757438059674347}
   biteAttack: {fileID: 9205254462874504786}
   howlingZone: {fileID: 6306510008404257164}
+  enemyController: {fileID: 6569319263707056567}
+  animator: {fileID: 196930139250499698}
+  spriteRenderer: {fileID: 5103508690448692392}
 --- !u!114 &6156042443033364236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -790,7 +821,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1866748104078843137}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -980.1, y: 37.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -821,6 +852,7 @@ MonoBehaviour:
     m_Bits: 4096
   cineMachineCamera: {fileID: 5910729571600903136}
   monster: {fileID: 678524739008298242}
+  globalLight: {fileID: 0}
 --- !u!61 &3781775330524681225
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -970,7 +1002,7 @@ Transform:
   m_GameObject: {fileID: 5925904157825488505}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 874.5, y: -13.49, z: 0}
+  m_LocalPosition: {x: 874.5, y: -18.09, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

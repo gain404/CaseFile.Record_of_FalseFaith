@@ -13,6 +13,7 @@ public class UIDialogue : MonoBehaviour
 {
     public DialogueState CurrentState { get; private set; }
     public bool IsDialogueFinished { get; private set; }
+    public bool autoAdvanced;
     
     [Header("UI")]
     [SerializeField] private GameObject dialoguePanel;
@@ -320,7 +321,15 @@ public class UIDialogue : MonoBehaviour
         }
 
         yield return StartCoroutine(TypeTextCoroutine(textToDisplay));
-        SetState(DialogueState.WaitingForInput);
+        if (autoAdvanced) //자동 진행 모드일 경우 (컷씬)
+        {
+            yield return new WaitForSeconds(0.7f);
+            AdvanceDialogue();
+        }
+        else
+        {
+            SetState(DialogueState.WaitingForInput);
+        }
     }
 
 

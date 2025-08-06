@@ -1,12 +1,13 @@
 using Unity.Behavior;
 using UnityEngine;
-using DG.Tweening;
+using Action = System.Action;
 
 public class EnemyController : MonoBehaviour,IDamagable
 {
+    public Action DieAction;
+    
     [SerializeField] private BehaviorGraphAgent agent;
     [SerializeField] private LayerMask mask;
-    [SerializeField] private SpriteRenderer spriteRenderer;
     
     private float _enemyCurrentHealth;
     private GameObject _player;
@@ -22,6 +23,7 @@ public class EnemyController : MonoBehaviour,IDamagable
     {
         agent.BlackboardReference.SetVariableValue("Target", _player);
         agent.BlackboardReference.GetVariableValue<float>("CurrentHealth", out _enemyCurrentHealth);
+        DieAction += Die;
     }
 
     public void TakeDamage(float damage)
@@ -30,19 +32,19 @@ public class EnemyController : MonoBehaviour,IDamagable
         {
             return;
         }
-        Debug.Log("보스 데미지 입음 : " + damage);
+
+        Debug.Log("몬스터 : -" + damage);
         _enemyCurrentHealth -= damage;
         agent.BlackboardReference.SetVariableValue("CurrentHealth", _enemyCurrentHealth);
         if (_enemyCurrentHealth <= 0)
         {
-            Die();
+            DieAction();
         }
     }
 
     public void Die()
     {
         agent.enabled = false;
-        spriteRenderer.DOFade(0, 2f).OnComplete(() => gameObject.SetActive(false));
     }
 
     private void Hide()

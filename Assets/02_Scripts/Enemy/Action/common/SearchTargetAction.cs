@@ -19,6 +19,11 @@ public partial class SearchTargetAction : Action
         
         float selfPosX = Self.Value.transform.position.x;
         float playerPosX = Target.Value.transform.position.x;
+        if (Mathf.Abs(startPosition.y - Target.Value.transform.position.y) > 70.0f)
+        {
+            return Status.Success;
+        }
+        
         float distance = Mathf.Abs(startPosition.x - playerPosX);
         
         if (distance<= Distance.Value)

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using DG.Tweening;
 
 public class PlayerStat : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class PlayerStat : MonoBehaviour
     private UIStamina _uiStamina;
     private bool _isRecoveryOnCooldown;
     private const float RecoveryCooldownDuration = 10.0f;
+    private bool _isInvincibility;
 
     public GameOverManager gameOverManager; // 할당 필요
 
@@ -50,6 +52,7 @@ public class PlayerStat : MonoBehaviour
         _uiHealth = UIManager.Instance.UIHealth;
         _uiStamina = UIManager.Instance.UIStamina;
         _uiHealth.UpdateHeart();
+        _isInvincibility = false;
     }
 
     public bool Consume(StatType type, float amount)
@@ -151,11 +154,14 @@ public class PlayerStat : MonoBehaviour
     
     public void TakeDamage(float damage)
     {
+        if(_isInvincibility)return;
         if (Consume(StatType.Heart, damage))
         {
+            SetInvincibility(true);
             if (_currentStats[StatType.Heart] <= 0) Die();
         }
         _uiHealth.UpdateHeart();
+        DOVirtual.DelayedCall(1.0f, () => SetInvincibility(false));
     }
 
     private void Die()
@@ -164,5 +170,10 @@ public class PlayerStat : MonoBehaviour
         // 연출부터 시작
         UIGameOverEffect.Instance.PlayYouDiedEffect();
         // 플레이어 비활성화, 애니메이션, 사운드 등도 여기에
+    }
+
+    public void SetInvincibility(bool isTrue)
+    {
+        _isInvincibility = isTrue;
     }
 }

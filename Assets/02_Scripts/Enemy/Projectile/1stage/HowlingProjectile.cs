@@ -5,15 +5,12 @@ public class HowlingProjectile : MonoBehaviour
 {
     [SerializeField] private int damage = 1;
     [SerializeField] private LayerMask hitLayerMask;
-    [SerializeField] private LayerMask lightLayerMask;
-
-    private Animator _animator;
+    
     private bool _isStartHowling;
     private PoolManager _poolManager;
 
     private void Awake()
     {
-        _animator = gameObject.GetComponent<Animator>();
         _poolManager = PoolManager.Instance;
     }
 
@@ -32,21 +29,18 @@ public class HowlingProjectile : MonoBehaviour
             if (collision.TryGetComponent(out PlayerStat playerStat))
             {
                 playerStat.TakeDamage(1);
+                return;
             }
         }
 
-        if (_isStartHowling)
+        if (!_isStartHowling) return;
+        if (!collision.gameObject.TryGetComponent(out BossRoomLight bossRoomLight)) return;
+        bossRoomLight.BreakLight();
+        if (bossRoomLight.BreakCount == 0)
         {
-            if (collision.gameObject.TryGetComponent(out BossRoomLight bossRoomLight))
-            {
-                bossRoomLight.BreakLight();
-                if (bossRoomLight.BreakCount == 0)
-                {
-                    return;
-                }
-                _isStartHowling = false;
-            }
+            return;
         }
+        _isStartHowling = false;
     }
 
     private void FinishHowling()

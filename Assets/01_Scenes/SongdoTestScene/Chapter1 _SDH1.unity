@@ -250,7 +250,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1781655506}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99950576
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -597,6 +597,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1836083522020775309, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1836083522020775309, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1836083522020775309, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1836083522020775309, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.83
       objectReference: {fileID: 0}
@@ -672,6 +684,34 @@ PrefabInstance:
       propertyPath: 'saveSlotButtons.Array.data[2]'
       value: 
       objectReference: {fileID: 848361324}
+    - target: {fileID: 5943099527588441168, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -6952877288089464526, guid: e11844e403b3ccb41a57b09cbf70858f, type: 3}
+    - target: {fileID: 6481533392184781461, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
+      propertyPath: m_Size.x
+      value: 1.4495716
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481533392184781461, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
+      propertyPath: m_Size.y
+      value: 1.9429681
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481533392184781461, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.0037068129
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481533392184781461, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.010447502
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481533392184781461, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481533392184781461, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1.92
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3146,7 +3186,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000014644823}
+  m_AnchoredPosition: {x: 0, y: 0.00009820443}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1223423438

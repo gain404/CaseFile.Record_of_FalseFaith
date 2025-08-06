@@ -29,7 +29,7 @@ public partial class BackToTargetAction : Action
         }
         
         selfTransform.position = new Vector3(targetTransform.position.x - MeleeAttackDistance.Value * targetFace,
-            selfTransform.position.y + 7.7f, selfTransform.position.z);
+            selfTransform.position.y, selfTransform.position.z);
         
         return Status.Success;
     }
