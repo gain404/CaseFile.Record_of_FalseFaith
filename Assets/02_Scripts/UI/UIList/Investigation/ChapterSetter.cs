@@ -16,7 +16,7 @@ public class ChapterSetter : MonoBehaviour
         }
         else if (int.TryParse(digitsOnly, out int result))
         {
-            return result - 1;
+            return result;
         }
         else
         {
