@@ -5,7 +5,8 @@ using UnityEngine;
 public enum UnLockkeyType
 {
     Gukbabkey = 1301,
-    ShamanKey = 1302
+    ShamanKey = 1302,
+    BossStageKey = 1303,
 }
 
 public class UnlockPassageZone : MonoBehaviour

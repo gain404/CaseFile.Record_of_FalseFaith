@@ -324,7 +324,7 @@ public class UIDialogue : MonoBehaviour
         yield return StartCoroutine(TypeTextCoroutine(textToDisplay));
         if (autoAdvanced) //자동 진행 모드일 경우 (컷씬)
         {
-            yield return new WaitForSeconds(0.7f);
+            yield return new WaitForSeconds(1.5f);
             AdvanceDialogue();
         }
         else

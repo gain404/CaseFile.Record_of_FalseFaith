@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
@@ -77,7 +78,16 @@ public class CutSceneSignalTrigger : MonoBehaviour
     public void OnExitScene()
     {
         AfterDialogue();
-        SceneManager.LoadScene("Chapter1");
+        StartCoroutine(FadeAndLoadScene("Chapter1"));
+    }
+    
+    private IEnumerator FadeAndLoadScene(string sceneName)
+    {
+        // 페이드 아웃
+        FadeManager.Instance.Fade(1f, 4f);
+        yield return new WaitForSeconds(1);
+        // 로딩 씬 호출
+        LoadingBar.LoadScene(sceneName);
     }
     
 }
