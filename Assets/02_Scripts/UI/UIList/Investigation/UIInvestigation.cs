@@ -15,6 +15,7 @@ public class UIInvestigation : MonoBehaviour
         bookButton.onClick.AddListener(ActiveBook);
         _uiFile = uiFile.GetComponent<UIFile>();
         uiFile.SetActive(false);
+        _uiFile.FileInit();
     }
 
     //조사 시트 버튼을 active시켜주는 메써드
