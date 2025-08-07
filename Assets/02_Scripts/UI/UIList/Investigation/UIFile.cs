@@ -8,6 +8,7 @@ public class UIFile : MonoBehaviour
     [SerializeField] private List<Button> chapterButton;
     [SerializeField] private List<GameObject> chapterList;
     [SerializeField] private List<GameObject> hideImageList;
+    [SerializeField] private ChapterSetter chapterSetter;
     
     private List<bool> _isChapterOpen = new();
     private CsvManager _csvManager;
@@ -25,9 +26,10 @@ public class UIFile : MonoBehaviour
         {
             _isChapterOpen.Add(false);
         }
-        //밑에는 임시
-        SetChapterList(0);
-        ChapterOpen(0);
+
+        int chap = chapterSetter.SetChapter();
+        SetChapterList(chap);
+        ChapterOpen(chap);
     }
     
     public void FileInit()

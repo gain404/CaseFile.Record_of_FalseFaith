@@ -24,5 +24,8 @@ public class PlayerInteractUIState : PlayerActionState
         Debug.Log("--- 상점 상태 퇴장 ---");
         base.Exit();
         stateMachine.MovementSpeedModifier = 1f;
+    
+        // 상점 종료 시 조사 성공 아님을 보장
+        stateMachine.IsReturnFromInvestigationSuccess = false;
     }
 }
