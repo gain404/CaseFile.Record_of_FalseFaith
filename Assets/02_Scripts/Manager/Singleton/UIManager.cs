@@ -21,7 +21,6 @@ public class UIManager : Singleton<UIManager>
     public UIObjective UIObjective { get; private set; }
     public UIObjectiveCompleteNotifier UIObjectiveCompleteNotifier { get; private set; }
 
-
     [SerializeField] private GameObject canvasPrefab;
     [SerializeField] private List<UIEntry> uiPrefabs;
 
