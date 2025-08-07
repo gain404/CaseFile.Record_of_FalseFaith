@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class UIHealth : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class UIHealth : MonoBehaviour
 
     private List<Image> _heartList;
     private PlayerStat _playerStat;
+
+    [SerializeField] private float baseShakeIntensity = 5f;
+    [SerializeField] private float shakeDuration = 0.2f;
 
     private void Start()
     {
@@ -60,5 +64,11 @@ public class UIHealth : MonoBehaviour
             else
                 _heartList[i].sprite = emptyHeart;
         }
+    }
+
+    public void ShakeHearts(float damageAmount)
+    {
+        float intensity = baseShakeIntensity * (damageAmount / 10f);
+        heartContainer.transform.DOShakePosition(shakeDuration, intensity);
     }
 }
