@@ -171,4 +171,10 @@ public class SoundManager : MonoBehaviour
         PlaySFX(selectedClip);
         sfxSource.pitch = 1f; // 원래대로 복구
     }
+
+    public void SetAndPlayDefaultBGM(AudioClip clip)
+    {
+        defaultBgm = clip;
+        PlayBGM(defaultBgm);
+    }
 }
