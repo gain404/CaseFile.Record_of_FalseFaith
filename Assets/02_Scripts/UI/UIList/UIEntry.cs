@@ -10,7 +10,7 @@ public enum UIType
 
 public enum SceneName
 {
-    Tutorial,Chapter1,Chapter2,Chapter3
+    Title,Tutorial,Chapter1,Chapter2,Chapter3
 }
 
 [System.Serializable]
