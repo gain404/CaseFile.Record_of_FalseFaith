@@ -28,7 +28,7 @@ public class UIShop : MonoBehaviour
 
     private PlayerStat _playerStat;
     private ItemData _currentItemToBuy;
-
+    private Player _player;
     private void Awake()
     {
         // 게임 시작 시 패널들을 비활성화합니다.
@@ -56,7 +56,10 @@ public class UIShop : MonoBehaviour
 
     public void CloseShop()
     {
-        UIManager.Instance.UIDialogue.ResetDialogueState();
+        _player.stateMachine.IsReturningFromShop = true;
+
+        // ✅ InteractState 강제 진입 유도 (또는 InteractUI → Interact 전이 조건 충족)
+        _player.CurrentInteractableNPC = null;
         ShopPanel.SetActive(false);
     }
     

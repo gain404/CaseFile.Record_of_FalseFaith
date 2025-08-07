@@ -123,7 +123,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4364749116183090062}
         m_TargetAssemblyTypeName: UIInventory, Assembly-CSharp
-        m_MethodName: OnCancelInvestigationClicked
+        m_MethodName: CancelInvestigation
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1101,8 +1101,6 @@ MonoBehaviour:
   selectedItemName: {fileID: 5040698983554802305}
   selectedItemDescription: {fileID: 2819233187447881716}
   inventoryAnimator: {fileID: 7581744753425889086}
-  cancelButton: {fileID: 1183090165359885723}
-  uiDialogue: {fileID: 5511996390092686473, guid: 9d1063d23faa2394cb3741fd1d8e08e3, type: 3}
   useButtonText: {fileID: 1455896492615961618}
 --- !u!114 &7581744753425889086
 MonoBehaviour:

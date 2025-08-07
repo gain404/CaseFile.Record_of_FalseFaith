@@ -28,6 +28,9 @@ public class PlayerStateMachine : StateMachine
     public float JumpForce { get; set; } = 3f;
     public float DashForce { get; set; } = 5f;
     public bool IsDashFinished { get; set; }
+    public bool IsReturnFromInvestigationSuccess { get; set; } = false;
+    public bool IsReturningFromShop { get; set; } = false;
+    public bool IsReturningFromInvestigationCancel { get; set; } = false;
     public Transform MainCameraTransform { get; set; }
 
     public PlayerStateMachine(Player player)
@@ -146,8 +149,11 @@ public class PlayerStateMachine : StateMachine
 
         AddTransition(new StateTransition(
             InteractState, IdleState,
-            () => UIManager.Instance.UIDialogue.IsDialogueFinished || Player.itemData == null &&
-                Player.CurrentInteractableNPC == null && player.CurrentInteractableItem == null));
+            () => UIManager.Instance.UIDialogue.IsDialogueFinished 
+                  || (Player.itemData == null 
+                      && Player.CurrentInteractableNPC == null 
+                      && player.CurrentInteractableItem == null)));
+
 
         AddTransition(new StateTransition(
             InventoryState, IdleState,
@@ -190,8 +196,11 @@ public class PlayerStateMachine : StateMachine
         
         AddTransition(new StateTransition(
             InteractUIState, InteractState,
-            () => !UIManager.Instance.UIShop.ShopPanel.activeSelf 
-                  && !UIManager.Instance.UIInventory.IsOpen()));
+            () => UIManager.Instance.UIDialogue.CurrentState == DialogueState.Paused
+                  && PreviousState != InteractUIState
+                  && !IsReturningFromShop
+                  && !IsReturningFromInvestigationCancel));
+
 
 
         //Inventory
@@ -256,10 +265,11 @@ public class PlayerStateMachine : StateMachine
             JumpState, GunAttackState,
             ()=> Player.PlayerController.playerActions.Attack.triggered
                  && Player.WeaponHandler.weaponCount > 0));
-        //Shop
+        
         AddTransition(new StateTransition(
             InteractState, InteractUIState,
-            () => UIManager.Instance.UIDialogue.CurrentState == DialogueState.Paused));
+            () => UIManager.Instance.UIDialogue.CurrentState == DialogueState.Paused
+                  && PreviousState != InteractUIState)); 
     }
 
     public override void Update()

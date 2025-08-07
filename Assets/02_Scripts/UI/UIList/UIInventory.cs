@@ -217,15 +217,28 @@ public class UIInventory : MonoBehaviour
         // 1. 조사 타이머 시작
         UIInvestigationTimer.Instance.StartInvestigation(data.investigationIndex);
 
-        // 2. 인벤토리 닫기 (조사 모드 종료)
-        ExitInvestigationMode();  // 🔹 여기서 InteractUIState → InteractState 전환됨
+        // 2. 세컨드 대사 표시 허용
+        _player.stateMachine.IsReturnFromInvestigationSuccess = true; // 🔹 조사 성공
 
-        // 3. 세컨드 대사 시작
+        // 3. 인벤토리 닫기
+        ExitInvestigationMode();
+
+        // 4. 세컨드 대사 출력
         if (UIManager.Instance.UIDialogue != null)
         {
             UIManager.Instance.UIDialogue.ForceEndAndStartSecondDialogue();
         }
     }
+
+    public void CancelInvestigation()
+    {
+        _isInvestigationMode = false;
+        _player.stateMachine.IsReturnFromInvestigationSuccess = false; // ❌ 취소했으므로 false
+        if (IsOpen()) Toggle();
+        useButtonText.text = "사용";
+        ClearSelectedItemWindow();
+    }
+
 
 
 
