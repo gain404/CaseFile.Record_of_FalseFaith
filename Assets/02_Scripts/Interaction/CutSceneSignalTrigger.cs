@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class CutSceneSignalTrigger : MonoBehaviour
 {
+    public LayerMask playerLayerMask;
     [SerializeField] private GameObject npcGameObject;
     [SerializeField] private PlayableDirector playableDirector;
-    [SerializeField] private LayerMask playerLayerMask;
     [SerializeField] private EnemyController enemyController;
     private Player _player;
     private NPCInteraction _npc;
@@ -22,13 +22,7 @@ public class CutSceneSignalTrigger : MonoBehaviour
             enemyController.DieAction += OnNpc;
         }
     }
-
-    private void Start()
-    {
-        gameObject.SetActive(false);
-        
-    }
-
+    
     private void OnDestroy()
     {
         if (enemyController != null)
@@ -73,6 +67,7 @@ public class CutSceneSignalTrigger : MonoBehaviour
         _player.PlayerController.playerActions.Enable();
         _player.CurrentInteractableNPC = null;
         UIManager.Instance.UIDialogue.autoAdvanced = false;
+        npcGameObject.SetActive(true);
     }
     
     public void OnExitDialogue()
