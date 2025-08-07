@@ -17,7 +17,10 @@ public class CutSceneSignalTrigger : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         _player = player.GetComponent<Player>();
         _npc = GetComponent<NPCInteraction>();
-        enemyController.DieAction += OnNpc;
+        if (enemyController != null)
+        {
+            enemyController.DieAction += OnNpc;
+        }
     }
 
     private void Start()
@@ -28,7 +31,10 @@ public class CutSceneSignalTrigger : MonoBehaviour
 
     private void OnDestroy()
     {
-        enemyController.DieAction -= OnNpc;
+        if (enemyController != null)
+        {
+            enemyController.DieAction -= OnNpc;
+        }
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
