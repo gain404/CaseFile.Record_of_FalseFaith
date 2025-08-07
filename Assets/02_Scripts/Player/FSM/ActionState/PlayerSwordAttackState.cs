@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerSwordAttackState : PlayerActionState
 {
@@ -14,6 +14,7 @@ public class PlayerSwordAttackState : PlayerActionState
         stateMachine.Player.WeaponHandler.OnSwordAttackPoint();
         _hitBox.OnTriggered += stateMachine.Player.WeaponHandler.SwordAttack;
         StartAnimation(stateMachine.Player.PlayerAnimationData.SwordAttackParameterHash);
+        SoundManager.Instance.PlayRandomAttackSFX();
     }
     
     public override void Exit()

@@ -75,6 +75,7 @@ public class PlayerStat : MonoBehaviour
         _currentStats[type] -= amount;
         if (type == StatType.Heart)
         {
+            _uiHealth.ShakeHearts(amount);
             _uiHealth.UpdateHeart();
         }
         else if (type == StatType.Stamina)
