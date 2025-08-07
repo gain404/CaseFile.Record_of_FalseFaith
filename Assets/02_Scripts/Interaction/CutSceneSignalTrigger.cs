@@ -1,12 +1,13 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 
 public class CutSceneSignalTrigger : MonoBehaviour
 {
+    public LayerMask playerLayerMask;
     [SerializeField] private GameObject npcGameObject;
     [SerializeField] private PlayableDirector playableDirector;
-    [SerializeField] private LayerMask playerLayerMask;
     [SerializeField] private EnemyController enemyController;
     private Player _player;
     private NPCInteraction _npc;
@@ -16,18 +17,18 @@ public class CutSceneSignalTrigger : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         _player = player.GetComponent<Player>();
         _npc = GetComponent<NPCInteraction>();
-        enemyController.DieAction += OnNpc;
+        if (enemyController != null)
+        {
+            enemyController.DieAction += OnNpc;
+        }
     }
-
-    private void Start()
-    {
-        gameObject.SetActive(false);
-        
-    }
-
+    
     private void OnDestroy()
     {
-        enemyController.DieAction -= OnNpc;
+        if (enemyController != null)
+        {
+            enemyController.DieAction -= OnNpc;
+        }
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
@@ -66,6 +67,7 @@ public class CutSceneSignalTrigger : MonoBehaviour
         _player.PlayerController.playerActions.Enable();
         _player.CurrentInteractableNPC = null;
         UIManager.Instance.UIDialogue.autoAdvanced = false;
+        npcGameObject.SetActive(true);
     }
     
     public void OnExitDialogue()
@@ -77,7 +79,16 @@ public class CutSceneSignalTrigger : MonoBehaviour
     public void OnExitScene()
     {
         AfterDialogue();
-        SceneManager.LoadScene("Chapter1");
+        StartCoroutine(FadeAndLoadScene("Chapter1"));
+    }
+    
+    private IEnumerator FadeAndLoadScene(string sceneName)
+    {
+        // 페이드 아웃
+        FadeManager.Instance.Fade(1f, 4f);
+        yield return new WaitForSeconds(1);
+        // 로딩 씬 호출
+        LoadingBar.LoadScene(sceneName);
     }
     
 }

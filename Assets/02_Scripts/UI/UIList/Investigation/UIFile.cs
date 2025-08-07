@@ -7,7 +7,8 @@ public class UIFile : MonoBehaviour
     [SerializeField] private GameObject file;
     [SerializeField] private List<Button> chapterButton;
     [SerializeField] private List<GameObject> chapterList;
-    [SerializeField] private Button testButton;
+    [SerializeField] private List<GameObject> hideImageList;
+    [SerializeField] private ChapterSetter chapterSetter;
     
     private List<bool> _isChapterOpen = new();
     private CsvManager _csvManager;
@@ -25,13 +26,13 @@ public class UIFile : MonoBehaviour
         {
             _isChapterOpen.Add(false);
         }
-        testButton.onClick.AddListener(Test);
-        //밑에는 임시
-        SetChapterList(0);
-        ChapterOpen(3);
+
+        int chap = chapterSetter.SetChapter();
+        SetChapterList(chap);
+        ChapterOpen(chap);
     }
     
-    private void Start()
+    public void FileInit()
     {
         foreach (var list in _chapterInvestigationList)
         {
@@ -64,16 +65,11 @@ public class UIFile : MonoBehaviour
         {
             _isChapterOpen[i] = true;
         }
-    }
 
-    private void Test()
-    {
-        OpenInvestigationList(101);
-        OpenInvestigationList(102);
-        OpenInvestigationList(103);
-        OpenInvestigationList(104);
-        OpenInvestigationList(201);
-        OpenInvestigationList(301);
+        for (int i = chapter; i < hideImageList.Count; i++)
+        {
+            hideImageList[i].SetActive(false);
+        }
     }
     
     public void OpenInvestigationList(int index)
