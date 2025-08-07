@@ -94,27 +94,27 @@ public class LocationTrigger : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        if (showGizmo)
-        {
-            Gizmos.color = hasTriggered ? Color.blue : gizmoColor;
-
-            // Collider 영역 표시
-            Collider2D col = GetComponent<Collider2D>();
-            if (col != null)
-            {
-                Gizmos.DrawWireCube(transform.position, col.bounds.size);
-            }
-            else
-            {
-                Gizmos.DrawWireCube(transform.position, new Vector3(2f, 2f, 0f));
-            }
-
-            // 위치 이름 표시 (Scene 뷰에서)
-            UnityEditor.Handles.Label(transform.position + Vector3.up * 1.5f, locationName);
-        }
-    }
+    // private void OnDrawGizmos()
+    // {
+    //     if (showGizmo)
+    //     {
+    //         Gizmos.color = hasTriggered ? Color.blue : gizmoColor;
+    //
+    //         // Collider 영역 표시
+    //         Collider2D col = GetComponent<Collider2D>();
+    //         if (col != null)
+    //         {
+    //             Gizmos.DrawWireCube(transform.position, col.bounds.size);
+    //         }
+    //         else
+    //         {
+    //             Gizmos.DrawWireCube(transform.position, new Vector3(2f, 2f, 0f));
+    //         }
+    //
+    //         // 위치 이름 표시 (Scene 뷰에서)
+    //         UnityEditor.Handles.Label(transform.position + Vector3.up * 1.5f, locationName);
+    //     }
+    // }
 
     // 에디터에서 테스트용
     [ContextMenu("위치 도달 테스트")]
