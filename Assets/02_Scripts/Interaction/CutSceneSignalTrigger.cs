@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
@@ -89,6 +90,11 @@ public class CutSceneSignalTrigger : MonoBehaviour
         yield return new WaitForSeconds(1);
         // 로딩 씬 호출
         LoadingBar.LoadScene(sceneName);
+    }
+
+    public void OnMoveTutorialPanel()
+    {
+        DOVirtual.DelayedCall(0.1f, () => UIManager.Instance.UITutorial.OnTutorialPanel(TutorialType.Move));
     }
     
 }
