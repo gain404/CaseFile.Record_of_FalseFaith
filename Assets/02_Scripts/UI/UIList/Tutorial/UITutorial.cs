@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public enum TutorialType
 {
-    Move, Fight, Investigation, Interaction
+    Move, Fight, Investigation, Interaction, Inventory
 }
 
 [System.Serializable]
