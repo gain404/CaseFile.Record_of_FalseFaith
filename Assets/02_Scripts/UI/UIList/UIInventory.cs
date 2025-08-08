@@ -15,7 +15,7 @@ public class UIInventory : MonoBehaviour
     [SerializeField] private TextMeshProUGUI selectedItemName;
     [SerializeField] private TextMeshProUGUI selectedItemDescription;
     [SerializeField] private UIAnimator inventoryAnimator;
-    
+    [SerializeField] private GameObject cancelButton;
     private ItemSlot _selectedItem;
     private ItemManager _itemUser;
     private Player _player;
@@ -23,7 +23,7 @@ public class UIInventory : MonoBehaviour
     private int _curEquipIndex;
     private int _selectedItemIndex;
 
-    // 🔹 조사 모드 여부
+    //  조사 모드 여부
     private bool _isInvestigationMode;
 
     private void Start()
@@ -42,7 +42,7 @@ public class UIInventory : MonoBehaviour
         // Inventory UI 초기화
         inventoryWindow.SetActive(false);
         slots = new ItemSlot[slotPanel.childCount];
-
+        cancelButton.SetActive(false);
         for (int i = 0; i < slots.Length; i++)
         {
             slots[i] = slotPanel.GetChild(i).GetComponent<ItemSlot>();
@@ -181,6 +181,7 @@ public class UIInventory : MonoBehaviour
         _isInvestigationMode = true;
         if (!IsOpen()) Toggle();
         useButtonText.text = "조사";   // 조사 모드 표시
+        cancelButton.SetActive(true);
         Debug.Log("[Inventory] 조사 모드 진입");
     }
 
@@ -237,6 +238,7 @@ public class UIInventory : MonoBehaviour
         _isInvestigationMode = false;
         if (IsOpen()) Toggle();
         useButtonText.text = "사용";
+        cancelButton.SetActive(false);
         ClearSelectedItemWindow();
     }
 

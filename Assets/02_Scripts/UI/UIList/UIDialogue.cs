@@ -117,7 +117,40 @@ public class UIDialogue : MonoBehaviour
         _dialogueCamera.Priority = 30;
         _fadeManager.OrderChange(0);
         _fadeManager.Fade(0.5f,0.1f);
-        dialoguePanel.SetActive(true);
+        DialogueLine firstLine = _currentDialogue.lines[0];
+        if (firstLine.type == DialogueType.OpenStore || firstLine.type == DialogueType.StartInvestigation)
+        {
+            
+            dialoguePanel.SetActive(false);
+            PauseDialogue();
+
+            if (firstLine.type == DialogueType.OpenStore && _uiShop != null)
+            {
+                _uiShop.OpenShop(firstLine.shopData);
+            }
+            else if (firstLine.type == DialogueType.StartInvestigation)
+            {
+                UIInventory inventory = FindObjectOfType<UIInventory>();
+                if (inventory != null)
+                {
+                    inventory.EnterInvestigationMode();
+                }
+            }
+        }
+        // ✨ 일반 대화일 경우에만 대화창을 활성화
+        else
+        {
+            dialoguePanel.SetActive(true);
+            dialogueBoxRect.anchoredPosition = defaultBoxPos;
+
+            if (_isItemDialogue)
+            {
+                npcNameText.text = "";
+                playerImage.gameObject.SetActive(false);
+                npcImage.gameObject.SetActive(false);
+            }
+            ShowLine(); // 일반 대화 흐름 시작
+        }
         choicePanel.SetActive(false);
         dialogueBoxRect.anchoredPosition = defaultBoxPos;
 
