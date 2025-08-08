@@ -26,7 +26,7 @@ public class UIFile : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             _isChapterOpen.Add(false);
-            hideImageList[i].SetActive(false);
+            hideImageList[i].SetActive(true);
         }
 
         int chap = chapterSetter.SetChapter();
@@ -67,11 +67,7 @@ public class UIFile : MonoBehaviour
         for (int i = 0; i < chapter; i++)
         {
             _isChapterOpen[i] = true;
-        }
-
-        for (int i = chapter; i < hideImageList.Count; i++)
-        {
-            hideImageList[i].SetActive(true);
+            hideImageList[i].SetActive(false);
         }
     }
     
