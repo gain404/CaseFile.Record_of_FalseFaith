@@ -18,6 +18,7 @@ public class UIShop : MonoBehaviour
     [SerializeField] private TMP_Text selectedItemName;
     [SerializeField] private TMP_Text selectedItemDescription;
     [SerializeField] private TMP_Text playerGoldText;
+    [SerializeField]  private TMP_Text selectedItemPrice;
 
     [Header("Buttons & Popup")]
     [SerializeField] private Button buyButton;
@@ -98,13 +99,15 @@ public class UIShop : MonoBehaviour
         _currentItemToBuy = item;
         selectedItemName.text = item.itemName;
         selectedItemDescription.text = item.itemDescription;
+        selectedItemPrice.text = item.itemPrice.ToString();
     }
 
     void ClearDetails()
     {
         _currentItemToBuy = null;
-        selectedItemName.text = "아이템 선택";
+        selectedItemName.text = "";
         selectedItemDescription.text = "구매할 아이템을 선택하세요.";
+        selectedItemPrice.text = "";
     }
 
     void UpdatePlayerGold()
