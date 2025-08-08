@@ -9,6 +9,7 @@ public class UIFile : MonoBehaviour
     [SerializeField] private List<GameObject> chapterList;
     [SerializeField] private List<GameObject> hideImageList;
     [SerializeField] private ChapterSetter chapterSetter;
+    [SerializeField] private GameObject hidePanel;
     
     private List<bool> _isChapterOpen = new();
     private CsvManager _csvManager;
@@ -52,6 +53,7 @@ public class UIFile : MonoBehaviour
     {
         file.transform.SetAsLastSibling();
         chapterButton[chapter].gameObject.transform.SetAsLastSibling();
+        hidePanel.transform.SetAsLastSibling();
         foreach (GameObject list in chapterList)
         {
             list.SetActive(false);
