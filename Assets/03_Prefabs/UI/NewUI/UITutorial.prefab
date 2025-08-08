@@ -507,6 +507,8 @@ MonoBehaviour:
     tutorialPanel: {fileID: 303537873271749783}
   - tutorialType: 1
     tutorialPanel: {fileID: 3653133773709359326}
+  - tutorialType: 4
+    tutorialPanel: {fileID: 5344119207126870955}
 --- !u!1 &2389223492261666597
 GameObject:
   m_ObjectHideFlags: 0
@@ -1104,7 +1106,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 448, y: 238}
-  m_SizeDelta: {x: 20, y: 100}
+  m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7220799272980392581
 CanvasRenderer:
@@ -1273,7 +1275,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5309512699179002857
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1647,7 +1649,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2474137263011307622
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1686,7 +1688,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4178646480571155469
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1817,7 +1819,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1528721883449872010, guid: ae472e585825dc14bb2cb0312b47daff, type: 3}
+  m_Sprite: {fileID: -4346244404228752641, guid: 47b3d1f8f07e2154eba72217346fd202, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
