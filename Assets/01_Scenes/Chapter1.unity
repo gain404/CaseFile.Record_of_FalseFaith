@@ -379,11 +379,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1836083522020775309, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.83
+      value: -7.93
       objectReference: {fileID: 0}
     - target: {fileID: 1836083522020775309, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.66
+      value: -1.37
       objectReference: {fileID: 0}
     - target: {fileID: 1836083522020775309, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
       propertyPath: m_LocalPosition.z
@@ -453,6 +453,34 @@ PrefabInstance:
       propertyPath: 'saveSlotButtons.Array.data[2]'
       value: 
       objectReference: {fileID: 848361324}
+    - target: {fileID: 5943099527588441168, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -6952877288089464526, guid: e11844e403b3ccb41a57b09cbf70858f, type: 3}
+    - target: {fileID: 6481533392184781461, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
+      propertyPath: m_Size.x
+      value: 0.52301836
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481533392184781461, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
+      propertyPath: m_Size.y
+      value: 0.53016806
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481533392184781461, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481533392184781461, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.03908223
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481533392184781461, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.286
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481533392184781461, guid: c88d1fb81d2419443bf0a50f67469847, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.384
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1094,7 +1122,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1626485673256725181, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00034553444
+      value: 0.0008451993
       objectReference: {fileID: 0}
     - target: {fileID: 1663862573978146437, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
       propertyPath: m_Name
@@ -1502,11 +1530,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdbd3a53a9287f2418706c46ab127440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcGameObject: {fileID: 291143120}
-  playableDirector: {fileID: 1251262250}
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 4096
+  npcGameObject: {fileID: 291143120}
+  playableDirector: {fileID: 1251262250}
   enemyController: {fileID: 0}
 --- !u!1 &1251262248
 GameObject:
