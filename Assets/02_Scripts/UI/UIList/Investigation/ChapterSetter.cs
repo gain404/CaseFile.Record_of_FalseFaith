@@ -12,7 +12,7 @@ public class ChapterSetter : MonoBehaviour
 
         if (string.IsNullOrEmpty(digitsOnly))
         {
-            return 0;
+            return 1;
         }
         else if (int.TryParse(digitsOnly, out int result))
         {
@@ -20,7 +20,7 @@ public class ChapterSetter : MonoBehaviour
         }
         else
         {
-            return 0;
+            return 1;
         }
     }
 }

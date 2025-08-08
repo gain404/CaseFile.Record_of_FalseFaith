@@ -24,6 +24,11 @@ public class UIInvestigation : MonoBehaviour
         bookButton.enabled = true;
     }
 
+    public void BookButtonDisActive()
+    {
+        bookButton.enabled = false;
+    }
+
     private void ActiveBook()
     {
         uiFile.SetActive(!uiFile.activeSelf);
