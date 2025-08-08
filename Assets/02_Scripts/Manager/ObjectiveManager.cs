@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class ObjectiveData
@@ -68,8 +70,6 @@ public class ObjectiveManager : MonoBehaviour
 
     private void Start()
     {
-        objectiveUI = UIManager.Instance.UIObjective;
-        completeNotifier = UIManager.Instance.UIObjectiveCompleteNotifier;
         triggerLoader.LoadTriggerData();
 
         dataLoader.LoadObjectiveData();// 전체 퀘스트 데이터 로드
@@ -78,6 +78,30 @@ public class ObjectiveManager : MonoBehaviour
         objectiveUI.UpdateObjectiveDisplay(activeObjectives);// UI에 퀘스트 목록 표시
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        StartCoroutine(InitSceneLoaded());
+    }
+    
+    private IEnumerator InitSceneLoaded()
+    {
+        yield return null;
+        
+        dataLoader = Object.FindAnyObjectByType<ObjectiveDataLoader>();
+        objectiveUI = UIManager.Instance.UIObjective;
+        completeNotifier = UIManager.Instance.UIObjectiveCompleteNotifier;
+    }
+    
     public void LoadChapterObjectives(int chapterNumber)
     {
         activeObjectives.Clear();

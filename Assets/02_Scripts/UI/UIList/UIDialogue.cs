@@ -401,6 +401,12 @@ public class UIDialogue : MonoBehaviour
     
         _currentDialogue = null;
         _currentItemLines = null;
+        var cg = GetComponent<CanvasGroup>();
+        if (cg != null)
+        {
+            cg.blocksRaycasts = false;
+            cg.interactable = false;
+        }
     }
 
     #region Other Methods

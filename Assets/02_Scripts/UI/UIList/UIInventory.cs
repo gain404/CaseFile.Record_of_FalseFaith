@@ -1,5 +1,8 @@
-﻿using TMPro;
+﻿using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// 인벤토리UI를 다루는 스크립트입니다.
@@ -22,7 +25,7 @@ public class UIInventory : MonoBehaviour
     private PlayerController _playerController;
     private int _curEquipIndex;
     private int _selectedItemIndex;
-
+    private NPCInteraction _cachedNPC;
     //  조사 모드 여부
     private bool _isInvestigationMode;
 
@@ -76,9 +79,21 @@ public class UIInventory : MonoBehaviour
     // Inventory 창 Open/Close
     public void Toggle()
     {
-        if (IsOpen()) inventoryAnimator.ClosePanel();
-        else inventoryAnimator.OpenPanel();
+        if (IsOpen())
+        {
+            inventoryAnimator.ClosePanel();
+            ClearSelectedItemWindow();
+            EventSystem.current.SetSelectedGameObject(null); // 선택 초기화
+        }
+        else
+        {
+            inventoryAnimator.OpenPanel();
+
+            // 🔹 강제로 다시 Raycast/Selectable 업데이트 시도
+            StartCoroutine(EnableUIInteractionsNextFrame());
+        }
     }
+
     public bool IsOpen() => inventoryWindow.activeInHierarchy;
     
     // 아이템 추가
@@ -178,6 +193,7 @@ public class UIInventory : MonoBehaviour
 
     public void EnterInvestigationMode()
     {
+        _cachedNPC = _player.CurrentInteractableNPC;
         _isInvestigationMode = true;
         if (!IsOpen()) Toggle();
         useButtonText.text = "조사";   // 조사 모드 표시
@@ -200,6 +216,8 @@ public class UIInventory : MonoBehaviour
         }
         ClearSelectedItemWindow();
         useButtonText.text = "사용";
+        cancelButton.SetActive(false);
+        RestoreCachedNPC();
         Debug.Log("[Inventory] 조사 모드 종료 로직 완료."); // 확인용 로그 6
     }
 
@@ -219,7 +237,7 @@ public class UIInventory : MonoBehaviour
         UIInvestigationTimer.Instance.StartInvestigation(data.investigationIndex);
 
         // 2. 세컨드 대사 표시 허용
-        _player.stateMachine.IsReturnFromInvestigationSuccess = true; // 🔹 조사 성공
+        _player.stateMachine.IsReturnFromInvestigationSuccess = true; //  조사 성공
 
         // 3. 인벤토리 닫기
         ExitInvestigationMode();
@@ -239,6 +257,7 @@ public class UIInventory : MonoBehaviour
         if (IsOpen()) Toggle();
         useButtonText.text = "사용";
         cancelButton.SetActive(false);
+        RestoreCachedNPC();
         ClearSelectedItemWindow();
     }
 
@@ -272,6 +291,14 @@ public class UIInventory : MonoBehaviour
             }
         }
     }
+    
+    private IEnumerator EnableUIInteractionsNextFrame()
+    {
+        yield return null; // 한 프레임 대기 (SetActive 이후)
+
+        //  UI 이벤트 시스템 초기화
+        EventSystem.current.SetSelectedGameObject(null);
+    }
 
     public void AddItemByIndex(int idx)
     {
@@ -286,6 +313,14 @@ public class UIInventory : MonoBehaviour
         else
         {
             Debug.LogWarning($"아이템을 불러올 수 없습니다: {path}");
+        }
+    }
+    private void RestoreCachedNPC()
+    {
+        if (_cachedNPC != null)
+        {
+            _player.CurrentInteractableNPC = _cachedNPC;
+            _cachedNPC = null;
         }
     }
 }
