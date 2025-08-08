@@ -330,11 +330,11 @@ public class UIDialogue : MonoBehaviour
             {
                 Debug.Log("[Dialogue] StartInvestigation 호출됨 → 인벤토리 조사 모드 진입");
         
-                // ✨ [수정] 인벤토리를 열기 전에, 기존 초상화를 먼저 정리합니다.
+                //  인벤토리를 열기 전에, 기존 초상화를 먼저 정리합니다.
                 yield return StartCoroutine(FadeOutImages());
                 npcNameText.text = ""; // 이름표도 초기화
 
-                // 1) 대화 패널 닫기 (이것만으로는 부족)
+                // 1) 대화 패널 닫기
                 dialoguePanel.SetActive(false);
 
                 // 2) 인벤토리 조사 모드 열기

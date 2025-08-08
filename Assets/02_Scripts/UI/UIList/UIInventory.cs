@@ -25,7 +25,6 @@ public class UIInventory : MonoBehaviour
     private PlayerController _playerController;
     private int _curEquipIndex;
     private int _selectedItemIndex;
-    private NPCInteraction _cachedNPC;
     //  조사 모드 여부
     private bool _isInvestigationMode;
 
@@ -193,7 +192,7 @@ public class UIInventory : MonoBehaviour
 
     public void EnterInvestigationMode()
     {
-        _cachedNPC = _player.CurrentInteractableNPC;
+        
         _isInvestigationMode = true;
         if (!IsOpen()) Toggle();
         useButtonText.text = "조사";   // 조사 모드 표시
@@ -217,7 +216,6 @@ public class UIInventory : MonoBehaviour
         ClearSelectedItemWindow();
         useButtonText.text = "사용";
         cancelButton.SetActive(false);
-        RestoreCachedNPC();
         Debug.Log("[Inventory] 조사 모드 종료 로직 완료."); // 확인용 로그 6
     }
 
@@ -257,7 +255,6 @@ public class UIInventory : MonoBehaviour
         if (IsOpen()) Toggle();
         useButtonText.text = "사용";
         cancelButton.SetActive(false);
-        RestoreCachedNPC();
         ClearSelectedItemWindow();
     }
 
@@ -313,14 +310,6 @@ public class UIInventory : MonoBehaviour
         else
         {
             Debug.LogWarning($"아이템을 불러올 수 없습니다: {path}");
-        }
-    }
-    private void RestoreCachedNPC()
-    {
-        if (_cachedNPC != null)
-        {
-            _player.CurrentInteractableNPC = _cachedNPC;
-            _cachedNPC = null;
         }
     }
 }

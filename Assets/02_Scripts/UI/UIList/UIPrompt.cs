@@ -18,6 +18,16 @@ public class UIPrompt : MonoBehaviour
 
     private void Update()
     {
+        if (UIManager.Instance.UIInventory != null && UIManager.Instance.UIInventory.IsOpen())
+        {
+            if (interactPanel.activeSelf)
+            {
+                interactPanel.SetActive(false);
+                _currentTarget = null;
+            }
+            return;
+        }
+        
         if (UIManager.Instance.UIDialogue.CurrentState != DialogueState.Inactive)
         {
             if (interactPanel.activeSelf)
