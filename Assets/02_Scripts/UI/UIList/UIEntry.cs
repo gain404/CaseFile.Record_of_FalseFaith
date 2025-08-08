@@ -4,7 +4,7 @@ using UnityEngine;
 public enum UIType
 {
     UIInventory, UIDialogue,UIShop,UIHealth,UIStamina,UIPrompt,
-    UIInvestigation, UISave, UILoad, UIMap, UIGuideIcon,UITutorial, UIScript, UIObjective, UIObjectiveCompleteNotifier,
+    UIInvestigation, UISave, UILoad, UIMap, UIGuideIcon,UITutorial, UIScript, UIObjective, UIObjectiveCompleteNotifier, UIGameOverEffect,
     Title, UIInvestigationTimer
 }
 

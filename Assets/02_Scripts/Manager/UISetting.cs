@@ -7,7 +7,6 @@ public class UISetting : MonoBehaviour
 
     [SerializeField] private SoundSetting soundSetting;
     [SerializeField] private DisplaySetting displaySetting;
-    [SerializeField] private LanguageSetting languageSetting;
 
     private bool isOpen = false;
 
