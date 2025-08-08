@@ -19,24 +19,6 @@ public class PlayerInteractState : PlayerActionState
         StartAnimation(stateMachine.Player.PlayerAnimationData.IdleParameterHash);
         stateMachine.MovementSpeedModifier = 0f;
 
-        // 🔹 조사 취소 or 상점 닫기 후 복귀 시 바로 Idle로
-        if (stateMachine.IsReturningFromShop || stateMachine.IsReturningFromInvestigationCancel)
-        {
-            Debug.Log("[InteractState] 상점 or 조사 취소 후 복귀 - 대사 없이 종료");
-
-            // 상호작용 대상 초기화
-            stateMachine.Player.CurrentInteractableNPC = null;
-            stateMachine.Player.CurrentInteractableItem = null;
-            stateMachine.Player.itemData = null;
-
-            // 플래그 초기화
-            stateMachine.IsReturningFromShop = false;
-            stateMachine.IsReturningFromInvestigationCancel = false;
-
-            stateMachine.ChangeState(stateMachine.IdleState);
-            return;
-        }
-
         var npc = stateMachine.Player.CurrentInteractableNPC;
         var item = stateMachine.Player.CurrentInteractableItem;
         ItemData itemData = stateMachine.Player.itemData;

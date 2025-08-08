@@ -11,6 +11,7 @@ public class PlayerIdleState : PlayerMoveState
 
     public override void Enter()
     {
+        Debug.Log("Idle State Enter");
         stateMachine.MovementSpeedModifier = 0f;
         base.Enter();
         StartAnimation(stateMachine.Player.PlayerAnimationData.IdleParameterHash);
@@ -31,6 +32,7 @@ public class PlayerIdleState : PlayerMoveState
 
     public override void Exit()
     {
+        Debug.Log("Idle State Exit");
         base.Exit();
         EndAnimation(stateMachine.Player.PlayerAnimationData.IdleParameterHash);
     }

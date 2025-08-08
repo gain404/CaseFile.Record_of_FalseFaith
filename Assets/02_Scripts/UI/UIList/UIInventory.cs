@@ -222,7 +222,6 @@ public class UIInventory : MonoBehaviour
 
         // 3. 인벤토리 닫기
         ExitInvestigationMode();
-
         // 4. 세컨드 대사 출력
         if (UIManager.Instance.UIDialogue != null)
         {
@@ -232,8 +231,10 @@ public class UIInventory : MonoBehaviour
 
     public void CancelInvestigation()
     {
+        UIManager.Instance.UIDialogue.ResetDialogueState();
+        _player.stateMachine.IsReturningFromInvestigationCancel = true;
+        _player.stateMachine.IsReturnFromInvestigationSuccess = false; //  취소했으므로 false
         _isInvestigationMode = false;
-        _player.stateMachine.IsReturnFromInvestigationSuccess = false; // ❌ 취소했으므로 false
         if (IsOpen()) Toggle();
         useButtonText.text = "사용";
         ClearSelectedItemWindow();

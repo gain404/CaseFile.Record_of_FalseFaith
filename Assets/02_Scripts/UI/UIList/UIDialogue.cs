@@ -73,7 +73,6 @@ public class UIDialogue : MonoBehaviour
     public void StartDialogue(DialogueAsset asset, Transform dialogueTarget, NPCData npcData = null)
     {
         if (CurrentState != DialogueState.Inactive) return;
-
         _currentDialogue = asset;
         _isItemDialogue = false;
         _currentNpcData = npcData;
@@ -273,11 +272,14 @@ public class UIDialogue : MonoBehaviour
             DialogueLine line = _currentDialogue.lines[_currentIndex];
             textToDisplay = line.text;
 
-            //  OpenStore 처리
             if (line.type == DialogueType.OpenStore)
             {
                 if (line.shopData != null && _uiShop != null)
                 {
+                    // ✨ [수정] UI를 열기 전에, 기존 초상화를 먼저 정리합니다.
+                    yield return StartCoroutine(FadeOutImages());
+                    npcNameText.text = ""; // 이름표도 초기화
+                
                     dialoguePanel.SetActive(false);
                     _uiShop.OpenShop(line.shopData);
                     PauseDialogue();
@@ -290,12 +292,16 @@ public class UIDialogue : MonoBehaviour
                 }
             }
 
-            //  StartInvestigation 처리
+            // StartInvestigation 처리
             if (line.type == DialogueType.StartInvestigation)
             {
                 Debug.Log("[Dialogue] StartInvestigation 호출됨 → 인벤토리 조사 모드 진입");
-            
-                // 1) 대화 패널 닫기
+        
+                // ✨ [수정] 인벤토리를 열기 전에, 기존 초상화를 먼저 정리합니다.
+                yield return StartCoroutine(FadeOutImages());
+                npcNameText.text = ""; // 이름표도 초기화
+
+                // 1) 대화 패널 닫기 (이것만으로는 부족)
                 dialoguePanel.SetActive(false);
 
                 // 2) 인벤토리 조사 모드 열기
@@ -305,7 +311,7 @@ public class UIDialogue : MonoBehaviour
                     inventory.EnterInvestigationMode();
                 }
 
-                // 3) 대화 종료 상태로 전환 (세컨드 대화는 조사 완료 후에 진행)
+                // 3) 대화 일시정지
                 PauseDialogue();
                 yield break;
             }
@@ -349,10 +355,19 @@ public class UIDialogue : MonoBehaviour
 
     public void ResetDialogueState()
     {
-        StopAllCoroutines();
         SetState(DialogueState.Inactive);
-        IsDialogueFinished = true;
+        IsDialogueFinished = true; 
+        continueArrow.SetActive(false);
+        choicePanel.SetActive(false);
         dialoguePanel.SetActive(false);
+        choicePanel.SetActive(false);
+        dialogueText.text = "";
+        npcNameText.text = "";
+        _dialogueCamera.Priority = 0;
+        _dialogueCamera.Follow = null;
+    
+        _currentDialogue = null;
+        _currentItemLines = null;
     }
 
     #region Other Methods
