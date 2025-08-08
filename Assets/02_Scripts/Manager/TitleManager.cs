@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -66,7 +66,7 @@ public class TitleManager : MonoBehaviour
     {
         // 현재는 설정 패널을 활성화
         // 추후 언어, 사운드 설정 UI를 연결하고 기능을 구현
-        StartCoroutine(SwitchPanel(mainMenuPanel, settingsPanel));
+        settingsPanel.SetActive(true);
         // 필요하다면 메인 메뉴를 비활성화하거나 페이드 아웃 처리
         // mainMenuPanel.SetActive(false);
     }
