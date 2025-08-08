@@ -11,7 +11,7 @@ public class UIScripts : MonoBehaviour
     [SerializeField] private TMP_Text subtitleText;
     [SerializeField] private List<string> promptTextData;
     [SerializeField] private PlayableDirector playableDirector;
-    [SerializeField] private AudioClip scriptClip;
+    [SerializeField] private AudioClip keyboardSfx;
     [SerializeField] private AudioClip newClip;
     private Player _player;
     private float _textDelayTime = 0.06f;
@@ -57,6 +57,7 @@ public class UIScripts : MonoBehaviour
         foreach (char c in text)
         {
             subtitleText.text += c;
+            SoundManager.Instance.PlaySFX(keyboardSfx);
             yield return new WaitForSeconds(_textDelayTime);
         }
     }
