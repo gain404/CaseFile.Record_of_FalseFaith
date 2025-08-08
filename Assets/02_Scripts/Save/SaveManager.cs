@@ -267,29 +267,29 @@ public class SaveManager : MonoBehaviour
     // 게임 데이터 복원 (순서 중요)
     private IEnumerator RestoreGameData(SaveData saveData)
     {
-        // 1. PlayerManager 찾기 및 대기
-        PlayerManager playerManager = null;
-        float timeout = 3f; // 3초 타임아웃
-        float timer = 0f;
+        //// 1. PlayerManager 찾기 및 대기
+        //PlayerManager playerManager = null;
+        //float timeout = 3f; // 3초 타임아웃
+        //float timer = 0f;
 
-        while (playerManager == null && timer < timeout)
-        {
-            playerManager = PlayerManager.Instance;
-            if (playerManager == null)
-            {
-                yield return new WaitForSeconds(0.1f);
-                timer += 0.1f;
-            }
-        }
+        //while (playerManager == null && timer < timeout)
+        //{
+        //    playerManager = PlayerManager.Instance;
+        //    if (playerManager == null)
+        //    {
+        //        yield return new WaitForSeconds(0.1f);
+        //        timer += 0.1f;
+        //    }
+        //}
 
-        if (playerManager == null)
-        {
-            Debug.LogError("PlayerManager를 찾을 수 없습니다!");
-            yield break;
-        }
+        //if (playerManager == null)
+        //{
+        //    Debug.LogError("PlayerManager를 찾을 수 없습니다!");
+        //    yield break;
+        //}
 
         // 2. 플레이어 오브젝트 찾기
-        GameObject player = playerManager.GetPlayer();
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player == null)
         {
             Debug.LogError("플레이어 오브젝트를 찾을 수 없습니다!");

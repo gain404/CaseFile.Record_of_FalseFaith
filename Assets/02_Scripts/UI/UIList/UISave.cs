@@ -133,7 +133,7 @@ public class UISave : MonoBehaviour
     {
         // 현재 플레이어 근처의 세이브 포인트 찾기
         SavePoint[] savePoints = FindObjectsByType<SavePoint>(FindObjectsSortMode.None);//세이브 포인트가 여러개 있으면 정렬 안하고 걍 다 찾는다는 뜻임
-        GameObject player = PlayerManager.Instance.GetPlayer();
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
 
         if (player == null) return null;
 
