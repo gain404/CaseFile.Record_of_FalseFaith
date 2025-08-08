@@ -11,9 +11,11 @@ public class UIScripts : MonoBehaviour
     [SerializeField] private TMP_Text subtitleText;
     [SerializeField] private List<string> promptTextData;
     [SerializeField] private PlayableDirector playableDirector;
+    [SerializeField] private AudioClip keyboardSfx;
+    [SerializeField] private AudioClip newClip;
     private Player _player;
-    private float _textDelayTime = 0.05f;
-    private float _sentenceDelayTime = 0.5f;
+    private float _textDelayTime = 0.06f;
+    private float _sentenceDelayTime = 1.0f;
 
     private void Awake()
     {
@@ -26,6 +28,7 @@ public class UIScripts : MonoBehaviour
     
     private void Start()
     {
+        SoundManager.Instance.StopBGM();
         StartCoroutine(StartPrompt());
     }
 
@@ -43,6 +46,7 @@ public class UIScripts : MonoBehaviour
 
         if (playableDirector != null)
         {
+            SoundManager.Instance.SetAndPlayDefaultBGM(newClip);
             playableDirector.Play();
         }
     }
@@ -53,6 +57,7 @@ public class UIScripts : MonoBehaviour
         foreach (char c in text)
         {
             subtitleText.text += c;
+            SoundManager.Instance.PlaySFX(keyboardSfx);
             yield return new WaitForSeconds(_textDelayTime);
         }
     }

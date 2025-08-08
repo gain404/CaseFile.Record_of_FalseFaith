@@ -39,7 +39,11 @@ public class UIShop : MonoBehaviour
     private void Start()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        _playerStat = player.GetComponent<PlayerStat>();
+        if (player != null)
+        {
+            _player = player.GetComponent<Player>(); // ✨ _player 변수에 Player 컴포넌트 할당
+            _playerStat = player.GetComponent<PlayerStat>();
+        }
         buyButton.onClick.AddListener(OnBuyButtonPressed);
         exitButton.onClick.AddListener(CloseShop);
         confirmYesButton.onClick.AddListener(ConfirmPurchase);
@@ -56,10 +60,14 @@ public class UIShop : MonoBehaviour
 
     public void CloseShop()
     {
-        _player.stateMachine.IsReturningFromShop = true;
-
-        // ✅ InteractState 강제 진입 유도 (또는 InteractUI → Interact 전이 조건 충족)
-        _player.CurrentInteractableNPC = null;
+        if (_player != null && _player.stateMachine != null)
+        {
+            _player.stateMachine.IsReturningFromShop = true;
+        }
+        else
+        {
+            Debug.LogWarning("Player 또는 StateMachine이 null입니다. IsReturningFromShop을 설정할 수 없습니다.");
+        }
         ShopPanel.SetActive(false);
     }
     

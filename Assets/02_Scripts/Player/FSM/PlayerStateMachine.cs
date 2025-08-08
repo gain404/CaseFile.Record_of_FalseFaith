@@ -172,12 +172,17 @@ public class PlayerStateMachine : StateMachine
             GunAttackState, IdleState,
             () => Player.PlayerController.playerActions.Attack.IsPressed()));
         
+        AddTransition(new StateTransition(
+            InteractUIState, IdleState,
+            () => IsReturningFromShop || IsReturningFromInvestigationCancel));
 
         //Interact
         AddTransition(new StateTransition(
             IdleState, InteractState,
             () => Player.PlayerController.playerActions.Interact.WasPressedThisFrame()
-                && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
+                  && !IsReturningFromShop && !IsReturningFromInvestigationCancel
+                  && (Player.CurrentInteractableNPC != null || Player.CurrentInteractableItem != null || Player.itemData != null)));
+
 
         AddTransition(new StateTransition(
             WalkState, InteractState,
@@ -196,10 +201,7 @@ public class PlayerStateMachine : StateMachine
         
         AddTransition(new StateTransition(
             InteractUIState, InteractState,
-            () => UIManager.Instance.UIDialogue.CurrentState == DialogueState.Paused
-                  && PreviousState != InteractUIState
-                  && !IsReturningFromShop
-                  && !IsReturningFromInvestigationCancel));
+            () => IsReturnFromInvestigationSuccess));
 
 
 
