@@ -70,12 +70,7 @@ public class ObjectiveManager : MonoBehaviour
 
     private void Start()
     {
-        triggerLoader.LoadTriggerData();
-
         dataLoader.LoadObjectiveData();// 전체 퀘스트 데이터 로드
-        LoadChapterObjectives(1); // 챕터 1 목표 로드 -> 이건 Scene에 맞게 수정해주기
-        objectiveUI.SetChapterTitle("Chapter 1");
-        objectiveUI.UpdateObjectiveDisplay(activeObjectives);// UI에 퀘스트 목록 표시
     }
 
     private void OnEnable()
@@ -97,9 +92,13 @@ public class ObjectiveManager : MonoBehaviour
     {
         yield return null;
         
-        dataLoader = Object.FindAnyObjectByType<ObjectiveDataLoader>();
         objectiveUI = UIManager.Instance.UIObjective;
         completeNotifier = UIManager.Instance.UIObjectiveCompleteNotifier;
+        triggerLoader.LoadTriggerData();
+        
+        LoadChapterObjectives(1);
+        objectiveUI.SetChapterTitle("Chapter 1");
+        objectiveUI.UpdateObjectiveDisplay(activeObjectives);// UI에 퀘스트 목록 표시
     }
     
     public void LoadChapterObjectives(int chapterNumber)
