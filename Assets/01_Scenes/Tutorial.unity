@@ -778,9 +778,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7746247024881570701, guid: 66f2710de1507ba48b47ae3b779fc7ac, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 1012721899}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66f2710de1507ba48b47ae3b779fc7ac, type: 3}
+--- !u!4 &853606742 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7746247024881570701, guid: 66f2710de1507ba48b47ae3b779fc7ac, type: 3}
+  m_PrefabInstance: {fileID: 853606741}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &854506044
 GameObject:
   m_ObjectHideFlags: 0
@@ -952,6 +960,101 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcData: {fileID: 11400000, guid: fd4daf8b100ce4844a1502c589a24a3f, type: 2}
+--- !u!1 &1012721898
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1012721899}
+  - component: {fileID: 1012721901}
+  - component: {fileID: 1012721900}
+  m_Layer: 0
+  m_Name: InventoryTutorialCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1012721899
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012721898}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 853606742}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1012721900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012721898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5dcb456b1ba6514eb41bd822b1474db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialType: 4
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4096
+--- !u!61 &1012721901
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012721898}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -7.643956, y: 1.8696084}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2.686903, y: 10.028841}
+  m_EdgeRadius: 0
 --- !u!1 &1054069835
 GameObject:
   m_ObjectHideFlags: 0
@@ -1726,6 +1829,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: c40396c3ab7d68f4d9eb2dca9b2b24f6, type: 2}
     - {fileID: 11400000, guid: 569f15d021fb1ce4c8a60a4e37aae41d, type: 2}
     - {fileID: 11400000, guid: 8823fc7de98dd2146928db67ef5e12f5, type: 2}
+    - {fileID: 11400000, guid: d8871e2432d47cf4aa8cc506d2e4433b, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -1760,6 +1864,20 @@ MonoBehaviour:
         - m_Target: {fileID: 1482293506}
           m_TargetAssemblyTypeName: CutSceneSignalTrigger, Assembly-CSharp
           m_MethodName: OffInput
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1482293506}
+          m_TargetAssemblyTypeName: CutSceneSignalTrigger, Assembly-CSharp
+          m_MethodName: OnMoveTutorialPanel
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1964,7 +2082,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1626485673256725181, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0001405678
+      value: 0.00030938056
       objectReference: {fileID: 0}
     - target: {fileID: 1663862573978146437, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
       propertyPath: m_Name
