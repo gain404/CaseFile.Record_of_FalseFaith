@@ -54,6 +54,8 @@ MonoBehaviour:
   fullHeart: {fileID: -6371644077884369873, guid: 4a682819a34a3704181cac283b71ad15, type: 3}
   halfHeart: {fileID: -8681175384156528864, guid: e079228e10cf1b7479dc2dde9d61da53, type: 3}
   emptyHeart: {fileID: -683650772475677664, guid: e4816fa2e580b1c4ea67e9c165823eb5, type: 3}
+  baseShakeIntensity: 5
+  shakeDuration: 0.2
 --- !u!1 &4979883440360983766
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,8 +90,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 152, y: 11.0905}
-  m_SizeDelta: {x: 389.0952, y: 77.8191}
+  m_AnchoredPosition: {x: 122, y: 26.3}
+  m_SizeDelta: {x: 250, y: 60}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &4855922191858004103
 MonoBehaviour:
@@ -155,11 +157,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7773311311379368925, guid: fa3e3c979b5ac144d949d17dd6187917, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 61.1004
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7773311311379368925, guid: fa3e3c979b5ac144d949d17dd6187917, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 76.3755
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 7773311311379368925, guid: fa3e3c979b5ac144d949d17dd6187917, type: 3}
       propertyPath: m_LocalPosition.x

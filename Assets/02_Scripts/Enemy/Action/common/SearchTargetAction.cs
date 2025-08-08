@@ -18,6 +18,10 @@ public partial class SearchTargetAction : Action
         Vector3 startPosition = Self.Value.transform.parent.position;
         
         float selfPosX = Self.Value.transform.position.x;
+        if (Target.Value == null)
+        {
+            Target.Value = GameObject.FindGameObjectWithTag("Player");
+        }
         float playerPosX = Target.Value.transform.position.x;
         if (Mathf.Abs(startPosition.y - Target.Value.transform.position.y) > 70.0f)
         {

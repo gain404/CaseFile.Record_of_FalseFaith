@@ -12,8 +12,8 @@ public class UIScripts : MonoBehaviour
     [SerializeField] private List<string> promptTextData;
     [SerializeField] private PlayableDirector playableDirector;
     private Player _player;
-    private float _textDelayTime = 0.05f;
-    private float _sentenceDelayTime = 0.5f;
+    private float _textDelayTime = 0.06f;
+    private float _sentenceDelayTime = 1.0f;
 
     private void Awake()
     {
