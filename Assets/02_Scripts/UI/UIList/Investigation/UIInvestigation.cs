@@ -5,13 +5,11 @@ public class UIInvestigation : MonoBehaviour
 {
     [SerializeField] private Button bookButton;
     [SerializeField] private GameObject uiFile;
-
-    private CsvManager _csvManager;
+    
     private UIFile _uiFile;
     
     private void Start()
     {
-        _csvManager = CsvManager.Instance;
         bookButton.onClick.AddListener(ActiveBook);
         _uiFile = uiFile.GetComponent<UIFile>();
         uiFile.SetActive(false);
@@ -19,14 +17,9 @@ public class UIInvestigation : MonoBehaviour
     }
 
     //조사 시트 버튼을 active시켜주는 메써드
-    public void BookButtonActive()
+    public void OnBookButton()
     {
-        bookButton.enabled = true;
-    }
-
-    public void BookButtonDisActive()
-    {
-        bookButton.enabled = false;
+        bookButton.gameObject.SetActive(!bookButton.gameObject.activeSelf);
     }
 
     private void ActiveBook()

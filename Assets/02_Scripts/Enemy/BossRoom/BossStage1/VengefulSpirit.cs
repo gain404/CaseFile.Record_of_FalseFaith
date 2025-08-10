@@ -13,6 +13,9 @@ public class VengefulSpirit : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [Header("Sound")]
     [SerializeField] private AudioClip meleeAttackClip;
+    [SerializeField] private AudioClip biteAttackClip;
+    [SerializeField] private AudioClip hairAttackClip;
+    [SerializeField] private AudioClip howlingAttackClip;
     [SerializeField] private AudioClip dieClip;
     [SerializeField] private AudioClip moveClip;
 
@@ -61,6 +64,18 @@ public class VengefulSpirit : MonoBehaviour
     private void MeleeAttackSfx()
     {
         _soundManager.PlaySFX(meleeAttackClip);
+    }
+    private void BiteAttackSfx()
+    {
+        _soundManager.PlaySFX(biteAttackClip);
+    }
+    private void HairAttackSfx()
+    {
+        _soundManager.PlaySFX(hairAttackClip);
+    }
+    private void HowlingAttackSfx()
+    {
+        _soundManager.PlaySFX(howlingAttackClip);
     }
     private void DieSfx()
     {
