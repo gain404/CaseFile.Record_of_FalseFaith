@@ -15,11 +15,6 @@ public class TutorialColliderController : MonoBehaviour
         // }
     }
 
-    public void OnMovePanel()
-    {
-        _uiManager.UITutorial.OnTutorialPanel(TutorialType.Move);
-    }
-
     private void OnCollider()
     {
         foreach (TutorialCollider tutorial in tutorialCollider)
