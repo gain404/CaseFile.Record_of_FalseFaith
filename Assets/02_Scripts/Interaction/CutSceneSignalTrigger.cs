@@ -12,6 +12,7 @@ public class CutSceneSignalTrigger : MonoBehaviour
     [SerializeField] private EnemyController enemyController;
     private Player _player;
     private NPCInteraction _npc;
+    private UIManager _uiManager;
     
     private void Awake()
     {
@@ -96,5 +97,19 @@ public class CutSceneSignalTrigger : MonoBehaviour
     {
         DOVirtual.DelayedCall(0.1f, () => UIManager.Instance.UITutorial.OnTutorialPanel(TutorialType.Move));
     }
-    
+    public void OnInvestigationTutorialPanel()
+    {
+        DOVirtual.DelayedCall(0.1f, () => UIManager.Instance.UITutorial.OnTutorialPanel(TutorialType.Move));
+    }
+
+    public void OffUI()
+    {
+        if (_uiManager.MapManager != null)
+        {
+            _uiManager.MapManager.OnMapButton();
+        }
+        _uiManager.UIInvestigation.OnBookButton();
+        _uiManager.UIHealth.OnHealthUI();
+        _uiManager.UIStamina.OnStaminaUI();
+    }
 }

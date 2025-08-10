@@ -15,7 +15,7 @@ public class UIManager : Singleton<UIManager>
     public UIInvestigation UIInvestigation { get; private set; }
     public UIGuideIcon UIGuideIcon { get; private set; }
     public UITutorial UITutorial { get; private set; }
-    
+    public MapManager MapManager { get; private set; }
     public UIInvestigationTimer UIInvestigationTimer { get; private set; }
 
     public UIObjective UIObjective { get; private set; }
@@ -81,6 +81,7 @@ public class UIManager : Singleton<UIManager>
         UIInvestigationTimer = GetUIComponent<UIInvestigationTimer>(UIType.UIInvestigationTimer);
         UIObjective = GetUIComponent<UIObjective>(UIType.UIObjective);
         UIObjectiveCompleteNotifier = GetUIComponent<UIObjectiveCompleteNotifier>(UIType.UIObjectiveCompleteNotifier);
+        MapManager = GetUIComponent<MapManager>(UIType.UIMap);
     }
 
     //canvas를 생성하고 씬에 맞는 ui생성

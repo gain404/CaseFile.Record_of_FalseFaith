@@ -39,6 +39,11 @@ public class MapManager : MonoBehaviour
         goalSwitchButton.onClick.AddListener(() => SwitchToPanel(goalContentPanel));
     }
 
+    public void OnMapButton()
+    {
+        mapToggleButton.gameObject.SetActive(mapToggleButton.gameObject.activeSelf);
+    }
+
 
     /// <summary>
     /// 맵 UI 열기/닫기 토글

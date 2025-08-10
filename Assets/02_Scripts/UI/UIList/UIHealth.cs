@@ -22,6 +22,11 @@ public class UIHealth : MonoBehaviour
         InitHeart();
     }
 
+    public void OnHealthUI()
+    {
+        heartContainer.SetActive(!heartContainer.activeSelf);
+    }
+    
     private void InitHeart()
     {
         _heartList = new List<Image>();
