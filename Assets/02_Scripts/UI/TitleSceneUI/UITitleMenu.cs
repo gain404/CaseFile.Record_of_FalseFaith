@@ -122,7 +122,7 @@ public class UITitleMenu : MonoBehaviour
     {
         if (!isInitialized) return;
 
-        PlaySound(hoverSound);
+        SoundManager.Instance.PlaySFX(hoverSound);
 
         Image buttonImage = button.GetComponent<Image>();
         RectTransform rect = button.GetComponent<RectTransform>();
@@ -161,7 +161,7 @@ public class UITitleMenu : MonoBehaviour
     {
         if (!isInitialized) return;
 
-        PlaySound(clickSound);
+        SoundManager.Instance.PlaySFX(clickSound);
 
         // 클릭 애니메이션
         RectTransform rect = button.GetComponent<RectTransform>();
@@ -368,12 +368,6 @@ public class UITitleMenu : MonoBehaviour
 
             yield return new WaitForSeconds(0.2f);
         }
-    }
-
-    void PlaySound(AudioClip clip)
-    {
-        if (clip != null && audioSource != null)
-            audioSource.PlayOneShot(clip);
     }
 
     // 버튼 액션들
