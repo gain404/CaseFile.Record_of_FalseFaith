@@ -21,7 +21,8 @@ public class VengefulSpirit : MonoBehaviour
     [SerializeField] private AudioClip dieClip;
     [SerializeField] private AudioClip moveStart;
     [SerializeField] private AudioClip shadowDown;
-    
+    [SerializeField] private UIEndingPanel endingPanel;
+    [SerializeField] private UIFadePanel uiFadePanel;
 
     private PoolManager _poolManager;
     private SoundManager _soundManager;
@@ -33,6 +34,7 @@ public class VengefulSpirit : MonoBehaviour
         meleeAttackCollider2D.enabled = false;
         biteAttackCollider2D.enabled = false;
         enemyController.DieAction += Die;
+        uiFadePanel = UIManager.Instance.UIFadePanel;
     }
 
     private void MeleeAttack()
@@ -65,6 +67,19 @@ public class VengefulSpirit : MonoBehaviour
         spriteRenderer.DOFade(0.9f, 1.3f).OnComplete(() => gameObject.SetActive(false));
         globalLight.color = Color.white;
         //DOVirtual.DelayedCall(3.0f,함수)
+        uiFadePanel.Fade(0.95f,0.1f);
+        var ep = UIManager.Instance?.UIEndingPanel;
+        if (ep != null)
+        {
+            // 필요하면 부모 체인 활성화
+            var t = ep.transform;
+            while (t != null && !t.gameObject.activeInHierarchy)
+            {
+                if (!t.gameObject.activeSelf) t.gameObject.SetActive(true);
+                t = t.parent;
+            }
+            ep.ShowSequence();
+        }
     }
     
     private void MeleeAttackSfx()

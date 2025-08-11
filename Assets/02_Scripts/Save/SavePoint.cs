@@ -91,7 +91,7 @@ public class SavePoint : MonoBehaviour
     {
         SaveData data = new SaveData();
 
-        GameObject player = PlayerManager.Instance.GetPlayer();
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
             // 플레이어 위치 저장

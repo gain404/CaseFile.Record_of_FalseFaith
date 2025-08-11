@@ -131,21 +131,42 @@ public class UISave : MonoBehaviour
 
     private SavePoint GetActiveSavePoint()
     {
-        // 현재 플레이어 근처의 세이브 포인트 찾기
-        SavePoint[] savePoints = FindObjectsByType<SavePoint>(FindObjectsSortMode.None);//세이브 포인트가 여러개 있으면 정렬 안하고 걍 다 찾는다는 뜻임
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-        if (player == null) return null;
-
-        foreach (SavePoint savePoint in savePoints)
+        var player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null)
         {
-            float distance = Vector3.Distance(player.transform.position, savePoint.transform.position);
-            if (distance <= 2f) // 적절한 거리 설정
+            Debug.LogError("[UISave] Player 태그 오브젝트를 찾을 수 없습니다.");
+            return null;
+        }
+
+        // 비활성 포함해서 모두 수집 (Unity 6)
+        SavePoint[] savePoints = FindObjectsByType<SavePoint>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None
+        );
+
+        Debug.Log($"[UISave] 발견한 SavePoint 개수: {savePoints.Length} / PlayerPos:{player.transform.position}");
+
+        SavePoint nearest = null;
+        float best = float.MaxValue;
+
+        foreach (var sp in savePoints)
+        {
+            float d = Vector3.Distance(player.transform.position, sp.transform.position);
+            Debug.Log($"[UISave] {sp.name} @ {sp.transform.position}, dist:{d}, activeSelf:{sp.gameObject.activeSelf}");
+            if (d < best)
             {
-                return savePoint;
+                best = d;
+                nearest = sp;
             }
         }
 
+        if (nearest != null && best <= 5f) // 임계값 잠시 키워서 확인
+        {
+            Debug.Log($"[UISave] 선택된 세이브 포인트: {nearest.name}, dist:{best}");
+            return nearest;
+        }
+
+        Debug.LogWarning("[UISave] 가까운 세이브 포인트가 범위 내에 없습니다.");
         return null;
     }
 }

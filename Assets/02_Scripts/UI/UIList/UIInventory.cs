@@ -236,7 +236,13 @@ public class UIInventory : MonoBehaviour
 
         // 2. 세컨드 대사 표시 허용
         _player.stateMachine.IsReturnFromInvestigationSuccess = true; //  조사 성공
-
+        _selectedItem.quantity--;
+        if (_selectedItem.quantity <= 0)
+        {
+            ClearSelectedItemWindow();
+            slots[_selectedItemIndex].Clear();
+        }
+        UpdateUI();
         // 3. 인벤토리 닫기
         ExitInvestigationMode();
         // 4. 세컨드 대사 출력
