@@ -19,7 +19,7 @@ public class SaveData
 
     // 열린 문 ID들
     public List<string> unlockedPassages = new();
-
+    public List<string> playedCutscenes = new();
     // ✅ 생성자에서는 "순수 기본값"만 설정 (Unity 접근 금지)
     public SaveData()
     {

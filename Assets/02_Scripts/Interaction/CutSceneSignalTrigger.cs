@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -14,7 +15,7 @@ public class CutSceneSignalTrigger : MonoBehaviour
     private NPCInteraction _npc;
     private UIManager _uiManager;
     private UIFadePanel _uiFadePanel;
-    
+    [SerializeField] private string cutsceneId = "CH3_INTRO";
     private void Awake()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -30,6 +31,11 @@ public class CutSceneSignalTrigger : MonoBehaviour
     {
         _uiFadePanel = UIManager.Instance.UIFadePanel;
         _uiManager = UIManager.Instance;
+        if (HasPlayed())
+        {
+            gameObject.SetActive(false);
+            return;
+        }
     }
     
     private void OnDestroy()
@@ -42,10 +48,13 @@ public class CutSceneSignalTrigger : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((1 << collision.gameObject.layer & playerLayerMask) != 0)
-        {
-            playableDirector.Play();
-        }
+        if ((1 << collision.gameObject.layer & playerLayerMask) == 0)
+            return;
+
+        if (HasPlayed())
+            return;
+
+        playableDirector.Play();
     }
     
     public void OffInput()
@@ -81,6 +90,7 @@ public class CutSceneSignalTrigger : MonoBehaviour
     
     public void OnExitDialogue()
     {
+        MarkPlayed();
         AfterDialogue();
         gameObject.SetActive(false);
     }
@@ -123,5 +133,23 @@ public class CutSceneSignalTrigger : MonoBehaviour
             _uiManager.UIMap.OnMapButton();
             _uiManager.UIInvestigation.OnBookButton();
         }
+    }
+    private bool HasPlayed()
+    {
+        var ad = SaveManager.Instance?.ActiveData;
+        return ad != null
+               && ad.playedCutscenes != null
+               && !string.IsNullOrEmpty(cutsceneId)
+               && ad.playedCutscenes.Contains(cutsceneId);
+    }
+
+    private void MarkPlayed()
+    {
+        var ad = SaveManager.Instance?.ActiveData;
+        if (ad == null || string.IsNullOrEmpty(cutsceneId)) return;
+
+        if (ad.playedCutscenes == null) ad.playedCutscenes = new List<string>();
+        if (!ad.playedCutscenes.Contains(cutsceneId))
+            ad.playedCutscenes.Add(cutsceneId);
     }
 }

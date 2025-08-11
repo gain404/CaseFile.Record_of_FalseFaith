@@ -2009,6 +2009,7 @@ MonoBehaviour:
   npcGameObject: {fileID: 21399115}
   playableDirector: {fileID: 1456321821}
   enemyController: {fileID: 1440235942}
+  cutsceneId: CH2_INTRO
 --- !u!114 &1440235942 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4784263567939816114, guid: ed9c86ea44daf4848a1f69ca1e4485d0, type: 3}
@@ -2352,6 +2353,7 @@ MonoBehaviour:
   npcGameObject: {fileID: 854506044}
   playableDirector: {fileID: 2090358824}
   enemyController: {fileID: 0}
+  cutsceneId: CH1_INTRO
 --- !u!1001 &1804594658
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2378,7 +2380,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1626485673256725181, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00044595476
+      value: 0.0005452249
       objectReference: {fileID: 0}
     - target: {fileID: 1663862573978146437, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
       propertyPath: m_Name

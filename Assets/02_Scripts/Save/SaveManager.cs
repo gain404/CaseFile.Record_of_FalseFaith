@@ -75,6 +75,16 @@ public class SaveManager : MonoBehaviour
 
                 data.unlockedPassages.Clear();
                 data.unlockedPassages.AddRange(ActiveData.unlockedPassages);
+                
+                
+                
+                if (ActiveData.playedCutscenes == null) 
+                    ActiveData.playedCutscenes = new List<string>();
+                if (data.playedCutscenes == null) 
+                    data.playedCutscenes = new List<string>();
+                
+                data.playedCutscenes.Clear();
+                data.playedCutscenes.AddRange(ActiveData.playedCutscenes);
             }
 
             // 현재 시간 저장
@@ -427,6 +437,11 @@ public class SaveManager : MonoBehaviour
         if (ActiveData != null && ActiveData.unlockedPassages != null)
         {
             data.unlockedPassages = new List<string>(ActiveData.unlockedPassages);
+        }
+
+        if (ActiveData?.playedCutscenes != null)
+        {
+            data.playedCutscenes = new List<string>(ActiveData.playedCutscenes);
         }
 
         return data;
