@@ -111,11 +111,6 @@ public class CutSceneSignalTrigger : MonoBehaviour
 
     public void OffUI()
     {
-        if (_uiManager.UIMap != null)
-        {
-            _uiManager.UIMap.OnMapButton();
-        }
-        _uiManager.UIInvestigation.OnBookButton();
         _uiManager.UIHealth.OnHealthUI();
         _uiManager.UIStamina.OnStaminaUI();
     }
