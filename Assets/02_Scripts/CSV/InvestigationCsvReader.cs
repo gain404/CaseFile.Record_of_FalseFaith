@@ -63,8 +63,6 @@ public class InvestigationCsvReader : MonoBehaviour
                 _csvManager.InvestigationData.Add(investigationData.index,investigationData);
             }
         }
-
-        Debug.Log($"총 {_csvManager.InvestigationData.Count}개의 데이터를 불러왔습니다.");
     }
 
     private string[] SplitCsvLine(string line)

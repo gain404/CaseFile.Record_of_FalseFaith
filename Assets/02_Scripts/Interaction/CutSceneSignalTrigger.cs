@@ -106,16 +106,11 @@ public class CutSceneSignalTrigger : MonoBehaviour
     }
     public void OnInvestigationTutorialPanel()
     {
-        DOVirtual.DelayedCall(0.1f, () => UIManager.Instance.UITutorial.OnTutorialPanel(TutorialType.Move));
+        DOVirtual.DelayedCall(0.1f, () => UIManager.Instance.UITutorial.OnTutorialPanel(TutorialType.Investigation));
     }
 
     public void OffUI()
     {
-        if (_uiManager.UIMap != null)
-        {
-            _uiManager.UIMap.OnMapButton();
-        }
-        _uiManager.UIInvestigation.OnBookButton();
         _uiManager.UIHealth.OnHealthUI();
         _uiManager.UIStamina.OnStaminaUI();
     }

@@ -30,7 +30,6 @@ public class ObjectiveDataLoader : MonoBehaviour
     {
         if (goalDataCSV == null || goalRequirmentCSV == null)
         {
-            Debug.LogError("CSV 파일이 설정되지 않았습니다!");
             return;
         }
 
@@ -80,13 +79,8 @@ public class ObjectiveDataLoader : MonoBehaviour
                     currentCount = 0
                 });
             }
-            else
-            {
-                Debug.LogWarning($"요구 조건에 대응되는 퀘스트 ID {questIdx}가 없습니다.");
-            }
         }
-
-        Debug.Log($"퀘스트 {objectiveDatabase.Count}개 로드 완료");
+        
     }
 
     private ObjectiveType ParseObjectiveType(string typeString)
@@ -103,21 +97,15 @@ public class ObjectiveDataLoader : MonoBehaviour
     public ObjectiveData GetObjective(int idx)
     {
         objectiveDatabase.TryGetValue(idx, out ObjectiveData data);
-        if (data == null)
-        {
-            Debug.LogWarning($"ID {idx}에 해당하는 목표를 찾을 수 없습니다.");
-        }
         return data;
     }
 
     // 디버그용 메서드 추가
     public void PrintAllObjectives()
     {
-        Debug.Log("=== 로드된 모든 목표 ===");
         foreach (var kvp in objectiveDatabase)
         {
             var obj = kvp.Value;
-            Debug.Log($"ID: {obj.idx}, 내용: {obj.content}, 타입: {obj.type}, 완료: {obj.achieve}");
         }
     }
 }
