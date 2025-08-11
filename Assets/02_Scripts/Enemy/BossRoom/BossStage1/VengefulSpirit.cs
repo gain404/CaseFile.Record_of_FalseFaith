@@ -64,6 +64,7 @@ public class VengefulSpirit : MonoBehaviour
         animator.SetBool(IsDie,true);
         spriteRenderer.DOFade(0.9f, 1.3f).OnComplete(() => gameObject.SetActive(false));
         globalLight.color = Color.white;
+        //DOVirtual.DelayedCall(3.0f,함수)
     }
     
     private void MeleeAttackSfx()
