@@ -15,7 +15,6 @@ public abstract class BaseUI : MonoBehaviour
         // GameObject를 활성화해서 화면에 보이게 만들기
         gameObject.SetActive(true);
         // 로그로 어떤 패널이 열렸는지 확인
-        Debug.Log($"[BaseUI] {gameObject.name} 패널이 열렸습니다");
     }
 
     /// <summary>
@@ -27,7 +26,6 @@ public abstract class BaseUI : MonoBehaviour
         // GameObject를 비활성화해서 화면에서 숨기기
         gameObject.SetActive(false);
         // 로그로 어떤 패널이 닫혔는지 확인
-        Debug.Log($"[BaseUI] {gameObject.name} 패널이 닫혔습니다");
     }
 
     /// <summary>
@@ -37,7 +35,6 @@ public abstract class BaseUI : MonoBehaviour
     public virtual void InitializePanel()
     {
         // 로그로 초기화 완료 확인
-        Debug.Log($"[BaseUI] {gameObject.name} 패널 초기화 완료");
     }
 
     /// <summary>
@@ -49,6 +46,5 @@ public abstract class BaseUI : MonoBehaviour
     {
         // 기본적으로는 아무것도 하지 않음
         // 필요한 패널에서 오버라이드해서 사용
-        Debug.Log($"[BaseUI] {gameObject.name} 패널 의존성 설정 완료");
     }
 }

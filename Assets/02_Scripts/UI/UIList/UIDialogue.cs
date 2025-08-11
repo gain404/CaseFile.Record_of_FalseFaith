@@ -196,7 +196,6 @@ public class UIDialogue : MonoBehaviour
 
         if (_currentNpcData != null && _currentNpcData.secondDialogueAsset != null)
         {
-            Debug.Log("[Dialogue] 세컨드 대화 시작");
             StartDialogue(_currentNpcData.secondDialogueAsset, _currentNpcTransform, _currentNpcData);
         }
     }
@@ -262,7 +261,6 @@ public class UIDialogue : MonoBehaviour
         {
             int randomPick = UnityEngine.Random.Range(0, group.Length);
             finalIndex = group[randomPick];
-            Debug.Log($"[Dialogue] 랜덤 그룹 발견! BaseIndex={baseIdx}, 후보: [{string.Join(",", group)}] → 선택: {finalIndex}");
         }
 
         _currentIndex = finalIndex;
@@ -275,8 +273,7 @@ public class UIDialogue : MonoBehaviour
         int nextIndex = (currentLine.nextLineIndices?.Length > 0)
             ? currentLine.nextLineIndices[0]
             : _currentIndex + 1;
-
-        Debug.Log($"[Dialogue] AdvanceDialogue 호출됨 → 다음 목표 {nextIndex}");
+        
         GoToLine(nextIndex);
     }
 
@@ -287,7 +284,6 @@ public class UIDialogue : MonoBehaviour
 
         DialogueLine line = _currentDialogue.lines[_currentIndex];
         int targetIndex = line.nextLineIndices[choiceIndex];
-        Debug.Log($"[Dialogue] 선택지 {choiceIndex} 선택 → 목표 {targetIndex}");
 
         GoToLine(targetIndex);
     }
