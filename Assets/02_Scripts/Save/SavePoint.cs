@@ -89,7 +89,7 @@ public class SavePoint : MonoBehaviour
     // 세이브 포인트별 고유 데이터가 필요한 경우를 위한 메서드
     public SaveData CollectSavePointData()
     {
-        SaveData data = new SaveData();
+        var data = SaveManager.Instance.BuildCurrentSaveData();
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)

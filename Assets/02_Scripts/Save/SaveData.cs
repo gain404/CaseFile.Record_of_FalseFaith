@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
-[System.Serializable]
+[Serializable]
 public class SaveData
 {
-
     public string playerName;
     public float posX, posY, posZ;
     public int health;
     public string sceneName;
     public DateTime saveTime;
-
 
     // 인벤토리 데이터
     public List<InventoryItem> inventoryItems;
@@ -19,7 +17,10 @@ public class SaveData
     public List<ObjectiveData> activeObjectives;    // 진행 중인 목표
     public List<ObjectiveData> completedObjectives; // 완료된 목표
 
-    // 기본 생성자
+    // 열린 문 ID들
+    public List<string> unlockedPassages = new();
+
+    // ✅ 생성자에서는 "순수 기본값"만 설정 (Unity 접근 금지)
     public SaveData()
     {
         playerName = "Player";
@@ -27,12 +28,10 @@ public class SaveData
         health = 10;
         sceneName = "MainScene";
         saveTime = DateTime.Now;
-        inventoryItems = InventoryManager.Instance.GetInventoryData();
 
-        // 퀘스트 진행도 저장
-        activeObjectives = ObjectiveManager.Instance?.GetActiveObjectives();
-        completedObjectives = ObjectiveManager.Instance != null
-            ? new List<ObjectiveData>(ObjectiveManager.Instance.GetCompletedObjectives())
-            : new List<ObjectiveData>();
+        // 여기서 Unity/싱글턴 접근 금지!
+        inventoryItems = new List<InventoryItem>();
+        activeObjectives = new List<ObjectiveData>();
+        completedObjectives = new List<ObjectiveData>();
     }
 }

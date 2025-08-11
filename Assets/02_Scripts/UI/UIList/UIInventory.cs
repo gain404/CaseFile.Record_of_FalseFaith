@@ -263,36 +263,48 @@ public class UIInventory : MonoBehaviour
         cancelButton.SetActive(false);
         ClearSelectedItemWindow();
     }
-
-
-
-
-    //  인벤토리 새로고침 (요청하신 그대로 유지)
+    
     public void RefreshUI()
     {
-        Debug.Log("인벤토리 UI 새로고침하겠습니다.");
-        // 기존 슬롯 삭제
-        foreach (Transform child in slotPanel)
+        Debug.Log("인벤토리 UI 새로고침을 시작합니다.");
+        foreach (var slot in slots)
         {
-            if (child.GetComponent<ItemSlot>().item == null)
-            {
-                // 아이템 슬롯 안의 아이템 데이터 초기화
-                Destroy(child.GetComponent<ItemSlot>().item);
-            }
+            slot.Clear();
         }
         
-        // 인벤토리 아이템 기반으로 다시 그림
         if (InventoryManager.Instance != null)
         {
-            Debug.Log("인벤토리 매니저로 새로고침하겠습니다.");
-            foreach (InventoryItem item in InventoryManager.Instance.inventory)
+            var inventoryData = InventoryManager.Instance.inventory;
+            
+            for (int i = 0; i < inventoryData.Count; i++)
             {
-                for (int i = 0; i < item.quantity; i++)
+                if (i >= slots.Length)
                 {
-                    AddItemByIndex(item.itemId);
+                    Debug.LogWarning("UI 슬롯이 부족하여 모든 인벤토리 아이템을 표시할 수 없습니다.");
+                    break;
+                }
+                
+                string path = $"Item/Item_{inventoryData[i].itemId}";
+                ItemData itemData = Resources.Load<ItemData>(path);
+
+                if (itemData != null)
+                {
+                    slots[i].item = itemData;
+                    slots[i].quantity = inventoryData[i].quantity;
+                    
+                    slots[i].Set(); 
+                }
+                else
+                {
+                    Debug.LogWarning($"아이템 ID '{inventoryData[i].itemId}'에 해당하는 ItemData를 찾을 수 없습니다. 경로: '{path}'");
                 }
             }
         }
+        if(IsOpen())
+        {
+            ClearSelectedItemWindow();
+        }
+        Debug.Log("인벤토리 UI 새로고침이 완료되었습니다.");
     }
     
     private IEnumerator EnableUIInteractionsNextFrame()
