@@ -24,6 +24,11 @@ public class CutSceneSignalTrigger : MonoBehaviour
             enemyController.DieAction += OnNpc;
         }
     }
+
+    private void Start()
+    {
+        _uiManager = UIManager.Instance;
+    }
     
     private void OnDestroy()
     {
@@ -104,12 +109,19 @@ public class CutSceneSignalTrigger : MonoBehaviour
 
     public void OffUI()
     {
-        if (_uiManager.MapManager != null)
+        if (_uiManager != null)
         {
-            _uiManager.MapManager.OnMapButton();
+            _uiManager.UIHealth.OnHealthUI();
+            _uiManager.UIStamina.OnStaminaUI();
         }
-        _uiManager.UIInvestigation.OnBookButton();
-        _uiManager.UIHealth.OnHealthUI();
-        _uiManager.UIStamina.OnStaminaUI();
+    }
+
+    public void OffUIChapter()
+    {
+        if (_uiManager != null)
+        {
+            _uiManager.UIMap.OnMapButton();
+            _uiManager.UIInvestigation.OnBookButton();
+        }
     }
 }

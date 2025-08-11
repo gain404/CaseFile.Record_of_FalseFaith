@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using TMPro;
 
-public class MapManager : MonoBehaviour
+public class UIMap : MonoBehaviour
 {
     [Header("Core UI")]
     public GameObject mapCanvasRoot;    // 맵 UI 전체를 포함하는 루트 오브젝트
@@ -41,7 +41,7 @@ public class MapManager : MonoBehaviour
 
     public void OnMapButton()
     {
-        mapToggleButton.gameObject.SetActive(mapToggleButton.gameObject.activeSelf);
+        mapToggleButton.gameObject.SetActive(!mapToggleButton.gameObject.activeSelf);
     }
 
 
