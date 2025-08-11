@@ -32,7 +32,7 @@ public class UIFadePanel : MonoBehaviour
     public void AllFade()
     {
         transform.SetAsLastSibling();
-        DOVirtual.DelayedCall(3.0f, () => transform.SetAsFirstSibling())
+        DOVirtual.DelayedCall(4.0f, () => transform.SetAsFirstSibling())
             .SetLink(gameObject);
     }
 
