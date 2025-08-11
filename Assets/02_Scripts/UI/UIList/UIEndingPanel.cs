@@ -38,12 +38,23 @@ public class UIEndingPanel : MonoBehaviour
     // UIEndingPanel.cs
     public void ShowSequence()
     {
-        if (root != null) root.SetActive(true);
-        HideAll();
+        var fade = UIManager.Instance?.UIFadePanel;
         
+        if (fade != null)
+            fade.transform.SetAsLastSibling();
+        
+        if (fade != null)
+            fade.Fade(0.95f, 0.1f);
+        
+        if (root != null) root.SetActive(true);
+        transform.SetAsLastSibling();
+
+        HideAll();
+
         if (_seq != null) UIManager.Instance.StopCoroutine(_seq);
         _seq = UIManager.Instance.StartCoroutine(CoSequence());
     }
+
 
 
     private void HideAll()
