@@ -1,5 +1,6 @@
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public enum PassageZoneType
 {
@@ -13,6 +14,8 @@ public class PassageZone : MonoBehaviour, IInteractable
     [SerializeField] private LayerMask hitLayerMask;
     [SerializeField] private GuideIconType currentguideIconType;
     [SerializeField] private PassageZoneType currentPassageZoneType;
+    [SerializeField] private bool isBossRoom;
+    [SerializeField] private Light2D globalLight;
     private Player _player;
     private PlayerController _playerController;
     private CinemachineCamera _playerCinemachineCamera;
@@ -20,7 +23,6 @@ public class PassageZone : MonoBehaviour, IInteractable
     private FadeManager _fadeManager;
     private UnlockPassageZone _unlockPassageZone;
     private bool _canPassage;
-    
 
     private void Start()
     {
@@ -106,5 +108,9 @@ public class PassageZone : MonoBehaviour, IInteractable
         _playerCinemachineCamera.ForceCameraPosition(passageInfo.targetPosition, quaternion);
         _fadeManager.Fade(0, 1.2f, _fadeManager.OffCanvas);
         _canPassage = false;
+        if (isBossRoom)
+        {
+            globalLight.color = new Color(0.01f, 0.01f, 0.01f);
+        }
     }
 }
