@@ -24,6 +24,7 @@ public class HairProjectile : MonoBehaviour
     {
         _isDamage = false;
         DOVirtual.DelayedCall(0.5f, () => _animator.SetTrigger(_hairAttack));
+        DOVirtual.DelayedCall(3.0f, () => gameObject.SetActive(false));
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
