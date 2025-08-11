@@ -18,7 +18,8 @@ public class TitleManager : MonoBehaviour
     
     [Header("Scene Transition")]
     public CanvasGroup fadePanel;
-    
+
+    public SavePanelEffect panelEffect;
     void Start()
     {
         // 시작 시 모든 패널을 비활성화 (로고 패널 제외)
@@ -55,6 +56,8 @@ public class TitleManager : MonoBehaviour
     public void OnClick_GameStart()
     {
         StartCoroutine(SwitchPanel(mainMenuPanel, savePanel));
+        panelEffect.gameObject.SetActive(true);
+        panelEffect.RestartAnimation();
     }
     
     public void OnClick_NewGameStart(string sceneName)
