@@ -12,11 +12,9 @@ public class BossRoomLight : MonoBehaviour
     
     private SpriteRenderer _spriteRenderer;
     
-
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        BreakCount = 2;
     }
 
     public void BreakLight()

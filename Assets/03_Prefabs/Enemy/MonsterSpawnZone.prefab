@@ -95,7 +95,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e311d6ca962da564db644da3afc8e743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDamaged: 0
+  attackHitClip: {fileID: 0}
   mask:
     serializedVersion: 2
     m_Bits: 4096
@@ -273,7 +273,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -411,6 +411,5 @@ MonoBehaviour:
   animator: {fileID: 4800292419254265667}
   spriteRenderer: {fileID: 2248084960725583273}
   attackClip: {fileID: 8300000, guid: 1e5bfc2d712186248b6a840223a05a78, type: 3}
-  attackHitClip: {fileID: 8300000, guid: dbd69a6e900fc0442a749e653ab1adfc, type: 3}
   dieClip: {fileID: 8300000, guid: 61d120837ea0c6e43842b7166329d998, type: 3}
   moveClip: {fileID: 8300000, guid: 699dc658384aefb4e9187321b151161b, type: 3}
