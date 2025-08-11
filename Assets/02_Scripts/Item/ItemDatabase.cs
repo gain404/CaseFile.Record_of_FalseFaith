@@ -71,7 +71,6 @@ public class ItemDatabase : MonoBehaviour
                 }
             }
         }
-        Debug.Log($"아이템 데이터베이스 로드 완료: {itemDatabase.Count}개 아이템");
     }
 
     public ItemData GetItemData(int itemId)

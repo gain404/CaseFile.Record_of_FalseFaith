@@ -81,7 +81,6 @@ public class SoundSetting : BaseUI
     /// </summary>
     private void Awake()
     {
-        ValidateComponents();
         InitializeVolumeChannels();
     }
 
@@ -167,22 +166,7 @@ public class SoundSetting : BaseUI
     /// <summary>
     /// 필수 컴포넌트들의 유효성 검사
     /// </summary>
-    private void ValidateComponents()
-    {
-        if (audioMixer == null)
-        {
-            Debug.LogError($"[{name}] AudioMixer가 할당되지 않았습니다!");
-        }
 
-        if (masterVolumeSlider == null)
-            Debug.LogError($"[{name}] Master Volume Slider가 할당되지 않았습니다!");
-
-        if (backgroundMusicSlider == null)
-            Debug.LogError($"[{name}] Background Music Slider가 할당되지 않았습니다!");
-
-        if (soundEffectSlider == null)
-            Debug.LogError($"[{name}] Sound Effect Slider가 할당되지 않았습니다!");
-    }
 
     /// <summary>
     /// 볼륨 채널 배열 초기화
@@ -204,7 +188,6 @@ public class SoundSetting : BaseUI
     {
         if (audioMixer == null)
         {
-            Debug.LogError("AudioMixer가 할당되지 않았습니다.");
             return false;
         }
 
@@ -213,13 +196,7 @@ public class SoundSetting : BaseUI
         {
             if (!audioMixer.GetFloat(channel.mixerParameter, out float testValue))
             {
-                Debug.LogError($"AudioMixer에서 '{channel.mixerParameter}' 파라미터를 찾을 수 없습니다!");
-                Debug.LogError("AudioMixer Window에서 해당 파라미터를 우클릭 → 'Expose Parameter'를 선택하세요.");
                 return false;
-            }
-            else
-            {
-                Debug.Log($"AudioMixer 파라미터 '{channel.mixerParameter}' 확인됨. 현재 값: {testValue}dB");
             }
         }
 

@@ -373,19 +373,16 @@ public class UITitleMenu : MonoBehaviour
     // 버튼 액션들
     void StartGame()
     {
-        Debug.Log("게임 시작");
         titleManager.OnClick_GameStart();
     }
 
     void ShowOptions()
     {
-        Debug.Log("옵션");
         titleManager.OnClick_Settings();
     }
 
     void EndGame()
     {
-        Debug.Log("게임 종료");
         titleManager.OnClick_ExitGame();
     }
 
