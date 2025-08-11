@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class VengefulSpirit : MonoBehaviour
 {
@@ -11,13 +12,16 @@ public class VengefulSpirit : MonoBehaviour
     [SerializeField] private EnemyController enemyController;
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Light2D globalLight;
     [Header("Sound")]
     [SerializeField] private AudioClip meleeAttackClip;
     [SerializeField] private AudioClip biteAttackClip;
     [SerializeField] private AudioClip hairAttackClip;
     [SerializeField] private AudioClip howlingAttackClip;
     [SerializeField] private AudioClip dieClip;
-    [SerializeField] private AudioClip moveClip;
+    [SerializeField] private AudioClip moveStart;
+    [SerializeField] private AudioClip shadowDown;
+    
 
     private PoolManager _poolManager;
     private SoundManager _soundManager;
@@ -59,6 +63,7 @@ public class VengefulSpirit : MonoBehaviour
     {
         animator.SetBool(IsDie,true);
         spriteRenderer.DOFade(0.9f, 1.3f).OnComplete(() => gameObject.SetActive(false));
+        globalLight.color = Color.white;
     }
     
     private void MeleeAttackSfx()
@@ -81,8 +86,13 @@ public class VengefulSpirit : MonoBehaviour
     {
         _soundManager.PlaySFX(dieClip);
     }
-    private void MoveSfx()
+    private void MoveStartSfx()
     {
-        _soundManager.PlaySFX(moveClip);
+        _soundManager.PlaySFX(moveStart);
+    }
+
+    private void ShadowDown()
+    {
+        _soundManager.PlaySFX(shadowDown);
     }
 }

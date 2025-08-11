@@ -127,6 +127,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 962655462460829695, guid: ed868047b51a5a941975e4386d22d2e0, type: 3}
+      propertyPath: attackHitClip
+      value: 
+      objectReference: {fileID: 8300000, guid: dbd69a6e900fc0442a749e653ab1adfc, type: 3}
     - target: {fileID: 2469367401923988574, guid: ed868047b51a5a941975e4386d22d2e0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -157.20923
@@ -171,20 +175,47 @@ PrefabInstance:
       propertyPath: m_Name
       value: Map_Street_3
       objectReference: {fileID: 0}
+    - target: {fileID: 6589449010312671712, guid: ed868047b51a5a941975e4386d22d2e0, type: 3}
+      propertyPath: dieClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 3865ccb54fc82424eb2b90143b4f64de, type: 3}
+    - target: {fileID: 6589449010312671712, guid: ed868047b51a5a941975e4386d22d2e0, type: 3}
+      propertyPath: moveStart
+      value: 
+      objectReference: {fileID: 8300000, guid: 1e105058214810545ae59eb72907aa3c, type: 3}
+    - target: {fileID: 6589449010312671712, guid: ed868047b51a5a941975e4386d22d2e0, type: 3}
+      propertyPath: shadowDown
+      value: 
+      objectReference: {fileID: 8300000, guid: 4badb125f5e4d274ea92e7723c210391, type: 3}
+    - target: {fileID: 6589449010312671712, guid: ed868047b51a5a941975e4386d22d2e0, type: 3}
+      propertyPath: globalLight
+      value: 
+      objectReference: {fileID: 697660215}
+    - target: {fileID: 6589449010312671712, guid: ed868047b51a5a941975e4386d22d2e0, type: 3}
+      propertyPath: biteAttackClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 023a12991cbb6384faaf9362b0f229e4, type: 3}
+    - target: {fileID: 6589449010312671712, guid: ed868047b51a5a941975e4386d22d2e0, type: 3}
+      propertyPath: hairAttackClip
+      value: 
+      objectReference: {fileID: 8300000, guid: c5e8f2cf5f755694b95c75adff11af78, type: 3}
+    - target: {fileID: 6589449010312671712, guid: ed868047b51a5a941975e4386d22d2e0, type: 3}
+      propertyPath: meleeAttackClip
+      value: 
+      objectReference: {fileID: 8300000, guid: b9093408efb374a48909cb2742ee5f67, type: 3}
+    - target: {fileID: 6589449010312671712, guid: ed868047b51a5a941975e4386d22d2e0, type: 3}
+      propertyPath: howlingAttackClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 3865ccb54fc82424eb2b90143b4f64de, type: 3}
+    - target: {fileID: 8182759830824196934, guid: ed868047b51a5a941975e4386d22d2e0, type: 3}
+      propertyPath: attackHitClip
+      value: 
+      objectReference: {fileID: 8300000, guid: acbf9602c3959484288b2fe213f5b64f, type: 3}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 1739340421751975133, guid: ed868047b51a5a941975e4386d22d2e0, type: 3}
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 2229654006537209176, guid: ed868047b51a5a941975e4386d22d2e0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1253898907}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed868047b51a5a941975e4386d22d2e0, type: 3}
---- !u!4 &66102175 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2229654006537209176, guid: ed868047b51a5a941975e4386d22d2e0, type: 3}
-  m_PrefabInstance: {fileID: 66102174}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &75465720
 GameObject:
   m_ObjectHideFlags: 0
@@ -899,7 +930,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1626485673256725181, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0005461144
+      value: -0.0000028300099
       objectReference: {fileID: 0}
     - target: {fileID: 1663862573978146437, guid: 00bbcb7d931216248ae50d031f40b058, type: 3}
       propertyPath: m_Name
@@ -1394,76 +1425,6 @@ PlayableDirector:
     value: {fileID: 1250586232}
   m_ExposedReferences:
     m_References: []
---- !u!1001 &1253898906
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 66102175}
-    m_Modifications:
-    - target: {fileID: 1011125703578954923, guid: 919eac276893a2a43add5a008f5df792, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -203.68
-      objectReference: {fileID: 0}
-    - target: {fileID: 1011125703578954923, guid: 919eac276893a2a43add5a008f5df792, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -44.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 1011125703578954923, guid: 919eac276893a2a43add5a008f5df792, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1011125703578954923, guid: 919eac276893a2a43add5a008f5df792, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1011125703578954923, guid: 919eac276893a2a43add5a008f5df792, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1011125703578954923, guid: 919eac276893a2a43add5a008f5df792, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1011125703578954923, guid: 919eac276893a2a43add5a008f5df792, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1011125703578954923, guid: 919eac276893a2a43add5a008f5df792, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1011125703578954923, guid: 919eac276893a2a43add5a008f5df792, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1011125703578954923, guid: 919eac276893a2a43add5a008f5df792, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1631323503940844103, guid: 919eac276893a2a43add5a008f5df792, type: 3}
-      propertyPath: m_Name
-      value: MonsterSpawnZone
-      objectReference: {fileID: 0}
-    - target: {fileID: 6201993953185363129, guid: 919eac276893a2a43add5a008f5df792, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 35.39
-      objectReference: {fileID: 0}
-    - target: {fileID: 6201993953185363129, guid: 919eac276893a2a43add5a008f5df792, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 919eac276893a2a43add5a008f5df792, type: 3}
---- !u!4 &1253898907 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1011125703578954923, guid: 919eac276893a2a43add5a008f5df792, type: 3}
-  m_PrefabInstance: {fileID: 1253898906}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1306169395
 PrefabInstance:
   m_ObjectHideFlags: 0
