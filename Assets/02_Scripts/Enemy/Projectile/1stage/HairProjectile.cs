@@ -5,8 +5,8 @@ public class HairProjectile : MonoBehaviour
 {
     [SerializeField] private int damage = 1;
     [SerializeField] private LayerMask hitLayerMask;
-    [SerializeField] private GameObject hairProjectileController;
     [SerializeField] private AudioClip attackClip;
+    [SerializeField] private HairProjectileContainer hairProjectileContainer;
     
     private Animator _animator;
     private PoolManager _poolManager;
@@ -22,12 +22,10 @@ public class HairProjectile : MonoBehaviour
 
     private void OnEnable()
     {
+        _animator = gameObject.GetComponent<Animator>();
+        _poolManager = PoolManager.Instance;
+        _soundManager = SoundManager.Instance;
         DOVirtual.DelayedCall(0.5f, () => _animator.SetTrigger(_hairAttack));
-    }
-
-    private void FinishAttack()
-    {
-        _poolManager.Return(PoolKey.HairProjectile, hairProjectileController);
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
@@ -40,7 +38,11 @@ public class HairProjectile : MonoBehaviour
             }
         }
     }
-
+    private void Finish()
+    {
+        hairProjectileContainer.FinishAttack();
+    }
+    
     public void AttackSfxPlay()
     {
         _soundManager.PlaySFX(attackClip);
