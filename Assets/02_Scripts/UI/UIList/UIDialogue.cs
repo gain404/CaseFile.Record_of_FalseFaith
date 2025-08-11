@@ -120,7 +120,7 @@ public class UIDialogue : MonoBehaviour
         IsDialogueFinished = false;
 
         _dialogueCamera.Priority = 30;
-        _uiFadePanel.Fade(0.5f,0.1f);
+        _uiFadePanel.Fade(0.7f,0.1f);
         DialogueLine firstLine = _currentDialogue.lines[0];
         if (firstLine.type == DialogueType.OpenStore || firstLine.type == DialogueType.StartInvestigation)
         {

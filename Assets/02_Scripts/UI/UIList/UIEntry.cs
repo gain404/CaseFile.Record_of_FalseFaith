@@ -5,7 +5,7 @@ public enum UIType
 {
     UIInventory, UIDialogue,UIShop,UIHealth,UIStamina,UIPrompt,
     UIInvestigation, UISave, UILoad, UIMap, UIGuideIcon,UITutorial, UIScript, UIObjective, UIObjectiveCompleteNotifier, UIGameOverEffect,
-    Title, UIInvestigationTimer, UIFadePanel
+    Title, UIInvestigationTimer, UIFadePanel, UIEndingPanel
 }
 
 public enum SceneName

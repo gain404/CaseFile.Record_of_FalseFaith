@@ -22,6 +22,8 @@ public class UIManager : Singleton<UIManager>
     public UIObjectiveCompleteNotifier UIObjectiveCompleteNotifier { get; private set; }
 
     public UIGameOverEffect UIGameOverEffect { get; private set; }
+    
+    public UIEndingPanel UIEndingPanel { get; private set; }
 
     [SerializeField] private GameObject canvasPrefab;
     [SerializeField] private List<UIEntry> uiPrefabs;
@@ -83,6 +85,7 @@ public class UIManager : Singleton<UIManager>
         UIObjectiveCompleteNotifier = GetUIComponent<UIObjectiveCompleteNotifier>(UIType.UIObjectiveCompleteNotifier);
         UIMap = GetUIComponent<UIMap>(UIType.UIMap);
         UIFadePanel = GetUIComponent<UIFadePanel>(UIType.UIFadePanel);
+        UIEndingPanel = GetUIComponent<UIEndingPanel>(UIType.UIEndingPanel);
     }
 
     //canvas를 생성하고 씬에 맞는 ui생성
