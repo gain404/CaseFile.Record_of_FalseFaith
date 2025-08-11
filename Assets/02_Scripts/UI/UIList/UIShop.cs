@@ -99,7 +99,7 @@ public class UIShop : MonoBehaviour
         _currentItemToBuy = item;
         selectedItemName.text = item.itemName;
         selectedItemDescription.text = item.itemDescription;
-        selectedItemPrice.text = item.itemPrice.ToString();
+        selectedItemPrice.text = $"{item.itemPrice:N0}원";
     }
 
     void ClearDetails()
@@ -114,7 +114,7 @@ public class UIShop : MonoBehaviour
     {
         if (_playerStat != null)
         {
-            playerGoldText.text = _playerStat.GetStatValue(StatType.Money).ToString();
+            playerGoldText.text = $"{_playerStat.GetStatValue(StatType.Money):N0}원";
         }
     }
     
