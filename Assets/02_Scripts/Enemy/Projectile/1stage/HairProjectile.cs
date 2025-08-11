@@ -40,6 +40,7 @@ public class HairProjectile : MonoBehaviour
     }
     private void Finish()
     {
+        gameObject.SetActive(false);
         hairProjectileContainer.FinishAttack();
     }
     
