@@ -82,11 +82,13 @@ public class ObjectiveManager : MonoBehaviour
     {
         StartCoroutine(InitSceneLoaded());
     }
-    
+
     private IEnumerator InitSceneLoaded()
     {
         yield return null;
-        
+
+
+
         triggerLoader.LoadTriggerData();
 
         if (UIManager.Instance != null && UIManager.Instance.UIObjective != null)
@@ -98,13 +100,26 @@ public class ObjectiveManager : MonoBehaviour
         {
             yield break;
         }
-        
+
         dataLoader.LoadObjectiveData();// 전체 퀘스트 데이터 로드
-        LoadChapterObjectives(1);
-        objectiveUI.SetChapterTitle("Chapter 1");
+        LoadChapterObjectives(GetChapterId());
+        objectiveUI.SetChapterTitle($"Chapter {GetChapterId()}");
         objectiveUI.UpdateObjectiveDisplay(activeObjectives);// UI에 퀘스트 목록 표시
     }
-    
+
+    public static int GetChapterId()
+    {
+        string name = SceneManager.GetActiveScene().name;
+
+        return name switch
+        {
+            "Tutorial" => 0,
+            "Chapter1" => 1,
+            "Chapter2" => 2,
+            _ => -1,               // 미정/예외
+        };
+    }
+
     public void LoadChapterObjectives(int chapterNumber)
     {
         activeObjectives.Clear();
@@ -116,13 +131,29 @@ public class ObjectiveManager : MonoBehaviour
             return;
         }
 
+        if (chapterNumber == 0)
+        {
+            var objective0 = dataLoader.GetObjective(001);
+
+            if (objective0 != null) activeObjectives.Add(objective0);
+        }
         // 챕터별 목표 로드 로직 (CSV에서 챕터 정보도 추가 가능)
         // 예시: 챕터 1의 목표들을 로드
-        var objective1 = dataLoader.GetObjective(101);
-        var objective2 = dataLoader.GetObjective(102);
+        if (chapterNumber == 1)
+        {
+            var objective1 = dataLoader.GetObjective(101);
+            var objective2 = dataLoader.GetObjective(102);
 
-        if (objective1 != null) activeObjectives.Add(objective1);
-        if (objective2 != null) activeObjectives.Add(objective2);
+            if (objective1 != null) activeObjectives.Add(objective1);
+            if (objective2 != null) activeObjectives.Add(objective2);
+        }
+        if(chapterNumber == 2)
+        {
+
+        }
+
+
+
 
         // objectiveUI null 체크 추가
         if (objectiveUI == null)

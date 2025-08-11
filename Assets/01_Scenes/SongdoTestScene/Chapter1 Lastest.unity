@@ -165,8 +165,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeImage: {fileID: 494859900}
-  canvas: {fileID: 1953755093}
-  mainCanvas: {fileID: 1953755097}
 --- !u!1001 &66102174
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2002,10 +2000,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   locationId: loc_gokbab
   locationName: "\uAD6D\uBC25\uC9D1"
-  showGizmo: 1
-  gizmoColor: {r: 0, g: 1, b: 0, a: 1}
-  spriteRenderer: {fileID: 0}
-  highlightColor: {r: 0, g: 1, b: 0, a: 1}
   onlyTriggerOnce: 1
 --- !u!61 &1606592920
 BoxCollider2D:
@@ -3024,7 +3018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e311d6ca962da564db644da3afc8e743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDamaged: 0
+  attackHitClip: {fileID: 0}
   mask:
     serializedVersion: 2
     m_Bits: 4096
@@ -3683,9 +3677,16 @@ MonoBehaviour:
   enemyController: {fileID: 0}
   animator: {fileID: 0}
   spriteRenderer: {fileID: 0}
+  globalLight: {fileID: 0}
   meleeAttackClip: {fileID: 0}
+  biteAttackClip: {fileID: 0}
+  hairAttackClip: {fileID: 0}
+  howlingAttackClip: {fileID: 0}
   dieClip: {fileID: 0}
-  moveClip: {fileID: 0}
+  moveStart: {fileID: 0}
+  shadowDown: {fileID: 0}
+  endingPanel: {fileID: 0}
+  uiFadePanel: {fileID: 0}
 --- !u!1 &3211228265334184491
 GameObject:
   m_ObjectHideFlags: 0
@@ -4614,7 +4615,6 @@ MonoBehaviour:
     m_Bits: 4096
   cineMachineCamera: {fileID: 5910729572415393639}
   monster: {fileID: 678524739789724037}
-  globalLight: {fileID: 697660215}
 --- !u!50 &8178058403012362025
 Rigidbody2D:
   serializedVersion: 5
@@ -4991,7 +4991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e311d6ca962da564db644da3afc8e743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDamaged: 0
+  attackHitClip: {fileID: 0}
   mask:
     serializedVersion: 2
     m_Bits: 4096

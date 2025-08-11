@@ -6,12 +6,6 @@ public class LocationTrigger : MonoBehaviour
     [SerializeField] private string locationId = "loc_restaurant"; // CSV의 targetId와 일치
     [SerializeField] private string locationName = "국밥집";
 
-    [Header("시각적 설정")]
-    [SerializeField] private bool showGizmo = true;
-    [SerializeField] private Color gizmoColor = Color.green;
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Color highlightColor = Color.green;
-
     [Header("트리거 설정")]
     [SerializeField] private bool onlyTriggerOnce = true; // 한 번만 트리거할지 여부
 
@@ -20,16 +14,6 @@ public class LocationTrigger : MonoBehaviour
 
     private void Start()
     {
-        // 기본 스프라이트 설정이 없다면 간단한 사각형 만들기
-        if (spriteRenderer == null)
-        {
-            spriteRenderer = GetComponent<SpriteRenderer>();
-        }
-
-        if (spriteRenderer != null)
-        {
-            originalColor = spriteRenderer.color;
-        }
 
         // Collider가 없다면 자동으로 추가
         if (GetComponent<Collider2D>() == null)
@@ -69,30 +53,8 @@ public class LocationTrigger : MonoBehaviour
             Debug.LogError("ObjectiveManager.Instance가 null입니다!");
         }
 
-        // 도달 효과
-        StartCoroutine(LocationReachedEffect());
     }
 
-    private System.Collections.IEnumerator LocationReachedEffect()
-    {
-        // 색상 변경 효과
-        if (spriteRenderer != null)
-        {
-            Color original = spriteRenderer.color;
-
-            // 깜빡임 효과
-            for (int i = 0; i < 3; i++)
-            {
-                spriteRenderer.color = highlightColor;
-                yield return new WaitForSeconds(0.2f);
-                spriteRenderer.color = original;
-                yield return new WaitForSeconds(0.2f);
-            }
-
-            // 최종적으로 하이라이트 색상으로 유지 (도달했음을 표시)
-            spriteRenderer.color = highlightColor;
-        }
-    }
 
     // private void OnDrawGizmos()
     // {
@@ -129,10 +91,6 @@ public class LocationTrigger : MonoBehaviour
     private void ResetTrigger()
     {
         hasTriggered = false;
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.color = originalColor;
-        }
         Debug.Log($"트리거 상태 리셋: {locationName}");
     }
 }
