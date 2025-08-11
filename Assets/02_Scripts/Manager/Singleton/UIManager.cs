@@ -17,7 +17,7 @@ public class UIManager : Singleton<UIManager>
     public UITutorial UITutorial { get; private set; }
     public UIMap UIMap { get; private set; }
     public UIInvestigationTimer UIInvestigationTimer { get; private set; }
-
+    public UIFadePanel UIFadePanel { get; private set; }
     public UIObjective UIObjective { get; private set; }
     public UIObjectiveCompleteNotifier UIObjectiveCompleteNotifier { get; private set; }
 
@@ -82,6 +82,7 @@ public class UIManager : Singleton<UIManager>
         UIObjective = GetUIComponent<UIObjective>(UIType.UIObjective);
         UIObjectiveCompleteNotifier = GetUIComponent<UIObjectiveCompleteNotifier>(UIType.UIObjectiveCompleteNotifier);
         UIMap = GetUIComponent<UIMap>(UIType.UIMap);
+        UIFadePanel = GetUIComponent<UIFadePanel>(UIType.UIFadePanel);
     }
 
     //canvas를 생성하고 씬에 맞는 ui생성
