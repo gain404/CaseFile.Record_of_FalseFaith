@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
@@ -30,8 +29,9 @@ public class CutSceneSignalTrigger : MonoBehaviour
     private void Start()
     {
         _uiFadePanel = UIManager.Instance.UIFadePanel;
+        _uiManager = UIManager.Instance;
     }
-
+    
     private void OnDestroy()
     {
         if (enemyController != null)
@@ -111,12 +111,22 @@ public class CutSceneSignalTrigger : MonoBehaviour
 
     public void OffUI()
     {
-        if (_uiManager.MapManager != null)
+        if (_uiManager.UIMap != null)
         {
-            _uiManager.MapManager.OnMapButton();
+            _uiManager.UIMap.OnMapButton();
         }
         _uiManager.UIInvestigation.OnBookButton();
         _uiManager.UIHealth.OnHealthUI();
         _uiManager.UIStamina.OnStaminaUI();
+    }
+
+
+    public void OffUIChapter()
+    {
+        if (_uiManager != null)
+        {
+            _uiManager.UIMap.OnMapButton();
+            _uiManager.UIInvestigation.OnBookButton();
+        }
     }
 }
