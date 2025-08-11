@@ -93,7 +93,7 @@ public class CutSceneSignalTrigger : MonoBehaviour
     
     private IEnumerator FadeAndLoadScene(string sceneName)
     {
-        
+        _uiFadePanel.AllFade();
         _uiFadePanel.Fade(1f, 3f);
         yield return new WaitForSeconds(3.5f);
         // 로딩 씬 호출
