@@ -68,11 +68,6 @@ public class ObjectiveManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        dataLoader.LoadObjectiveData();// 전체 퀘스트 데이터 로드
-    }
-
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -92,10 +87,19 @@ public class ObjectiveManager : MonoBehaviour
     {
         yield return null;
         
-        objectiveUI = UIManager.Instance.UIObjective;
-        completeNotifier = UIManager.Instance.UIObjectiveCompleteNotifier;
         triggerLoader.LoadTriggerData();
+
+        if (UIManager.Instance != null && UIManager.Instance.UIObjective != null)
+        {
+            objectiveUI = UIManager.Instance.UIObjective;
+            completeNotifier = UIManager.Instance.UIObjectiveCompleteNotifier;
+        }
+        else
+        {
+            yield break;
+        }
         
+        dataLoader.LoadObjectiveData();// 전체 퀘스트 데이터 로드
         LoadChapterObjectives(1);
         objectiveUI.SetChapterTitle("Chapter 1");
         objectiveUI.UpdateObjectiveDisplay(activeObjectives);// UI에 퀘스트 목록 표시

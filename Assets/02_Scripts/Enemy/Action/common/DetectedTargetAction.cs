@@ -1,11 +1,12 @@
 using System;
+using DG.Tweening;
 using Unity.Behavior;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
 using Unity.Properties;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "DetectedTarget", story: "[Self] detected [Target] with [IsTargetDetected] and [IsTargetInAttackDistance] move with [MoveSpeed]", category: "Action", id: "e5611cd9fbf8d1ec40ae4c0f367a7fa9")]
+[NodeDescription(name: "DetectedTarget", story: "[Self] detected [Target] with [IsTargetDetected] and [IsTargetInAttackDistance] move with [MoveSpeed] [MoveClip]", category: "Action", id: "e5611cd9fbf8d1ec40ae4c0f367a7fa9")]
 public partial class DetectedTargetAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
@@ -13,7 +14,9 @@ public partial class DetectedTargetAction : Action
     [SerializeReference] public BlackboardVariable<bool> IsTargetDetected;
     [SerializeReference] public BlackboardVariable<bool> IsTargetInAttackDistance;
     [SerializeReference] public BlackboardVariable<float> MoveSpeed;
+    [SerializeReference] public BlackboardVariable<AudioClip> MoveClip;
     private Rigidbody2D _rigidbody2D;
+    private bool _isSound;
     
     protected override Status OnStart()
     {
@@ -38,6 +41,13 @@ public partial class DetectedTargetAction : Action
         {
             _rigidbody2D.linearVelocity = Vector2.zero;
             return Status.Success;
+        }
+        
+        if (_isSound)
+        {
+            _isSound = false;
+            SoundManager.Instance.PlaySFX(MoveClip.Value);
+            DOVirtual.DelayedCall(1.0f, () => _isSound = true);
         }
 
         return Status.Running;
