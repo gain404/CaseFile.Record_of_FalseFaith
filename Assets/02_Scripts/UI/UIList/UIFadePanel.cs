@@ -1,6 +1,6 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class UIFadePanel : MonoBehaviour
 {
@@ -9,6 +9,7 @@ public class UIFadePanel : MonoBehaviour
     private void Start()
     {
         SetClearImmediately();
+        transform.SetAsFirstSibling();
     }
 
     public void Fade(float targetAlpha, float fadeDuration, System.Action onComplete = null)
@@ -20,6 +21,12 @@ public class UIFadePanel : MonoBehaviour
     
     public void SetBlackImmediately() => SetAlpha(1f);
     public void SetClearImmediately() => SetAlpha(0f);
+
+    public void AllFade()
+    {
+        transform.SetAsLastSibling();
+        DOVirtual.DelayedCall(3.0f, () => transform.SetAsFirstSibling());
+    }
 
     private void SetAlpha(float alpha)
     {

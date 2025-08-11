@@ -32,9 +32,9 @@ public class PassageZone : MonoBehaviour, IInteractable
         _playerController = _player.GetComponent<PlayerController>();
         _playerCinemachineCamera = playerCamera.GetComponent<CinemachineCamera>();
         _sfxPlayer = GetComponent<SfxPlayer>();
-        _uiFadePanel = UIFadePanel.Instance;
         _unlockPassageZone = GetComponent<UnlockPassageZone>();
         _canPassage = false;
+        _uiFadePanel = UIManager.Instance.UIFadePanel;
     }
     
     private void Update()
@@ -96,8 +96,7 @@ public class PassageZone : MonoBehaviour, IInteractable
         {
             _sfxPlayer.PlaySfx(SfxName.DoorOpen);
         }
-        _uiFadePanel.OnCanvas();
-        _uiFadePanel.OrderChange(200);
+        _uiFadePanel.AllFade();
         _uiFadePanel.Fade(1.0f, 1.2f, SetPlayerPosition);
     }
     
@@ -106,7 +105,7 @@ public class PassageZone : MonoBehaviour, IInteractable
         Quaternion quaternion = new Quaternion(0, 0, 0, 0);
         _player.transform.position = passageInfo.targetPosition;
         _playerCinemachineCamera.ForceCameraPosition(passageInfo.targetPosition, quaternion);
-        _uiFadePanel.Fade(0, 1.2f, _uiFadePanel.OffCanvas);
+        _uiFadePanel.Fade(0, 1.2f);
         _canPassage = false;
         if (isBossRoom)
         {

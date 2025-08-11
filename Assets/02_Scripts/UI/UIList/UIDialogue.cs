@@ -48,7 +48,7 @@ public class UIDialogue : MonoBehaviour
     private int _currentItemIndex;
     private bool _isItemDialogue;
     private UIShop _uiShop;
-    private TMP_Text[] _buttonTexts;
+    private TMP_Text[] _buttonTexts; 
     private UIFadePanel _uiFadePanel;
     private CanvasGroup _continueArrowGroup;
     private Coroutine _arrowBlinkCoroutine;
@@ -70,7 +70,7 @@ public class UIDialogue : MonoBehaviour
         _continueArrowGroup.alpha = 0f;
         GameObject dialogueCamera = GameObject.FindGameObjectWithTag("DialogueCamera");
         _dialogueCamera = dialogueCamera.GetComponent<CinemachineCamera>();
-        _uiFadePanel = UIFadePanel.Instance;
+        _uiFadePanel = UIManager.Instance.UIFadePanel;
         EndDialogue();
     }
 
@@ -120,7 +120,6 @@ public class UIDialogue : MonoBehaviour
         IsDialogueFinished = false;
 
         _dialogueCamera.Priority = 30;
-        _uiFadePanel.OrderChange(0);
         _uiFadePanel.Fade(0.5f,0.1f);
         DialogueLine firstLine = _currentDialogue.lines[0];
         if (firstLine.type == DialogueType.OpenStore || firstLine.type == DialogueType.StartInvestigation)

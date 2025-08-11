@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class CutSceneSignalTrigger : MonoBehaviour
     private Player _player;
     private NPCInteraction _npc;
     private UIManager _uiManager;
+    private UIFadePanel _uiFadePanel;
     
     private void Awake()
     {
@@ -24,7 +26,12 @@ public class CutSceneSignalTrigger : MonoBehaviour
             enemyController.DieAction += OnNpc;
         }
     }
-    
+
+    private void Start()
+    {
+        _uiFadePanel = UIManager.Instance.UIFadePanel;
+    }
+
     private void OnDestroy()
     {
         if (enemyController != null)
@@ -86,9 +93,9 @@ public class CutSceneSignalTrigger : MonoBehaviour
     
     private IEnumerator FadeAndLoadScene(string sceneName)
     {
-        // 페이드 아웃
-        UIFadePanel.Instance.Fade(1f, 4f);
-        yield return new WaitForSeconds(1);
+        
+        _uiFadePanel.Fade(1f, 3f);
+        yield return new WaitForSeconds(3.5f);
         // 로딩 씬 호출
         LoadingBar.LoadScene(sceneName);
     }
