@@ -36,7 +36,7 @@ public class EnemyController : MonoBehaviour,IDamagable
         Debug.Log("몬스터 : -" + damage);
         _enemyCurrentHealth -= damage;
         agent.BlackboardReference.SetVariableValue("CurrentHealth", _enemyCurrentHealth);
-        if (_enemyCurrentHealth <= 0)
+        if (_enemyCurrentHealth <= 1.0f)
         {
             DieAction();
         }
