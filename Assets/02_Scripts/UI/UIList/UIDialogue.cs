@@ -50,6 +50,8 @@ public class UIDialogue : MonoBehaviour
     private UIShop _uiShop;
     private TMP_Text[] _buttonTexts;
     private FadeManager _fadeManager;
+    private CanvasGroup _continueArrowGroup;
+    private Coroutine _arrowBlinkCoroutine;
 
     // 🔹 조사 후 세컨드 대화를 위해 NPC 정보 저장
     private NPCData _currentNpcData;
@@ -62,7 +64,10 @@ public class UIDialogue : MonoBehaviour
         _buttonTexts = new TMP_Text[choiceButtons.Length];
         for (int i = 0; i < choiceButtons.Length; i++)
             _buttonTexts[i] = choiceButtons[i].GetComponentInChildren<TMP_Text>();
-
+        _continueArrowGroup = continueArrow.GetComponent<CanvasGroup>();
+        if (_continueArrowGroup == null)
+            _continueArrowGroup = continueArrow.AddComponent<CanvasGroup>();
+        _continueArrowGroup.alpha = 0f;
         GameObject dialogueCamera = GameObject.FindGameObjectWithTag("DialogueCamera");
         _dialogueCamera = dialogueCamera.GetComponent<CinemachineCamera>();
         _fadeManager = FadeManager.Instance;
@@ -217,7 +222,11 @@ public class UIDialogue : MonoBehaviour
     private void SetState(DialogueState newState)
     {
         CurrentState = newState;
-        continueArrow.SetActive(newState == DialogueState.WaitingForInput);
+        bool show = (newState == DialogueState.WaitingForInput);
+        continueArrow.SetActive(show); // 기존 동작 유지
+
+        if (show) StartContinueArrowBlink();
+        else StopContinueArrowBlink();
     }
     
     private void StopDisplayCoroutine()
@@ -408,6 +417,36 @@ public class UIDialogue : MonoBehaviour
             cg.interactable = false;
         }
     }
+    
+    private void StartContinueArrowBlink()
+    {
+        if (_arrowBlinkCoroutine != null) return;
+        _arrowBlinkCoroutine = StartCoroutine(ArrowBlinkCoroutine());
+    }
+
+    private void StopContinueArrowBlink()
+    {
+        if (_arrowBlinkCoroutine != null)
+        {
+            StopCoroutine(_arrowBlinkCoroutine);
+            _arrowBlinkCoroutine = null;
+        }
+        if (_continueArrowGroup != null)
+            _continueArrowGroup.alpha = 0f; // 꺼진 상태로 정리
+    }
+
+    private IEnumerator ArrowBlinkCoroutine()
+    {
+        // "0.5초 보임 → 0.5초 숨김"을 반복 (페이드 아님, 즉시 전환)
+        while (true)
+        {
+            _continueArrowGroup.alpha = 1f;
+            yield return new WaitForSeconds(0.5f);
+            _continueArrowGroup.alpha = 0f;
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
 
     #region Other Methods
     private IEnumerator TransitionSpeaker(DialogueLine line)
