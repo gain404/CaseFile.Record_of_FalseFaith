@@ -70,6 +70,7 @@ public class UIShop : MonoBehaviour
             Debug.LogWarning("Player 또는 StateMachine이 null입니다. IsReturningFromShop을 설정할 수 없습니다.");
         }
         ShopPanel.SetActive(false);
+        UIManager.Instance.UIFadePanel.Fade(0f, 0.1f);
     }
     
     void PopulateShop(List<ItemData> items)

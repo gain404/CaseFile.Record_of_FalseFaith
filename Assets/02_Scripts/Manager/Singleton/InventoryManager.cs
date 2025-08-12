@@ -90,12 +90,8 @@ public class InventoryManager : Singleton<InventoryManager>
         if (item != null && item.quantity >= quantity)
         {
             item.quantity -= quantity;
-
             if (item.quantity <= 0)
-            {
                 inventory.Remove(item);
-            }
-
             return true;
         }
 
