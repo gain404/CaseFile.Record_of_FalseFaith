@@ -65,7 +65,7 @@ Tab을 눌러 인벤토리를 열 수 있습니다.
 와이어프레임(맵)
 <img width="1667" height="650" alt="image" src="https://github.com/user-attachments/assets/7199cee3-2642-4e1c-9a7b-2c918b796ba8" /><br>
 
-<a name="사용-기술술"></a>
+<a name="사용-기술"></a>
 ## 🛠️ 사용 기술
 
 - **Unity Engine (Unity 6)**
