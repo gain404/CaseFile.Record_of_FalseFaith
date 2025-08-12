@@ -260,6 +260,7 @@ public class UIInventory : MonoBehaviour
         if (IsOpen()) Toggle();
         useButtonText.text = "사용";
         cancelButton.SetActive(false);
+        UIManager.Instance.UIFadePanel.Fade(0f, 0.1f);
         ClearSelectedItemWindow();
     }
     
