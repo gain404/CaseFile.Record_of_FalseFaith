@@ -4,6 +4,7 @@ public class NPCInteraction : MonoBehaviour, IInteractable
 {
     public NPCData npcData;
     
+    
     public DialogueAsset GetFirstDialogue()
     {
         return npcData?.firstDialogueAsset;

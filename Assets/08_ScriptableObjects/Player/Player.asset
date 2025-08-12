@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MoveData>k__BackingField:
     <Speed>k__BackingField: 4
-    <WalkSpeedModifier>k__BackingField: 1
+    <WalkSpeedModifier>k__BackingField: 2.76
     <RunSpeedModifier>k__BackingField: 5
     <DashSpeedModifier>k__BackingField: 20
   <GroundData>k__BackingField:
@@ -22,7 +22,10 @@ MonoBehaviour:
   Stats:
   - Type: 0
     Value: 10
+    MaxValue: 10
   - Type: 1
     Value: 100
+    MaxValue: 100
   - Type: 2
-    Value: 10000
+    Value: 500
+    MaxValue: 100000

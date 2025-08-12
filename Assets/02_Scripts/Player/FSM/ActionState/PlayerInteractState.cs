@@ -2,23 +2,21 @@
 
 public class PlayerInteractState : PlayerActionState
 {
-    
     public PlayerInteractState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
 
-    //상태 진입할 때
     public override void Enter()
     {
-        Debug.Log("다이알로그 상태 진입");
         base.Enter();
+        Debug.Log("PlayerInteractState Enter");
+
         _rb.linearVelocity = Vector2.zero;
         stateMachine.Player.Animator.SetBool(stateMachine.Player.PlayerAnimationData.MoveParameterHash, false);
         stateMachine.Player.Animator.SetBool(stateMachine.Player.PlayerAnimationData.RunParameterHash, false);
         stateMachine.Player.Animator.SetBool(stateMachine.Player.PlayerAnimationData.WalkParameterHash, false);
 
         StartAnimation(stateMachine.Player.PlayerAnimationData.IdleParameterHash);
-
         stateMachine.MovementSpeedModifier = 0f;
 
         var npc = stateMachine.Player.CurrentInteractableNPC;
@@ -27,23 +25,23 @@ public class PlayerInteractState : PlayerActionState
 
         if (npc != null)
         {
-            Debug.Log($"--- NPC와 상호작용 시작: {npc.name} ---");
-        
             DialogueAsset dialogueToStart = null;
-            
-            if (stateMachine.PreviousState == stateMachine.ShopState)
+
+            // 🔹 조사 성공 시 SecondDialogue 출력
+            if (stateMachine.IsReturnFromInvestigationSuccess)
             {
                 dialogueToStart = npc.GetSecondDialogue();
+                stateMachine.IsReturnFromInvestigationSuccess = false; // 플래그 초기화
             }
-            
+
             if (dialogueToStart == null)
             {
                 dialogueToStart = npc.GetFirstDialogue();
             }
-        
+
             if (dialogueToStart != null)
             {
-                DialogueManager.Instance.StartDialogue(dialogueToStart, npc.transform);
+                UIManager.Instance.UIDialogue.StartDialogue(dialogueToStart, npc.transform);
             }
             else
             {
@@ -52,30 +50,26 @@ public class PlayerInteractState : PlayerActionState
         }
         else if (item != null)
         {
-            Debug.Log($"--- 필드 아이템과 상호작용 시작: {item.name} ---");
             item.OnInteract();
         }
         else if (itemData != null)
         {
-            Debug.Log("--- 기타 아이템 데이터 상호작용 시작 ---");
             Interaction interaction = stateMachine.Player.GetComponent<Interaction>();
             if (interaction != null)
             {
                 interaction.currentInteractable.OnInteract();
             }
         }
-
     }
 
-
-    //상태 빠져나올 때
     public override void Exit()
     {
-        Debug.Log("다이알로그 상태 퇴장");
         base.Exit();
+        Debug.Log("PlayerInteractState Exit");
         EndAnimation(stateMachine.Player.PlayerAnimationData.IdleParameterHash);
         stateMachine.MovementSpeedModifier = 1f;
     }
+
     public override void HandleInput()
     {
         var playerActions = stateMachine.Player.PlayerController.playerActions;
@@ -84,12 +78,12 @@ public class PlayerInteractState : PlayerActionState
 
         if (confirm || click)
         {
-            DialogueManager.Instance.HandleClick();
+            UIManager.Instance.UIDialogue.HandleClick();
         }
     }
+
     public override void Update()
     {
-        // HandleInput만 처리함 (움직임/점프 등은 무시)
         HandleInput();
     }
 
@@ -97,5 +91,4 @@ public class PlayerInteractState : PlayerActionState
     {
         // 움직임 없음
     }
-
 }

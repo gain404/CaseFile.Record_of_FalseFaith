@@ -1,76 +1,88 @@
-﻿// StatManager.cs
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using UnityEditor.U2D.Animation;
+using DG.Tweening;
 
 public class PlayerStat : MonoBehaviour
 {
-    public Dictionary<StatType, float> CurrentStats { get; private set; }
-    private Dictionary<StatType, float> _maxStats;
-
-    public event Action<StatType> OnStatChanged;
-
-    public CharacterData characterData;//최대 체력 얻는 방식 변경 by 송도현
-
-    public float CurrentHp => GetStatValue(StatType.Hp);
-    public float MaxHp => GetMaxStatValue(StatType.Hp);
-
-    [SerializeField] private HealthUI healthUI;//UI 표시 위한 추가
-    [SerializeField] private StaminaUI staminaUI;
-
     public bool isInvincible;
-    private bool isRecoveryOnCooldown = false;
-    private const float RECOVERY_COOLDOWN_DURATION = 10.0f;
+    //밑에 액션 안쓰면 지워주세요
+    public event Action<StatType> OnStatChanged;
+    public float CurrentHeart => GetStatValue(StatType.Heart);
+    public float MaxHeart => GetMaxStatValue(StatType.Heart);
+    public float GetStatValue(StatType type) => _currentStats.TryGetValue(type, out float value) ? value : 0f;
+    public float GetMaxStatValue(StatType type) => _maxStats.TryGetValue(type, out float value) ? value : 0f;
+    //일단 public으로 두긴하는데 그냥 private로 하고 함수 하나 만들어서 data전달하는 방식으로 하느게 좋을 것 같아요, 아니면 프로퍼티사용해서 private set하는게
+    //public CharacterData characterData;
     
+    private Dictionary<StatType, float> _currentStats;
+    private Dictionary<StatType, float> _maxStats;
+    private UIHealth _uiHealth;
+    private UIStamina _uiStamina;
+    private bool _isRecoveryOnCooldown;
+    private const float RecoveryCooldownDuration = 10.0f;
+    private bool _isInvincibility;
+
+    public GameOverManager gameOverManager; // 할당 필요
 
     private void Awake()
     {
         var data = GetComponent<Player>().Data;
 
-        CurrentStats = new Dictionary<StatType, float>();
+        _currentStats = new Dictionary<StatType, float>();
         _maxStats = new Dictionary<StatType, float>();
 
         foreach (var stat in data.Stats)
         {
-            CurrentStats.Add(stat.Type, stat.Value);
-            _maxStats.Add(stat.Type, stat.Value);
+            _currentStats.Add(stat.Type, stat.Value);
+            _maxStats.Add(stat.Type, stat.MaxValue);
         }
 
-        if (!CurrentStats.ContainsKey(StatType.Money))
+        if (!_currentStats.ContainsKey(StatType.Money))
         {
-            CurrentStats.Add(StatType.Money, 0);
+            _currentStats.Add(StatType.Money, 0);
             _maxStats.Add(StatType.Money, float.MaxValue);
         }
-
-        healthUI.UpdateHearts((int) CurrentHp, (int) MaxHp);
-
+        _isRecoveryOnCooldown = false;
     }
 
-    public float GetStatValue(StatType type) => CurrentStats.TryGetValue(type, out float value) ? value : 0f;
-    public float GetMaxStatValue(StatType type) => _maxStats.TryGetValue(type, out float value) ? value : 0f;
+    private void Start()
+    {
+        _uiHealth = UIManager.Instance.UIHealth;
+        _uiStamina = UIManager.Instance.UIStamina;
+        _uiHealth.UpdateHeart();
+        _isInvincibility = false;
+    }
 
     public bool Consume(StatType type, float amount)
     {
+        float maxStat = GetMaxStatValue(type);
+
         if (isInvincible)
             return false;
         
         if (amount <= 0)
         {
-            Debug.LogWarning("소비량은 양수여야 합니다.");
             return false;
         }
 
-        if (!CurrentStats.ContainsKey(type) || CurrentStats[type] < amount)
+        if (!_currentStats.ContainsKey(type) || _currentStats[type] < amount)
         {
             return false;
         }
 
-        CurrentStats[type] -= amount;
+        _currentStats[type] -= amount;
+        if (type == StatType.Heart)
+        {
+            _uiHealth.ShakeHearts(amount);
+            _uiHealth.UpdateHeart();
+        }
+        else if (type == StatType.Stamina)
+        {
+            _uiStamina.UpdateStamina(_currentStats[type], maxStat);
+        }
         OnStatChanged?.Invoke(type);
-        Debug.Log($"{type} {amount}만큼 소비. 현재: {CurrentStats[type]}");
         return true;
     }
 
@@ -78,19 +90,16 @@ public class PlayerStat : MonoBehaviour
     {
         if (amount <= 0)
         {
-            Debug.Log("회복량이 유효하지 않습니다.");
             return false; // 아이템 사용 실패
         }
 
         if (GetStatValue(type) >= GetMaxStatValue(type))
         {
-            Debug.Log($"{type}이(가) 이미 최대치라 사용할 수 없습니다.");
             return false; // 아이템 사용 실패
         }
 
-        if (isRecoveryOnCooldown)
+        if (_isRecoveryOnCooldown)
         {
-            Debug.Log("재사용 대기 중입니다.");
             return false; // 아이템 사용 실패
         }
 
@@ -101,54 +110,71 @@ public class PlayerStat : MonoBehaviour
         return true; // 아이템 사용 성공
     }
 
-    private void Recover(StatType type, float amount)
+    public void Recover(StatType type, float amount)
     {
         if (amount <= 0) return;
 
-        if (!CurrentStats.ContainsKey(type)) return;
+        if (!_currentStats.ContainsKey(type)) return;
 
         float maxStat = GetMaxStatValue(type);
-        CurrentStats[type] = Mathf.Min(CurrentStats[type] + amount, maxStat);
+        if (_currentStats[type] >= maxStat) return;
+
+        _currentStats[type] = Mathf.Min(_currentStats[type] + amount, maxStat);
 
         OnStatChanged?.Invoke(type);
 
-        if(type == StatType.Hp)
+        if(type == StatType.Heart)
         {
-            healthUI.UpdateHearts((int)CurrentHp, (int)MaxHp);
+            _uiHealth.UpdateHeart();
         }
         else if (type == StatType.Stamina)
         {
-            staminaUI.UpdateStamina(CurrentStats[type], maxStat);
+            _uiStamina.UpdateStamina(_currentStats[type], maxStat);
         }
-
-            Debug.Log($"{type}을(를) {amount} 만큼 회복. 현재 값: {CurrentStats[type]}");
     }
 
     private IEnumerator StartRecoveryCooldown()
     {
-        isRecoveryOnCooldown = true;
+        _isRecoveryOnCooldown = true;
 
-        for (int i = (int)RECOVERY_COOLDOWN_DURATION; i > 0; i--)
+        for (int i = (int)RecoveryCooldownDuration; i > 0; i--)
         {
-            Debug.Log($"회복 아이템 재사용까지... {i}초");
             yield return new WaitForSeconds(1.0f);
         }
-
-        Debug.Log("회복 아이템 사용 가능!");
-        isRecoveryOnCooldown = false;
+        
+        _isRecoveryOnCooldown = false;
     }
 
+    public void AddStat(StatType type, float value)
+    {
+        float currentValue = _currentStats.GetValueOrDefault(type);
+        float clampedValue = Mathf.Clamp(value + currentValue, 0, _maxStats[type]);
+
+        _currentStats[type] = clampedValue;
+    }
+    
     public void TakeDamage(float damage)
     {
-        if (Consume(StatType.Hp, damage))
+        if(_isInvincibility)return;
+        if (Consume(StatType.Heart, damage))
         {
-            if (CurrentStats[StatType.Hp] <= 0) Die();
+            SetInvincibility(true);
+            if (_currentStats[StatType.Heart] <= 0) Die();
         }
-        healthUI.UpdateHearts((int)CurrentHp, (int)MaxHp);
+        _uiHealth.UpdateHeart();
+        DOVirtual.DelayedCall(1.0f, () => SetInvincibility(false));
     }
 
     private void Die()
     {
         Debug.Log($"{gameObject.name} 사망!");
+        // 연출부터 시작
+        UIGameOverEffect.Instance.PlayYouDiedEffect();
+        // 플레이어 비활성화, 애니메이션, 사운드 등도 여기에
+    }
+
+    public void SetInvincibility(bool isTrue)
+    {
+        _isInvincibility = isTrue;
     }
 }

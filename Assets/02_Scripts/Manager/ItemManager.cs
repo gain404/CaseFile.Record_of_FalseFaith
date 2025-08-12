@@ -1,17 +1,20 @@
+﻿using UnityEditor;
 using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
+    PlayerStat playerStat;
     public bool UseItem(ItemData item)
     {
-        if (item != null && item.Effect != null)
+        if (item != null && item.itemType == ItemType.Recover)
         {
-            Debug.Log($"Using {item.displayName}...");
-            return item.Effect.Apply(this.gameObject);
+            playerStat = FindAnyObjectByType<PlayerStat>();
+            playerStat.Recover(StatType.Heart, (float) item.healHP);
+            playerStat.Recover(StatType.Stamina, (float)item.healStamina);
+            return true;
         }
         else
         {
-            Debug.LogWarning($"{item.displayName}(은)는 정의된 사용 효과가 없습니다.");
             return false; // 효과가 없으면 실패
         }
     }

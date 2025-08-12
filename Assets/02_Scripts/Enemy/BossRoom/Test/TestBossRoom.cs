@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Unity.Behavior;
 using Unity.Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class TestBossRoom : MonoBehaviour
 {

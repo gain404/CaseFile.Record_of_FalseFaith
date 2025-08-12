@@ -9,7 +9,6 @@ public class PlayerInventoryState : PlayerActionState
 
     public override void Enter()
     {
-        Debug.Log("인벤토리 스테이트 진입");
         base.Enter();
         _rb.linearVelocity = Vector2.zero;
         stateMachine.Player.Animator.SetBool(stateMachine.Player.PlayerAnimationData.MoveParameterHash, false);
@@ -20,14 +19,13 @@ public class PlayerInventoryState : PlayerActionState
 
         stateMachine.MovementSpeedModifier = 0f;
 
-        TestUIManager.Instance.uiInventory.Toggle();
+        UIManager.Instance.UIInventory.Toggle();
     }
 
     //상태 빠져나올 때
     public override void Exit()
     {
-        Debug.Log("인벤토리 스테이트 나옴");
-        TestUIManager.Instance.uiInventory.Toggle();
+        UIManager.Instance.UIInventory.Toggle();
         base.Exit();
         EndAnimation(stateMachine.Player.PlayerAnimationData.IdleParameterHash);
         stateMachine.MovementSpeedModifier = 1f;

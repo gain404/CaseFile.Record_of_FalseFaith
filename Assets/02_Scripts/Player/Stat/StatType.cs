@@ -1,7 +1,7 @@
 // StatType.cs
 public enum StatType
 {
-    Hp,
+    Heart,
     Stamina,
     Money
 }

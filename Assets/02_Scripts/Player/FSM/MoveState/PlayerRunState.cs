@@ -1,7 +1,10 @@
-﻿
+﻿using UnityEngine;
+
 public class PlayerRunState : PlayerMoveState
 {
-    private CameraTargetMover cameraTargetMover;
+    private CameraTargetMover _cameraTargetMover;
+    private float _staminaConsumeTimer;
+    private PlayerCameraController _playerCameraController;
     public PlayerRunState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -9,31 +12,42 @@ public class PlayerRunState : PlayerMoveState
     public override void Enter()
     {
         base.Enter();
-        if (cameraTargetMover == null)
+        _staminaConsumeTimer = 0f;
+        if (_cameraTargetMover == null)
         {
-            cameraTargetMover = stateMachine.Player.transform.Find("CameraTarget").GetComponent<CameraTargetMover>();
+            _cameraTargetMover = stateMachine.Player.transform.Find("CameraTarget").GetComponent<CameraTargetMover>();
         }
 
-        cameraTargetMover.MoveToOffset(new UnityEngine.Vector3(0f, 0.7f, 0f), 0.5f); // 예시: 위로 0.7만큼 0.5초 동안
+        _cameraTargetMover.MoveToOffset(new UnityEngine.Vector3(0f, 0.7f, 0f), 0.5f); // 예시: 위로 0.7만큼 0.5초 동안
         stateMachine.MovementSpeedModifier = moveData.RunSpeedModifier;
         StartAnimation(stateMachine.Player.PlayerAnimationData.RunParameterHash);
-        CameraController.Instance.ZoomOutForRunning();
-        CameraController.Instance.isRunning = true;
+        if (_playerCameraController == null)
+        {
+            GameObject playerCamera = GameObject.FindGameObjectWithTag("PlayerCamera");
+            _playerCameraController = playerCamera.GetComponent<PlayerCameraController>();
+        }
+        _playerCameraController.ZoomOutForRunning();
+        _playerCameraController.isRunning = true;
     }
 
     public override void Update()
     {
         base.Update();
-        stateMachine.Player.PlayerStat.Consume(StatType.Stamina, 5);
+        _staminaConsumeTimer += Time.deltaTime;
+        if (_staminaConsumeTimer >= 1f)
+        {
+            stateMachine.Player.PlayerStat.Consume(StatType.Stamina, 5);
+            _staminaConsumeTimer -= 1f; // 타이머에서 1초를 빼서 다음 소모를 준비
+        }
     }
     
     public override void Exit()
     {
         base.Exit();
-        cameraTargetMover.ResetPosition(0.3f);
+        _cameraTargetMover.ResetPosition(0.3f);
         EndAnimation(stateMachine.Player.PlayerAnimationData.RunParameterHash);
-        CameraController.Instance.ZoomInToDefault();
-        CameraController.Instance.isRunning = false;
+        _playerCameraController.ZoomInToDefault();
+        _playerCameraController.isRunning = false;
     }
     
 }

@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     public WeaponHandler WeaponHandler { get; private set; }
     public PlayerStat PlayerStat { get; private set; }
     
-    private PlayerStateMachine _stateMachine;
+    public PlayerStateMachine stateMachine { get; private set; }
     
 
     public ItemData itemData;//추가한 스크립트(송도현)
@@ -28,8 +28,6 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        // 싱글톤매니저에 Player를 참조할 수 있게 데이터를 넘긴다.
-        TestCharacterManager.Instance.Player = this;
         //애니메이션 string -> int로 초기화
         PlayerAnimationData.Initialize();
         
@@ -48,18 +46,18 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        _stateMachine = new PlayerStateMachine(this);
-        _stateMachine.ChangeState(_stateMachine.IdleState);
+        stateMachine = new PlayerStateMachine(this);
+        stateMachine.ChangeState(stateMachine.IdleState);
     }
 
     private void Update()
     {
-        _stateMachine.HandleInput();
-        _stateMachine.Update();
+        stateMachine.HandleInput();
+        stateMachine.Update();
     }
 
     private void FixedUpdate()
     {
-        _stateMachine.PhysicsUpdate();
+        stateMachine.PhysicsUpdate();
     }
 }
