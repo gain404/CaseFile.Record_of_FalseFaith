@@ -7,13 +7,13 @@
 
 ## 목차
 
-1. [프로젝트 개요](#프로젝트-개요)
-2. [게임 로직](#게임-로직)
-3. [와이어프레임 및 초기 구상](#와이어프레임-및-초기-구상)
-5. [사용 기술](#사용-기술)
-6. [팀원 소개](#팀원-소개)
+1. [📜프로젝트 개요](#프로젝트-개요)
+2. [🕹️게임 로직](#게임-로직)
+3. [🗺️와이어프레임 및 초기 구상](#와이어프레임-및-초기-구상)
+5. [🛠️사용 기술](#사용-기술)
+6. [👥팀원 소개](#팀원-소개)
 
-## 프로젝트 개요
+## 📜 프로젝트 개요
 
 더 이상 허상의 존재가 아닌 '악귀'.  
 2067년의 서울에서 '초자연범죄대응부'의 형사 '강서현'이 되어 악귀들에 의한 범죄 및 자연현상들을 수사하고 봉인하여 없애세요.
@@ -28,7 +28,7 @@
 |개발 기간| 2025.6.17~2025.8.12 |
 |팀원| 김가인, 조은서, 박준아, 강민성, 송도현 |
 
-## 게임 로직
+## 🕹️ 게임 로직
 
 <img width="450" height="250" alt="Image" src="https://github.com/user-attachments/assets/9dfdaf8b-38ac-4c06-8719-d0c66c2e3465" />  
 
@@ -43,20 +43,28 @@ Tab을 눌러 인벤토리를 열 수 있습니다.
 조사를 통해 습득한 아이템 중 일부는 npc'도하'에게 가져가 조사를 맡길 수 있습니다.  
 조사를 맡긴 아이템의 조사가 끝나면, 오른쪽 상단의 조사파일에서 조사된 내용을 확인할 수 있습니다.  
 
-## 와이어프레임 및 초기 구상
-초기 구상 몬스터 : 무당귀
+## 🗺️ 와이어프레임 및 초기 구상
+와이어프레임(초기 컨셉)
+<img width="1589" height="730" alt="image" src="https://github.com/user-attachments/assets/3fc0adc4-8fe5-4a3f-b859-bb82f642d0c3" /><br>
 
-<img width="450" height="250" alt="image" src="https://github.com/user-attachments/assets/b49eb176-3ae3-4f33-9b7f-f438f60b187e" /><br>
+와이어프레임(몬스터)
 
-사건 파일 초기 구성
+<img width="1654" height="661" alt="image" src="https://github.com/user-attachments/assets/275bb72a-1a91-459e-8fde-ef50e6194af9" /><br>
 
-<img width="450" height="250" alt="image" src="https://github.com/user-attachments/assets/2af612ca-97a8-4cd5-8359-36653349adb0" /><br>
-
-UI 초안
+와이어프레임(UI 초안)
 
 <img width="1329" height="690" alt="image" src="https://github.com/user-attachments/assets/f5d1bbcd-7bba-4dcc-bb7d-f65156290581" /><br>
+<img width="1340" height="729" alt="image" src="https://github.com/user-attachments/assets/a10e1fd4-6bd5-49d0-a82f-8d91be5953ab" /><br>
 
-## 사용 기술
+와이어프레임(조사관련)
+<img width="1756" height="550" alt="image" src="https://github.com/user-attachments/assets/ddef489e-9e98-4176-ba07-7faf50e855df" /><br>
+<img width="1365" height="739" alt="image" src="https://github.com/user-attachments/assets/18cdb89e-9f27-426f-a566-8cd8361b5b26" /><br>
+
+와이어프레임(맵)
+<img width="1667" height="650" alt="image" src="https://github.com/user-attachments/assets/7199cee3-2642-4e1c-9a7b-2c918b796ba8" /><br>
+
+
+## 🛠️ 사용 기술
 
 - **Unity Engine (Unity 6)**
   - 2D & 3D 혼합 개발 환경 활용
@@ -82,7 +90,7 @@ UI 초안
 - **Cinemachine**
   - 카메라 추적, 영역 전환, 연출 카메라 구현
 
-## 팀원 소개
+## 👥 팀원 소개
 | 이름 | 역할 | 담당 기능 | 주요 기여 |
 |------|------|----------|-----------|
 | 김가인 | 팀장 / 기획 / 프로그래머 | 게임 기획, 플레이어 FSM | 스토리 구성, FSM 설계 및 구현 |
