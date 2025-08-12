@@ -7,11 +7,11 @@
 
 ## 목차
 
-1. [📜프로젝트 개요](#프로젝트-개요)
-2. [🕹️게임 로직](#게임-로직)
-3. [🗺️와이어프레임 및 초기 구상](#와이어프레임-및-초기-구상)
-5. [🛠️사용 기술](#사용-기술)
-6. [👥팀원 소개](#팀원-소개)
+1. [📜 프로젝트 개요](#프로젝트-개요)
+2. [🕹️ 게임 로직](#게임-로직)
+3. [🗺️ 와이어프레임 및 초기 구상](#와이어프레임-및-초기-구상)
+5. [🛠️ 사용 기술](#사용-기술)
+6. [👥 팀원 소개](#팀원-소개)
 
 ## 📜 프로젝트 개요
 
@@ -57,7 +57,6 @@ Tab을 눌러 인벤토리를 열 수 있습니다.
 <img width="1340" height="729" alt="image" src="https://github.com/user-attachments/assets/a10e1fd4-6bd5-49d0-a82f-8d91be5953ab" /><br>
 
 와이어프레임(조사관련)
-<img width="1756" height="550" alt="image" src="https://github.com/user-attachments/assets/ddef489e-9e98-4176-ba07-7faf50e855df" /><br>
 <img width="1365" height="739" alt="image" src="https://github.com/user-attachments/assets/18cdb89e-9f27-426f-a566-8cd8361b5b26" /><br>
 
 와이어프레임(맵)
