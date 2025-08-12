@@ -49,14 +49,17 @@ Tab을 눌러 인벤토리를 열 수 있습니다.
 <img width="450" height="250" alt="image" src="https://github.com/user-attachments/assets/b49eb176-3ae3-4f33-9b7f-f438f60b187e" />
 
 
+
 사건 파일 초기 구성
 
 <img width="450" height="250" alt="image" src="https://github.com/user-attachments/assets/2af612ca-97a8-4cd5-8359-36653349adb0" />
 
 
+
 UI 초안
 
 <img width="1329" height="690" alt="image" src="https://github.com/user-attachments/assets/f5d1bbcd-7bba-4dcc-bb7d-f65156290581" />
+
 
 
 ## 사용 기술
