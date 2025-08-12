@@ -29,6 +29,7 @@
 |개발 기간| 2025.6.17~2025.8.12 |
 |팀원| 김가인, 조은서, 박준아, 강민성, 송도현 |
 
+<a name="게임-로직"></a>
 ## 🕹️ 게임 로직
 
 <img width="450" height="250" alt="Image" src="https://github.com/user-attachments/assets/9dfdaf8b-38ac-4c06-8719-d0c66c2e3465" />  
@@ -44,6 +45,7 @@ Tab을 눌러 인벤토리를 열 수 있습니다.
 조사를 통해 습득한 아이템 중 일부는 npc'도하'에게 가져가 조사를 맡길 수 있습니다.  
 조사를 맡긴 아이템의 조사가 끝나면, 오른쪽 상단의 조사파일에서 조사된 내용을 확인할 수 있습니다.  
 
+<a name="와이어프레임-및-초기-구상"></a>
 ## 🗺️ 와이어프레임 및 초기 구상
 와이어프레임(초기 컨셉)
 <img width="1589" height="730" alt="image" src="https://github.com/user-attachments/assets/3fc0adc4-8fe5-4a3f-b859-bb82f642d0c3" /><br>
@@ -63,7 +65,7 @@ Tab을 눌러 인벤토리를 열 수 있습니다.
 와이어프레임(맵)
 <img width="1667" height="650" alt="image" src="https://github.com/user-attachments/assets/7199cee3-2642-4e1c-9a7b-2c918b796ba8" /><br>
 
-
+<a name="사용-기술술"></a>
 ## 🛠️ 사용 기술
 
 - **Unity Engine (Unity 6)**
@@ -90,6 +92,7 @@ Tab을 눌러 인벤토리를 열 수 있습니다.
 - **Cinemachine**
   - 카메라 추적, 영역 전환, 연출 카메라 구현
 
+<a name="팀원-소개"></a>
 ## 👥 팀원 소개
 | 이름 | 역할 | 담당 기능 | 주요 기여 |
 |------|------|----------|-----------|
